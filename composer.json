@@ -1,0 +1,21 @@
+{
+  "name": "shoppingfeed/php-sdk",
+  "minimum-stability": "alpha",
+  "require": {
+    "guzzlehttp/guzzle": "^6.3",
+    "jsor/hal-client": "^3.4",
+    "crell/api-problem": "^2.0",
+    "shoppingfeed/php-feed-generator": "1.0.0-alpha.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "ShoppingFeed\\Sdk\\": "src/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://satis-tool.shopping-feed.com/"
+    }
+  ]
+}
