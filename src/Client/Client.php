@@ -1,5 +1,4 @@
 <?php
-
 namespace ShoppingFeed\Sdk\Client;
 
 use GuzzleHttp\HandlerStack;
@@ -15,10 +14,12 @@ class Client
      * @var HalClient\HalClient
      */
     private $client;
+
     /**
      * @var HalClient\HalResource
      */
     private $profile;
+
     /**
      * @var string
      */

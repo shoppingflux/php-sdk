@@ -1,5 +1,6 @@
 {
   "name": "shoppingfeed/php-sdk",
+  "license": "Apache-2.0",
   "minimum-stability": "alpha",
   "require": {
     "guzzlehttp/guzzle": "^6.3",
@@ -11,11 +12,5 @@
     "psr-4": {
       "ShoppingFeed\\Sdk\\": "src/"
     }
-  },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://satis-tool.shopping-feed.com/"
-    }
-  ]
+  }
 }

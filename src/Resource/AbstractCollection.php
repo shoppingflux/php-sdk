@@ -6,6 +6,9 @@ use Traversable;
 
 abstract class AbstractCollection extends AbstractResource implements \Countable, \IteratorAggregate
 {
+    /**
+     * @var string
+     */
     protected $resourceClass = '';
 
     /**

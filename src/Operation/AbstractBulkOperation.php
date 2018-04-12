@@ -11,7 +11,7 @@ abstract class AbstractBulkOperation extends AbstractOperation
      *
      * @var int
      */
-    private $batchSize = 50;
+    private $batchSize = 100;
 
     /**
      * Determine the number of concurrent requests
