@@ -30,7 +30,7 @@ abstract class AbstractBulkOperation extends AbstractOperation
      *
      * @return $this
      */
-    public function setBatchSize(int $batchSize)
+    public function setBatchSize($batchSize)
     {
         $this->batchSize = max(1, $batchSize);
 
@@ -42,7 +42,7 @@ abstract class AbstractBulkOperation extends AbstractOperation
      *
      * @return $this
      */
-    public function setPoolSize(int $poolSize)
+    public function setPoolSize($poolSize)
     {
         $this->poolSize = max(1, $poolSize);
 

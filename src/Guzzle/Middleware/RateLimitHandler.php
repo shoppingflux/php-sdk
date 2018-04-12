@@ -24,7 +24,7 @@ class RateLimitHandler
      *
      * @return bool
      */
-    public function decide(int $count, RequestInterface $request, ResponseInterface $response = null): bool
+    public function decide($count, RequestInterface $request, ResponseInterface $response = null)
     {
         if (! $response || $count >= $this->maxRetries) {
             return false;
@@ -39,7 +39,7 @@ class RateLimitHandler
      *
      * @return int milliseconds to wait before next call
      */
-    public function delay($count, ResponseInterface $response): int
+    public function delay($count, ResponseInterface $response)
     {
         return (int) ceil($response->getHeaderLine('X-RateLimit-Wait') * 1000);
     }

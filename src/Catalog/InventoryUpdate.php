@@ -7,11 +7,11 @@ use ShoppingFeed\Sdk\Operation\AbstractBulkOperation;
 class InventoryUpdate extends AbstractBulkOperation
 {
     /**
-     * @param iterable $operations Optional iterable collection composed of:
+     * @param array|\Traversable $operations Optional iterable collection composed of:
      *                             - key (string) : product's reference
      *                             - value (int)  : product's new quantity
      */
-    public function __construct(iterable $operations = [])
+    public function __construct($operations = [])
     {
         foreach ($operations as $reference => $quantity) {
             $this->add($reference, $quantity);
@@ -21,7 +21,7 @@ class InventoryUpdate extends AbstractBulkOperation
     /**
      * @return string
      */
-    public function getRelatedResource(): string
+    public function getRelatedResource()
     {
         return 'inventory';
     }
@@ -32,7 +32,7 @@ class InventoryUpdate extends AbstractBulkOperation
      *
      * @return $this
      */
-    public function add(string $reference, int $quantity): self
+    public function add($reference, $quantity)
     {
         $reference = trim($reference);
         $quantity  = max(0, $quantity);

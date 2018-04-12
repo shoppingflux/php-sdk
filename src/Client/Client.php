@@ -2,9 +2,11 @@
 namespace ShoppingFeed\Sdk\Client;
 
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
 use Jsor\HalClient;
 use ShoppingFeed\Feed\ProductGenerator;
 use ShoppingFeed\Sdk\Credential\CredentialInterface;
+use ShoppingFeed\Sdk\Guzzle\Middleware\LogRequestHandler;
 use ShoppingFeed\Sdk\Guzzle\Middleware\RateLimitHandler;
 use ShoppingFeed\Sdk\Guzzle\Middleware\ServerErrorHandler;
 
@@ -41,7 +43,7 @@ class Client
     /**
      * @return bool
      */
-    public function ping(): bool
+    public function ping()
     {
         $resource = $this->client->get('v1/ping');
 
@@ -61,7 +63,7 @@ class Client
     /**
      * @return ProductGenerator
      */
-    public function createProductGenerator(): ProductGenerator
+    public function createProductGenerator()
     {
         return new ProductGenerator();
     }
@@ -82,19 +84,24 @@ class Client
      *
      * @return HandlerStack
      */
-    private function createHandlerStack(ClientOptions $options): HandlerStack
+    private function createHandlerStack(ClientOptions $options)
     {
         $stack = HandlerStack::create();
 
         if ($options->handleRateLimit()) {
             $handler = new RateLimitHandler;
-            $stack->push(\GuzzleHttp\Middleware::retry([$handler, 'decide'], [$handler, 'delay']));
+            $stack->push(Middleware::retry([$handler, 'decide'], [$handler, 'delay']));
         }
 
         $retryCount = $options->getRetryOnServerError();
         if ($retryCount) {
             $handler = new ServerErrorHandler($retryCount);
-            $stack->push(\GuzzleHttp\Middleware::retry([$handler, 'decide']));
+            $stack->push(Middleware::retry([$handler, 'decide']));
+        }
+
+        $logger = $options->getLogger();
+        if ($logger) {
+            $stack->push(Middleware::mapRequest(new LogRequestHandler($logger)));
         }
 
         return $stack;

@@ -25,7 +25,7 @@ class SessionResource extends AbstractResource
     /**
      * @return Store\StoreCollection
      */
-    public function getStores(): Store\StoreCollection
+    public function getStores()
     {
         return new Store\StoreCollection(
             $this->resource->getResource('store')

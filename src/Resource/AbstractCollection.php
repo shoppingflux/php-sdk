@@ -48,7 +48,7 @@ abstract class AbstractCollection extends AbstractResource implements \Countable
     /**
      * @return array
      */
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         return $this->toArray();
     }
@@ -56,7 +56,7 @@ abstract class AbstractCollection extends AbstractResource implements \Countable
     /**
      * @return array
      */
-    public function toArray(): array
+    public function toArray()
     {
         return array_map(function(AbstractResource $resource) {
             return $resource->toArray();
@@ -66,7 +66,7 @@ abstract class AbstractCollection extends AbstractResource implements \Countable
     /**
      * @return Traversable
      */
-    public function getIterator(): \Traversable
+    public function getIterator()
     {
         return new \ArrayIterator($this->resources);
     }
@@ -74,7 +74,7 @@ abstract class AbstractCollection extends AbstractResource implements \Countable
     /**
      * @param iterable $resources
      */
-    private function addResources(iterable $resources): void
+    private function addResources($resources)
     {
         $className = $this->resourceClass;
         foreach ($resources as $resource) {

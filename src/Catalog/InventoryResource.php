@@ -8,7 +8,7 @@ class InventoryResource extends AbstractResource
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->getProperty('id');
     }
@@ -16,7 +16,7 @@ class InventoryResource extends AbstractResource
     /**
      * @return string
      */
-    public function getReference(): string
+    public function getReference()
     {
         return $this->getProperty('reference');
     }
@@ -24,7 +24,7 @@ class InventoryResource extends AbstractResource
     /**
      * @return int
      */
-    public function getQuantity(): int
+    public function getQuantity()
     {
         return $this->getProperty('quantity');
     }
@@ -32,7 +32,7 @@ class InventoryResource extends AbstractResource
     /**
      * @return \DateTimeImmutable
      */
-    public function getUpdatedAt(): \DateTimeImmutable
+    public function getUpdatedAt()
     {
         return date_create_immutable($this->getProperty('updatedAt'));
     }

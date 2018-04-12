@@ -20,7 +20,7 @@ abstract class AbstractPaginatedCollection extends AbstractResource implements \
     /**
      * @return null|AbstractResource
      */
-    public function next():? AbstractResource
+    public function next()
     {
         return $this->getPaginationLink('next');
     }
@@ -28,7 +28,7 @@ abstract class AbstractPaginatedCollection extends AbstractResource implements \
     /**
      * @return null|AbstractResource
      */
-    public function prev():? AbstractResource
+    public function prev()
     {
         return $this->getPaginationLink('prev');
     }
@@ -38,7 +38,7 @@ abstract class AbstractPaginatedCollection extends AbstractResource implements \
      *
      * @return mixed
      */
-    private function getPaginationLink(string $name):? AbstractResource
+    private function getPaginationLink($name)
     {
         $resource = $this->resource->getLink($name)[0]->get();
         if ($resource) {

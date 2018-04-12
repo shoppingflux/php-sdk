@@ -9,7 +9,7 @@ class StoreResource extends AbstractResource
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->getProperty('name');
     }
@@ -17,7 +17,7 @@ class StoreResource extends AbstractResource
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->getProperty('id');
     }
@@ -25,7 +25,7 @@ class StoreResource extends AbstractResource
     /**
      * @return bool
      */
-    public function isActive(): bool
+    public function isActive()
     {
         return $this->getProperty('status') === 'active';
     }
@@ -33,7 +33,7 @@ class StoreResource extends AbstractResource
     /**
      * @return string
      */
-    public function getCountryCode(): string
+    public function getCountryCode()
     {
         return $this->getProperty('country');
     }

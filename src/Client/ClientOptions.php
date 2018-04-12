@@ -2,6 +2,8 @@
 
 namespace ShoppingFeed\Sdk\Client;
 
+use Psr\Log\LoggerInterface;
+
 class ClientOptions
 {
     /**
@@ -23,6 +25,27 @@ class ClientOptions
      * @var int The number of retries before abandon 5xx requests
      */
     private $retryOnServerError = 0;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @return LoggerInterface
+     */
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * @param string $baseUri

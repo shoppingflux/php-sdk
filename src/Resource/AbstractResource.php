@@ -20,7 +20,7 @@ abstract class AbstractResource implements \JsonSerializable
      * @param HalResource $resource
      * @param bool        $isPartial
      */
-    public function __construct(HalResource $resource, bool $isPartial)
+    public function __construct(HalResource $resource, $isPartial)
     {
         $this->resource  = $resource;
         $this->isPartial = $isPartial;
@@ -31,7 +31,7 @@ abstract class AbstractResource implements \JsonSerializable
      *
      * @return mixed|null
      */
-    protected function getProperty(string $property)
+    protected function getProperty($property)
     {
         return $this->resource->getProperty($property);
     }
@@ -42,7 +42,7 @@ abstract class AbstractResource implements \JsonSerializable
      *
      * @return bool
      */
-    protected function propertyMatch(string $property, $value): bool
+    protected function propertyMatch($property, $value)
     {
         return $this->getProperty($property) === $value;
     }
@@ -65,7 +65,7 @@ abstract class AbstractResource implements \JsonSerializable
      *
      * @return HalLink|null
      */
-    protected function getLink(string $name):? HalLink
+    protected function getLink($name)
     {
         return $this->resource->getFirstLink($name);
     }
@@ -73,7 +73,7 @@ abstract class AbstractResource implements \JsonSerializable
     /**
      * @return array
      */
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         return $this->toArray();
     }
@@ -81,7 +81,7 @@ abstract class AbstractResource implements \JsonSerializable
     /**
      * @return array
      */
-    public function toArray(): array
+    public function toArray()
     {
         return $this->resource->getProperties();
     }

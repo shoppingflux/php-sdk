@@ -3,6 +3,7 @@
   "license": "Apache-2.0",
   "minimum-stability": "alpha",
   "require": {
+    "php": ">= 5.6",
     "guzzlehttp/guzzle": "^6.3",
     "jsor/hal-client": "^3.4",
     "crell/api-problem": "^2.0",
@@ -12,5 +13,11 @@
     "psr-4": {
       "ShoppingFeed\\Sdk\\": "src/"
     }
+  },
+  "suggest": {
+    "psr/log": "trace HTTP requests performed by the SDK"
+  },
+  "require-dev": {
+    "monolog/monolog": "^1.23"
   }
 }

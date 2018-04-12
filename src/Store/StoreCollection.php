@@ -15,7 +15,7 @@ class StoreCollection extends AbstractCollection
      *
      * @return null|StoreResource
      */
-    public function getByName(string $name):? StoreResource
+    public function getByName($name)
     {
         foreach ($this->resources as $resource) {
             if ($resource->propertyMatch('name', $name)) {
@@ -31,7 +31,7 @@ class StoreCollection extends AbstractCollection
      *
      * @return null|StoreResource
      */
-    public function getById(int $id):? StoreResource
+    public function getById($id)
     {
         foreach ($this->resources as $resource) {
             if ($resource->propertyMatch('id', $id)) {
@@ -47,7 +47,7 @@ class StoreCollection extends AbstractCollection
      *
      * @return null|StoreResource
      */
-    public function select($idOrName):? StoreResource
+    public function select($idOrName)
     {
         if (ctype_digit($idOrName)) {
             return $this->getById($idOrName);

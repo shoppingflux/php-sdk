@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class ServerErrorHandler
 {
-    private const STATUS = [
+    const STATUS = [
         500 => true,
         502 => true,
         503 => true,

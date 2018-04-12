@@ -39,7 +39,7 @@ class BulkOperationResult
     /**
      * @return null|AbstractCollection
      */
-    public function getResource():? AbstractCollection
+    public function getResource()
     {
         return $this->resource;
     }
@@ -47,7 +47,7 @@ class BulkOperationResult
     /**
      * @return bool
      */
-    public function hasError(): bool
+    public function hasError()
     {
         return (bool) $this->errors;
     }
@@ -55,7 +55,7 @@ class BulkOperationResult
     /**
      * @return bool
      */
-    public function isError(): bool
+    public function isError()
     {
         return $this->errors && ! count($this->resource);
     }
@@ -63,7 +63,7 @@ class BulkOperationResult
     /**
      * @return ApiProblem[]
      */
-    public function getErrors(): array
+    public function getErrors()
     {
         return $this->errors;
     }

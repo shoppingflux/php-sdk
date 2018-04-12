@@ -16,14 +16,14 @@ abstract class AbstractOperation
     /**
      * @return string
      */
-    abstract public function getRelatedResource(): string;
+    abstract public function getRelatedResource();
 
     /**
      * @param HalResource $resource
      *
      * @return HalResource[]
      */
-    protected function getRelated(HalResource $resource): array
+    protected function getRelated(HalResource $resource)
     {
         return $resource->getResource($this->getRelatedResource());
     }
@@ -33,7 +33,7 @@ abstract class AbstractOperation
      *
      * @return array
      */
-    protected function createHttpBody($data): array
+    protected function createHttpBody($data)
     {
         return ['body' => [$this->getRelatedResource() => $data]];
     }
