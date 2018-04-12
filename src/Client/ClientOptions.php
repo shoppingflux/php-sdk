@@ -4,50 +4,38 @@ namespace ShoppingFeed\Sdk\Client;
 
 class ClientOptions
 {
+    /**
+     * @var bool
+     */
     private $baseUri = 'https://api.shopping-feed.com';
 
+    /**
+     * @var bool
+     */
     private $version = 'v1';
 
-    private $token;
-
-    private $autoConnect = false;
-
+    /**
+     * @var bool
+     */
     private $handleRateLimit = true;
 
-    private $retryOnServerError = true;
+    /**
+     * @var int The number of retries before abandon 5xx requests
+     */
+    private $retryOnServerError = 0;
 
     /**
      * @param string $baseUri
      */
-    public function setBaseUri(string $baseUri): void
+    public function setBaseUri($baseUri)
     {
-        $this->baseUri = $baseUri;
-    }
-
-    /**
-     * @param string $token
-     *
-     * @return $this
-     */
-    public function setToken(string $token): self
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getToken():? string
-    {
-        return $this->token;
+        $this->baseUri = trim($baseUri);
     }
 
     /**
      * @return string
      */
-    public function getBaseUri(): string
+    public function getBaseUri()
     {
         return $this->baseUri;
     }
@@ -55,17 +43,9 @@ class ClientOptions
     /**
      * @return string
      */
-    public function getVersion(): string
+    public function getVersion()
     {
         return $this->version;
-    }
-
-    /**
-     * @return bool
-     */
-    public function autoConnect(): bool
-    {
-        return $this->autoConnect;
     }
 
     /**
@@ -73,44 +53,38 @@ class ClientOptions
      *
      * @return ClientOptions
      */
-    public function setHandleRateLimit(bool $handle): self
+    public function setHandleRateLimit($handle)
     {
-        $this->handleRateLimit = $handle;
+        $this->handleRateLimit = (bool) $handle;
 
         return $this;
     }
 
-    public function handleRateLimit(): bool
+    /**
+     * @return bool
+     */
+    public function handleRateLimit()
     {
        return $this->handleRateLimit;
     }
 
     /**
-     * @param bool $retry
+     * @param int $retryCount
      *
-     * @return ClientOptions
+     * @return $this
      */
-    public function setRetryOnServerError(bool $retry): self
+    public function setRetryOnServerError($retryCount)
     {
-        $this->retryOnServerError = $retry;
+        $this->retryOnServerError = (int) $retryCount;
 
         return $this;
-    }
-
-    public function retryOnServerError(): bool
-    {
-        return $this->retryOnServerError;
     }
 
     /**
-     * @param bool $autoConnect
-     *
-     * @return ClientOptions
+     * @return int
      */
-    public function setAutoConnect(bool $autoConnect): self
+    public function getRetryOnServerError()
     {
-        $this->autoConnect = $autoConnect;
-
-        return $this;
+        return $this->retryOnServerError;
     }
 }

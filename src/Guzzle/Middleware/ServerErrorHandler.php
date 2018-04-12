@@ -18,7 +18,12 @@ class ServerErrorHandler
      *
      * @var int
      */
-    private $maxRetries = 10;
+    private $maxRetries;
+
+    public function __construct($maxRetries = 3)
+    {
+        $this->maxRetries = (int) $maxRetries;
+    }
 
     /**
      * @param int                    $count
@@ -27,7 +32,7 @@ class ServerErrorHandler
      *
      * @return bool
      */
-    public function decide(int $count, RequestInterface $request, ResponseInterface $response = null): bool
+    public function decide($count, RequestInterface $request, ResponseInterface $response = null)
     {
         if ($count >= $this->maxRetries) {
             return false;

@@ -8,13 +8,12 @@ The Shopping Feed API requires that you are authenticated to perform any calls.
 In order to make authenticated call, you should build the client in that way:
 
 ```php
+<?php
+namespace ShoppingFeed\Sdk;
 
-// Setup credentials to connect to the API
-$options = new ShoppingFeed\ApiSdk\ClientOptions();
-$options->setToken('api-token');
-
-$client = new ShoppingFeed\ApiSdk\Client($options);
-$client->ping(); // true
+// Setup credentials to connect to the API, and create session
+$credential = new Credential\Token('api-token');
+$session    = Client\Client::createSession($credential);
 ```
 
 ### Handle Rate-Limit and errors
@@ -31,7 +30,7 @@ $options->handleRateLimit(false);
 ### Accessing to your primary store
 
 ```php
-$store = $client->getMainStore();
+$store = $session->getMainStore();
 $store->getName(); // test-store
 $store->getId(); // 1276
 // ... and so on
@@ -41,13 +40,13 @@ If you manage more than one store, you can use the store collection object
 
 ```php
 
-// [ShoppingFeed\ApiSdk\StoreCollection] 
-$stores = $client->getStores();
+// Get store collection
+$stores = $session->getStores();
 
 // Count the number of stores [int]
 $stores->count();
 
-// get particular store [ShoppingFeed\ApiSdk\Store]
+// get particular store
 $tores->select('id-or-store-name');
 
 // Loop over available stores
@@ -71,7 +70,7 @@ $operation->add('ref2', 1);
 $operation->setBatchSize(50);
 
 // Then run the operation
-$result = $client->getMainStore()->execute($operation);
+$result = $session->getMainStore()->execute($operation);
 ```
 
 The result object hold updated resources, and eventual errors

@@ -4,9 +4,9 @@ namespace ShoppingFeed\Sdk\Client;
 use GuzzleHttp\HandlerStack;
 use Jsor\HalClient;
 use ShoppingFeed\Feed\ProductGenerator;
+use ShoppingFeed\Sdk\Credential\CredentialInterface;
 use ShoppingFeed\Sdk\Guzzle\Middleware\RateLimitHandler;
 use ShoppingFeed\Sdk\Guzzle\Middleware\ServerErrorHandler;
-use ShoppingFeed\Sdk\Store;
 
 class Client
 {
@@ -16,24 +16,26 @@ class Client
     private $client;
 
     /**
-     * @var HalClient\HalResource
+     * @param CredentialInterface $credential
+     * @param ClientOptions|null  $options
+     *
+     * @return \ShoppingFeed\Sdk\Session\SessionResource
      */
-    private $profile;
-
-    /**
-     * @var string
-     */
-    private $version;
+    public static function createSession(CredentialInterface $credential, ClientOptions $options = null)
+    {
+        return (new self($options))->authenticate($credential);
+    }
 
     /**
      * @param ClientOptions $options
      */
-    public function __construct(ClientOptions $options)
+    public function __construct(ClientOptions $options = null)
     {
-        $this->configureHttpClient($options);
-        if ($options->autoConnect()) {
-            $this->connect();
+        if (null === $options) {
+            $options = new ClientOptions();
         }
+
+        $this->configureHttpClient($options);
     }
 
     /**
@@ -47,58 +49,13 @@ class Client
     }
 
     /**
-     * @return Store\StoreResource
-     */
-    public function getMainStore(): ? Store\StoreResource
-    {
-        $resource = $this->connect()->profile->getFirstResource('store');
-        if ($resource) {
-            return new Store\StoreResource($resource, true);
-        }
-    }
-
-    /**
-     * @param bool $refresh
+     * @param CredentialInterface $credential
      *
-     * @return Client
+     * @return \ShoppingFeed\Sdk\Session\SessionResource
      */
-    public function connect(bool $refresh = false): self
+    public function authenticate(CredentialInterface $credential)
     {
-        if (true === $refresh) {
-            $this->profile = null;
-        }
-
-        if (null === $this->profile) {
-            $this->profile = $this->client->get($this->version . '/me');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Store\StoreCollection
-     */
-    public function getStores(): Store\StoreCollection
-    {
-        return new Store\StoreCollection(
-            $this->connect()->profile->getResource('store')
-        );
-    }
-
-    /**
-     * @param int|string $idOrName
-     *
-     * @return Store\StoreResource
-     */
-    public function selectStore($idOrName): Store\StoreResource
-    {
-        $stores = $this->connect()->getStores();
-
-        if (ctype_digit($idOrName)) {
-            return $stores->getById($idOrName);
-        }
-
-        return $stores->getByName($idOrName);
+        return $credential->authenticate($this->client);
     }
 
     /**
@@ -117,8 +74,7 @@ class Client
         $client        = new \GuzzleHttp\Client(['handler' => $this->createHandlerStack($options)]);
         $client        = new HalClient\HttpClient\Guzzle6HttpClient($client);
         $client        = new HalClient\HalClient($options->getBaseUri(), $client);
-        $this->client  = $client->withHeader('Authorization', 'Bearer ' . $options->getToken());
-        $this->version = $options->getVersion();
+        $this->client  = $client;
     }
 
     /**
@@ -135,8 +91,9 @@ class Client
             $stack->push(\GuzzleHttp\Middleware::retry([$handler, 'decide'], [$handler, 'delay']));
         }
 
-        if ($options->retryOnServerError()) {
-            $handler = new ServerErrorHandler();
+        $retryCount = $options->getRetryOnServerError();
+        if ($retryCount) {
+            $handler = new ServerErrorHandler($retryCount);
             $stack->push(\GuzzleHttp\Middleware::retry([$handler, 'decide']));
         }
 
