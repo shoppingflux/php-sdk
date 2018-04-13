@@ -3,6 +3,7 @@ namespace ShoppingFeed\Sdk\Guzzle\Middleware;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * This handler manage API rate limits by mae the client entering to sleep,
@@ -15,7 +16,22 @@ class RateLimitHandler
      *
      * @var int
      */
-    private $maxRetries = 3;
+    private $maxRetries;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @param int                  $maxRetries
+     * @param LoggerInterface|null $logger
+     */
+    public function __construct($maxRetries = 3, LoggerInterface $logger = null)
+    {
+        $this->maxRetries = (int) $maxRetries;
+        $this->logger     = $logger;
+    }
 
     /**
      * @param int                    $count
@@ -41,6 +57,11 @@ class RateLimitHandler
      */
     public function delay($count, ResponseInterface $response)
     {
-        return (int) ceil($response->getHeaderLine('X-RateLimit-Wait') * 1000);
+        $waitMS = (int) ceil($response->getHeaderLine('X-RateLimit-Wait') * 1000);
+        if (null !== $this->logger) {
+            $this->logger->notice(sprintf('Request throttled for %d ms', $waitMS));
+
+        }
+        return $waitMS;
     }
 }

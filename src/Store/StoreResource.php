@@ -1,8 +1,12 @@
 <?php
 namespace ShoppingFeed\Sdk\Store;
 
+use ShoppingFeed\Paginator;
+use ShoppingFeed\Sdk\Catalog\InventoryDomain;
+use ShoppingFeed\Sdk\Catalog\InventoryResource;
 use ShoppingFeed\Sdk\Operation\AbstractOperation;
 use ShoppingFeed\Sdk\Resource\AbstractResource;
+use ShoppingFeed\Sdk\Resource\ResourcePaginatorAdapter;
 
 class StoreResource extends AbstractResource
 {
@@ -39,16 +43,12 @@ class StoreResource extends AbstractResource
     }
 
     /**
-     * @param AbstractOperation $operation
-     *
-     * @return mixed
+     * @return InventoryDomain
      */
-    public function execute(AbstractOperation $operation)
+    public function getInventory()
     {
-        return $operation->execute(
-            $this->resource->getFirstLink(
-                $operation->getRelatedResource()
-            )
+        return new InventoryDomain(
+            $this->resource->getFirstLink('inventory')
         );
     }
 }

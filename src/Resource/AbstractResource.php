@@ -20,10 +20,18 @@ abstract class AbstractResource implements \JsonSerializable
      * @param HalResource $resource
      * @param bool        $isPartial
      */
-    public function __construct(HalResource $resource, $isPartial)
+    public function __construct(HalResource $resource, $isPartial = true)
     {
         $this->resource  = $resource;
         $this->isPartial = $isPartial;
+    }
+
+    /**
+     * Refresh the resource state from server data
+     */
+    public function refresh()
+    {
+        return $this->initialize(true);
     }
 
     /**
@@ -48,11 +56,13 @@ abstract class AbstractResource implements \JsonSerializable
     }
 
     /**
+     * @param bool $force
+     *
      * @return $this
      */
-    protected function initialize()
+    protected function initialize($force = false)
     {
-        if (true === $this->isPartial) {
+        if (true === $force || true === $this->isPartial) {
             $this->resource  = $this->resource->get();
             $this->isPartial = false;
         }
