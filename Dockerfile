@@ -14,5 +14,3 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 
 ADD . $MOUNTPOINT
 WORKDIR $MOUNTPOINT
-
-RUN composer install -o --no-interaction
