@@ -7,23 +7,23 @@ Please review the [contributing guideline](../CONTRIBUTING.md) before submiting 
 
 ### Docker
 
-We provide with this repository dockerfile that can help you start developing on the project.
+We provide with this repository a docker config that can help you start developing on the project.  
+Require to install docker and docker-compose.  
+  
 In your project root where you have cloned the repo run this commands :
 
 1. Build the image
 ```bash
-docker build sf-php-sdk-dev .
+docker-compose build
 ```
 2. Start the container
 ```bash
-docker run -d --name php-sdk-dev sf-php-sdk-dev
+docker-compose up -d
 ```
-3. Connect ot the container
+3. Install project dependencies
 ```bash
-docker exec -ti php-dek-dev bash
+docker exec -ti [CONTAINER NAME] composer install --dev
 ```
-
-You will then be in `/var/www` where your sources are mounted into the container.
 
 ## PHPUNIT
 
