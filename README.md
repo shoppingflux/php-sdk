@@ -4,7 +4,7 @@
 
 In your project root repository run 
 ```bash
-composer require shoppingflux/php-sdk
+composer require shoppingfeed/php-sdk
 ```
 
 This will load the SDK library into a `vendor` repository.  
