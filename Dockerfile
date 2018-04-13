@@ -10,8 +10,7 @@ RUN apt-get update -yqq \
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=$COMPOSER_BIN_DIR --filename=composer \
-    && php -r "unlink('composer-setup.php');" \
-    && composer global require phpunit/phpunit ^$PHPUNIT_VERSION --no-progress --no-scripts --no-interaction
+    && php -r "unlink('composer-setup.php');"
 
 ADD . $MOUNTPOINT
 WORKDIR $MOUNTPOINT
