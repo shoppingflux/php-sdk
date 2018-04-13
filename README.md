@@ -74,8 +74,9 @@ Check the documentation at https://github.com/shoppingflux/php-feed-generator to
 
 ### SDK Documentation and guides
 
-- [Authentication in details](doc/authenticate.md)
-- [Error handling and debug](doc/error-handling.md)
-- [Catalog management](doc/catalog.md)
+- [Authentication in details](docs/authenticate.md)
+- [Error handling and debug](docs/error-handling.md)
+- [Catalog management](docs/catalog.md)
+- [Contributing](./CONTRIBUTING.md)
 
 
