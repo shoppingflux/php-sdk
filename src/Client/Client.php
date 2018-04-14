@@ -101,7 +101,8 @@ class Client
         }
 
         if ($logger) {
-            $stack->push(Middleware::mapRequest(new LogRequestHandler($logger)));
+            $handler = new LogRequestHandler($logger);
+            $stack->push(Middleware::tap($handler));
         }
 
         return $stack;
