@@ -3,7 +3,7 @@ namespace ShoppingFeed\Sdk\Resource;
 
 use Jsor\HalClient\HalResource;
 
-class PaginatedResourceCollection extends AbstractResource implements \IteratorAggregate
+class PaginatedResourceCollection extends AbstractResource implements \IteratorAggregate, \Countable
 {
     /**
      * @var string
@@ -79,5 +79,13 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
         foreach ($data as $item) {
             yield new $this->resourceClass($item);
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function count()
+    {
+        return $this->getCurrentCount();
     }
 }

@@ -28,6 +28,8 @@ abstract class AbstractResource implements \JsonSerializable
 
     /**
      * Refresh the resource state from server data, then return it as new object
+     *
+     * @return static
      */
     public function refresh()
     {
