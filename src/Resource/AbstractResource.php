@@ -27,11 +27,14 @@ abstract class AbstractResource implements \JsonSerializable
     }
 
     /**
-     * Refresh the resource state from server data
+     * Refresh the resource state from server data, then return it as new object
      */
     public function refresh()
     {
-        return $this->initialize(true);
+        $instance = clone $this;
+        $instance->initialize(true);
+
+        return $instance;
     }
 
     /**
