@@ -1,12 +1,8 @@
 <?php
 namespace ShoppingFeed\Sdk\Store;
 
-use ShoppingFeed\Paginator;
 use ShoppingFeed\Sdk\Catalog\InventoryDomain;
-use ShoppingFeed\Sdk\Catalog\InventoryResource;
-use ShoppingFeed\Sdk\Operation\AbstractOperation;
 use ShoppingFeed\Sdk\Resource\AbstractResource;
-use ShoppingFeed\Sdk\Resource\ResourcePaginatorAdapter;
 
 class StoreResource extends AbstractResource
 {

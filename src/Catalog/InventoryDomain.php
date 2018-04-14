@@ -3,6 +3,10 @@ namespace ShoppingFeed\Sdk\Catalog;
 
 use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
 
+/**
+ * @method InventoryResource[] getIterator()
+ * @method InventoryResource[] getAll($page, $limit)
+ */
 class InventoryDomain extends AbstractDomainResource
 {
     /**

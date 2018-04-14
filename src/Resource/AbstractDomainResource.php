@@ -37,19 +37,31 @@ abstract class AbstractDomainResource
     }
 
     /**
-     * @param     $fromPage
-     *
+     * @param int $fromPage
      * @param int $perPage
      *
-     * @return PaginatedResourceCollection
+     * @return AbstractResource[]|\Traversable
      */
     public function getAll($fromPage = 1, $perPage = self::PER_PAGE)
     {
-        $resource = $this->createPaginator($fromPage, $perPage);
-        while ($resource) {
-            foreach ($resource as $item) {
+        foreach ($this->getPages($fromPage, $perPage) as $collection) {
+            foreach ($collection as $item) {
                 yield $item;
             }
+        }
+    }
+
+    /**
+     * @param int $fromPage
+     * @param int $perPage
+     *
+     * @return PaginatedResourceCollection[]|\Traversable
+     */
+    public function getPages($fromPage = 1, $perPage = self::PER_PAGE)
+    {
+        $resource = $this->createPaginator($fromPage, $perPage);
+        while ($resource) {
+            yield $resource;
             $resource = $resource->next();
         }
     }
