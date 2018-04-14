@@ -22,6 +22,38 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
     }
 
     /**
+     * @return int
+     */
+    public function getTotalCount()
+    {
+        return (int) $this->getProperty('total');
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrentCount()
+    {
+        return (int) $this->getProperty('current');
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalPages()
+    {
+        return (int) $this->getProperty('pages');
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrentPage()
+    {
+        return (int) $this->getProperty('page');
+    }
+
+    /**
      * @return null|PaginatedResourceCollection
      */
     public function next()

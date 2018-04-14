@@ -35,6 +35,22 @@ abstract class AbstractResource implements \JsonSerializable
     }
 
     /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->resource->getProperties();
+    }
+
+    /**
      * @param string $property
      *
      * @return mixed|null
@@ -78,21 +94,5 @@ abstract class AbstractResource implements \JsonSerializable
     protected function getLink($name)
     {
         return $this->resource->getFirstLink($name);
-    }
-
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        return $this->toArray();
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-        return $this->resource->getProperties();
     }
 }
