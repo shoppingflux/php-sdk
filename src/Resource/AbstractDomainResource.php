@@ -2,8 +2,6 @@
 namespace ShoppingFeed\Sdk\Resource;
 
 use Jsor\HalClient\HalLink;
-use ShoppingFeed\Paginator\PaginatedIterator;
-use ShoppingFeed\Paginator\Paginator;
 
 abstract class AbstractDomainResource
 {
@@ -31,7 +29,7 @@ abstract class AbstractDomainResource
      * @param int $page
      * @param int $perPage
      *
-     * @return \Traversable
+     * @return PaginatedResourceCollection
      */
     public function getPage($page = 1, $perPage = self::PER_PAGE)
     {
@@ -43,29 +41,38 @@ abstract class AbstractDomainResource
      *
      * @param int $perPage
      *
-     * @return PaginatedIterator
+     * @return PaginatedResourceCollection
      */
     public function getAll($fromPage = 1, $perPage = self::PER_PAGE)
     {
-        return new PaginatedIterator($this->createPaginator($fromPage, $perPage));
+        $resource = $this->createPaginator($fromPage, $perPage);
+        while ($resource) {
+            foreach ($resource as $item) {
+                yield $item;
+            }
+            $resource = $resource->next();
+        }
     }
 
     /**
      * @param int $page
-     * @param int $perPage
+     * @param int $limit
      *
-     * @return Paginator
+     * @return PaginatedResourceCollection
      */
-    private function createPaginator($page = 1, $perPage = self::PER_PAGE)
+    private function createPaginator($page = 1, $limit = self::PER_PAGE)
     {
-        $paginator = new Paginator(new ResourcePaginatorAdapter(
-            $this->link,
+        $resource = $this->link->get([], [
+            'query' => array_map('intval', compact('page', 'limit'))
+        ]);
+
+        if (! $resource) {
+            return null;
+        }
+
+        return new PaginatedResourceCollection(
+            $resource,
             $this->resourceClass
-        ));
-
-        $paginator->setCurrentPage($page);
-        $paginator->setItemsPerPage($perPage);
-
-        return $paginator;
+        );
     }
 }
