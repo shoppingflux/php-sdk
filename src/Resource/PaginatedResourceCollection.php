@@ -34,7 +34,7 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
      */
     public function getCurrentCount()
     {
-        return (int) $this->getProperty('current');
+        return (int) $this->getProperty('count');
     }
 
     /**
