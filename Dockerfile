@@ -5,8 +5,9 @@ ARG PHPUNIT_VERSION=5
 ARG COMPOSER_BIN_DIR=/usr/local/bin
 
 RUN apt-get update -yqq \
-    && apt-get install git zlib1g-dev zip -yqq \
-    && docker-php-ext-install zip
+    && apt-get install git zip zlib1g-dev libxml2-dev -yqq \
+    && docker-php-ext-install zip \
+    && docker-php-ext-install xml
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=$COMPOSER_BIN_DIR --filename=composer \
