@@ -1,7 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Store;
 
-use ShoppingFeed\Sdk\Operation\AbstractOperation;
+use ShoppingFeed\Sdk\Catalog\InventoryDomain;
 use ShoppingFeed\Sdk\Resource\AbstractResource;
 
 class StoreResource extends AbstractResource
@@ -39,16 +39,12 @@ class StoreResource extends AbstractResource
     }
 
     /**
-     * @param AbstractOperation $operation
-     *
-     * @return mixed
+     * @return InventoryDomain
      */
-    public function execute(AbstractOperation $operation)
+    public function getInventory()
     {
-        return $operation->execute(
-            $this->resource->getFirstLink(
-                $operation->getRelatedResource()
-            )
+        return new InventoryDomain(
+            $this->resource->getFirstLink('inventory')
         );
     }
 }

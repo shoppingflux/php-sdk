@@ -86,10 +86,11 @@ class Client
      */
     private function createHandlerStack(ClientOptions $options)
     {
-        $stack = HandlerStack::create();
+        $stack  = HandlerStack::create();
+        $logger = $options->getLogger();
 
         if ($options->handleRateLimit()) {
-            $handler = new RateLimitHandler;
+            $handler = new RateLimitHandler(3, $logger);
             $stack->push(Middleware::retry([$handler, 'decide'], [$handler, 'delay']));
         }
 
@@ -99,9 +100,9 @@ class Client
             $stack->push(Middleware::retry([$handler, 'decide']));
         }
 
-        $logger = $options->getLogger();
         if ($logger) {
-            $stack->push(Middleware::mapRequest(new LogRequestHandler($logger)));
+            $handler = new LogRequestHandler($logger);
+            $stack->push(Middleware::tap($handler));
         }
 
         return $stack;

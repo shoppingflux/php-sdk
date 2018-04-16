@@ -59,6 +59,16 @@ foreach ($stores as $store) {
 }
 ```
 
+### SDK guides
+
+- [Authentication in details](doc/authenticate.md)
+- [Error handling and debug](doc/error-handling.md)
+
+### SDK resources documentation
+
+- [Inventiory management](doc/catalog.md)
+
+
 ### Generates XML compliant feed for import
 
 The SDK is able to simplify XML feed creation by providing necessary tools.
@@ -70,13 +80,4 @@ $generator = $client->createProductGenerator();
 ```
 
 Check the documentation at https://github.com/shoppingflux/php-feed-generator to learn how to create compliant feed.
-
-
-### SDK Documentation and guides
-
-- [Authentication in details](docs/authenticate.md)
-- [Error handling and debug](docs/error-handling.md)
-- [Catalog management](docs/catalog.md)
-- [Contributing](./CONTRIBUTING.md)
-
 
