@@ -1,13 +1,17 @@
-FROM php:5.6-apache
+FROM php:5.6-cli-alpine
 
 ARG MOUNTPOINT=/var/www
 ARG PHPUNIT_VERSION=5
 ARG COMPOSER_BIN_DIR=/usr/local/bin
 
-RUN apt-get update -yqq \
-    && apt-get install git zip zlib1g-dev libxml2-dev -yqq \
+RUN apk add --update \
+    autoconf g++ make git zip libxml2-dev \
     && docker-php-ext-install zip \
-    && docker-php-ext-install xml
+    && docker-php-ext-install xml \
+    && pecl install xdebug-2.5.0 \
+    && docker-php-ext-enable xdebug \
+    && docker-php-source delete \
+    && rm -rf /tmp/*
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php composer-setup.php --install-dir=$COMPOSER_BIN_DIR --filename=composer \
