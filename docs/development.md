@@ -25,11 +25,13 @@ docker-compose up -d
 docker-compose run sf-php-sdk-dev composer install --dev
 ```
 
-## PHPUNIT
+### Phing
 
-To run the PHPUNIT test of the project simply run :
+To help develop and stay with clean code we have configured a phing command that will help you ensure your code fits
+our requirement
 ```bash
-docker-compose run sf-php-sdk-dev vendor/bin/phpunit
+docker-compose run sf-php-sdk-dev vendor/bin/phing test
 ```
 
-It will run the tests of the SDK and generated an HTML coverage summary in `build/coverage`.
+This will run a test build with `phpcs` and `phpunit` in order to accept a PR your code must pass this test command
+with all in the green. 
