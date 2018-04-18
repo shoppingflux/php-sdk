@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Core\Resource;
+namespace ShoppingFeed\Sdk\Resource;
 
 use Jsor\HalClient\HalLink;
 

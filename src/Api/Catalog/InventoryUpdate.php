@@ -2,8 +2,8 @@
 namespace ShoppingFeed\Sdk\Api\Catalog;
 
 use Jsor\HalClient\HalLink;
-use ShoppingFeed\Sdk\Core\Catalog\InventoryCollection;
-use ShoppingFeed\Sdk\Core\Operation\AbstractBulkOperation;
+use ShoppingFeed\Sdk\Catalog\InventoryCollection;
+use ShoppingFeed\Sdk\Operation\AbstractBulkOperation;
 
 class InventoryUpdate extends AbstractBulkOperation
 {

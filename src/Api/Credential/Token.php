@@ -2,7 +2,7 @@
 namespace ShoppingFeed\Sdk\Api\Credential;
 
 use Jsor\HalClient\HalClientInterface;
-use ShoppingFeed\Sdk\Core\Session\SessionResource;
+use ShoppingFeed\Sdk\Session\SessionResource;
 
 class Token implements CredentialInterface
 {

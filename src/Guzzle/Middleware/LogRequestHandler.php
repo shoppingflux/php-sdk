@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Core\Guzzle\Middleware;
+namespace ShoppingFeed\Sdk\Guzzle\Middleware;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;

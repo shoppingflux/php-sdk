@@ -2,8 +2,8 @@
 namespace ShoppingFeed\Sdk\Api\Catalog;
 
 use ShoppingFeed\Sdk\Api\Catalog as ApiCatalog;
-use ShoppingFeed\Sdk\Core\Catalog;
-use ShoppingFeed\Sdk\Core\Resource\AbstractDomainResource;
+use ShoppingFeed\Sdk\Catalog;
+use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
 
 /**
  * @method Catalog\InventoryResource[] getIterator()

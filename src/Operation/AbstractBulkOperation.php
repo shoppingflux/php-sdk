@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Core\Operation;
+namespace ShoppingFeed\Sdk\Operation;
 
 use Crell\ApiProblem\ApiProblem;
 use Jsor\HalClient\Exception\BadResponseException;

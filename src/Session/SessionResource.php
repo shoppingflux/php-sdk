@@ -1,8 +1,8 @@
 <?php
-namespace ShoppingFeed\Sdk\Core\Session;
+namespace ShoppingFeed\Sdk\Session;
 
-use ShoppingFeed\Sdk\Core\Resource\AbstractResource;
-use ShoppingFeed\Sdk\Core\Store;
+use ShoppingFeed\Sdk\Resource\AbstractResource;
+use ShoppingFeed\Sdk\Store;
 
 class SessionResource extends AbstractResource
 {

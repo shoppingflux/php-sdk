@@ -1,7 +1,7 @@
 <?php
-namespace ShoppingFeed\Sdk\Core\Store;
+namespace ShoppingFeed\Sdk\Store;
 
-use ShoppingFeed\Sdk\Core\Resource\AbstractCollection;
+use ShoppingFeed\Sdk\Resource\AbstractCollection;
 
 /**
  * @property StoreResource[] $resources

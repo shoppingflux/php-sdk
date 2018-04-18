@@ -1,8 +1,8 @@
 <?php
-namespace ShoppingFeed\Sdk\Core\Operation;
+namespace ShoppingFeed\Sdk\Operation;
 
 use Crell\ApiProblem\ApiProblem;
-use ShoppingFeed\Sdk\Core\Resource\AbstractCollection;
+use ShoppingFeed\Sdk\Resource\AbstractCollection;
 
 class BulkOperationResult
 {

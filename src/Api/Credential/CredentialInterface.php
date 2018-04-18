@@ -9,7 +9,7 @@ interface CredentialInterface
     /**
      * @param HalClientInterface $client
      *
-     * @return \ShoppingFeed\Sdk\Core\Session\SessionResource
+     * @return \ShoppingFeed\Sdk\Session\SessionResource
      */
     public function authenticate(HalClientInterface $client);
 }

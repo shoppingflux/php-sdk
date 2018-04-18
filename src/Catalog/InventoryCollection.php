@@ -1,7 +1,7 @@
 <?php
-namespace ShoppingFeed\Sdk\Core\Catalog;
+namespace ShoppingFeed\Sdk\Catalog;
 
-use ShoppingFeed\Sdk\Core\Resource\AbstractCollection;
+use ShoppingFeed\Sdk\Resource\AbstractCollection;
 
 class InventoryCollection extends AbstractCollection
 {

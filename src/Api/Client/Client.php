@@ -5,7 +5,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use Jsor\HalClient;
 use ShoppingFeed\Feed\ProductGenerator;
-use ShoppingFeed\Sdk\Core\Guzzle\Middleware as SfMiddleware;
+use ShoppingFeed\Sdk\Guzzle\Middleware as SfMiddleware;
 use ShoppingFeed\Sdk\Api\Credential\CredentialInterface;
 
 class Client
@@ -19,7 +19,7 @@ class Client
      * @param CredentialInterface $credential
      * @param ClientOptions|null  $options
      *
-     * @return \ShoppingFeed\Sdk\Core\Session\SessionResource
+     * @return \ShoppingFeed\Sdk\Session\SessionResource
      */
     public static function createSession(CredentialInterface $credential, ClientOptions $options = null)
     {
@@ -51,7 +51,7 @@ class Client
     /**
      * @param CredentialInterface $credential
      *
-     * @return \ShoppingFeed\Sdk\Core\Session\SessionResource
+     * @return \ShoppingFeed\Sdk\Session\SessionResource
      */
     public function authenticate(CredentialInterface $credential)
     {
