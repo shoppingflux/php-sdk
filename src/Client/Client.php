@@ -73,10 +73,10 @@ class Client
      */
     private function configureHttpClient(ClientOptions $options)
     {
-        $client        = new \GuzzleHttp\Client(['handler' => $this->createHandlerStack($options)]);
-        $client        = new HalClient\HttpClient\Guzzle6HttpClient($client);
-        $client        = new HalClient\HalClient($options->getBaseUri(), $client);
-        $this->client  = $client;
+        $client       = new \GuzzleHttp\Client(['handler' => $this->createHandlerStack($options)]);
+        $client       = new HalClient\HttpClient\Guzzle6HttpClient($client);
+        $client       = new HalClient\HalClient($options->getBaseUri(), $client);
+        $this->client = $client;
     }
 
     /**
