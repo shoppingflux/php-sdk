@@ -1,0 +1,16 @@
+<project>
+    <target name="git:update">
+        <exec executable="${exec.git}" outputProperty="branch" description="capture current branch">
+            <arg line="rev-parse --abbrev-ref HEAD"/>
+        </exec>
+        <exec executable="${exec.git}" passthru="true" description="fetch new commits">
+            <arg value="fetch"/>
+            <arg value="--all"/>
+        </exec>
+        <exec executable="${exec.git}" passthru="true" description="sync current branch">
+            <arg value="pull"/>
+            <arg value="origin"/>
+            <arg value="${branch}"/>
+        </exec>
+    </target>
+</project>

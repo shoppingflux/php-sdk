@@ -1,0 +1,27 @@
+<project name="shopping-feed-php-sdk" basedir="." default="help">
+
+    <!--Start Properties definitions-->
+    <property name="prop.environment" value="dev-local"/>
+    <property name="dir.resources" value="${project.basedir}/resources"/>
+
+    <property file="${dir.resources}/phing/build.properties" />
+    <!--End Properties definitions-->
+
+    <!--Start External targets definitions-->
+    <import file="${dir.phing}/composer.xml"/>
+    <import file="${dir.phing}/git.xml"/>
+    <import file="${dir.phing}/phpcs.xml"/>
+    <import file="${dir.phing}/phpunit.xml"/>
+    <!--End External targets definitions-->
+
+    <!--Start main targets-->
+    <target name="test"             description="Run mandatory tests" depends="phpunit,phpcs"/>
+    <target name="optimize"         description="Prepare application for production" depends="composer:optimize" />
+    <target name="update"           description="Update project" depends="git:update,composer:install,phpunit" />
+
+    <target name="help" description="List project commands">
+        <exec executable="${exec.phing}" passthru="true">
+            <arg value="-l"/>
+        </exec>
+    </target>
+</project>

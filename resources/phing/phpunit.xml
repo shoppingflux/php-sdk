@@ -1,0 +1,22 @@
+<project>
+    <property name="dir.build.phpunit" value="${dir.build}/phpunit"/>
+
+    <target name="phpunit" description="Run unit tests suites with PHPUnit">
+        <exec executable="${exec.phpunit}" checkreturn="true" passthru="true">
+            <arg value="--configuration"/>
+            <arg path="${project.basedir}/phpunit.xml"/>
+            <arg value="--coverage-clover"/>
+            <arg path="${dir.build.phpunit}/clover.xml"/>
+            <arg value="--log-junit"/>
+            <arg path="${dir.build.phpunit}/junit.xml"/>
+        </exec>
+    </target>
+
+    <target name="phpunit-ci" description="Run unit tests suites with PHPUnit">
+        <exec executable="${exec.phpunit}" checkreturn="true" passthru="true">
+            <arg value="--configuration"/>
+            <arg path="${project.basedir}/phpunit.xml"/>
+        </exec>
+    </target>
+
+</project>
