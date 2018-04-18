@@ -88,7 +88,7 @@ class ClientOptions
      */
     public function handleRateLimit()
     {
-       return $this->handleRateLimit;
+        return $this->handleRateLimit;
     }
 
     /**
