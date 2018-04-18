@@ -1,7 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Store;
 
-use ShoppingFeed\Sdk\Catalog\InventoryDomain;
+use ShoppingFeed\Sdk\Api\Catalog\InventoryDomain;
 use ShoppingFeed\Sdk\Resource\AbstractResource;
 
 class StoreResource extends AbstractResource
