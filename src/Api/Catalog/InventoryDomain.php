@@ -1,6 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Catalog;
 
+use ShoppingFeed\Sdk\Api\Catalog as ApiCatalog;
 use ShoppingFeed\Sdk\Core\Catalog;
 use ShoppingFeed\Sdk\Core\Resource\AbstractDomainResource;
 
@@ -34,11 +35,11 @@ class InventoryDomain extends AbstractDomainResource
     }
 
     /**
-     * @param Catalog\InventoryUpdate $operation
+     * @param ApiCatalog\InventoryUpdate $operation
      *
      * @return \ArrayObject|mixed
      */
-    public function execute(Catalog\InventoryUpdate $operation)
+    public function execute(ApiCatalog\InventoryUpdate $operation)
     {
         return $operation->execute($this->link);
     }
