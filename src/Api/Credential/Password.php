@@ -34,8 +34,8 @@ class Password implements CredentialInterface
             'body' => [
                 'grant_type' => 'password',
                 'username'   => $this->username,
-                'password'   => $this->password
-            ]
+                'password'   => $this->password,
+            ],
         ]);
 
         return (new Token($response->getProperty('access_token')))->authenticate($client);
