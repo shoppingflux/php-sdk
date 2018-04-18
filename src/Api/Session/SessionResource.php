@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Session;
+namespace ShoppingFeed\Sdk\Api\Session;
 
 use ShoppingFeed\Sdk\Resource\AbstractResource;
 use ShoppingFeed\Sdk\Store;

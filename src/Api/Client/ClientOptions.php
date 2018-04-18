@@ -1,6 +1,6 @@
 <?php
 
-namespace ShoppingFeed\Sdk\Client;
+namespace ShoppingFeed\Sdk\Api\Client;
 
 use Psr\Log\LoggerInterface;
 

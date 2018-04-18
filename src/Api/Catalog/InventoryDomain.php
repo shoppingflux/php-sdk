@@ -1,29 +1,31 @@
 <?php
-namespace ShoppingFeed\Sdk\Catalog;
+namespace ShoppingFeed\Sdk\Api\Catalog;
 
+use ShoppingFeed\Sdk\Api\Catalog as ApiCatalog;
+use ShoppingFeed\Sdk\Catalog;
 use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
 
 /**
- * @method InventoryResource[] getIterator()
- * @method InventoryResource[] getAll($page, $limit)
+ * @method Catalog\InventoryResource[] getIterator()
+ * @method Catalog\InventoryResource[] getAll($page, $limit)
  */
 class InventoryDomain extends AbstractDomainResource
 {
     /**
      * @var string
      */
-    protected $resourceClass = InventoryResource::class;
+    protected $resourceClass = Catalog\InventoryResource::class;
 
     /**
      * @param string $reference the resource reference
      *
-     * @return null|InventoryResource
+     * @return null|Catalog\InventoryResource
      */
     public function getByReference($reference)
     {
         $resource = $this->link->get([], ['query' => ['reference' => $reference]]);
         if ($resource->getProperty('count') > 0) {
-            return new InventoryResource(
+            return new Catalog\InventoryResource(
                 $resource->getFirstResource('inventory'),
                 false
             );
@@ -33,11 +35,11 @@ class InventoryDomain extends AbstractDomainResource
     }
 
     /**
-     * @param InventoryUpdate $operation
+     * @param ApiCatalog\InventoryUpdate $operation
      *
      * @return \ArrayObject|mixed
      */
-    public function execute(InventoryUpdate $operation)
+    public function execute(ApiCatalog\InventoryUpdate $operation)
     {
         return $operation->execute($this->link);
     }

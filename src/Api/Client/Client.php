@@ -1,14 +1,12 @@
 <?php
-namespace ShoppingFeed\Sdk\Client;
+namespace ShoppingFeed\Sdk\Api\Client;
 
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use Jsor\HalClient;
 use ShoppingFeed\Feed\ProductGenerator;
-use ShoppingFeed\Sdk\Credential\CredentialInterface;
-use ShoppingFeed\Sdk\Guzzle\Middleware\LogRequestHandler;
-use ShoppingFeed\Sdk\Guzzle\Middleware\RateLimitHandler;
-use ShoppingFeed\Sdk\Guzzle\Middleware\ServerErrorHandler;
+use ShoppingFeed\Sdk\Guzzle\Middleware as SfMiddleware;
+use ShoppingFeed\Sdk\Api\Credential\CredentialInterface;
 
 class Client
 {
@@ -21,7 +19,7 @@ class Client
      * @param CredentialInterface $credential
      * @param ClientOptions|null  $options
      *
-     * @return \ShoppingFeed\Sdk\Session\SessionResource
+     * @return \ShoppingFeed\Sdk\Api\Session\SessionResource
      */
     public static function createSession(CredentialInterface $credential, ClientOptions $options = null)
     {
@@ -53,7 +51,7 @@ class Client
     /**
      * @param CredentialInterface $credential
      *
-     * @return \ShoppingFeed\Sdk\Session\SessionResource
+     * @return \ShoppingFeed\Sdk\Api\Session\SessionResource
      */
     public function authenticate(CredentialInterface $credential)
     {
@@ -90,18 +88,18 @@ class Client
         $logger = $options->getLogger();
 
         if ($options->handleRateLimit()) {
-            $handler = new RateLimitHandler(3, $logger);
+            $handler = new SfMiddleware\RateLimitHandler(3, $logger);
             $stack->push(Middleware::retry([$handler, 'decide'], [$handler, 'delay']));
         }
 
         $retryCount = $options->getRetryOnServerError();
         if ($retryCount) {
-            $handler = new ServerErrorHandler($retryCount);
+            $handler = new SfMiddleware\ServerErrorHandler($retryCount);
             $stack->push(Middleware::retry([$handler, 'decide']));
         }
 
         if ($logger) {
-            $handler = new LogRequestHandler($logger);
+            $handler = new SfMiddleware\LogRequestHandler($logger);
             $stack->push(Middleware::tap($handler));
         }
 
