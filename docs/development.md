@@ -22,14 +22,14 @@ docker-compose up -d
 ```
 3. Install project dependencies
 ```bash
-docker exec -ti [CONTAINER NAME] composer install --dev
+docker-compose run sf-php-sdk-dev composer install --dev
 ```
 
 ## PHPUNIT
 
 To run the PHPUNIT test of the project simply run :
 ```bash
-docker exec -ti php-dek-dev phpunit
+docker-compose run sf-php-sdk-dev vendor/bin/phpunit
 ```
 
 It will run the tests of the SDK and generated an HTML coverage summary in `build/coverage`.

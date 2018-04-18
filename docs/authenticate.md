@@ -7,7 +7,7 @@ The SDK offer two ways to authenticate against the API:
 
 ```php
 <?php
-namespace ShoppingFeed\Sdk;
+namespace ShoppingFeed\Sdk\Api;
 
 $credential = new Credential\Password('login', 'password');
 $session    = Client\Client::createSession($credential);
@@ -27,7 +27,7 @@ This is the prefered way, because this method only perform 1 HTTP call
 
 ```php
 <?php
-namespace ShoppingFeed\Sdk;
+namespace ShoppingFeed\Sdk\Api;
 
 $credential = new Credential\Token('api_token');
 $session    = Client\Client::createSession($credential);
@@ -40,7 +40,7 @@ Optionally, you can pass options when creating a new session with the static met
 
 ```php
 <?php
-namespace ShoppingFeed\Sdk;
+namespace ShoppingFeed\Sdk\Api;
 
 $options = new Client\ClientOptions();
 $options->setHandleRateLimit(false);
