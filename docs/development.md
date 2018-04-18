@@ -27,7 +27,7 @@ docker-compose run sf-php-sdk-dev composer install --dev
 
 ### Phing
 
-To help develop and stay with clean code we have configured a phing command that will help you ensure your code fits
+To help develop and keep a clean code we have configured a phing command that will help you ensure your code fits
 our requirement
 ```bash
 docker-compose run sf-php-sdk-dev vendor/bin/phing test
