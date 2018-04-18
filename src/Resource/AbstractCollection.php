@@ -58,12 +58,9 @@ abstract class AbstractCollection extends AbstractResource implements \Countable
      */
     public function toArray()
     {
-        return array_map(
-            function (AbstractResource $resource) {
-                return $resource->toArray();
-            },
-            $this->resources
-        );
+        return array_map(function(AbstractResource $resource) {
+            return $resource->toArray();
+        }, $this->resources);
     }
 
     /**

@@ -50,7 +50,7 @@ class RateLimitHandler
     }
 
     /**
-     * @param int               $count Number of retries
+     * @param int               $count    Number of retries
      * @param ResponseInterface $response
      *
      * @return int milliseconds to wait before next call

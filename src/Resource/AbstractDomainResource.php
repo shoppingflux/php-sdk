@@ -74,10 +74,9 @@ abstract class AbstractDomainResource
      */
     private function createPaginator($page = 1, $limit = self::PER_PAGE)
     {
-        $resource = $this->link->get(
-            [],
-            ['query' => array_map('intval', compact('page', 'limit'))]
-        );
+        $resource = $this->link->get([], [
+            'query' => array_map('intval', compact('page', 'limit'))
+        ]);
 
         if (! $resource) {
             return null;
