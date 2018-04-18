@@ -61,9 +61,9 @@
     <rule ref="Squiz.PHP.ForbiddenFunctions">
         <properties>
             <property
-                name="forbiddenFunctions"
-                type="array"
-                value="exit=>return,var_dump=>return,sizeof=>count,delete=>unset,print_r=>return,eval=>none"
+                    name="forbiddenFunctions"
+                    type="array"
+                    value="exit=>return,var_dump=>return,sizeof=>count,delete=>unset,print_r=>return,eval=>none"
             />
         </properties>
     </rule>

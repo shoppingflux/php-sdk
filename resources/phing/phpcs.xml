@@ -1,5 +1,5 @@
 <project>
-    <property name="standard.phpcs"  value="${project.basedir}/resources/phpcs/ruleset.xml"/>
+    <property name="standard.phpcs" value="${project.basedir}/resources/phpcs/ruleset.xml"/>
     <property name="dir.build.phpcs" value="${dir.build}/phpcs"/>
 
     <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer" depends="qa:prepare">
