@@ -18,6 +18,8 @@
     "psr/log": "trace HTTP requests performed by the SDK"
   },
   "require-dev": {
-    "monolog/monolog": "^1.23"
+    "monolog/monolog": "^1.23",
+    "phpunit/phpunit": "^5.0",
+    "squizlabs/php_codesniffer": "^2.8"
   }
 }
