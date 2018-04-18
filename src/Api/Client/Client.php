@@ -6,8 +6,8 @@ use GuzzleHttp\Middleware;
 use Jsor\HalClient;
 use ShoppingFeed\Feed\ProductGenerator;
 use ShoppingFeed\Sdk\Core\Client\ClientOptions;
-use ShoppingFeed\Sdk\Core\Credential\CredentialInterface;
 use ShoppingFeed\Sdk\Core\Guzzle\Middleware as SfMiddleware;
+use ShoppingFeed\Sdk\Api\Credential\CredentialInterface;
 
 class Client
 {
