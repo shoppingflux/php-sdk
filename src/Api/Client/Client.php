@@ -19,7 +19,7 @@ class Client
      * @param CredentialInterface $credential
      * @param ClientOptions|null  $options
      *
-     * @return \ShoppingFeed\Sdk\Session\SessionResource
+     * @return \ShoppingFeed\Sdk\Api\Session\SessionResource
      */
     public static function createSession(CredentialInterface $credential, ClientOptions $options = null)
     {
@@ -51,7 +51,7 @@ class Client
     /**
      * @param CredentialInterface $credential
      *
-     * @return \ShoppingFeed\Sdk\Session\SessionResource
+     * @return \ShoppingFeed\Sdk\Api\Session\SessionResource
      */
     public function authenticate(CredentialInterface $credential)
     {

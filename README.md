@@ -29,14 +29,14 @@ namespace ShoppingFeed\Sdk\Api;
 
 // Setup credentials to connect to the API, and create session
 $credential = new Credential\Token('api-token');
-/** @var \ShoppingFeed\Sdk\Session\SessionResource $session */
+/** @var \ShoppingFeed\Sdk\Api\Session\SessionResource $session */
 $session    = Client\Client::createSession($credential);
 ```
 
 ### Accessing your stores
 
 ```php
-/** @var \ShoppingFeed\Sdk\Session\SessionResource $session */
+/** @var \ShoppingFeed\Sdk\Api\Session\SessionResource $session */
 $store = $session->getMainStore();
 $store->getName(); // test-store
 $store->getId(); // 1276
@@ -46,7 +46,7 @@ $store->getId(); // 1276
 If you manage more than one store, you can use the store collection object
 
 ```php
-/** @var \ShoppingFeed\Sdk\Session\SessionResource $session */
+/** @var \ShoppingFeed\Sdk\Api\Session\SessionResource $session */
 // Get store collection
 $stores = $session->getStores();
 // Count the number of stores [int]
