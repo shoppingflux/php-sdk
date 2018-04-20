@@ -1,0 +1,18 @@
+<project>
+    <target name="composer:optimize" description="Optimize composer autoloader">
+        <exec executable="${exec.composer}" passthru="true">
+            <arg value="install"/>
+            <arg value="-o"/>
+            <arg value="--no-dev"/>
+            <arg value="--no-interaction"/>
+        </exec>
+    </target>
+
+    <target name="composer:install">
+        <exec executable="${exec.php}" passthru="true" checkreturn="true">
+            <arg path="${exec.composer}"/>
+            <arg value="install"/>
+            <arg value="--no-interaction"/>
+        </exec>
+    </target>
+</project>

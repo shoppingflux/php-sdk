@@ -1,0 +1,19 @@
+<project>
+    <property name="standard.phpcs" value="${project.basedir}/resources/phpcs/ruleset.xml"/>
+    <property name="dir.build.phpcs" value="${dir.build}/phpcs"/>
+
+    <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer" depends="qa:prepare">
+        <exec executable="${exec.phpcs}" checkreturn="true" passthru="true">
+            <arg value="--report=full"/>
+            <arg value="--standard=${standard.phpcs}"/>
+            <arg value="--report-emacs=${dir.build.phpcs}/phpcs.log"/>
+            <arg value="--report-checkstyle=${dir.build.phpcs}/phpcs.xml"/>
+            <arg value="--extensions=php"/>
+            <arg value="-p"/>
+        </exec>
+    </target>
+
+    <target name="qa:prepare">
+        <mkdir dir="${dir.build.phpcs}/phpcs" mode="777"/>
+    </target>
+</project>
