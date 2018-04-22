@@ -60,8 +60,8 @@ class RateLimitHandler
         $waitMS = (int) ceil($response->getHeaderLine('X-RateLimit-Wait') * 1000);
         if (null !== $this->logger) {
             $this->logger->notice(sprintf('Request throttled for %d ms', $waitMS));
-
         }
+
         return $waitMS;
     }
 }

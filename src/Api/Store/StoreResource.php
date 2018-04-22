@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Store;
+namespace ShoppingFeed\Sdk\Api\Store;
 
 use ShoppingFeed\Sdk\Api\Catalog\InventoryDomain;
 use ShoppingFeed\Sdk\Resource\AbstractResource;

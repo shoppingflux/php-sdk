@@ -48,20 +48,14 @@ $operation->add('ref1', 7);
 $operation->add('ref2', 1);
 
 // Then run the operation
-$result = $domain->execute($operation);
+$collection = $domain->execute($operation);
 ```
 
-The result object hold updated resources, and eventual errors
+The collection object holds updated resources
 
 ```php
-// Check if one of the batch fails
-$result->hasError(); // true
-
-// Check if all batch failed
-$result->isError(); // false
-
 // Retrieve the content of resources
-foreach ($result->getResource() as $inventory) {
+foreach ($collection as $inventory) {
 	echo $inventory->getId() . PHP_EOL;
 	echo $inventory->getUpdatedAt()->format('c') . PHP_EOL;
 )

@@ -1,6 +1,5 @@
 <?php
-
-namespace ShoppingFeed\Sdk\Api\Client;
+namespace ShoppingFeed\Sdk\Client;
 
 use Psr\Log\LoggerInterface;
 
@@ -10,11 +9,6 @@ class ClientOptions
      * @var bool
      */
     private $baseUri = 'https://api.shopping-feed.com';
-
-    /**
-     * @var bool
-     */
-    private $version = 'v1';
 
     /**
      * @var bool
@@ -61,14 +55,6 @@ class ClientOptions
     public function getBaseUri()
     {
         return $this->baseUri;
-    }
-
-    /**
-     * @return string
-     */
-    public function getVersion()
-    {
-        return $this->version;
     }
 
     /**

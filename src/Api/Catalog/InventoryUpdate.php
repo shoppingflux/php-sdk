@@ -2,7 +2,6 @@
 namespace ShoppingFeed\Sdk\Api\Catalog;
 
 use Jsor\HalClient\HalLink;
-use ShoppingFeed\Sdk\Catalog\InventoryCollection;
 use ShoppingFeed\Sdk\Operation\AbstractBulkOperation;
 
 class InventoryUpdate extends AbstractBulkOperation
@@ -46,16 +45,19 @@ class InventoryUpdate extends AbstractBulkOperation
     /**
      * @param HalLink $link
      *
-     * @return \ArrayObject|mixed
+     * @return InventoryCollection
      */
     public function execute(HalLink $link)
     {
-        return $this->chunk(
-            function (array $chunk, InventoryCollection $collection) use ($link) {
-                $response = $link->put([], $this->createHttpBody($chunk));
-                $collection->merge(new InventoryCollection($this->getRelated($response)));
-            },
-            new InventoryCollection()
+        $resources = [];
+        $this->eachBatch(
+            function (array $chunk) use ($link, &$resources) {
+                $response   = $link->put([], $this->createHttpBody($chunk));
+                $collection = new InventoryCollection($this->getRelated($response));
+                array_push($resources, ...iterator_to_array($collection));
+            }
         );
+
+        return new InventoryCollection($resources);
     }
 }

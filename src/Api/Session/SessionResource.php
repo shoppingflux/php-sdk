@@ -2,7 +2,7 @@
 namespace ShoppingFeed\Sdk\Api\Session;
 
 use ShoppingFeed\Sdk\Resource\AbstractResource;
-use ShoppingFeed\Sdk\Store;
+use ShoppingFeed\Sdk\Api\Store;
 
 class SessionResource extends AbstractResource
 {
@@ -35,7 +35,7 @@ class SessionResource extends AbstractResource
     /**
      * @param int|string $idOrName
      *
-     * @return Store\StoreResource
+     * @return \ShoppingFeed\Sdk\Api\Store\StoreResource
      */
     public function selectStore($idOrName)
     {
@@ -49,7 +49,7 @@ class SessionResource extends AbstractResource
     }
 
     /**
-     * @return Store\StoreResource|null
+     * @return \ShoppingFeed\Sdk\Api\Store\StoreResource|null
      */
     public function getMainStore()
     {

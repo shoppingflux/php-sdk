@@ -20,6 +20,22 @@
   "require-dev": {
     "monolog/monolog": "^1.23",
     "phpunit/phpunit": "^5.0",
+    "jsor/hal-client": "^3.4",
     "squizlabs/php_codesniffer": "^2.8"
-  }
+  },
+  "scripts": {
+    "test": [
+      "@php vendor/bin/phpcs --standard=PSR2 src",
+      "@php vendor/bin/phpunit"
+    ]
+  },
+  "scripts-descriptions": {
+    "test" : "Run PHPUnit tests suites and Coding standards validator"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/shoppingflux/hal-client"
+    }
+  ]
 }

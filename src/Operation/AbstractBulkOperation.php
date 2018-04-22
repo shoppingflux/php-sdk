@@ -51,22 +51,11 @@ abstract class AbstractBulkOperation extends AbstractOperation
 
     /**
      * @param callable $callback
-     * @param          $result
-     *
-     * @return mixed
      */
-    protected function chunk(callable $callback, $result)
+    protected function eachBatch(callable $callback)
     {
-        $errors = [];
         foreach (array_chunk($this->operations, $this->batchSize) as $chunk) {
-            try {
-                $callback($chunk, $result);
-            } catch (BadResponseException $exception) {
-                // instantiate API problem
-                $errors[] = ApiProblem::fromJson((string) $exception->getResponse()->getBody());
-            }
+            $callback($chunk);
         }
-
-        return new BulkOperationResult($result, $errors);
     }
 }

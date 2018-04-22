@@ -14,7 +14,7 @@ abstract class AbstractResource implements \JsonSerializable
     /**
      * @var bool
      */
-    protected $isPartial;
+    private $isPartial;
 
     /**
      * @param HalResource $resource
@@ -77,6 +77,23 @@ abstract class AbstractResource implements \JsonSerializable
     }
 
     /**
+     * Get, if exists, property as Datetime object
+     *
+     * @param string $property
+     *
+     * @return \DateTimeImmutable|null
+     * @throws \Exception
+     */
+    protected function getPropertyDatetime($property)
+    {
+        if ($prop = $this->resource->getProperty($property)) {
+            return new \DateTimeImmutable($prop);
+        }
+
+        return null;
+    }
+
+    /**
      * @param bool $force
      *
      * @return $this
@@ -89,6 +106,14 @@ abstract class AbstractResource implements \JsonSerializable
         }
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isPartial()
+    {
+        return $this->isPartial;
     }
 
     /**

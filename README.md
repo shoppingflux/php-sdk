@@ -25,12 +25,12 @@ In order to make authenticated call, you should build the client like so:
 
 ```php
 <?php
-namespace ShoppingFeed\Sdk\Api;
+namespace ShoppingFeed\Sdk;
 
 // Setup credentials to connect to the API, and create session
 $credential = new Credential\Token('api-token');
 /** @var \ShoppingFeed\Sdk\Api\Session\SessionResource $session */
-$session    = Client\Client::createSession($credential);
+$session = Client\Client::createSession($credential);
 ```
 
 ### Accessing your stores
@@ -61,23 +61,17 @@ foreach ($stores as $store) {
 
 ### SDK guides
 
-- [Authentication in details](doc/authenticate.md)
-- [Error handling and debug](doc/error-handling.md)
+- [Authentication in details](docs/authenticate.md)
+- [Error handling and debug](docs/error-handling.md)
 
 ### SDK resources documentation
 
-- [Inventiory management](doc/catalog.md)
+- [Inventory management](docs/catalog.md)
 
 
 ### Generates XML compliant feed for import
 
 The SDK is able to simplify XML feed creation by providing necessary tools.
-
-```php
-<?php
-/** @var \ShoppingFeed\Sdk\Api\Client\Client $client */
-$generator = $client->createProductGenerator();
-```
 
 Check the documentation at https://github.com/shoppingflux/php-feed-generator to learn how to create compliant feed.
 

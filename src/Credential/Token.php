@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Api\Credential;
+namespace ShoppingFeed\Sdk\Credential;
 
 use Jsor\HalClient\HalClientInterface;
 use ShoppingFeed\Sdk\Api\Session\SessionResource;

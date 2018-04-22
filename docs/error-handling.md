@@ -11,7 +11,7 @@ This feature can be disabled when creating a API client. If disabled, it will be
 
 ```php
 <?php
-namespace ShoppingFeed\Sdk\Api;
+namespace ShoppingFeed\Sdk;
 
 $options = new Client\ClientOptions();
 $options->setHandleRateLimit(false);
@@ -23,7 +23,7 @@ The SDK allow the possibility to retry requests when server fails to respond, in
 
 ```php
 <?php
-namespace ShoppingFeed\Sdk\Api;
+namespace ShoppingFeed\Sdk;
 
 $options = new Client\ClientOptions();
 $options->setRetryOnServerError(3);
@@ -35,7 +35,7 @@ If you want trace requests performed by the SDK, you can pass an instance of `Ps
 
 ```php
 <?php
-namespace ShoppingFeed\Sdk\Api;
+namespace ShoppingFeed\Sdk;
 
 $options = new Client\ClientOptions();
 $options->setLogger($psrLogger);

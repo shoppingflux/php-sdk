@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Catalog;
+namespace ShoppingFeed\Sdk\Api\Catalog;
 
 use ShoppingFeed\Sdk\Resource\AbstractResource;
 
@@ -34,6 +34,6 @@ class InventoryResource extends AbstractResource
      */
     public function getUpdatedAt()
     {
-        return date_create_immutable($this->getProperty('updatedAt'));
+        return $this->getPropertyDatetime('updatedAt');
     }
 }

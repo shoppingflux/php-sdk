@@ -1,12 +1,13 @@
 <?php
-namespace ShoppingFeed\Sdk\Api\Client;
+namespace ShoppingFeed\Sdk\Client;
 
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Jsor\HalClient;
 use ShoppingFeed\Feed\ProductGenerator;
 use ShoppingFeed\Sdk\Guzzle\Middleware as SfMiddleware;
-use ShoppingFeed\Sdk\Api\Credential\CredentialInterface;
+use ShoppingFeed\Sdk\Credential\CredentialInterface;
 
 class Client
 {
@@ -59,14 +60,6 @@ class Client
     }
 
     /**
-     * @return ProductGenerator
-     */
-    public function createProductGenerator()
-    {
-        return new ProductGenerator();
-    }
-
-    /**
      * @param ClientOptions $options
      */
     private function configureHttpClient(ClientOptions $options)
@@ -99,8 +92,7 @@ class Client
         }
 
         if ($logger) {
-            $handler = new SfMiddleware\LogRequestHandler($logger);
-            $stack->push(Middleware::tap($handler));
+            $stack->push(Middleware::log($logger, new MessageFormatter()));
         }
 
         return $stack;
