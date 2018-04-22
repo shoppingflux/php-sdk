@@ -1,7 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Credential;
 
-use Jsor\HalClient\HalClientInterface;
+use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Api\Session\SessionResource;
 
 class Token implements CredentialInterface
@@ -22,12 +22,12 @@ class Token implements CredentialInterface
     /**
      * @inheritdoc
      */
-    public function authenticate(HalClientInterface $client)
+    public function authenticate(Hal\HalClient $client)
     {
-        $client = $client->withHeader('Authorization', 'Bearer ' . $this->token);
+        $client = $client->withToken($this->token);
 
         return new SessionResource(
-            $client->get('v1/me'),
+            $client->request('GET', 'v1/me'),
             false
         );
     }

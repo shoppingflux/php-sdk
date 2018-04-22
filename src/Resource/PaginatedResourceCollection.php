@@ -1,7 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Resource;
 
-use Jsor\HalClient\HalResource;
+use ShoppingFeed\Sdk\Hal;
 
 class PaginatedResourceCollection extends AbstractResource implements \IteratorAggregate, \Countable
 {
@@ -11,10 +11,10 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
     private $resourceClass;
 
     /**
-     * @param HalResource $resource
-     * @param string      $resourceClass
+     * @param Hal\HalResource $resource
+     * @param string          $resourceClass
      */
-    public function __construct(HalResource $resource, $resourceClass)
+    public function __construct(Hal\HalResource $resource, $resourceClass)
     {
         $this->resourceClass = (string) $resourceClass;
 
@@ -58,12 +58,13 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
      */
     public function next()
     {
-        if (! $this->resource->hasLink('next')) {
+        $link = $this->resource->getLink('next');
+        if (! $link) {
             return null;
         }
 
-        $link = $this->resource->getFirstLink('next');
-        if (! $resource = $link->get()) {
+        $resource = $link->get();
+        if (! $resource) {
             return null;
         }
 
@@ -75,7 +76,7 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
      */
     public function getIterator()
     {
-        $data = current($this->resource->getResources()) ?: [];
+        $data = current($this->resource->getAllResources()) ?: [];
         foreach ($data as $item) {
             yield new $this->resourceClass($item);
         }

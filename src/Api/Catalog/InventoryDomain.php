@@ -6,7 +6,7 @@ use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
 
 /**
  * @method ApiCatalog\InventoryResource[] getIterator()
- * @method ApiCatalog\InventoryResource[] getAll($page, $limit)
+ * @method ApiCatalog\InventoryResource[] getAll($page = 1, $limit = 100)
  */
 class InventoryDomain extends AbstractDomainResource
 {

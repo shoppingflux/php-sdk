@@ -1,9 +1,6 @@
 <?php
 namespace ShoppingFeed\Sdk\Operation;
 
-use Crell\ApiProblem\ApiProblem;
-use Jsor\HalClient\Exception\BadResponseException;
-
 abstract class AbstractBulkOperation extends AbstractOperation
 {
     /**
@@ -18,7 +15,7 @@ abstract class AbstractBulkOperation extends AbstractOperation
      *
      * @var int
      */
-    private $poolSize = 1;
+    private $poolSize = 10;
 
     /**
      * @var array
@@ -47,6 +44,22 @@ abstract class AbstractBulkOperation extends AbstractOperation
         $this->poolSize = max(1, $poolSize);
 
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBatchSize()
+    {
+        return $this->batchSize;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPoolSize()
+    {
+        return $this->poolSize;
     }
 
     /**

@@ -44,7 +44,7 @@ class StoreResource extends AbstractResource
     public function getInventory()
     {
         return new InventoryDomain(
-            $this->resource->getFirstLink('inventory')
+            $this->resource->getLink('inventory')
         );
     }
 }

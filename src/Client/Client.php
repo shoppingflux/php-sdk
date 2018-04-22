@@ -4,15 +4,14 @@ namespace ShoppingFeed\Sdk\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
-use Jsor\HalClient;
-use ShoppingFeed\Feed\ProductGenerator;
+use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Guzzle\Middleware as SfMiddleware;
 use ShoppingFeed\Sdk\Credential\CredentialInterface;
 
 class Client
 {
     /**
-     * @var HalClient\HalClient
+     * @var Hal\HalClient
      */
     private $client;
 
@@ -36,7 +35,10 @@ class Client
             $options = new ClientOptions();
         }
 
-        $this->configureHttpClient($options);
+        $this->client = new Hal\HalClient(
+            $options->getBaseUri(),
+            $this->createHandlerStack($options)
+        );
     }
 
     /**
@@ -44,9 +46,9 @@ class Client
      */
     public function ping()
     {
-        $resource = $this->client->get('v1/ping');
-
-        return (bool) $resource->getProperty('timestamp');
+        return (bool) $this->client
+            ->request('GET', 'v1/ping')
+            ->getProperty('timestamp');
     }
 
     /**
@@ -57,17 +59,6 @@ class Client
     public function authenticate(CredentialInterface $credential)
     {
         return $credential->authenticate($this->client);
-    }
-
-    /**
-     * @param ClientOptions $options
-     */
-    private function configureHttpClient(ClientOptions $options)
-    {
-        $client       = new \GuzzleHttp\Client(['handler' => $this->createHandlerStack($options)]);
-        $client       = new HalClient\HttpClient\Guzzle6HttpClient($client);
-        $client       = new HalClient\HalClient($options->getBaseUri(), $client);
-        $this->client = $client;
     }
 
     /**
