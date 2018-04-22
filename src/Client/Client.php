@@ -10,6 +10,8 @@ use ShoppingFeed\Sdk\Credential\CredentialInterface;
 
 class Client
 {
+    const VERSION = '1.0.0';
+
     /**
      * @var Hal\HalClient
      */

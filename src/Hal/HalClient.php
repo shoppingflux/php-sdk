@@ -1,23 +1,20 @@
 <?php
 namespace ShoppingFeed\Sdk\Hal;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
-use GuzzleHttp\Pool;
-use GuzzleHttp\Psr7\Request;
+use GuzzleHttp as Guzzle;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use ShoppingFeed\Sdk\Client\Client as SdkClient;
 
 class HalClient
 {
     /**
-     * @var HandlerStack
+     * @var Guzzle\HandlerStack
      */
     private $stack;
 
     /**
-     * @var Client
+     * @var Guzzle\Client
      */
     private $client;
 
@@ -27,10 +24,10 @@ class HalClient
     private $baseUri;
 
     /**
-     * @param              $baseUri
-     * @param HandlerStack $stack
+     * @param string              $baseUri
+     * @param Guzzle\HandlerStack $stack
      */
-    public function __construct($baseUri, HandlerStack $stack = null)
+    public function __construct($baseUri, Guzzle\HandlerStack $stack = null)
     {
         $this->baseUri = $baseUri;
         $this->createClient($stack);
@@ -44,7 +41,7 @@ class HalClient
     public function withToken($token)
     {
         $stack = clone $this->stack;
-        $stack->push(Middleware::mapRequest(function (RequestInterface $request) use ($token) {
+        $stack->push(Guzzle\Middleware::mapRequest(function (RequestInterface $request) use ($token) {
             return $request->withHeader('Authorization', 'Bearer ' . trim($token));
         }));
 
@@ -65,7 +62,7 @@ class HalClient
      */
     public function createRequest($method, $uri, array $headers = [], $body = null)
     {
-        return new Request($method, $uri, $headers, $body);
+        return new Guzzle\Psr7\Request($method, $uri, $headers, $body);
     }
 
     /**
@@ -92,7 +89,7 @@ class HalClient
      */
     public function batchSend($requests, array $config = [])
     {
-        $pool = new Pool($this->client, $requests, $config);
+        $pool = new Guzzle\Pool($this->client, $requests, $config);
         $pool->promise()->wait(true);
     }
 
@@ -127,20 +124,21 @@ class HalClient
     }
 
     /**
-     * @param HandlerStack $stack
+     * @param Guzzle\HandlerStack $stack
      */
-    private function createClient(HandlerStack $stack = null)
+    private function createClient(Guzzle\HandlerStack $stack = null)
     {
         if (null === $stack) {
-            $stack = HandlerStack::create();
+            $stack = Guzzle\HandlerStack::create();
         }
 
         $this->stack  = $stack;
-        $this->client = new Client([
-            'handler'  => $this->stack,
-            'base_uri' => $this->baseUri,
-            'headers'  => [
-                'Accept' => 'application/json'
+        $this->client = new Guzzle\Client([
+            'handler'    => $this->stack,
+            'base_uri'   => $this->baseUri,
+            'headers'    => [
+                'Accept'     => 'application/json',
+                'User-Agent' => 'SF-SDK-PHP/' . SdkClient::VERSION
             ]
         ]);
     }
