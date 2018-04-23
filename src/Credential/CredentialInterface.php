@@ -1,14 +1,14 @@
 <?php
 namespace ShoppingFeed\Sdk\Credential;
 
-use Jsor\HalClient\HalClientInterface;
+use ShoppingFeed\Sdk\Hal;
 
 interface CredentialInterface
 {
     /**
-     * @param HalClientInterface $client
+     * @param Hal\HalClient $client
      *
      * @return \ShoppingFeed\Sdk\Api\Session\SessionResource
      */
-    public function authenticate(HalClientInterface $client);
+    public function authenticate(Hal\HalClient $client);
 }

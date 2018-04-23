@@ -1,13 +1,12 @@
 <?php
 namespace ShoppingFeed\Sdk\Resource;
 
-use Jsor\HalClient\HalLink;
-use Jsor\HalClient\HalResource;
+use ShoppingFeed\Sdk\Hal;
 
 abstract class AbstractResource implements \JsonSerializable
 {
     /**
-     * @var HalResource
+     * @var Hal\HalResource
      */
     protected $resource;
 
@@ -17,10 +16,10 @@ abstract class AbstractResource implements \JsonSerializable
     private $isPartial;
 
     /**
-     * @param HalResource $resource
+     * @param Hal\HalResource $resource
      * @param bool        $isPartial
      */
-    public function __construct(HalResource $resource, $isPartial = true)
+    public function __construct(Hal\HalResource $resource, $isPartial = true)
     {
         $this->resource  = $resource;
         $this->isPartial = $isPartial;
@@ -119,10 +118,10 @@ abstract class AbstractResource implements \JsonSerializable
     /**
      * @param string $name
      *
-     * @return HalLink|null
+     * @return Hal\HalLink|null
      */
     protected function getLink($name)
     {
-        return $this->resource->getFirstLink($name);
+        return $this->resource->getLink($name);
     }
 }

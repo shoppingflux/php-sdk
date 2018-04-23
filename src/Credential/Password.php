@@ -1,7 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Credential;
 
-use Jsor\HalClient\HalClientInterface;
+use ShoppingFeed\Sdk\Hal;
 
 class Password implements CredentialInterface
 {
@@ -28,10 +28,10 @@ class Password implements CredentialInterface
     /**
      * @inheritdoc
      */
-    public function authenticate(HalClientInterface $client)
+    public function authenticate(Hal\HalClient $client)
     {
-        $response = $client->post('v1/auth', [
-            'body' => [
+        $response = $client->request('POST', 'v1/auth', [
+            'json' => [
                 'grant_type' => 'password',
                 'username'   => $this->username,
                 'password'   => $this->password,

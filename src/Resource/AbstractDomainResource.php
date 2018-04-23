@@ -1,14 +1,14 @@
 <?php
 namespace ShoppingFeed\Sdk\Resource;
 
-use Jsor\HalClient\HalLink;
+use ShoppingFeed\Sdk\Hal;
 
 abstract class AbstractDomainResource
 {
-    const PER_PAGE = 100;
+    const PER_PAGE = 200;
 
     /**
-     * @var HalLink
+     * @var Hal\HalLink
      */
     protected $link;
 
@@ -18,9 +18,9 @@ abstract class AbstractDomainResource
     protected $resourceClass = '';
 
     /**
-     * @param HalLink $link
+     * @param Hal\HalLink $link
      */
-    public function __construct(HalLink $link)
+    public function __construct(Hal\HalLink $link)
     {
         $this->link = $link;
     }

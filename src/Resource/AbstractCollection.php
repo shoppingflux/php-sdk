@@ -1,7 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Resource;
 
-use Jsor\HalClient\HalResource;
+use ShoppingFeed\Sdk\Hal;
 use Traversable;
 
 abstract class AbstractCollection extends AbstractResource implements \Countable, \IteratorAggregate
@@ -78,7 +78,7 @@ abstract class AbstractCollection extends AbstractResource implements \Countable
     {
         $className = $this->resourceClass;
         foreach ($resources as $resource) {
-            if ($resource instanceof HalResource) {
+            if ($resource instanceof Hal\HalResource) {
                 $resource = new $className($resource, true);
             }
             $this->resources[] = $resource;

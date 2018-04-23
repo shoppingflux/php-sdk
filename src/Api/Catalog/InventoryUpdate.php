@@ -1,7 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Catalog;
 
-use Jsor\HalClient\HalLink;
+use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Operation\AbstractBulkOperation;
 
 class InventoryUpdate extends AbstractBulkOperation
@@ -16,14 +16,6 @@ class InventoryUpdate extends AbstractBulkOperation
         foreach ($operations as $reference => $quantity) {
             $this->add($reference, $quantity);
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function getRelatedResource()
-    {
-        return 'inventory';
     }
 
     /**
@@ -43,19 +35,30 @@ class InventoryUpdate extends AbstractBulkOperation
     }
 
     /**
-     * @param HalLink $link
+     * @param Hal\HalLink $link
      *
      * @return InventoryCollection
      */
-    public function execute(HalLink $link)
+    public function execute(Hal\HalLink $link)
     {
-        $resources = [];
+        // Create requests per batch
+        $requests = [];
         $this->eachBatch(
-            function (array $chunk) use ($link, &$resources) {
-                $response   = $link->put([], $this->createHttpBody($chunk));
-                $collection = new InventoryCollection($this->getRelated($response));
-                array_push($resources, ...iterator_to_array($collection));
+            function (array $chunk) use ($link, &$requests) {
+                $requests[] = $link->createRequest('PUT', [], ['inventory' => $chunk]);
             }
+        );
+
+        // Send requests
+        $resources = [];
+        $link->batchSend(
+            $requests,
+            function(Hal\HalResource $resource) use (&$resources) {
+                array_push($resources, ...$resource->getResources('inventory'));
+            },
+            null,
+            [],
+            $this->getPoolSize()
         );
 
         return new InventoryCollection($resources);
