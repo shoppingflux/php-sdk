@@ -5,7 +5,7 @@ ARG PHPUNIT_VERSION=5
 ARG COMPOSER_BIN_DIR=/usr/local/bin
 
 RUN apk add --update \
-    autoconf g++ make git zip libxml2-dev \
+    autoconf g++ make git zip libxml2-dev bash \
     && docker-php-ext-install zip \
     && docker-php-ext-install xml \
     && pecl install xdebug-2.5.0 \

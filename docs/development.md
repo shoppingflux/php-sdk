@@ -16,20 +16,16 @@ In your project root where you have cloned the repo run this commands :
 ```bash
 docker-compose build
 ```
-2. Start the container
-```bash
-docker-compose up -d
-```
 3. Install project dependencies
 ```bash
 docker-compose run sf-php-sdk-dev composer install --dev
 ```
 
-## PHPUNIT
+## Code checks
 
-To run the PHPUNIT test of the project simply run :
+To help you test your code against our requirement we have created a script to run tests and code style checks :
 ```bash
-docker-compose run sf-php-sdk-dev vendor/bin/phpunit
+docker-compose run sf-php-sdk-dev scripts/test.sh 
 ```
 
-It will run the tests of the SDK and generated an HTML coverage summary in `build/coverage`.
+The script will run `phpunit` and `phpcs` with docker composer as described
