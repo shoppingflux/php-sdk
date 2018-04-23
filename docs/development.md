@@ -23,9 +23,10 @@ docker-compose run sf-php-sdk-dev composer install --dev
 
 ## Code checks
 
-To help you test your code against our requirement we have created a script to run tests and code style checks :
+To help you test your code against our requirement there is a composer test script configured :
 ```bash
-docker-compose run sf-php-sdk-dev scripts/test.sh 
+docker-compose run sf-php-sdk-dev composer test 
 ```
 
-The script will run `phpunit` and `phpcs` with docker composer as described
+The script will run `phpunit` and `phpcs`.
+Reports for the runs can be found in `build/*`.
