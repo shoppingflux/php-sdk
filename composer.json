@@ -28,11 +28,5 @@
   },
   "scripts-descriptions": {
     "test" : "Run PHPUnit tests suites and Coding standards validator"
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/shoppingflux/hal-client"
-    }
-  ]
+  }
 }
