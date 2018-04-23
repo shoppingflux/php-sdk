@@ -53,7 +53,7 @@ class InventoryUpdate extends AbstractBulkOperation
         $resources = [];
         $link->batchSend(
             $requests,
-            function(Hal\HalResource $resource) use (&$resources) {
+            function (Hal\HalResource $resource) use (&$resources) {
                 array_push($resources, ...$resource->getResources('inventory'));
             },
             null,

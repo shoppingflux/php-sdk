@@ -115,7 +115,7 @@ class HalLink
     public function getUri(array $variables)
     {
         if (! $this->isTemplated()) {
-           return $this->getHref();
+            return $this->getHref();
         }
 
         if (null === static::$uriTemplate) {
@@ -219,8 +219,7 @@ class HalLink
         callable $error = null,
         array $options = [],
         $concurrency = 10
-    )
-    {
+    ) {
         $config['concurrency'] = (int) $concurrency;
         $config['fulfilled']   = $this->createResponseCallback($success);
         $config['rejected']    = $this->createExceptionCallback($error);
@@ -258,7 +257,7 @@ class HalLink
 
         if (! isset($headers['Content-Type']) && in_array($method, ['POST', 'PUT', 'PATCH'])) {
             $headers['Content-Type'] = 'application/json';
-            $body = \GuzzleHttp\json_encode($body);
+            $body                    = \GuzzleHttp\json_encode($body);
         }
 
         return $this->client->createRequest($method, $uri, $headers, $body);
@@ -271,7 +270,7 @@ class HalLink
      */
     private function createResponseCallback(callable $callback = null)
     {
-        return function(ResponseInterface $response) use($callback) {
+        return function (ResponseInterface $response) use ($callback) {
             if ($callback) {
                 $resource = $this->client->createResource($response);
                 call_user_func($callback, $resource);
@@ -286,7 +285,7 @@ class HalLink
      */
     private function createExceptionCallback(callable $callback = null)
     {
-        return function(RequestException $exception) use($callback) {
+        return function (RequestException $exception) use ($callback) {
             if ($exception->hasResponse() && $callback) {
                 $resource = $this->client->createResource($exception->getResponse());
                 call_user_func($callback, $resource);
