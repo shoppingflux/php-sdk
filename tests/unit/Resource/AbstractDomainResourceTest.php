@@ -33,4 +33,72 @@ class AbstractDomainResourceTest extends TestCase
 
         $this->assertInstanceOf(PaginatedResourceCollection::class, $instance->getPage());
     }
+
+    public function testGetPagesAndCreatePaginator()
+    {
+        // $i is used to generate the awaited level of depth
+        $i          = 0;
+        $pageFrom   = 1;
+        $perPage    = 20;
+        $totalItems = 400;
+
+        $link = $this->createMock(HalLink::class);
+        $link
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn($this->getPaginatedResource($i, $pageFrom, $perPage, $totalItems));
+
+        $instance = new DomainResourceMock($link);
+
+        $count = 0;
+        foreach ($instance->getPages($pageFrom, $perPage) as $collection) {
+            $count++;
+            $this->assertInstanceOf(PaginatedResourceCollection::class, $collection);
+        }
+
+        // NumberItem / ItemPerPage = NumberOfPages,
+        // NumberOfPages - (PageToStartAt - 1) = AwaitedNumberOfPages (-1 because page 0 does no exists)
+        $this->assertEquals(($totalItems / $perPage) - ($pageFrom - 1), $count);
+    }
+
+    /**
+     * Recurse to simulate load of next link
+     *
+     * @param int &$i
+     * @param int $pageFrom
+     * @param int $perPage
+     * @param int $totalItems
+     *
+     * @return \PHPUnit_Framework_MockObject_MockObject
+     */
+    private function getPaginatedResource(&$i = 0, $pageFrom = 1, $perPage = 10, $totalItems = 400)
+    {
+        $i += $perPage;
+
+        $resource = $this
+            ->getMockBuilder(HalResource::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getLink'])
+            ->getMock();
+        $link     = $this
+            ->getMockBuilder(HalLink::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['get'])
+            ->getMock();
+
+        $link
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn(
+                $i < $totalItems ? $this->getPaginatedResource($i, $pageFrom, $perPage) : null
+            );
+
+        $resource
+            ->expects($this->once())
+            ->method('getLink')
+            ->with('next')
+            ->willReturn($link);
+
+        return $resource;
+    }
 }
