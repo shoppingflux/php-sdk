@@ -152,12 +152,17 @@ class HalResource
     }
 
     /**
-     * @param array $links
+     * @param array     $links
      * @param HalClient $client
      */
     private function createLinks(HalClient $client, array $links)
     {
         foreach ($links as $rel => $link) {
+            if ($link instanceof HalLink) {
+                $this->links[$rel] = $link;
+                continue;
+            }
+
             $this->links[$rel] = new HalLink($client, $link['href'], $link);
         }
     }
