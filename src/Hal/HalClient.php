@@ -137,8 +137,9 @@ class HalClient
             'handler'    => $this->stack,
             'base_uri'   => $this->baseUri,
             'headers'    => [
-                'Accept'     => 'application/json',
-                'User-Agent' => 'SF-SDK-PHP/' . SdkClient::VERSION
+                'Accept'          => 'application/json',
+                'User-Agent'      => 'SF-SDK-PHP/' . SdkClient::VERSION,
+                'Accept-Encoding' => 'gzip',
             ]
         ]);
     }
