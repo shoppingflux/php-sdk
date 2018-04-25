@@ -1,8 +1,10 @@
 <?php
 namespace ShoppingFeed\Sdk\Test\Hal;
 
+use GuzzleHttp\Exception\RequestException;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use ShoppingFeed\Sdk\Hal\HalClient;
 use ShoppingFeed\Sdk\Hal\HalLink;
 use ShoppingFeed\Sdk\Hal\HalResource;
@@ -136,26 +138,120 @@ class HalLinkTest extends TestCase
 
     public function testBatchSend()
     {
-        $client = $this->createMock(HalClient::class);
+        $request = ['request'];
+        $client  = $this->createMock(HalClient::class);
         $client
             ->expects($this->once())
-            ->method('batchSend');
+            ->method('batchSend')
+            ->with(
+                $this->callback(
+                    function ($requests) use ($request) {
+                        return $requests === $request;
+                    }
+                )
+            );
 
         $instance = new HalLink($client, 'http://base.url');
 
-        $instance->batchSend([]);
+        $instance->batchSend($request);
     }
 
     public function testBatchSendWithOption()
     {
-        $client = $this->createMock(HalClient::class);
+        $request = ['request'];
+        $options = ['test' => 'option'];
+        $client  = $this->createMock(HalClient::class);
         $client
             ->expects($this->once())
-            ->method('batchSend');
+            ->method('batchSend')
+            ->with(
+                $this->callback(
+                    function ($requests) use ($request) {
+                        return $requests === $request;
+                    }
+                ),
+                $this->callback(
+                    function ($config) use ($options) {
+                        return $config['options'] === $options;
+                    }
+                )
+            );
 
         $instance = new HalLink($client, 'http://base.url');
 
-        $instance->batchSend([], null, null, ['test' => 'option']);
+        $instance->batchSend($request, null, null, $options);
+    }
+
+    public function testBatchSendWithSuccessCallbacks()
+    {
+        $test    = $this;
+        $request = ['request'];
+        $success = function () {
+            echo 'Success';
+        };
+        $client  = $this->createMock(HalClient::class);
+        $client
+            ->expects($this->once())
+            ->method('batchSend')
+            ->with(
+                $this->callback(
+                    function ($requests) use ($request) {
+                        return $requests === $request;
+                    }
+                ),
+                $this->callback(
+                    function ($config) use ($test) {
+                        $this->expectOutputString('Success');
+                        $config['fulfilled']($test->createMock(ResponseInterface::class));
+                        return true;
+                    }
+                )
+            );
+
+        $instance = new HalLink($client, 'http://base.url');
+
+        $instance->batchSend($request, $success, null);
+    }
+
+    public function testBatchSendWithErrorCallback()
+    {
+        $test    = $this;
+        $request = ['request'];
+        $error   = function () {
+            echo 'Error';
+        };
+        $client  = $this->createMock(HalClient::class);
+        $client
+            ->expects($this->once())
+            ->method('batchSend')
+            ->with(
+                $this->callback(
+                    function ($requests) use ($request) {
+                        return $requests === $request;
+                    }
+                ),
+                $this->callback(
+                    function ($config) use ($test) {
+                        $exception = $test->createMock(RequestException::class);
+                        $exception
+                            ->expects($this->once())
+                            ->method('hasResponse')
+                            ->willReturn(true);
+                        $exception
+                            ->expects($this->once())
+                            ->method('getResponse')
+                            ->willReturn($this->createMock(ResponseInterface::class));
+
+                        $config['rejected']($exception);
+                        $this->expectOutputString('Error');
+                        return true;
+                    }
+                )
+            );
+
+        $instance = new HalLink($client, 'http://base.url');
+
+        $instance->batchSend($request, null, $error);
     }
 
     public function testGetUriDefault()
