@@ -174,4 +174,30 @@ class PaginatedResourceCollectionTest extends TestCase
 
         $this->assertNull($instance->next());
     }
+
+    public function testGetIterator()
+    {
+        $resources = [
+            $this->createMock(HalResource::class),
+            $this->createMock(HalResource::class),
+            $this->createMock(HalResource::class),
+            $this->createMock(HalResource::class),
+        ];
+        $resource  = $this->createMock(HalResource::class);
+        $resource
+            ->expects($this->once())
+            ->method('getAllResources')
+            ->willReturn([$resources]);
+
+        $instance = new PaginatedResourceCollection($resource, ResourceMock::class);
+
+        $count = 0;
+        foreach ($instance->getIterator() as $i => $item) {
+            $count++;
+            $this->assertInstanceOf(ResourceMock::class, $item);
+            $this->assertEquals(new ResourceMock($resources[$i]), $item);
+        }
+
+        $this->assertEquals(count($resources), $count);
+    }
 }
