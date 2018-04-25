@@ -61,6 +61,56 @@ class AbstractDomainResourceTest extends TestCase
         $this->assertEquals(($totalItems / $perPage) - ($pageFrom - 1), $count);
     }
 
+    public function testGetAll()
+    {
+
+        $pages = [
+            [
+                $this->createMock(HalResource::class),
+                $this->createMock(HalResource::class),
+                $this->createMock(HalResource::class),
+                $this->createMock(HalResource::class),
+            ],
+            [
+                $this->createMock(HalResource::class),
+                $this->createMock(HalResource::class),
+                $this->createMock(HalResource::class),
+                $this->createMock(HalResource::class),
+            ],
+        ];
+        $link  = $this->createMock(HalLink::class);
+
+        $instance = $this
+            ->getMockBuilder(DomainResourceMock::class)
+            ->setConstructorArgs([$link])
+            ->setMethods(['getPages'])
+            ->getMock();
+
+        $instance
+            ->expects($this->once())
+            ->method('getPages')
+            ->with(10, 15)
+            ->will($this->returnCallback(
+                function ($fromPage, $perPage) use ($pages) {
+                    foreach ($pages as $page) {
+                        yield $page;
+                    }
+                }
+            ));
+
+        $count = 0;
+        foreach ($instance->getAll(10, 15) as $resource) {
+            $count++;
+        }
+
+        $awaited = 0;
+        foreach ($pages as $page) {
+            $awaited += count($page);
+        }
+
+        $this->assertEquals($awaited, $count);
+    }
+
     /**
      * Recurse to simulate load of next link
      *
