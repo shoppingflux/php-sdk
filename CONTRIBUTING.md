@@ -9,8 +9,8 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 1. Ensure that your PR must pass the build process
 2. Your code must be fully tested with phpunit tests (coverage 100%)
-3. Your code must respect the PSR specifications
-4. Update the documentation with details of changes if need be
+3. Your code must respect our [coding standard rules](docs/coding-standards.md)
+4. Documentation should be up to date with the changes you added
 
 ## Code of Conduct
 
