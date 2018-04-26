@@ -10,7 +10,7 @@ class ServerErrorHandler
         500 => true,
         502 => true,
         503 => true,
-        504 => true
+        504 => true,
     ];
 
     /**
@@ -38,6 +38,9 @@ class ServerErrorHandler
             return false;
         }
 
-        return ($response && isset(self::STATUS[$response->getStatusCode()]));
+        // Necessary to pass phpunit 5 tests
+        $status = self::STATUS;
+
+        return ($response && isset($status[$response->getStatusCode()]));
     }
 }
