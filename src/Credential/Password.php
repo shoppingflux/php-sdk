@@ -38,6 +38,16 @@ class Password implements CredentialInterface
             ],
         ]);
 
-        return (new Token($response->getProperty('access_token')))->authenticate($client);
+        return $this->tokenizeResponse($response)->authenticate($client);
+    }
+
+    /**
+     * @param Hal\HalResource $response
+     *
+     * @return Token
+     */
+    public function tokenizeResponse(Hal\HalResource $response)
+    {
+        return new Token($response->getProperty('access_token'));
     }
 }
