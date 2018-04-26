@@ -35,18 +35,26 @@ class ClientOptions
 
     /**
      * @param LoggerInterface $logger
+     *
+     * @return ClientOptions
      */
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
+
+        return $this;
     }
 
     /**
      * @param string $baseUri
+     *
+     * @return ClientOptions
      */
     public function setBaseUri($baseUri)
     {
         $this->baseUri = trim($baseUri);
+
+        return $this;
     }
 
     /**

@@ -37,7 +37,8 @@ class ServerErrorHandler
         if ($count >= $this->maxRetries) {
             return false;
         }
+        $statusCode = self::STATUS[$response->getStatusCode()];
 
-        return ($response && isset(self::STATUS[$response->getStatusCode()]));
+        return ($response && isset($statusCode));
     }
 }
