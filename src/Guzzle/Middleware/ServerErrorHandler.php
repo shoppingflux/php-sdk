@@ -38,7 +38,7 @@ class ServerErrorHandler
             return false;
         }
 
-        // Necessary to pass phpunit 5 tests
+        // Necessary to pass phpunit tests
         $status = self::STATUS;
 
         return ($response && isset($status[$response->getStatusCode()]));
