@@ -30,7 +30,9 @@ class InventoryResource extends AbstractResource
     }
 
     /**
-     * @return \DateTimeImmutable
+     * @return \DateTimeImmutable|null
+     *
+     * @throws \Exception
      */
     public function getUpdatedAt()
     {
