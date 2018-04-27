@@ -1,17 +1,10 @@
 <?php
 namespace ShoppingFeed\Sdk\Test\Api\Catalog;
 
-use PHPUnit\Framework\TestCase;
-use ShoppingFeed\Sdk\Api\Catalog\InventoryResource;
-use ShoppingFeed\Sdk\Hal\HalResource;
+use ShoppingFeed\Sdk;
 
-class InventoryResourceTest extends TestCase
+class InventoryResourceTest extends Sdk\Test\Api\AbstractResourceTest
 {
-    /**
-     * @var array
-     */
-    private $props = [];
-
     public function setUp()
     {
         $this->props = [
@@ -24,26 +17,13 @@ class InventoryResourceTest extends TestCase
 
     public function testPropertiesGetters()
     {
-        $halResource = $this->createMock(HalResource::class);
-        $halResource
-            ->expects($this->exactly(count($this->props)))
-            ->method('getProperty')
-            ->with($this->logicalOr(...array_keys($this->props)))
-            ->will($this->returnCallback([$this, 'returnGetters']));
+        $this->initPropertyGetterTester();
 
-        $instance = new InventoryResource($halResource);
+        $instance = new Sdk\Api\Catalog\InventoryResource($this->propertyGetter);
 
         $this->assertEquals($this->props['id'], $instance->getId());
         $this->assertEquals($this->props['reference'], $instance->getReference());
         $this->assertEquals($this->props['quantity'], $instance->getQuantity());
         $this->assertEquals(new \DateTimeImmutable($this->props['updatedAt']), $instance->getUpdatedAt());
-    }
-
-    /**
-     * Simulate getProperty return
-     */
-    public function returnGetters($prop)
-    {
-        return $this->props[$prop];
     }
 }

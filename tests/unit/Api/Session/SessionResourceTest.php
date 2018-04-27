@@ -1,16 +1,10 @@
 <?php
 namespace ShoppingFeed\Sdk\Test\Api\Session;
 
-use PHPUnit\Framework\TestCase;
 use ShoppingFeed\Sdk;
 
-class SessionResourceTest extends TestCase
+class SessionResourceTest extends Sdk\Test\Api\AbstractResourceTest
 {
-    /**
-     * @var array
-     */
-    private $props = [];
-
     /**
      * @var array
      */
@@ -31,25 +25,12 @@ class SessionResourceTest extends TestCase
 
     public function testPropertiesGetters()
     {
-        $halResource = $this->createMock(Sdk\Hal\HalResource::class);
-        $halResource
-            ->expects($this->exactly(count($this->props)))
-            ->method('getProperty')
-            ->with($this->logicalOr(...array_keys($this->props)))
-            ->will($this->returnCallback([$this, 'returnGetters']));
+        $this->initPropertyGetterTester();
 
-        $instance = new Sdk\Api\Session\SessionResource($halResource);
+        $instance = new Sdk\Api\Session\SessionResource($this->propertyGetter);
 
         $this->assertEquals($this->props['email'], $instance->getEmail());
         $this->assertEquals($this->props['login'], $instance->getLogin());
-    }
-
-    /**
-     * Simulate getProperty return
-     */
-    public function returnGetters($prop)
-    {
-        return $this->props[$prop];
     }
 
     public function testGetStores()
