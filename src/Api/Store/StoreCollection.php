@@ -49,7 +49,7 @@ class StoreCollection extends AbstractCollection
      */
     public function select($idOrName)
     {
-        if (ctype_digit($idOrName)) {
+        if (is_int($idOrName) | ctype_digit($idOrName)) {
             return $this->getById($idOrName);
         }
 

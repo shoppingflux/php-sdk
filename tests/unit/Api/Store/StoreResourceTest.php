@@ -26,4 +26,20 @@ class StoreResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $this->assertEquals($this->props['country'], $instance->getCountryCode());
         $this->assertTrue($instance->isActive());
     }
+
+    public function testGetInventory()
+    {
+        $halResource = $this->createMock(Sdk\Hal\HalResource::class);
+        $halResource
+            ->expects($this->once())
+            ->method('getLink')
+            ->with('inventory')
+            ->willReturn(
+                $this->createMock(Sdk\Hal\HalLink::class)
+            );
+
+        $instance = new Sdk\Api\Store\StoreResource($halResource);
+
+        $this->assertInstanceOf(Sdk\Api\Catalog\InventoryDomain::class, $instance->getInventory());
+    }
 }
