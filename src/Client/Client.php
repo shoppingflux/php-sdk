@@ -44,11 +44,20 @@ class Client
     }
 
     /**
+     * @return Hal\HalClient
+     */
+    public function getHalClient()
+    {
+        return $this->client;
+    }
+
+    /**
      * @return bool
      */
     public function ping()
     {
-        return (bool) $this->client
+        return (bool) $this
+            ->getHalClient()
             ->request('GET', 'v1/ping')
             ->getProperty('timestamp');
     }
@@ -60,7 +69,7 @@ class Client
      */
     public function authenticate(CredentialInterface $credential)
     {
-        return $credential->authenticate($this->client);
+        return $credential->authenticate($this->getHalClient());
     }
 
     /**
