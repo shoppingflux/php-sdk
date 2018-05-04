@@ -1,5 +1,9 @@
 # Welcome to the Shopping Feed PHP SDK
 
+## Status
+
+![continuousphp](https://img.shields.io/continuousphp/git-hub/shoppingflux/php-sdk/develop.svg)
+
 ## Install
 
 In your project root repository run 
