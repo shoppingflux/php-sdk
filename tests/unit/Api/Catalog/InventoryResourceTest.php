@@ -11,7 +11,7 @@ class InventoryResourceTest extends Sdk\Test\Api\AbstractResourceTest
             'id'        => 10,
             'reference' => 'abc123',
             'quantity'  => 15,
-            'updatedAt' => 'now',
+            'updatedAt' => '2018-05-04T12:04:57.451471+0200',
         ];
     }
 
