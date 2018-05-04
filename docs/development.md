@@ -1,7 +1,9 @@
 # Development
 
-If you want to contribute you can fork us on github and submit pull request with your modification.
+If you want to contribute you can fork us on github and submit pull request with your modifications.
 Please review the [contributing guideline](../CONTRIBUTING.md) before submiting issues or PR.
+You should refer to our [coding standard rules](coding-standards.md) rules as any code not following these rules
+will not be accepted.
 
 ## Tools
 
@@ -16,20 +18,17 @@ In your project root where you have cloned the repo run this commands :
 ```bash
 docker-compose build
 ```
-2. Start the container
-```bash
-docker-compose up -d
-```
 3. Install project dependencies
 ```bash
 docker-compose run sf-php-sdk-dev composer install --dev
 ```
 
-## PHPUNIT
+## Code checks
 
-To run the PHPUNIT test of the project simply run :
+To help you test your code against our requirement there is a composer test script configured :
 ```bash
-docker-compose run sf-php-sdk-dev vendor/bin/phpunit
+docker-compose run sf-php-sdk-dev composer test 
 ```
 
-It will run the tests of the SDK and generated an HTML coverage summary in `build/coverage`.
+The script will run `phpunit` and `phpcs`.
+Reports for the runs can be found in `build/*`.
