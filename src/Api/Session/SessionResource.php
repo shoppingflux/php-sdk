@@ -28,7 +28,7 @@ class SessionResource extends AbstractResource
     public function getStores()
     {
         return new Store\StoreCollection(
-            $this->resource->getResource('store')
+            $this->resource->getResources('store')
         );
     }
 
@@ -41,7 +41,7 @@ class SessionResource extends AbstractResource
     {
         $stores = $this->getStores();
 
-        if (ctype_digit($idOrName)) {
+        if (is_int($idOrName) || ctype_digit($idOrName)) {
             return $stores->getById($idOrName);
         }
 
