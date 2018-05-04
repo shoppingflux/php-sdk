@@ -124,16 +124,17 @@ class AbstractResourceTest extends TestCase
      */
     public function testGetPropertyDatetime()
     {
+        $date = '2018-05-04T12:20:07.160557+0200';
         $this
             ->halResource
             ->expects($this->once())
             ->method('getProperty')
             ->with('prop4')
-            ->willReturn('now');
+            ->willReturn($date);
 
         $instance = new ResourceMock($this->halResource);
 
-        $this->assertEquals(new \DateTimeImmutable(), $instance->getPropertyDatetime('prop4'));
+        $this->assertEquals(new \DateTimeImmutable($date), $instance->getPropertyDatetime('prop4'));
     }
 
     /**
