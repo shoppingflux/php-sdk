@@ -9,7 +9,8 @@
   },
   "autoload": {
     "psr-4": {
-      "ShoppingFeed\\Sdk\\": "src/"
+      "ShoppingFeed\\Sdk\\": "src/",
+      "ShoppingFeed\\Sdk\\Test\\": "tests/unit"
     }
   },
   "suggest": {
