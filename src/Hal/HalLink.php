@@ -219,7 +219,8 @@ class HalLink
         callable $error = null,
         array $options = [],
         $concurrency = 10
-    ) {
+    )
+    {
         $config['concurrency'] = (int) $concurrency;
         $config['fulfilled']   = $this->createResponseCallback($success);
         $config['rejected']    = $this->createExceptionCallback($error);
