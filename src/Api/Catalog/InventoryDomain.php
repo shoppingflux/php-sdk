@@ -2,6 +2,7 @@
 namespace ShoppingFeed\Sdk\Api\Catalog;
 
 use ShoppingFeed\Sdk\Api\Catalog as ApiCatalog;
+use ShoppingFeed\Sdk\Catalog;
 use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
 
 /**
@@ -16,9 +17,16 @@ class InventoryDomain extends AbstractDomainResource
     protected $resourceClass = ApiCatalog\InventoryResource::class;
 
     /**
+     * @var Catalog\InventoryUpdate
+     */
+    private $inventoryUpdate;
+
+    /**
      * @param string $reference the resource reference
      *
-     * @return null|\ShoppingFeed\Sdk\Api\Catalog\InventoryResource
+     * @return null|InventoryResource
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getByReference($reference)
     {
@@ -34,12 +42,37 @@ class InventoryDomain extends AbstractDomainResource
     }
 
     /**
-     * @param ApiCatalog\InventoryUpdate $operation
+     * @return InventoryDomain
+     */
+    public function newInventoryUpdate()
+    {
+        $this->inventoryUpdate = new Catalog\InventoryUpdate();
+
+        return $this;
+    }
+
+    /**
+     * @param string $reference
+     * @param int    $quantity
      *
+     * @return InventoryDomain
+     */
+    public function add($reference, $quantity)
+    {
+        if (! isset($this->inventoryUpdate)) {
+            $this->newInventoryUpdate();
+        }
+
+        $this->inventoryUpdate->add($reference, $quantity);
+
+        return $this;
+    }
+
+    /**
      * @return InventoryCollection
      */
-    public function execute(ApiCatalog\InventoryUpdate $operation)
+    public function execute()
     {
-        return $operation->execute($this->link);
+        return $this->inventoryUpdate->execute($this->link);
     }
 }
