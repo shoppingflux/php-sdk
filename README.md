@@ -2,7 +2,7 @@
 
 ## Status
 
-![continuousphp](https://img.shields.io/continuousphp/git-hub/shoppingflux/php-sdk/develop.svg)
+[![Build Status](https://status.continuousphp.com/git-hub/shoppingflux/php-sdk?token=49445fa5-6900-499a-9a6c-57d8bdda94e1&branch=develop)](https://continuousphp.com/git-hub/shoppingflux/php-sdk)
 
 ## Install
 
