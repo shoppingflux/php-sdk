@@ -6,7 +6,7 @@ Accessing order operation can be done from the store.
 
 ```php
 <?php
-$orderApi = $session->getMainStore()->getOrderApi();
+$orderApi = $session->getMainStore()->getOrder();
 ```
 
 ## Operations

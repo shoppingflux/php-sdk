@@ -52,7 +52,7 @@ class StoreResource extends AbstractResource
     /**
      * @return OrderDomain
      */
-    public function getOrderAPI()
+    public function getOrder()
     {
         return new OrderDomain(
             $this->resource->getLink('order')

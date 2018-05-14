@@ -43,14 +43,14 @@ class OrderOperation extends AbstractBulkOperation
         $requests = [];
         foreach ($this->allowedOperationTypes as $type) {
             $this->eachBatch(
-                $type,
                 function (array $chunk) use ($type, $link, &$requests) {
                     $requests[] = $link->createRequest(
                         'POST',
                         ['operation' => $type],
                         ['order' => $chunk]
                     );
-                }
+                },
+                $type
             );
         }
 
@@ -67,21 +67,6 @@ class OrderOperation extends AbstractBulkOperation
         );
 
         return new OrderCollection($resources);
-    }
-
-    /**
-     * Create batch by operation types
-     *
-     * @param callable $type
-     * @param callable $callback
-     */
-    protected function eachBatch($type, callable $callback)
-    {
-        if (isset($this->operations[$type])) {
-            foreach (array_chunk($this->operations[$type], $this->getBatchSize()) as $chunk) {
-                $callback($chunk);
-            }
-        }
     }
 
     /**
