@@ -43,6 +43,32 @@ class AbstractBulkOperationTest extends TestCase
         );
     }
 
+    public function testEachBatchGroupedBy()
+    {
+        $operations = [];
+        for ($i = 0; $i < 50; $i++) {
+            $operations['group' . ($i % 2 ? '0' : '1')][] = 'operation' . $i;
+        };
+
+        $instance = new BulkOperationMock($operations);
+        $instance->setBatchSize(10);
+
+        $count    = 0;
+        $opeCount = count($operations['group1']);
+        $tester   = $this;
+        $instance->eachBatch(
+            function ($chunck) use ($tester, $opeCount, &$count) {
+                if ($opeCount % 2 && $opeCount - $count === 1) {
+                    $tester->assertCount(1, $chunck);
+                } else {
+                    $tester->assertCount(2, $chunck);
+                    $count += 2;
+                }
+            },
+            'group1'
+        );
+    }
+
     public function testCountOperation()
     {
         $countOperation = 50;
