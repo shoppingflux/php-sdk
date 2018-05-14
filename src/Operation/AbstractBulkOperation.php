@@ -62,19 +62,36 @@ abstract class AbstractBulkOperation extends AbstractOperation
         return $this->poolSize;
     }
 
+    public function countOperation($groupedBy = null)
+    {
+        return count($this->getOperations($groupedBy));
+    }
+
     /**
      * @param callable $callback
      * @param string   $groupedBy Allow to group operations
      */
     protected function eachBatch(callable $callback, $groupedBy = null)
     {
-        $operations = $this->operations;
-        if ($groupedBy && isset($this->operations[$groupedBy])) {
-            $operations = $this->operations[$groupedBy];
-        }
-
-        foreach (array_chunk($operations, $this->batchSize) as $chunk) {
+        foreach (array_chunk($this->getOperations($groupedBy), $this->batchSize) as $chunk) {
             $callback($chunk);
         }
+    }
+
+    /**
+     * Get operation
+     *
+     * @param string $groupedBy If operation are grouped get only the group
+     *
+     * @return array
+     */
+    protected function getOperations($groupedBy = null)
+    {
+        $operations = $this->operations;
+        if ($groupedBy) {
+            $operations = isset($this->operations[$groupedBy]) ? $this->operations[$groupedBy] : [];
+        }
+
+        return (array) $operations;
     }
 }

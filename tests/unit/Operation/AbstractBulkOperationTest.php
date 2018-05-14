@@ -22,7 +22,7 @@ class AbstractBulkOperationTest extends TestCase
     public function testEachBatchCallback()
     {
         $operations = [];
-        for ($i = 0; $i <= 50; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             $operations[] = 'operation' . $i;
         };
         $instance = new BulkOperationMock($operations);
@@ -41,5 +41,17 @@ class AbstractBulkOperationTest extends TestCase
                 }
             }
         );
+    }
+
+    public function testCountOperation()
+    {
+        $countOperation = 50;
+        $operations     = [];
+        for ($i = 0; $i < $countOperation; $i++) {
+            $operations[] = 'operation' . $i;
+        };
+        $instance = new BulkOperationMock($operations);
+
+        $this->assertEquals($countOperation, $instance->countOperation());
     }
 }

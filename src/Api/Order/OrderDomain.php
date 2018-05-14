@@ -26,9 +26,12 @@ class OrderDomain extends AbstractDomainResource
      *
      * @return OrderDomain
      */
-    public function newOrderOperation()
+    public function newOperations($orderOperation = null)
     {
-        $this->orderOperations = new OrderOperation();
+        $this->orderOperations = $orderOperation;
+        if (! $this->orderOperations) {
+            $this->orderOperations = new OrderOperation();
+        }
 
         return $this;
     }
