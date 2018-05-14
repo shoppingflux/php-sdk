@@ -23,8 +23,8 @@
   },
   "scripts": {
     "test": [
-      "@php vendor/bin/phpcs --colors --report=full --standard=resources/phpcs/ruleset.xml --report-checkstyle=build/phpcs/phpcs.xml --report-emacs=build/phpcs/phpcs.log --extensions=php -p src",
-      "@php vendor/bin/phpunit --configuration=phpunit.xml --coverage-html=build/phpunit/coverage/"
+      "@php vendor/bin/phpunit --configuration=phpunit.xml --coverage-html=build/phpunit/coverage/",
+      "@php vendor/bin/phpcs --colors --report=full --standard=resources/phpcs/ruleset.xml --report-checkstyle=build/phpcs/phpcs.xml --report-emacs=build/phpcs/phpcs.log --extensions=php -p src"
     ]
   },
   "scripts-descriptions": {
