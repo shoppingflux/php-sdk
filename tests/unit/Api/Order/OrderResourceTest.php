@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Test\Order;
+namespace ShoppingFeed\Sdk\Test\Api\Order;
 
 use ShoppingFeed\Sdk;
 
@@ -75,8 +75,8 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
     public function testFalseDates()
     {
         $this->props = [
-            'updatedAt'       => false,
-            'acknowledgedAt'  => false,
+            'updatedAt'      => false,
+            'acknowledgedAt' => false,
         ];
         $this->initPropertyGetterTester();
 
@@ -89,14 +89,14 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
     public function testNullDates()
     {
         $this->props = [
-            'updatedAt'       => null,
-            'acknowledgedAt'  => null,
+            'updatedAt'      => null,
+            'acknowledgedAt' => null,
         ];
         $this->initPropertyGetterTester();
 
         $instance = new Sdk\Api\Order\OrderResource($this->propertyGetter);
 
-        $this->assertEquals(date_create_immutable('now'), $instance->getUpdateddAt());
-        $this->assertEquals(date_create_immutable('now'), $instance->getAcknowledgedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $instance->getUpdateddAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $instance->getAcknowledgedAt());
     }
 }
