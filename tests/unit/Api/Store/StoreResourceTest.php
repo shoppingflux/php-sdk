@@ -29,6 +29,7 @@ class StoreResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
     public function testGetInventory()
     {
+        /** @var Sdk\Hal\HalResource|\PHPUnit_Framework_MockObject_MockObject $halResource */
         $halResource = $this->createMock(Sdk\Hal\HalResource::class);
         $halResource
             ->expects($this->once())
@@ -40,6 +41,6 @@ class StoreResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
         $instance = new Sdk\Api\Store\StoreResource($halResource);
 
-        $this->assertInstanceOf(Sdk\Api\Catalog\InventoryDomain::class, $instance->getInventory());
+        $this->assertInstanceOf(Sdk\Api\Catalog\InventoryDomain::class, $instance->getInventoryApi());
     }
 }

@@ -42,7 +42,7 @@ class StoreResource extends AbstractResource
     /**
      * @return InventoryDomain
      */
-    public function getInventory()
+    public function getInventoryApi()
     {
         return new InventoryDomain(
             $this->resource->getLink('inventory')
@@ -52,7 +52,7 @@ class StoreResource extends AbstractResource
     /**
      * @return OrderDomain
      */
-    public function getOrder()
+    public function getOrderApi()
     {
         return new OrderDomain(
             $this->resource->getLink('order')
