@@ -51,23 +51,23 @@ foreach ($inventoryApi->getAll($page) as $inventory) {
 
 ```php
 <?php
+/** @var \ShoppingFeed\Sdk\Hal\HalLink $link */
 /** @var \ShoppingFeed\Sdk\Api\Catalog\InventoryDomain $inventoryApi */
-$operation = new InventoryUpdate();
-$operation->add('ref1', 7);
-$operation->add('ref2', 1);
-
-// Then run the operation
-$collection = $inventoryApi->execute($operation);
+$inventoryApi
+    ->newInventoryUpdate()
+    ->add('ref1', 7)
+    ->add('ref2', 1)
+    ->execute($link);
 ```
 
 The collection object holds updated resources
 
 ```php
 <?php
-/** @var \ShoppingFeed\Sdk\Api\Catalog\InventoryCollection $collection */
+/** @var \ShoppingFeed\Sdk\Api\Catalog\InventoryResource[] $collection */
 // Retrieve the content of resources
 foreach ($collection as $inventory) {
 	echo $inventory->getId() . PHP_EOL;
 	echo $inventory->getUpdatedAt()->format('c') . PHP_EOL;
-)
+}
 ```

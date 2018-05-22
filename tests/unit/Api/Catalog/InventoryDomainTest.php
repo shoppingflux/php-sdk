@@ -6,18 +6,12 @@ use ShoppingFeed\Sdk;
 
 class InventoryDomainTest extends TestCase
 {
-    public function testOperationExecution()
+    public function testNewInventoryUpdate()
     {
-        $link      = $this->createMock(Sdk\Hal\HalLink::class);
-        $operation = $this->createMock(Sdk\Api\Catalog\InventoryUpdate::class);
-        $operation
-            ->expects($this->once())
-            ->method('execute')
-            ->willReturn('OK');
-
+        $link     = $this->createMock(Sdk\Hal\HalLink::class);
         $instance = new Sdk\Api\Catalog\InventoryDomain($link);
 
-        $this->assertEquals('OK', $instance->execute($operation));
+        $this->assertInstanceOf(Sdk\Catalog\InventoryUpdate::class, $instance->newInventoryUpdate());
     }
 
     public function testGetByReference()
@@ -50,6 +44,7 @@ class InventoryDomainTest extends TestCase
 
         $this->assertInstanceOf(Sdk\Api\Catalog\InventoryResource::class, $instance->getByReference($reference));
     }
+
     public function testGetByReferenceNoInvetory()
     {
         $reference = 'abc213';
