@@ -87,11 +87,10 @@ abstract class AbstractBulkOperation extends AbstractOperation
      */
     protected function getOperations($groupedBy = null)
     {
-        $operations = $this->operations;
         if ($groupedBy) {
-            $operations = isset($this->operations[$groupedBy]) ? $this->operations[$groupedBy] : [];
+            return isset($this->operations[$groupedBy]) ? $this->operations[$groupedBy] : [];
         }
 
-        return (array) $operations;
+        return (array) $this->operations;
     }
 }

@@ -43,30 +43,30 @@ class AbstractBulkOperationTest extends TestCase
         );
     }
 
+    /**
+     * Test that the batch creation group only handle the requested group
+     */
     public function testEachBatchGroupedBy()
     {
+        // Create 2 groups of operations : pair > group0 and odd > group1
         $operations = [];
-        for ($i = 0; $i < 50; $i++) {
-            $operations['group' . ($i % 2 ? '0' : '1')][] = 'operation' . $i;
+        for ($i = 0; $i < 100; $i++) {
+            $operations['group' . ($i % 2 ? '1' : '0')][] = 'operation' . $i;
         };
 
         $instance = new BulkOperationMock($operations);
         $instance->setBatchSize(10);
 
         $count    = 0;
-        $opeCount = count($operations['group1']);
-        $tester   = $this;
         $instance->eachBatch(
-            function ($chunck) use ($tester, $opeCount, &$count) {
-                if ($opeCount % 2 && $opeCount - $count === 1) {
-                    $tester->assertCount(1, $chunck);
-                } else {
-                    $tester->assertCount(2, $chunck);
-                    $count += 2;
-                }
+            function ($chunk) use (&$count) {
+                $count += count($chunk);
             },
             'group1'
         );
+
+        // Assert that the sum of all chuncks = number of operation in group1
+        $this->assertEquals(count($operations['group1']), $count);
     }
 
     public function testCountOperation()
