@@ -44,6 +44,132 @@ class OrderOperationTest extends TestCase
     /**
      * @throws \Exception
      */
+    public function testAcceptOperation()
+    {
+        $instance = $this
+            ->getMockBuilder(Sdk\Order\OrderOperation::class)
+            ->setMethods(['addOperation'])
+            ->getMock();
+
+        $instance
+            ->expects($this->once())
+            ->method('addOperation')
+            ->with(
+                'ref1',
+                'amazon',
+                Sdk\Order\OrderOperation::TYPE_ACCEPT,
+                ['reason' => 'noreason']
+            );
+
+        $this->assertInstanceOf(
+            Sdk\Order\OrderOperation::class,
+            $instance->accept(
+                'ref1',
+                'amazon',
+                'noreason'
+            )
+        );
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testCancelOperation()
+    {
+        $instance = $this
+            ->getMockBuilder(Sdk\Order\OrderOperation::class)
+            ->setMethods(['addOperation'])
+            ->getMock();
+
+        $instance
+            ->expects($this->once())
+            ->method('addOperation')
+            ->with(
+                'ref1',
+                'amazon',
+                Sdk\Order\OrderOperation::TYPE_CANCEL,
+                ['reason' => 'noreason']
+            );
+
+        $this->assertInstanceOf(
+            Sdk\Order\OrderOperation::class,
+            $instance->cancel(
+                'ref1',
+                'amazon',
+                'noreason'
+            )
+        );
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testRefuseOperation()
+    {
+        $instance = $this
+            ->getMockBuilder(Sdk\Order\OrderOperation::class)
+            ->setMethods(['addOperation'])
+            ->getMock();
+
+        $instance
+            ->expects($this->once())
+            ->method('addOperation')
+            ->with(
+                'ref1',
+                'amazon',
+                Sdk\Order\OrderOperation::TYPE_REFUSE,
+                ['refund' => ['item1', 'item2']]
+            );
+
+        $this->assertInstanceOf(
+            Sdk\Order\OrderOperation::class,
+            $instance->refuse(
+                'ref1',
+                'amazon',
+                ['item1', 'item2']
+            )
+        );
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testShipOperation()
+    {
+        $instance = $this
+            ->getMockBuilder(Sdk\Order\OrderOperation::class)
+            ->setMethods(['addOperation'])
+            ->getMock();
+
+        $instance
+            ->expects($this->once())
+            ->method('addOperation')
+            ->with(
+                'ref1',
+                'amazon',
+                Sdk\Order\OrderOperation::TYPE_SHIP,
+                [
+                    'carrier'        => 'ups',
+                    'trackingNumber' => '123654abc',
+                    'trackingLink'   => 'http://tracking.lnk',
+                ]
+            );
+
+        $this->assertInstanceOf(
+            Sdk\Order\OrderOperation::class,
+            $instance->ship(
+                'ref1',
+                'amazon',
+                'ups',
+                '123654abc',
+                'http://tracking.lnk'
+            )
+        );
+    }
+
+    /**
+     * @throws \Exception
+     */
     public function testAddWrongOperation()
     {
         $orderOperation = new Sdk\Order\OrderOperation();

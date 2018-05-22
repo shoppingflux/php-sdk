@@ -174,7 +174,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @throws \UnexpectedValueException
      */
-    private function addOperation($reference, $channelName, $type, $data = [])
+    public function addOperation($reference, $channelName, $type, $data = [])
     {
         if (! in_array($type, $this->allowedOperationTypes)) {
             throw new \UnexpectedValueException(sprintf(
