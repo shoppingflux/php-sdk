@@ -87,4 +87,12 @@ abstract class AbstractDomainResource
             $this->resourceClass
         );
     }
+
+    /**
+     * @return Hal\HalLink
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
 }

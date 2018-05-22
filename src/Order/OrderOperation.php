@@ -1,11 +1,11 @@
 <?php
 namespace ShoppingFeed\Sdk\Order;
 
-use ShoppingFeed\Sdk\Api\Order\OrderCollection;
+use ShoppingFeed\Sdk\Api;
 use ShoppingFeed\Sdk\Hal;
-use ShoppingFeed\Sdk\Operation\AbstractBulkOperation;
+use ShoppingFeed\Sdk\Operation;
 
-class OrderOperation extends AbstractBulkOperation
+class OrderOperation extends Operation\AbstractBulkOperation
 {
     /**
      * Operation types
@@ -30,12 +30,107 @@ class OrderOperation extends AbstractBulkOperation
      */
     protected $operations = [];
 
+
+    /**
+     * Notify market place of order acceptance
+     *
+     * @param string $reference   Order reference
+     * @param string $channelName Channel to notify
+     * @param string $reason      Optional reason of acceptance
+     *
+     * @return OrderOperation
+     *
+     * @throws \UnexpectedValueException
+     */
+    public function accept($reference, $channelName, $reason = '')
+    {
+        $this->addOperation(
+            $reference,
+            $channelName,
+            OrderOperation::TYPE_ACCEPT,
+            compact('reason')
+        );
+
+        return $this;
+    }
+
+    /**
+     * Notify market place of order cancellation
+     *
+     * @param string $reference   Order reference
+     * @param string $channelName Channel to notify
+     * @param string $reason      Optional reason of cancellation
+     *
+     * @return OrderOperation
+     *
+     * @throws \UnexpectedValueException
+     */
+    public function cancel($reference, $channelName, $reason = '')
+    {
+        $this->addOperation(
+            $reference,
+            $channelName,
+            OrderOperation::TYPE_CANCEL,
+            compact('reason')
+        );
+
+        return $this;
+    }
+
+    /**
+     * Notify market place of order shipment sent
+     *
+     * @param string $reference      Order reference
+     * @param string $channelName    Channel to notify
+     * @param string $carrier        Optional carrier name
+     * @param string $trackingNumber Optional tracking number
+     * @param string $trackingLink   Optional tracking link
+     *
+     * @return OrderOperation
+     *
+     * @throws \UnexpectedValueException
+     */
+    public function ship($reference, $channelName, $carrier = '', $trackingNumber = '', $trackingLink = '')
+    {
+        $this->addOperation(
+            $reference,
+            $channelName,
+            OrderOperation::TYPE_SHIP,
+            compact('carrier', 'trackingNumber', 'trackingLink')
+        );
+
+        return $this;
+    }
+
+    /**
+     * Notify market place of order refusal
+     *
+     * @param string $reference Order reference
+     * @param string $channelName    Channel to notify
+     * @param array  $refund    Order item reference that will be refunded
+     *
+     * @return OrderOperation
+     *
+     * @throws \UnexpectedValueException
+     */
+    public function refuse($reference, $channelName, $refund = [])
+    {
+        $this->addOperation(
+            $reference,
+            $channelName,
+            OrderOperation::TYPE_REFUSE,
+            compact('refund')
+        );
+
+        return $this;
+    }
+
     /**
      * Execute all declared operations
      *
      * @param Hal\HalLink $link
      *
-     * @return mixed|OrderCollection
+     * @return mixed|Api\Order\OrderCollection
      */
     public function execute(Hal\HalLink $link)
     {
@@ -66,7 +161,7 @@ class OrderOperation extends AbstractBulkOperation
             $this->getPoolSize()
         );
 
-        return new OrderCollection($resources);
+        return new Api\Order\OrderCollection($resources);
     }
 
     /**
@@ -77,12 +172,12 @@ class OrderOperation extends AbstractBulkOperation
      * @param string $type        Type of operation
      * @param array  $data        Extra data to pass to operation call
      *
-     * @throws \Exception
+     * @throws \UnexpectedValueException
      */
-    public function addOperation($reference, $channelName, $type, $data = [])
+    private function addOperation($reference, $channelName, $type, $data = [])
     {
         if (! in_array($type, $this->allowedOperationTypes)) {
-            throw new \Exception(sprintf(
+            throw new \UnexpectedValueException(sprintf(
                 'Only %s operations are accepted',
                 implode(', ', $this->allowedOperationTypes)
             ));

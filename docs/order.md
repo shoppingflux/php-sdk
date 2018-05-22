@@ -21,7 +21,7 @@ $orderApi
     ->refuse('ref4', 'amazon')
     ->ship('ref5', 'amazon')
     ->cancel('ref1', 'amazon')
-    ->execute();
+    ->execute($orderApi->getLink());
 ```
 
 ### Accept
@@ -39,7 +39,7 @@ $orderApi
     ->newOperations()
     ->accept('ref1', 'amazon')
     ->accept('ref2', 'amazon', 'Why we accept it')
-    ->execute();
+    ->execute($orderApi->getLink());
 ```
 
 ### Cancel
@@ -57,7 +57,7 @@ $orderApi
     ->newOperations()
     ->cancel('ref1', 'amazon')
     ->cancel('ref2', 'amazon', 'Why we accept it')
-    ->execute();
+    ->execute($orderApi->getLink());
 ```
 
 ### Refuse
@@ -75,7 +75,7 @@ $orderApi
     ->newOperations()
     ->refuse('ref1', 'amazon')
     ->refuse('ref2', 'amazon', ['itemref1', 'itemref2'])
-    ->execute();
+    ->execute($orderApi->getLink());
 ```
 
 ### Ship
@@ -95,5 +95,5 @@ $orderApi
     ->newOperations()
     ->ship('ref1', 'amazon')
     ->ship('ref2', 'amazon', 'ups', '123456789abcdefg', 'http://tracking.url/')
-    ->execute();
+    ->execute($orderApi->getLink());
 ```
