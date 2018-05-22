@@ -174,7 +174,7 @@ class OrderOperationTest extends TestCase
     {
         $orderOperation = new Sdk\Order\OrderOperation();
 
-        $this->expectException(\Exception::class);
+        $this->expectException(Sdk\Order\UnexpectedTypeException::class);
 
         $orderOperation->addOperation(
             'ref',

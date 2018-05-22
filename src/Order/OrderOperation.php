@@ -40,7 +40,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @return OrderOperation
      *
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedTypeException
      */
     public function accept($reference, $channelName, $reason = '')
     {
@@ -63,7 +63,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @return OrderOperation
      *
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedTypeException
      */
     public function cancel($reference, $channelName, $reason = '')
     {
@@ -88,7 +88,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @return OrderOperation
      *
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedTypeException
      */
     public function ship($reference, $channelName, $carrier = '', $trackingNumber = '', $trackingLink = '')
     {
@@ -111,7 +111,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @return OrderOperation
      *
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedTypeException
      */
     public function refuse($reference, $channelName, $refund = [])
     {
@@ -172,12 +172,12 @@ class OrderOperation extends Operation\AbstractBulkOperation
      * @param string $type        Type of operation
      * @param array  $data        Extra data to pass to operation call
      *
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedTypeException
      */
     public function addOperation($reference, $channelName, $type, $data = [])
     {
         if (! in_array($type, $this->allowedOperationTypes)) {
-            throw new \UnexpectedValueException(sprintf(
+            throw new UnexpectedTypeException(sprintf(
                 'Only %s operations are accepted',
                 implode(', ', $this->allowedOperationTypes)
             ));
