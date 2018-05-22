@@ -38,26 +38,26 @@ class OrderResource extends AbstractResource
     }
 
     /**
-     * @return false|\DateTimeImmutable
+     * @return null|\DateTimeImmutable
      */
     public function getAcknowledgedAt()
     {
         $dateValue = $this->getProperty('acknowledgedAt');
         if (false === $dateValue) {
-            return false;
+            return null;
         }
 
         return date_create_immutable(is_null($dateValue) ? 'now' : $dateValue);
     }
 
     /**
-     * @return false|\DateTimeImmutable
+     * @return null|\DateTimeImmutable
      */
     public function getUpdateddAt()
     {
         $dateValue = $this->getProperty('updatedAt');
         if (false === $dateValue) {
-            return false;
+            return null;
         }
 
         return date_create_immutable(is_null($dateValue) ? 'now' : $dateValue);

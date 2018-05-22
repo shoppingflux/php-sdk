@@ -82,8 +82,8 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
         $instance = new Sdk\Api\Order\OrderResource($this->propertyGetter);
 
-        $this->assertFalse($instance->getUpdateddAt());
-        $this->assertFalse($instance->getAcknowledgedAt());
+        $this->assertNull($instance->getUpdateddAt());
+        $this->assertNull($instance->getAcknowledgedAt());
     }
 
     public function testNullDates()
