@@ -35,12 +35,4 @@ class InventoryDomain extends AbstractDomainResource
 
         return null;
     }
-
-    /**
-     * @return Catalog\InventoryUpdate
-     */
-    public function newInventoryUpdate()
-    {
-        return new Catalog\InventoryUpdate();
-    }
 }

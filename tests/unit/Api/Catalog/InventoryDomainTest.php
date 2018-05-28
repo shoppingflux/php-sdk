@@ -6,14 +6,6 @@ use ShoppingFeed\Sdk;
 
 class InventoryDomainTest extends TestCase
 {
-    public function testNewInventoryUpdate()
-    {
-        $link     = $this->createMock(Sdk\Hal\HalLink::class);
-        $instance = new Sdk\Api\Catalog\InventoryDomain($link);
-
-        $this->assertInstanceOf(Sdk\Catalog\InventoryUpdate::class, $instance->newInventoryUpdate());
-    }
-
     public function testGetByReference()
     {
         $reference = 'abc213';
