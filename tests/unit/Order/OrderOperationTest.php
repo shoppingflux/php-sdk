@@ -305,7 +305,7 @@ class OrderOperationTest extends TestCase
 
 
         $this->assertInstanceOf(
-            Sdk\Api\Operation\TicketCollection::class,
+            Sdk\Api\Task\TicketCollection::class,
             $instance->execute($link)
         );
     }

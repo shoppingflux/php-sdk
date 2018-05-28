@@ -25,7 +25,7 @@ $operations
 ```
 
 Operations will always be accepted as they are treated asynchronously.  
-You will be getting a ticket for each operation which will allow to follow up running operations.
+You will be getting a ticket for a batch of operations.
 
 ### Accept
 

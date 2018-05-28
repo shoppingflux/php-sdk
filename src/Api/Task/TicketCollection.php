@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Api\Operation;
+namespace ShoppingFeed\Sdk\Api\Task;
 
 use ShoppingFeed\Sdk\Resource\AbstractCollection;
 

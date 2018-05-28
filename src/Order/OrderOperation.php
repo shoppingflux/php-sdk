@@ -186,7 +186,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @param Hal\HalLink $link
      *
-     * @return mixed|Api\Operation\TicketCollection
+     * @return mixed|Api\Task\TicketCollection
      */
     public function execute(Hal\HalLink $link)
     {
@@ -217,7 +217,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
             $this->getPoolSize()
         );
 
-        return new Api\Operation\TicketCollection($resources);
+        return new Api\Task\TicketCollection($resources);
     }
 
     /**
