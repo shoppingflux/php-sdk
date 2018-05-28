@@ -115,9 +115,9 @@ Example :
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
 $operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
 $operations
-    ->acknowledge('reference1', 'amazon', 'success', 'sotre-reference')
-    ->acknowledge('reference1', 'amazon', 'error', 'sotre-reference')
-    ->acknowledge('reference1', 'amazon', 'error', 'sotre-reference', 'Order well acknowledged')
+    ->acknowledge('reference1', 'amazon', 'success', 'store-reference')
+    ->acknowledge('reference1', 'amazon', 'error', 'store-reference')
+    ->acknowledge('reference1', 'amazon', 'error', 'store-reference', 'Order well acknowledged')
     ->execute($orderApi->getLink());
 ```
 
@@ -136,8 +136,8 @@ Example :
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
 $operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
 $operations
-    ->unacknowledge('reference1', 'amazon', 'success', 'sotre-reference')
-    ->unacknowledge('reference1', 'amazon', 'error', 'sotre-reference')
-    ->unacknowledge('reference1', 'amazon', 'error', 'sotre-reference', 'Order well unacknowledged')
+    ->unacknowledge('reference1', 'amazon', 'success', 'store-reference')
+    ->unacknowledge('reference1', 'amazon', 'error', 'store-reference')
+    ->unacknowledge('reference1', 'amazon', 'error', 'store-reference', 'Order well unacknowledged')
     ->execute($orderApi->getLink());
 ```
