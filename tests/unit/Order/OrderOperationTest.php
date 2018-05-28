@@ -299,7 +299,7 @@ class OrderOperationTest extends TestCase
 
 
         $this->assertInstanceOf(
-            Sdk\Api\Order\OrderCollection::class,
+            Sdk\Api\Operation\TicketCollection::class,
             $instance->execute($link)
         );
     }
