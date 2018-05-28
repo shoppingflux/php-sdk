@@ -151,4 +151,12 @@ class AbstractDomainResourceTest extends TestCase
 
         return $resource;
     }
+
+    public function testGetLink()
+    {
+        $link     = $this->createMock(HalLink::class);
+        $instance = new DomainResourceMock($link);
+
+        $this->assertSame($link, $instance->getLink());
+    }
 }

@@ -130,6 +130,58 @@ class OrderOperation extends Operation\AbstractBulkOperation
     }
 
     /**
+     * Acknowledge order reception
+     *
+     * @param string $reference
+     * @param string $channelName
+     * @param string $status
+     * @param string $storeReference
+     * @param string $message
+     *
+     * @return OrderOperation
+     *
+     * @throws \Exception
+     */
+    public function acknowledge($reference, $channelName, $status, $storeReference, $message = '')
+    {
+        $acknowledgedAt = new \DateTimeImmutable('now');
+        $this->addOperation(
+            $reference,
+            $channelName,
+            OrderOperation::TYPE_ACKNOWLEDGE,
+            compact('status', 'storeReference', 'acknowledgedAt', 'message')
+        );
+
+        return $this;
+    }
+
+    /**
+     * Unacknowledge order reception
+     *
+     * @param string $reference
+     * @param string $channelName
+     * @param string $status
+     * @param string $storeReference
+     * @param string $message
+     *
+     * @return OrderOperation
+     *
+     * @throws \Exception
+     */
+    public function unacknowledge($reference, $channelName, $status, $storeReference, $message = '')
+    {
+        $acknowledgedAt = new \DateTimeImmutable('now');
+        $this->addOperation(
+            $reference,
+            $channelName,
+            OrderOperation::TYPE_UNACKNOWLEDGE,
+            compact('status', 'storeReference', 'acknowledgedAt', 'message')
+        );
+
+        return $this;
+    }
+
+    /**
      * Execute all declared operations
      *
      * @param Hal\HalLink $link
