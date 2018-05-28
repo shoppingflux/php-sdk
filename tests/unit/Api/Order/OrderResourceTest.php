@@ -72,20 +72,6 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $this->assertEquals(date_create_immutable($this->props['acknowledgedAt']), $instance->getAcknowledgedAt());
     }
 
-    public function testFalseDates()
-    {
-        $this->props = [
-            'updatedAt'      => false,
-            'acknowledgedAt' => false,
-        ];
-        $this->initPropertyGetterTester();
-
-        $instance = new Sdk\Api\Order\OrderResource($this->propertyGetter);
-
-        $this->assertNull($instance->getUpdateddAt());
-        $this->assertNull($instance->getAcknowledgedAt());
-    }
-
     public function testNullDates()
     {
         $this->props = [
