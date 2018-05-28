@@ -1,7 +1,6 @@
 FROM php:5.6-cli-alpine
 
 ARG MOUNTPOINT=/var/www
-ARG PHPUNIT_VERSION=5
 ARG COMPOSER_BIN_DIR=/usr/local/bin
 
 RUN apk add --update \
