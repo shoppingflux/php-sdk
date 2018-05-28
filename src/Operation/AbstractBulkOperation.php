@@ -69,11 +69,11 @@ abstract class AbstractBulkOperation extends AbstractOperation
 
     /**
      * @param callable $callback
-     * @param string   $groupedBy Allow to group operations
+     * @param string   $filter Allow to filter operations
      */
-    protected function eachBatch(callable $callback, $groupedBy = null)
+    protected function eachBatch(callable $callback, $filter = null)
     {
-        foreach (array_chunk($this->getOperations($groupedBy), $this->batchSize) as $chunk) {
+        foreach (array_chunk($this->getOperations($filter), $this->batchSize) as $chunk) {
             $callback($chunk);
         }
     }
@@ -81,14 +81,14 @@ abstract class AbstractBulkOperation extends AbstractOperation
     /**
      * Get operation
      *
-     * @param string $groupedBy If operation are grouped get only the group
+     * @param string $filter If operation are grouped get only the group
      *
      * @return array
      */
-    protected function getOperations($groupedBy = null)
+    protected function getOperations($filter = null)
     {
-        if ($groupedBy) {
-            return isset($this->operations[$groupedBy]) ? $this->operations[$groupedBy] : [];
+        if ($filter) {
+            return isset($this->operations[$filter]) ? $this->operations[$filter] : [];
         }
 
         return (array) $this->operations;
