@@ -15,8 +15,8 @@ From order API you can then access all available operation :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$orderApi
-    ->newOperations()
+$operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$operations
     ->accept('ref3', 'amazon')
     ->refuse('ref4', 'amazon')
     ->ship('ref5', 'amazon')
@@ -35,8 +35,8 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$orderApi
-    ->newOperations()
+$operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$operations
     ->accept('ref1', 'amazon')
     ->accept('ref2', 'amazon', 'Why we accept it')
     ->execute($orderApi->getLink());
@@ -53,8 +53,8 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$orderApi
-    ->newOperations()
+$operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$operations
     ->cancel('ref1', 'amazon')
     ->cancel('ref2', 'amazon', 'Why we accept it')
     ->execute($orderApi->getLink());
@@ -71,8 +71,8 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$orderApi
-    ->newOperations()
+$operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$operations
     ->refuse('ref1', 'amazon')
     ->refuse('ref2', 'amazon', ['itemref1', 'itemref2'])
     ->execute($orderApi->getLink());
@@ -91,8 +91,8 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$orderApi
-    ->newOperations()
+$operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$operations
     ->ship('ref1', 'amazon')
     ->ship('ref2', 'amazon', 'ups', '123456789abcdefg', 'http://tracking.url/')
     ->execute($orderApi->getLink());

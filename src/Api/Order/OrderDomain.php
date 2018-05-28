@@ -15,14 +15,4 @@ class OrderDomain extends AbstractDomainResource
      * @var string
      */
     protected $resourceClass = ApiOrder\OrderResource::class;
-
-    /**
-     * Init new order operation queue
-     *
-     * @return OrderOperation
-     */
-    public function newOperations()
-    {
-        return new OrderOperation();
-    }
 }
