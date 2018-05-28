@@ -24,6 +24,9 @@ $operations
     ->execute($orderApi->getLink());
 ```
 
+Operations will always be accepted as they are treated asynchronously.  
+You will be getting a ticket for each operation which will allow to follow up running operations.
+
 ### Accept
 
 The accept operation accept 3 parameters :
