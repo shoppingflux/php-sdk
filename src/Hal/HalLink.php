@@ -2,6 +2,7 @@
 namespace ShoppingFeed\Sdk\Hal;
 
 use GuzzleHttp\Exception\RequestException;
+use function GuzzleHttp\Psr7\build_query;
 use GuzzleHttp\UriTemplate;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -42,6 +43,11 @@ class HalLink
      * @var HalClient
      */
     private $client;
+
+    /**
+     * @var array
+     */
+    private $filters;
 
     /**
      * @param HalClient $client
@@ -115,14 +121,14 @@ class HalLink
     public function getUri(array $variables)
     {
         if (! $this->isTemplated()) {
-            return $this->getHref();
+            return $this->appendFilters($this->getHref());
         }
 
         if (null === static::$uriTemplate) {
             static::$uriTemplate = new UriTemplate();
         }
 
-        return static::$uriTemplate->expand($this->getHref(), $variables);
+        return $this->appendFilters(static::$uriTemplate->expand($this->getHref(), $variables));
     }
 
     /**
@@ -262,6 +268,23 @@ class HalLink
         }
 
         return $this->client->createRequest($method, $uri, $headers, $body);
+    }
+
+    public function setFilters($filters)
+    {
+        $this->filters = $filters;
+    }
+
+    /**
+     * Append filters at the end of the given URL
+     *
+     * @param string $link
+     *
+     * @return string
+     */
+    private function appendFilters($link)
+    {
+        return $link . '?' . http_build_query($this->filters);
     }
 
     /**

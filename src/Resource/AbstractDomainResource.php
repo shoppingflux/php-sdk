@@ -18,6 +18,11 @@ abstract class AbstractDomainResource
     protected $resourceClass = '';
 
     /**
+     * @var array
+     */
+    protected $filters = [];
+
+    /**
      * @param Hal\HalLink $link
      */
     public function __construct(Hal\HalLink $link)
@@ -52,6 +57,19 @@ abstract class AbstractDomainResource
     }
 
     /**
+     * @param array $filters
+     */
+    public function addListFilters($filters)
+    {
+        $this->filters = array_merge($this->filters, $filters);
+    }
+
+    public function resetListFilters()
+    {
+        $this->filters = [];
+    }
+
+    /**
      * @param int $fromPage
      * @param int $perPage
      *
@@ -74,6 +92,7 @@ abstract class AbstractDomainResource
      */
     private function createPaginator($page = 1, $limit = self::PER_PAGE)
     {
+        $this->link->setFilters($this->filters);
         $resource = $this->link->get([], [
             'query' => array_map('intval', compact('page', 'limit'))
         ]);
