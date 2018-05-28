@@ -89,6 +89,8 @@ abstract class AbstractDomainResource
     }
 
     /**
+     * Get link used by this domain resource
+     *
      * @return Hal\HalLink
      */
     public function getLink()

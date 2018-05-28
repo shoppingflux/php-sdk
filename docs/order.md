@@ -97,3 +97,44 @@ $operations
     ->ship('ref2', 'amazon', 'ups', '123456789abcdefg', 'http://tracking.url/')
     ->execute($orderApi->getLink());
 ```
+### Acknowledge
+
+To acknowledge the good reception of order :
+1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
+2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
+3. [mandatory] `$status` : Status of acknowledgment (eq: 'success') 
+4. [mandatory] `$storeReference` : Store reference (eq: 'store-reference') 
+5. [optional] `$message` : Acknowledge message  (eq: 'Order well acknowledge') 
+
+Example :
+```php
+<?php
+/** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
+$operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$operations
+    ->acknowledge('reference1', 'amazon', 'success', 'sotre-reference')
+    ->acknowledge('reference1', 'amazon', 'error', 'sotre-reference')
+    ->acknowledge('reference1', 'amazon', 'error', 'sotre-reference', 'Order well acknowledged')
+    ->execute($orderApi->getLink());
+```
+
+### Unacknowledge
+
+To unacknowledge the good reception of order :
+1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
+2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
+3. [mandatory] `$status` : Status of unacknowledgment (eq: 'success') 
+4. [mandatory] `$storeReference` : Store reference (eq: 'store-reference') 
+5. [optional] `$message` : Unacknowledge message  (eq: 'Order well unacknowledge') 
+
+Example :
+```php
+<?php
+/** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
+$operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$operations
+    ->unacknowledge('reference1', 'amazon', 'success', 'sotre-reference')
+    ->unacknowledge('reference1', 'amazon', 'error', 'sotre-reference')
+    ->unacknowledge('reference1', 'amazon', 'error', 'sotre-reference', 'Order well unacknowledged')
+    ->execute($orderApi->getLink());
+```
