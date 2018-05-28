@@ -172,6 +172,14 @@ class OrderOperationTest extends TestCase
      */
     public function testAcknowledgeOperation()
     {
+        $data = [
+            'ref1',
+            'amazon',
+            'success',
+            '123654abc',
+            'Acknowledged'
+        ];
+
         $instance = $this
             ->getMockBuilder(Sdk\Order\OrderOperation::class)
             ->setMethods(['addOperation'])
@@ -184,23 +192,19 @@ class OrderOperationTest extends TestCase
                 'ref1',
                 'amazon',
                 Sdk\Order\OrderOperation::TYPE_ACKNOWLEDGE,
-                [
-                    'status'         => 'success',
-                    'storeReference' => '123654abc',
-                    'message'        => 'Acknowledged',
-                    'acknowledgedAt' => date_create_immutable(),
-                ]
+                new \PHPUnit_Framework_Constraint_Callback(
+                    function ($param) use ($data) {
+                        return $param['status'] === $data[2]
+                               && $param['storeReference'] === $data[3]
+                               && $param['message'] === $data[4]
+                               && $param['acknowledgedAt'] instanceof \DateTimeImmutable;
+                    }
+                )
             );
 
         $this->assertInstanceOf(
             Sdk\Order\OrderOperation::class,
-            $instance->acknowledge(
-                'ref1',
-                'amazon',
-                'success',
-                '123654abc',
-                'Acknowledged'
-            )
+            $instance->acknowledge(...$data)
         );
     }
 
@@ -209,7 +213,13 @@ class OrderOperationTest extends TestCase
      */
     public function testUnacknowledgeOperation()
     {
-
+        $data     = [
+            'ref2',
+            'amazon2',
+            'success2',
+            '123654abcd',
+            'Unacknowledged',
+        ];
         $instance = $this
             ->getMockBuilder(Sdk\Order\OrderOperation::class)
             ->setMethods(['addOperation'])
@@ -222,23 +232,19 @@ class OrderOperationTest extends TestCase
                 'ref2',
                 'amazon2',
                 Sdk\Order\OrderOperation::TYPE_UNACKNOWLEDGE,
-                [
-                    'status'         => 'success2',
-                    'storeReference' => '123654abcd',
-                    'message'        => 'Unacknowledged',
-                    'acknowledgedAt' => date_create_immutable(),
-                ]
+                new \PHPUnit_Framework_Constraint_Callback(
+                    function ($param) use ($data) {
+                        return $param['status'] === $data[2]
+                               && $param['storeReference'] === $data[3]
+                               && $param['message'] === $data[4]
+                               && $param['acknowledgedAt'] instanceof \DateTimeImmutable;
+                    }
+                )
             );
 
         $this->assertInstanceOf(
             Sdk\Order\OrderOperation::class,
-            $instance->unacknowledge(
-                'ref2',
-                'amazon2',
-                'success2',
-                '123654abcd',
-                'Unacknowledged'
-            )
+            $instance->unacknowledge(...$data)
         );
     }
 
