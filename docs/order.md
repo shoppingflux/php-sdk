@@ -15,8 +15,8 @@ From order API you can then access all available operation :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
-$operations
+$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation
     ->accept('ref3', 'amazon')
     ->refuse('ref4', 'amazon')
     ->ship('ref5', 'amazon')
@@ -38,8 +38,8 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
-$operations
+$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation
     ->accept('ref1', 'amazon')
     ->accept('ref2', 'amazon', 'Why we accept it')
     ->execute($orderApi->getLink());
@@ -56,8 +56,8 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
-$operations
+$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation
     ->cancel('ref1', 'amazon')
     ->cancel('ref2', 'amazon', 'Why we accept it')
     ->execute($orderApi->getLink());
@@ -74,8 +74,8 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
-$operations
+$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation
     ->refuse('ref1', 'amazon')
     ->refuse('ref2', 'amazon', ['itemref1', 'itemref2'])
     ->execute($orderApi->getLink());
@@ -94,8 +94,8 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
-$operations
+$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation
     ->ship('ref1', 'amazon')
     ->ship('ref2', 'amazon', 'ups', '123456789abcdefg', 'http://tracking.url/')
     ->execute($orderApi->getLink());
@@ -113,8 +113,8 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
-$operations
+$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation
     ->acknowledge('reference1', 'amazon', 'success', 'store-reference')
     ->acknowledge('reference1', 'amazon', 'error', 'store-reference')
     ->acknowledge('reference1', 'amazon', 'error', 'store-reference', 'Order well acknowledged')
@@ -134,8 +134,8 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$operations = new \ShoppingFeed\Sdk\Order\OrderOperation();
-$operations
+$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation
     ->unacknowledge('reference1', 'amazon', 'success', 'store-reference')
     ->unacknowledge('reference1', 'amazon', 'error', 'store-reference')
     ->unacknowledge('reference1', 'amazon', 'error', 'store-reference', 'Order well unacknowledged')
