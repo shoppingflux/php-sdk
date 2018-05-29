@@ -1,9 +1,11 @@
 <?php
 namespace ShoppingFeed\Sdk\Order;
 
+use GuzzleHttp\Psr7\Request;
 use ShoppingFeed\Sdk\Api;
 use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Operation;
+use ShoppingFeed\Sdk\Order;
 
 class OrderOperation extends Operation\AbstractBulkOperation
 {
@@ -44,7 +46,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @return OrderOperation
      *
-     * @throws UnexpectedTypeException
+     * @throws Order\Exception\UnexpectedTypeException
      */
     public function accept($reference, $channelName, $reason = '')
     {
@@ -67,7 +69,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @return OrderOperation
      *
-     * @throws UnexpectedTypeException
+     * @throws Order\Exception\UnexpectedTypeException
      */
     public function cancel($reference, $channelName, $reason = '')
     {
@@ -92,7 +94,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @return OrderOperation
      *
-     * @throws UnexpectedTypeException
+     * @throws Order\Exception\UnexpectedTypeException
      */
     public function ship($reference, $channelName, $carrier = '', $trackingNumber = '', $trackingLink = '')
     {
@@ -109,13 +111,13 @@ class OrderOperation extends Operation\AbstractBulkOperation
     /**
      * Notify market place of order refusal
      *
-     * @param string $reference Order reference
-     * @param string $channelName    Channel to notify
-     * @param array  $refund    Order item reference that will be refunded
+     * @param string $reference   Order reference
+     * @param string $channelName Channel to notify
+     * @param array  $refund      Order item reference that will be refunded
      *
      * @return OrderOperation
      *
-     * @throws UnexpectedTypeException
+     * @throws Order\Exception\UnexpectedTypeException
      */
     public function refuse($reference, $channelName, $refund = [])
     {
@@ -140,6 +142,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @return OrderOperation
      *
+     * @throws Exception\UnexpectedTypeException
      * @throws \Exception
      */
     public function acknowledge($reference, $channelName, $status, $storeReference, $message = '')
@@ -166,6 +169,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @return OrderOperation
      *
+     * @throws Exception\UnexpectedTypeException
      * @throws \Exception
      */
     public function unacknowledge($reference, $channelName, $status, $storeReference, $message = '')
@@ -186,7 +190,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @param Hal\HalLink $link
      *
-     * @return mixed|Api\Task\TicketCollection
+     * @return Api\Order\OrderTicketCollection
      */
     public function execute(Hal\HalLink $link)
     {
@@ -206,18 +210,60 @@ class OrderOperation extends Operation\AbstractBulkOperation
         }
 
         // Send requests
-        $resources = [];
+        $ticketReferences = [];
+        $resources        = [];
+        $requestIndex     = 0;
         $link->batchSend(
             $requests,
-            function (Hal\HalResource $resource) use (&$resources) {
-                array_push($resources, ...$resource->getResources('order'));
+            function (Hal\HalResource $resource) use (&$resources, &$ticketReferences, &$requestIndex, $requests) {
+                $this->associateTicketWithReference(
+                    $resource,
+                    $requests[$requestIndex],
+                    $ticketReferences
+                );
+
+                array_push($resources, $resource);
+                $requestIndex++;
             },
             null,
             [],
             $this->getPoolSize()
         );
 
-        return new Api\Task\TicketCollection($resources);
+        $tickets = new Api\Order\OrderTicketCollection($resources);
+        $tickets->setTicketReferences($ticketReferences);
+
+        return $tickets;
+    }
+
+    /**
+     * Extract association between order references, operation and ticket
+     *
+     * @param Hal\HalResource $resource
+     * @param Request         $request
+     * @param                 $ticketReferences
+     */
+    public function associateTicketWithReference(
+        Hal\HalResource $resource,
+        Request $request,
+        &$ticketReferences
+    )
+    {
+        $ticketId  = $resource->getProperty('id');
+        $orders    = json_decode($request->getBody())->order;
+        $uri       = $request->getUri()->getPath();
+        $operation = substr($uri, strrpos($uri, '/') + 1);
+
+        // Extract reference > ticket association
+        foreach ($orders as $order) {
+            if (! isset($ticketReferences[$operation])) {
+                $ticketReferences[$operation][$ticketId] = [];
+            }
+
+            if (! in_array($order->reference, $ticketReferences[$operation][$ticketId])) {
+                $ticketReferences[$operation][$ticketId][] = $order->reference;
+            }
+        }
     }
 
     /**
@@ -228,12 +274,12 @@ class OrderOperation extends Operation\AbstractBulkOperation
      * @param string $type        Type of operation
      * @param array  $data        Extra data to pass to operation call
      *
-     * @throws UnexpectedTypeException
+     * @throws Order\Exception\UnexpectedTypeException
      */
     public function addOperation($reference, $channelName, $type, $data = [])
     {
         if (! in_array($type, $this->allowedOperationTypes)) {
-            throw new UnexpectedTypeException(sprintf(
+            throw new Order\Exception\UnexpectedTypeException(sprintf(
                 'Only %s operations are accepted',
                 implode(', ', $this->allowedOperationTypes)
             ));

@@ -1,6 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Test\Order;
 
+use GuzzleHttp\Psr7;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use ShoppingFeed\Sdk;
@@ -177,7 +178,7 @@ class OrderOperationTest extends TestCase
             'amazon',
             'success',
             '123654abc',
-            'Acknowledged'
+            'Acknowledged',
         ];
 
         $instance = $this
@@ -255,7 +256,7 @@ class OrderOperationTest extends TestCase
     {
         $orderOperation = new Sdk\Order\OrderOperation();
 
-        $this->expectException(Sdk\Order\UnexpectedTypeException::class);
+        $this->expectException(Sdk\Order\Exception\UnexpectedTypeException::class);
 
         $orderOperation->addOperation(
             'ref',
@@ -308,5 +309,45 @@ class OrderOperationTest extends TestCase
             Sdk\Api\Task\TicketCollection::class,
             $instance->execute($link)
         );
+    }
+
+    public function testAssociationBetweenRefandTicketId()
+    {
+        $expected = [
+            'accept' => [
+                'ticket123' => ["abc123", "abc456"],
+            ],
+        ];
+        $instance = new Sdk\Order\OrderOperation();
+        $uri      = $this->createMock(Psr7\Uri::class);
+        /** @var Sdk\Hal\HalResource|\PHPUnit_Framework_MockObject_MockObject $resource */
+        $resource = $this->createMock(Sdk\Hal\HalResource::class);
+        /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
+        $request    = $this->createMock(Psr7\Request::class);
+        $references = [];
+
+        $resource
+            ->expects($this->once())
+            ->method('getProperty')
+            ->willReturn('id')
+            ->willReturn('ticket123');
+
+        $request
+            ->expects($this->once())
+            ->method('getBody')
+            ->willReturn('{"order":[{"reference": "abc123"}, {"reference": "abc456"}]}');
+
+        $uri
+            ->expects($this->once())
+            ->method('getPath')
+            ->willReturn('/fake/accept');
+
+        $request
+            ->expects($this->once())
+            ->method('getUri')
+            ->willReturn($uri);
+
+        $instance->associateTicketWithReference($resource, $request, $references);
+        $this->assertEquals($expected, $references);
     }
 }

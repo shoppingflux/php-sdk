@@ -24,8 +24,29 @@ $updateOperation
     ->execute($orderApi->getLink());
 ```
 
-Operations will always be accepted as they are treated asynchronously.  
-You will be getting a ticket for a batch of operations.
+Operations allowed on existing order will always be accepted as they are treated asynchronously.  
+When sending operation on order you will receive a collection of tickets corresponding to tasks in our system 
+that will handle the requested operation.
+With this ticket collection you will be able to find what ticket has been associated with the operation on an order.
+
+```php
+<?php
+/** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
+$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+/** @var \ShoppingFeed\Sdk\Api\Order\OrderTicketCollection $ticketCollection */
+$ticketCollection = $updateOperation
+    ->accept('ref3', 'amazon')
+    ->refuse('ref4', 'amazon')
+    ->ship('ref5', 'amazon')
+    ->cancel('ref3', 'amazon')
+    ->execute($orderApi->getLink());
+
+// Ticket ID to follow 'ref3' acceptance task
+$ticketId = $ticketCollection->getAcceptedTicket('ref3')->getId();
+
+// Ticket ID to follow 'ref3' cancelling task
+$ticketId = $ticketCollection->getCanceledTicket('ref3')->getId();
+```
 
 ### Accept
 

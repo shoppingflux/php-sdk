@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Order;
+namespace ShoppingFeed\Sdk\Order\Exception;
 
 class UnexpectedTypeException extends \Exception
 {
