@@ -26,25 +26,27 @@ abstract class AbstractDomainResource
     }
 
     /**
-     * @param int $page
-     * @param int $perPage
+     * @param array $criterias
      *
-     * @return PaginatedResourceCollection
+     * @return null|PaginatedResourceCollection
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getPage($page = 1, $perPage = self::PER_PAGE)
+    public function getPage(array $criterias)
     {
-        return $this->createPaginator($page, $perPage);
+        return $this->createPaginator($criterias);
     }
 
     /**
-     * @param int $fromPage
-     * @param int $perPage
+     * @param array $criterias
      *
      * @return AbstractResource[]|\Traversable
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getAll($fromPage = 1, $perPage = self::PER_PAGE)
+    public function getAll(array $criterias)
     {
-        foreach ($this->getPages($fromPage, $perPage) as $collection) {
+        foreach ($this->getPages($criterias) as $collection) {
             foreach ($collection as $item) {
                 yield $item;
             }
