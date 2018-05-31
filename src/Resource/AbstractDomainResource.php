@@ -18,11 +18,6 @@ abstract class AbstractDomainResource
     protected $resourceClass = '';
 
     /**
-     * @var array
-     */
-    protected $filters = [];
-
-    /**
      * @param Hal\HalLink $link
      */
     public function __construct(Hal\HalLink $link)
@@ -54,19 +49,6 @@ abstract class AbstractDomainResource
                 yield $item;
             }
         }
-    }
-
-    /**
-     * @param array $filters
-     */
-    public function addListFilters($filters)
-    {
-        $this->filters = array_merge($this->filters, $filters);
-    }
-
-    public function resetListFilters()
-    {
-        $this->filters = [];
     }
 
     /**
