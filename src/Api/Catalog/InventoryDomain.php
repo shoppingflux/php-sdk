@@ -35,4 +35,16 @@ class InventoryDomain extends AbstractDomainResource
 
         return null;
     }
+
+    /**
+     * Execute requested update
+     *
+     * @param Catalog\InventoryUpdate $operation
+     *
+     * @return InventoryCollection
+     */
+    public function execute(Catalog\InventoryUpdate $operation)
+    {
+        return $operation->execute($this->link);
+    }
 }

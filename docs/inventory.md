@@ -55,8 +55,8 @@ foreach ($inventoryApi->getAll($page) as $inventory) {
 $inventoryUpdate = new \ShoppingFeed\Sdk\Catalog\InventoryUpdate();
 $inventoryUpdate
     ->add('ref1', 7)
-    ->add('ref2', 1)
-    ->execute($inventoryApi->getLink());
+    ->add('ref2', 1);
+$inventoryApi->execute($inventoryUpdate);
 ```
 
 The collection object holds updated resources
