@@ -3,7 +3,6 @@ namespace ShoppingFeed\Sdk\Api\Catalog;
 
 use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Operation\AbstractBulkOperation;
-use ShoppingFeed\Sdk\Api\Catalog;
 
 class InventoryUpdate extends AbstractBulkOperation
 {
@@ -38,7 +37,7 @@ class InventoryUpdate extends AbstractBulkOperation
     /**
      * @param Hal\HalLink $link
      *
-     * @return Catalog\InventoryCollection
+     * @return InventoryCollection
      */
     public function execute(Hal\HalLink $link)
     {
@@ -62,6 +61,6 @@ class InventoryUpdate extends AbstractBulkOperation
             $this->getPoolSize()
         );
 
-        return new Catalog\InventoryCollection($resources);
+        return new InventoryCollection($resources);
     }
 }

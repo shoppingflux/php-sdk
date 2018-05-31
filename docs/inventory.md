@@ -52,7 +52,7 @@ foreach ($inventoryApi->getAll($page) as $inventory) {
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Catalog\InventoryDomain $inventoryApi */
-$inventoryUpdate = new \ShoppingFeed\Sdk\Catalog\InventoryUpdate();
+$inventoryUpdate = new \ShoppingFeed\Sdk\Api\Catalog\InventoryUpdate();
 $inventoryUpdate
     ->add('ref1', 7)
     ->add('ref2', 1);
