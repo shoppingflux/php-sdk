@@ -2,7 +2,6 @@
 namespace ShoppingFeed\Sdk\Api\Order;
 
 use ShoppingFeed\Sdk\Api\Order as ApiOrder;
-use ShoppingFeed\Sdk\Order\OrderOperation;
 use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
 
 /**

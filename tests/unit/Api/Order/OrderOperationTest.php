@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Test\Order;
+namespace ShoppingFeed\Sdk\Test\Api\Order;
 
 use GuzzleHttp\Psr7;
 use PHPUnit\Framework\TestCase;
@@ -13,17 +13,17 @@ class OrderOperationTest extends TestCase
     /**
      * Generate operations
      *
-     * @param Sdk\Order\OrderOperation $orderOperation
+     * @param Sdk\Api\Order\OrderOperation $orderOperation
      *
      * @throws \Exception
      */
-    private function generateOperations(Sdk\Order\OrderOperation $orderOperation)
+    private function generateOperations(Sdk\Api\Order\OrderOperation $orderOperation)
     {
         for ($i = 0; $i < $this->operationCount; $i++) {
             $orderOperation->addOperation(
                 'ref' . $i,
                 'amazon',
-                Sdk\Order\OrderOperation::TYPE_ACCEPT
+                Sdk\Api\Order\OrderOperation::TYPE_ACCEPT
             );
         }
     }
@@ -33,12 +33,12 @@ class OrderOperationTest extends TestCase
      */
     public function testAddOperation()
     {
-        $orderOperation = new Sdk\Order\OrderOperation();
+        $orderOperation = new Sdk\Api\Order\OrderOperation();
         $this->generateOperations($orderOperation);
 
         $this->assertEquals(
             $this->operationCount,
-            $orderOperation->countOperation(Sdk\Order\OrderOperation::TYPE_ACCEPT)
+            $orderOperation->countOperation(Sdk\Api\Order\OrderOperation::TYPE_ACCEPT)
         );
     }
 
@@ -48,7 +48,7 @@ class OrderOperationTest extends TestCase
     public function testAcceptOperation()
     {
         $instance = $this
-            ->getMockBuilder(Sdk\Order\OrderOperation::class)
+            ->getMockBuilder(Sdk\Api\Order\OrderOperation::class)
             ->setMethods(['addOperation'])
             ->getMock();
 
@@ -58,12 +58,12 @@ class OrderOperationTest extends TestCase
             ->with(
                 'ref1',
                 'amazon',
-                Sdk\Order\OrderOperation::TYPE_ACCEPT,
+                Sdk\Api\Order\OrderOperation::TYPE_ACCEPT,
                 ['reason' => 'noreason']
             );
 
         $this->assertInstanceOf(
-            Sdk\Order\OrderOperation::class,
+            Sdk\Api\Order\OrderOperation::class,
             $instance->accept(
                 'ref1',
                 'amazon',
@@ -78,7 +78,7 @@ class OrderOperationTest extends TestCase
     public function testCancelOperation()
     {
         $instance = $this
-            ->getMockBuilder(Sdk\Order\OrderOperation::class)
+            ->getMockBuilder(Sdk\Api\Order\OrderOperation::class)
             ->setMethods(['addOperation'])
             ->getMock();
 
@@ -88,12 +88,12 @@ class OrderOperationTest extends TestCase
             ->with(
                 'ref1',
                 'amazon',
-                Sdk\Order\OrderOperation::TYPE_CANCEL,
+                Sdk\Api\Order\OrderOperation::TYPE_CANCEL,
                 ['reason' => 'noreason']
             );
 
         $this->assertInstanceOf(
-            Sdk\Order\OrderOperation::class,
+            Sdk\Api\Order\OrderOperation::class,
             $instance->cancel(
                 'ref1',
                 'amazon',
@@ -108,7 +108,7 @@ class OrderOperationTest extends TestCase
     public function testRefuseOperation()
     {
         $instance = $this
-            ->getMockBuilder(Sdk\Order\OrderOperation::class)
+            ->getMockBuilder(Sdk\Api\Order\OrderOperation::class)
             ->setMethods(['addOperation'])
             ->getMock();
 
@@ -118,12 +118,12 @@ class OrderOperationTest extends TestCase
             ->with(
                 'ref1',
                 'amazon',
-                Sdk\Order\OrderOperation::TYPE_REFUSE,
+                Sdk\Api\Order\OrderOperation::TYPE_REFUSE,
                 ['refund' => ['item1', 'item2']]
             );
 
         $this->assertInstanceOf(
-            Sdk\Order\OrderOperation::class,
+            Sdk\Api\Order\OrderOperation::class,
             $instance->refuse(
                 'ref1',
                 'amazon',
@@ -138,7 +138,7 @@ class OrderOperationTest extends TestCase
     public function testShipOperation()
     {
         $instance = $this
-            ->getMockBuilder(Sdk\Order\OrderOperation::class)
+            ->getMockBuilder(Sdk\Api\Order\OrderOperation::class)
             ->setMethods(['addOperation'])
             ->getMock();
 
@@ -148,7 +148,7 @@ class OrderOperationTest extends TestCase
             ->with(
                 'ref1',
                 'amazon',
-                Sdk\Order\OrderOperation::TYPE_SHIP,
+                Sdk\Api\Order\OrderOperation::TYPE_SHIP,
                 [
                     'carrier'        => 'ups',
                     'trackingNumber' => '123654abc',
@@ -157,7 +157,7 @@ class OrderOperationTest extends TestCase
             );
 
         $this->assertInstanceOf(
-            Sdk\Order\OrderOperation::class,
+            Sdk\Api\Order\OrderOperation::class,
             $instance->ship(
                 'ref1',
                 'amazon',
@@ -182,7 +182,7 @@ class OrderOperationTest extends TestCase
         ];
 
         $instance = $this
-            ->getMockBuilder(Sdk\Order\OrderOperation::class)
+            ->getMockBuilder(Sdk\Api\Order\OrderOperation::class)
             ->setMethods(['addOperation'])
             ->getMock();
 
@@ -192,7 +192,7 @@ class OrderOperationTest extends TestCase
             ->with(
                 'ref1',
                 'amazon',
-                Sdk\Order\OrderOperation::TYPE_ACKNOWLEDGE,
+                Sdk\Api\Order\OrderOperation::TYPE_ACKNOWLEDGE,
                 new \PHPUnit_Framework_Constraint_Callback(
                     function ($param) use ($data) {
                         return $param['status'] === $data[2]
@@ -204,7 +204,7 @@ class OrderOperationTest extends TestCase
             );
 
         $this->assertInstanceOf(
-            Sdk\Order\OrderOperation::class,
+            Sdk\Api\Order\OrderOperation::class,
             $instance->acknowledge(...$data)
         );
     }
@@ -222,7 +222,7 @@ class OrderOperationTest extends TestCase
             'Unacknowledged',
         ];
         $instance = $this
-            ->getMockBuilder(Sdk\Order\OrderOperation::class)
+            ->getMockBuilder(Sdk\Api\Order\OrderOperation::class)
             ->setMethods(['addOperation'])
             ->getMock();
 
@@ -232,7 +232,7 @@ class OrderOperationTest extends TestCase
             ->with(
                 'ref2',
                 'amazon2',
-                Sdk\Order\OrderOperation::TYPE_UNACKNOWLEDGE,
+                Sdk\Api\Order\OrderOperation::TYPE_UNACKNOWLEDGE,
                 new \PHPUnit_Framework_Constraint_Callback(
                     function ($param) use ($data) {
                         return $param['status'] === $data[2]
@@ -244,7 +244,7 @@ class OrderOperationTest extends TestCase
             );
 
         $this->assertInstanceOf(
-            Sdk\Order\OrderOperation::class,
+            Sdk\Api\Order\OrderOperation::class,
             $instance->unacknowledge(...$data)
         );
     }
@@ -254,7 +254,7 @@ class OrderOperationTest extends TestCase
      */
     public function testAddWrongOperation()
     {
-        $orderOperation = new Sdk\Order\OrderOperation();
+        $orderOperation = new Sdk\Api\Order\OrderOperation();
 
         $this->expectException(Sdk\Order\Exception\UnexpectedTypeException::class);
 
@@ -278,9 +278,9 @@ class OrderOperationTest extends TestCase
                 $this->createMock(RequestInterface::class)
             );
 
-        /** @var Sdk\Order\OrderOperation|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var Sdk\Api\Order\OrderOperation|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(Sdk\Order\OrderOperation::class)
+            ->getMockBuilder(Sdk\Api\Order\OrderOperation::class)
             ->setMethods(['getPoolSize'])
             ->getMock();
 
@@ -318,7 +318,7 @@ class OrderOperationTest extends TestCase
                 'ticket123' => ["abc123", "abc456"],
             ],
         ];
-        $instance = new Sdk\Order\OrderOperation();
+        $instance = new Sdk\Api\Order\OrderOperation();
         $uri      = $this->createMock(Psr7\Uri::class);
         /** @var Sdk\Hal\HalResource|\PHPUnit_Framework_MockObject_MockObject $resource */
         $resource = $this->createMock(Sdk\Hal\HalResource::class);

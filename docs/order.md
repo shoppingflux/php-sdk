@@ -15,7 +15,7 @@ From order API you can then access all available operation :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $updateOperation
     ->accept('ref3', 'amazon')
     ->refuse('ref4', 'amazon')
@@ -32,7 +32,7 @@ With this ticket collection you will be able to find what ticket has been associ
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderTicketCollection $ticketCollection */
 $ticketCollection = $updateOperation
     ->accept('ref3', 'amazon')
@@ -59,7 +59,7 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $updateOperation
     ->accept('ref1', 'amazon')
     ->accept('ref2', 'amazon', 'Why we accept it');
@@ -77,7 +77,7 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $updateOperation
     ->cancel('ref1', 'amazon')
     ->cancel('ref2', 'amazon', 'Why we accept it');
@@ -95,7 +95,7 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $updateOperation
     ->refuse('ref1', 'amazon')
     ->refuse('ref2', 'amazon', ['itemref1', 'itemref2']);
@@ -115,7 +115,7 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $updateOperation
     ->ship('ref1', 'amazon')
     ->ship('ref2', 'amazon', 'ups', '123456789abcdefg', 'http://tracking.url/');
@@ -134,7 +134,7 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $updateOperation
     ->acknowledge('reference1', 'amazon', 'success', 'store-reference')
     ->acknowledge('reference1', 'amazon', 'error', 'store-reference')
@@ -155,7 +155,7 @@ Example :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
-$updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
+$updateOperation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $updateOperation
     ->unacknowledge('reference1', 'amazon', 'success', 'store-reference')
     ->unacknowledge('reference1', 'amazon', 'error', 'store-reference')

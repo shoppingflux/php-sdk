@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Order;
+namespace ShoppingFeed\Sdk\Api\Order;
 
 use GuzzleHttp\Psr7\Request;
 use ShoppingFeed\Sdk\Api;

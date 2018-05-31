@@ -38,7 +38,7 @@ class OrderTicketCollection extends Task\TicketCollection
      */
     public function getShippedTicket($reference)
     {
-        return $this->findTicketByOrder($reference, Order\OrderOperation::TYPE_SHIP);
+        return $this->findTicketByOrder($reference, OrderOperation::TYPE_SHIP);
     }
 
     /**
@@ -52,7 +52,7 @@ class OrderTicketCollection extends Task\TicketCollection
      */
     public function getAcceptedTicket($reference)
     {
-        return $this->findTicketByOrder($reference, Order\OrderOperation::TYPE_ACCEPT);
+        return $this->findTicketByOrder($reference, OrderOperation::TYPE_ACCEPT);
     }
 
     /**
@@ -66,7 +66,7 @@ class OrderTicketCollection extends Task\TicketCollection
      */
     public function getRefusedTicket($reference)
     {
-        return $this->findTicketByOrder($reference, Order\OrderOperation::TYPE_REFUSE);
+        return $this->findTicketByOrder($reference, OrderOperation::TYPE_REFUSE);
     }
 
     /**
@@ -80,7 +80,7 @@ class OrderTicketCollection extends Task\TicketCollection
      */
     public function getCanceledTicket($reference)
     {
-        return $this->findTicketByOrder($reference, Order\OrderOperation::TYPE_CANCEL);
+        return $this->findTicketByOrder($reference, OrderOperation::TYPE_CANCEL);
     }
 
     /**
@@ -94,7 +94,7 @@ class OrderTicketCollection extends Task\TicketCollection
      */
     public function getAcknowledgeTicket($reference)
     {
-        return $this->findTicketByOrder($reference, Order\OrderOperation::TYPE_ACKNOWLEDGE);
+        return $this->findTicketByOrder($reference, OrderOperation::TYPE_ACKNOWLEDGE);
     }
 
     /**
@@ -108,7 +108,7 @@ class OrderTicketCollection extends Task\TicketCollection
      */
     public function getUnacknowledgeTicket($reference)
     {
-        return $this->findTicketByOrder($reference, Order\OrderOperation::TYPE_UNACKNOWLEDGE);
+        return $this->findTicketByOrder($reference, OrderOperation::TYPE_UNACKNOWLEDGE);
     }
 
     /**

@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 use ShoppingFeed\Sdk\Api\Order\OrderTicketCollection;
 use ShoppingFeed\Sdk\Api\Task\TicketResource;
 use ShoppingFeed\Sdk\Order\Exception\TicketNotFoundException;
-use ShoppingFeed\Sdk\Order\OrderOperation;
+use ShoppingFeed\Sdk\Api\Order\OrderOperation;
 
 class OrderTicketCollectionTest extends TestCase
 {
