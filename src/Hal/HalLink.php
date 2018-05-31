@@ -128,7 +128,7 @@ class HalLink
             static::$uriTemplate = new UriTemplate();
         }
 
-        return $this->appendFilters(static::$uriTemplate->expand($this->getHref(), $variables));
+        return static::$uriTemplate->expand($this->getHref(), $variables);
     }
 
     /**
@@ -273,18 +273,6 @@ class HalLink
     public function setFilters($filters)
     {
         $this->filters = $filters;
-    }
-
-    /**
-     * Append filters at the end of the given URL
-     *
-     * @param string $link
-     *
-     * @return string
-     */
-    private function appendFilters($link)
-    {
-        return $link . '?' . http_build_query($this->filters);
     }
 
     /**

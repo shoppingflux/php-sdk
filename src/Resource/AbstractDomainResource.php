@@ -70,14 +70,16 @@ abstract class AbstractDomainResource
     }
 
     /**
-     * @param int $fromPage
-     * @param int $perPage
+     * @param array $criterias Pagination criterias
      *
      * @return PaginatedResourceCollection[]|\Traversable
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getPages($fromPage = 1, $perPage = self::PER_PAGE)
+    public function getPages(array $criterias)
     {
-        $resource = $this->createPaginator($fromPage, $perPage);
+        $criterias = new PaginationCriterias($criterias);
+        $resource  = $this->createPaginator($criterias);
         while ($resource) {
             yield $resource;
             $resource = $resource->next();
@@ -85,17 +87,18 @@ abstract class AbstractDomainResource
     }
 
     /**
-     * @param int $page
-     * @param int $limit
+     * @param PaginationCriterias $criterias
      *
-     * @return PaginatedResourceCollection
+     * @return null|PaginatedResourceCollection
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function createPaginator($page = 1, $limit = self::PER_PAGE)
+    private function createPaginator(PaginationCriterias $criterias)
     {
-        $this->link->setFilters($this->filters);
-        $resource = $this->link->get([], [
-            'query' => array_map('intval', compact('page', 'limit'))
-        ]);
+        $resource = $this->link->get(
+            [],
+            ['query' => $criterias->getAsQueryParam()]
+        );
 
         if (! $resource) {
             return null;
