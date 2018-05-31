@@ -65,7 +65,7 @@ class PaginationCriterias
      *
      * @return array
      */
-    public function asQueryParams()
+    public function toArray()
     {
         $query = array_map(
             'intval',

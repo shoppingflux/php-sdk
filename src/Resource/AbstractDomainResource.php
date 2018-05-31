@@ -95,10 +95,7 @@ abstract class AbstractDomainResource
      */
     private function createPaginator(PaginationCriterias $criterias)
     {
-        $resource = $this->link->get(
-            [],
-            ['query' => $criterias->asQueryParams()]
-        );
+        $resource = $this->link->get([],['query' => $criterias->toArray()]);
 
         if (! $resource) {
             return null;
