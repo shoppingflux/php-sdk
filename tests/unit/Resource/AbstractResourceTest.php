@@ -166,17 +166,4 @@ class AbstractResourceTest extends TestCase
         $instance->initialize(true);
         $this->assertFalse($instance->isPartial());
     }
-
-    public function testGetLink()
-    {
-        $this
-            ->halResource
-            ->expects($this->once())
-            ->method('getLink')
-            ->with('name');
-
-        $instance = new ResourceMock($this->halResource);
-
-        $instance->getLink('name');
-    }
 }
