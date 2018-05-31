@@ -15,4 +15,14 @@ class OrderDomain extends AbstractDomainResource
      * @var string
      */
     protected $resourceClass = ApiOrder\OrderResource::class;
+
+    /**
+     * @param OrderOperation $operation
+     *
+     * @return OrderTicketCollection
+     */
+    public function execute(OrderOperation $operation)
+    {
+        return $operation->execute($this->link);
+    }
 }

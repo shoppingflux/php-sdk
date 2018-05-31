@@ -20,8 +20,8 @@ $updateOperation
     ->accept('ref3', 'amazon')
     ->refuse('ref4', 'amazon')
     ->ship('ref5', 'amazon')
-    ->cancel('ref1', 'amazon')
-    ->execute($orderApi->getLink());
+    ->cancel('ref1', 'amazon');
+$orderApi->execute($updateOperation);
 ```
 
 Operations allowed on existing order will always be accepted as they are treated asynchronously.  
@@ -38,8 +38,8 @@ $ticketCollection = $updateOperation
     ->accept('ref3', 'amazon')
     ->refuse('ref4', 'amazon')
     ->ship('ref5', 'amazon')
-    ->cancel('ref3', 'amazon')
-    ->execute($orderApi->getLink());
+    ->cancel('ref3', 'amazon');
+$orderApi->execute($updateOperation);
 
 // Ticket ID to follow 'ref3' acceptance task
 $ticketId = $ticketCollection->getAcceptedTicket('ref3')->getId();
@@ -62,8 +62,8 @@ Example :
 $updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
 $updateOperation
     ->accept('ref1', 'amazon')
-    ->accept('ref2', 'amazon', 'Why we accept it')
-    ->execute($orderApi->getLink());
+    ->accept('ref2', 'amazon', 'Why we accept it');
+$orderApi->execute($updateOperation);
 ```
 
 ### Cancel
@@ -80,8 +80,8 @@ Example :
 $updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
 $updateOperation
     ->cancel('ref1', 'amazon')
-    ->cancel('ref2', 'amazon', 'Why we accept it')
-    ->execute($orderApi->getLink());
+    ->cancel('ref2', 'amazon', 'Why we accept it');
+$orderApi->execute($updateOperation);
 ```
 
 ### Refuse
@@ -98,8 +98,8 @@ Example :
 $updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
 $updateOperation
     ->refuse('ref1', 'amazon')
-    ->refuse('ref2', 'amazon', ['itemref1', 'itemref2'])
-    ->execute($orderApi->getLink());
+    ->refuse('ref2', 'amazon', ['itemref1', 'itemref2']);
+$orderApi->execute($updateOperation);
 ```
 
 ### Ship
@@ -118,8 +118,8 @@ Example :
 $updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
 $updateOperation
     ->ship('ref1', 'amazon')
-    ->ship('ref2', 'amazon', 'ups', '123456789abcdefg', 'http://tracking.url/')
-    ->execute($orderApi->getLink());
+    ->ship('ref2', 'amazon', 'ups', '123456789abcdefg', 'http://tracking.url/');
+$orderApi->execute($updateOperation);
 ```
 ### Acknowledge
 
@@ -138,8 +138,8 @@ $updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
 $updateOperation
     ->acknowledge('reference1', 'amazon', 'success', 'store-reference')
     ->acknowledge('reference1', 'amazon', 'error', 'store-reference')
-    ->acknowledge('reference1', 'amazon', 'error', 'store-reference', 'Order well acknowledged')
-    ->execute($orderApi->getLink());
+    ->acknowledge('reference1', 'amazon', 'error', 'store-reference', 'Order well acknowledged');
+$orderApi->execute($updateOperation);
 ```
 
 ### Unacknowledge
@@ -159,6 +159,6 @@ $updateOperation = new \ShoppingFeed\Sdk\Order\OrderOperation();
 $updateOperation
     ->unacknowledge('reference1', 'amazon', 'success', 'store-reference')
     ->unacknowledge('reference1', 'amazon', 'error', 'store-reference')
-    ->unacknowledge('reference1', 'amazon', 'error', 'store-reference', 'Order well unacknowledged')
-    ->execute($orderApi->getLink());
+    ->unacknowledge('reference1', 'amazon', 'error', 'store-reference', 'Order well unacknowledged');
+$orderApi->execute($updateOperation);
 ```
