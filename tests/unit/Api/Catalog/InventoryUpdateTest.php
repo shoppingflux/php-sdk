@@ -18,7 +18,7 @@ class InventoryUpdateTest extends TestCase
 
     public function testConstructWithOperations()
     {
-        $instance   = new Sdk\Catalog\InventoryUpdate($this->operations);
+        $instance   = new Sdk\Api\Catalog\InventoryUpdate($this->operations);
         $reflection = new \ReflectionClass($instance);
         $property   = $reflection->getProperty('operations');
         $property->setAccessible(true);
@@ -34,7 +34,7 @@ class InventoryUpdateTest extends TestCase
 
     public function testAdd()
     {
-        $instance   = new Sdk\Catalog\InventoryUpdate();
+        $instance   = new Sdk\Api\Catalog\InventoryUpdate();
         $reflection = new \ReflectionClass($instance);
         $property   = $reflection->getProperty('operations');
         $property->setAccessible(true);
@@ -59,7 +59,7 @@ class InventoryUpdateTest extends TestCase
             );
 
         $instance = $this
-            ->getMockBuilder(Sdk\Catalog\InventoryUpdate::class)
+            ->getMockBuilder(Sdk\Api\Catalog\InventoryUpdate::class)
             ->setConstructorArgs([$this->operations])
             ->setMethods(['getPoolSize'])
             ->getMock();

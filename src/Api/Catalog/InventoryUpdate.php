@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Catalog;
+namespace ShoppingFeed\Sdk\Api\Catalog;
 
 use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Operation\AbstractBulkOperation;
