@@ -97,7 +97,7 @@ abstract class AbstractDomainResource
     {
         $resource = $this->link->get(
             [],
-            ['query' => $criterias->getAsQueryParam()]
+            ['query' => $criterias->asQueryParams()]
         );
 
         if (! $resource) {

@@ -61,11 +61,11 @@ class PaginationCriterias
 
 
     /**
-     * @param PaginationCriterias $criterias
+     * Convert criterias as ready to be added to URL
      *
      * @return array
      */
-    public function getAsQueryParam()
+    public function asQueryParams()
     {
         $query = array_map(
             'intval',
