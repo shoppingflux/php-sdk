@@ -23,9 +23,9 @@ class PaginationCriterias
      */
     public function __construct($criterias)
     {
-        $this->page    = $criterias['page'] ?: 1;
-        $this->limit   = $criterias['limite'] ?: AbstractDomainResource::PER_PAGE;
-        $this->filters = $criterias['filters'] ?: [];
+        $this->page    = (int) $criterias['page'] ?: 1;
+        $this->limit   = (int) $criterias['limit'] ?: AbstractDomainResource::PER_PAGE;
+        $this->filters = (array) $criterias['filters'] ?: [];
     }
 
     /**
@@ -59,7 +59,6 @@ class PaginationCriterias
     }
 
 
-
     /**
      * Convert criterias as ready to be added to URL
      *
@@ -67,23 +66,21 @@ class PaginationCriterias
      */
     public function toArray()
     {
-        $query = array_map(
-            'intval',
-            [
-                'page'  => $this->getPage(),
-                'limit' => $this->getLimit(),
-            ]
-        );
+        $query = [
+            'page'  => $this->getPage(),
+            'limit' => $this->getLimit(),
+        ];
 
         if ($this->filters) {
-            foreach($this->filters as $field => &$values) {
+            foreach ($this->filters as $field => $values) {
                 // The norm in the API for multiple values is to pass them comma separated
                 if (is_array($values)) {
-                    $values = implode(',', $values);
+                    $query[$field] = implode(',', $values);
+                    continue;
                 }
-            }
 
-            $query = array_merge($query, $this->filters);
+                $query[$field] = (string) $values;
+            }
         }
 
         return $query;
