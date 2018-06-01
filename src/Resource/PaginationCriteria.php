@@ -1,7 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Resource;
 
-class Paginationcriteria
+class PaginationCriteria
 {
     /**
      * @var int
