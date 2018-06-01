@@ -1,31 +1,31 @@
 <?php
 namespace ShoppingFeed\Sdk\Resource;
 
-class PaginationCriterias
+class Paginationcriteria
 {
     /**
      * @var int
      */
-    private $page = 1;
+    private $page;
 
     /**
      * @var int
      */
-    private $limit = AbstractDomainResource::PER_PAGE;
+    private $limit;
 
     /**
      * @var array
      */
-    private $filters = [];
+    private $filters;
 
     /**
-     * @param array $criterias
+     * @param array $criteria
      */
-    public function __construct($criterias)
+    public function __construct($criteria = [])
     {
-        $this->page    = (int) $criterias['page'] ?: 1;
-        $this->limit   = (int) $criterias['limit'] ?: AbstractDomainResource::PER_PAGE;
-        $this->filters = (array) $criterias['filters'] ?: [];
+        $this->page    = (int) ($criteria['page'] ?: 1);
+        $this->limit   = (int) ($criteria['limit'] ?: AbstractDomainResource::PER_PAGE);
+        $this->filters = (array) ($criteria['filters'] ?: []);
     }
 
     /**
@@ -60,7 +60,7 @@ class PaginationCriterias
 
 
     /**
-     * Convert criterias as ready to be added to URL
+     * Convert criteria as ready to be added to URL
      *
      * @return array
      */
