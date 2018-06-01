@@ -67,8 +67,8 @@ class PaginationCriterias
     public function toArray()
     {
         $query = [
-            'page'  => $this->getPage(),
-            'limit' => $this->getLimit(),
+            'page'  => $this->page,
+            'limit' => $this->limit,
         ];
 
         if ($this->filters) {
