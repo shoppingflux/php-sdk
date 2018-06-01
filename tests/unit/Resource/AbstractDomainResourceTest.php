@@ -50,8 +50,9 @@ class AbstractDomainResourceTest extends TestCase
 
         $instance = new DomainResourceMock($link);
 
-        $count = 0;
-        foreach ($instance->getPages($pageFrom, $perPage) as $collection) {
+        $count     = 0;
+        $criterias = ['page' => $pageFrom, 'limit' => $perPage];
+        foreach ($instance->getPages($criterias) as $collection) {
             $count++;
             $this->assertInstanceOf(PaginatedResourceCollection::class, $collection);
         }
@@ -63,8 +64,8 @@ class AbstractDomainResourceTest extends TestCase
 
     public function testGetAll()
     {
-
-        $pages = [
+        $criterias = ['page' => 10, 'limit' => 15];
+        $pages     = [
             [
                 $this->createMock(HalResource::class),
                 $this->createMock(HalResource::class),
@@ -78,7 +79,7 @@ class AbstractDomainResourceTest extends TestCase
                 $this->createMock(HalResource::class),
             ],
         ];
-        $link  = $this->createMock(HalLink::class);
+        $link      = $this->createMock(HalLink::class);
 
         $instance = $this
             ->getMockBuilder(DomainResourceMock::class)
@@ -89,9 +90,9 @@ class AbstractDomainResourceTest extends TestCase
         $instance
             ->expects($this->once())
             ->method('getPages')
-            ->with(10, 15)
+            ->with($criterias)
             ->will($this->returnCallback(
-                function ($fromPage, $perPage) use ($pages) {
+                function ($criterias) use ($pages) {
                     foreach ($pages as $page) {
                         yield $page;
                     }
@@ -99,7 +100,7 @@ class AbstractDomainResourceTest extends TestCase
             ));
 
         $count = 0;
-        foreach ($instance->getAll(10, 15) as $resource) {
+        foreach ($instance->getAll($criterias) as $resource) {
             $count++;
         }
 
@@ -131,7 +132,7 @@ class AbstractDomainResourceTest extends TestCase
             ->setMethods(['getLink'])
             ->getMock();
 
-        $link     = $this
+        $link = $this
             ->getMockBuilder(HalLink::class)
             ->disableOriginalConstructor()
             ->setMethods(['get'])
