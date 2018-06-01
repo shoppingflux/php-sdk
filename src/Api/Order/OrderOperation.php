@@ -142,7 +142,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @return OrderOperation
      *
-     * @throws Exception\UnexpectedTypeException
+     * @throws Order\Exception\UnexpectedTypeException
      * @throws \Exception
      */
     public function acknowledge($reference, $channelName, $status, $storeReference, $message = '')
@@ -169,7 +169,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @return OrderOperation
      *
-     * @throws Exception\UnexpectedTypeException
+     * @throws Order\Exception\UnexpectedTypeException
      * @throws \Exception
      */
     public function unacknowledge($reference, $channelName, $status, $storeReference, $message = '')
