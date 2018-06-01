@@ -26,28 +26,28 @@ abstract class AbstractDomainResource
     }
 
     /**
-     * @param array $criterias
+     * @param array $criteria
      *
      * @return null|PaginatedResourceCollection
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getPage(array $criterias = [])
+    public function getPage(array $criteria = [])
     {
-        $criterias = new PaginationCriteria($criterias);
-        return $this->createPaginator($criterias);
+        $criteria = new PaginationCriteria($criteria);
+        return $this->createPaginator($criteria);
     }
 
     /**
-     * @param array $criterias
+     * @param array $criteria
      *
      * @return AbstractResource[]|\Traversable
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getAll(array $criterias = [])
+    public function getAll(array $criteria = [])
     {
-        foreach ($this->getPages($criterias) as $collection) {
+        foreach ($this->getPages($criteria) as $collection) {
             foreach ($collection as $item) {
                 yield $item;
             }
@@ -55,16 +55,16 @@ abstract class AbstractDomainResource
     }
 
     /**
-     * @param array $criterias Pagination criterias
+     * @param array $criteria Pagination criteria
      *
      * @return PaginatedResourceCollection[]|\Traversable
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getPages(array $criterias = [])
+    public function getPages(array $criteria = [])
     {
-        $criterias = new PaginationCriteria($criterias);
-        $resource  = $this->createPaginator($criterias);
+        $criteria = new PaginationCriteria($criteria);
+        $resource = $this->createPaginator($criteria);
         while ($resource) {
             yield $resource;
             $resource = $resource->next();
@@ -72,15 +72,15 @@ abstract class AbstractDomainResource
     }
 
     /**
-     * @param PaginationCriteria $criterias
+     * @param PaginationCriteria $criteria
      *
      * @return null|PaginatedResourceCollection
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private function createPaginator(PaginationCriteria $criterias)
+    private function createPaginator(PaginationCriteria $criteria)
     {
-        $resource = $this->link->get([],['query' => $criterias->toArray()]);
+        $resource = $this->link->get([], ['query' => $criteria->toArray()]);
 
         if (! $resource) {
             return null;
