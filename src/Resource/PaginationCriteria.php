@@ -23,9 +23,9 @@ class PaginationCriteria
      */
     public function __construct($criteria = [])
     {
-        $this->page    = (int) ($criteria['page'] ?: 1);
-        $this->limit   = (int) ($criteria['limit'] ?: AbstractDomainResource::PER_PAGE);
-        $this->filters = (array) ($criteria['filters'] ?: []);
+        $this->page    = (int) (isset($criteria['page']) ? $criteria['page'] : 1);
+        $this->limit   = (int) (isset($criteria['limit']) ? $criteria['limit'] : AbstractDomainResource::PER_PAGE);
+        $this->filters = (array) (isset($criteria['filters']) ? $criteria['filters'] : []);
     }
 
     /**
