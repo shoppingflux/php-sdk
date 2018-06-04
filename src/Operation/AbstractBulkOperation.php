@@ -62,9 +62,17 @@ abstract class AbstractBulkOperation extends AbstractOperation
         return $this->poolSize;
     }
 
-    public function countOperation($groupedBy = null)
+    /**
+     * Count operations
+     *
+     * @param string $filter
+     *
+     * @return int
+     */
+    public function count($filter = null)
     {
-        return count($this->getOperations($groupedBy));
+        return count($this->getOperations($filter));
+
     }
 
     /**
@@ -79,11 +87,12 @@ abstract class AbstractBulkOperation extends AbstractOperation
     }
 
     /**
-     * Get operation
+     * Get operations
+     * If operations are grouped but no filter is asked return operations ungrouped
      *
      * @param string $filter If operation are grouped get only the group
      *
-     * @return array
+     * @return AbstractOperation[]
      */
     protected function getOperations($filter = null)
     {
@@ -91,6 +100,15 @@ abstract class AbstractBulkOperation extends AbstractOperation
             return isset($this->operations[$filter]) ? $this->operations[$filter] : [];
         }
 
-        return (array) $this->operations;
+        $operations = (array) $this->operations;
+        // If operations are grouped but no filter is asked we ungrouped operations
+        if (is_null($filter) && ! $this->operations[0] instanceof AbstractOperation) {
+            $operations = [];
+            foreach ($this->operations as $group => $groupedOperations) {
+                $operations = array_merge($operations, $groupedOperations);
+            }
+        }
+
+        return $operations;
     }
 }

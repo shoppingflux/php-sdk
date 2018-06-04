@@ -3,6 +3,7 @@ namespace ShoppingFeed\Sdk\Test\Operation;
 
 use PHPUnit\Framework\TestCase;
 use ShoppingFeed\Sdk\Operation\AbstractBulkOperation;
+use ShoppingFeed\Sdk\Operation\AbstractOperation;
 
 class AbstractBulkOperationTest extends TestCase
 {
@@ -57,7 +58,7 @@ class AbstractBulkOperationTest extends TestCase
         $instance = new BulkOperationMock($operations);
         $instance->setBatchSize(10);
 
-        $count    = 0;
+        $count = 0;
         $instance->eachBatch(
             function ($chunk) use (&$count) {
                 $count += count($chunk);
@@ -74,10 +75,34 @@ class AbstractBulkOperationTest extends TestCase
         $countOperation = 50;
         $operations     = [];
         for ($i = 0; $i < $countOperation; $i++) {
-            $operations[] = 'operation' . $i;
+            $operations[] = $this->createMock(AbstractOperation::class);
         };
         $instance = new BulkOperationMock($operations);
 
-        $this->assertEquals($countOperation, $instance->countOperation());
+        $this->assertEquals($countOperation, $instance->count());
+    }
+
+    public function testCountOperationWithFilter()
+    {
+        $countOperation = 50;
+        $operations     = [];
+        for ($i = 0; $i < $countOperation; $i++) {
+            $operations[$i % 2 ? 'group1' : 'group2'][] = $this->createMock(AbstractOperation::class);
+        };
+        $instance = new BulkOperationMock($operations);
+
+        $this->assertEquals(count($operations['group1']), $instance->count('group1'));
+    }
+
+    public function testCountGroupedOperationWithNoFilter()
+    {
+        $countOperation = 50;
+        $operations     = [];
+        for ($i = 0; $i < $countOperation; $i++) {
+            $operations[$i % 2 ? 'group1' : 'group2'][] = $this->createMock(AbstractOperation::class);
+        };
+        $instance = new BulkOperationMock($operations);
+
+        $this->assertEquals(50, $instance->count());
     }
 }

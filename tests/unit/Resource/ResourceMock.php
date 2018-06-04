@@ -34,9 +34,4 @@ class ResourceMock extends AbstractResource
     {
         return parent::isPartial();
     }
-
-    public function getLink($name)
-    {
-        return parent::getLink($name);
-    }
 }

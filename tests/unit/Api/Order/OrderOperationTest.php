@@ -38,7 +38,7 @@ class OrderOperationTest extends TestCase
 
         $this->assertEquals(
             $this->operationCount,
-            $orderOperation->countOperation(Sdk\Api\Order\OrderOperation::TYPE_ACCEPT)
+            $orderOperation->count(Sdk\Api\Order\OrderOperation::TYPE_ACCEPT)
         );
     }
 
@@ -304,7 +304,6 @@ class OrderOperationTest extends TestCase
                 10
             );
 
-
         $this->assertInstanceOf(
             Sdk\Api\Task\TicketCollection::class,
             $instance->execute($link)
@@ -318,8 +317,13 @@ class OrderOperationTest extends TestCase
                 'ticket123' => ["abc123", "abc456"],
             ],
         ];
-        $instance = new Sdk\Api\Order\OrderOperation();
-        $uri      = $this->createMock(Psr7\Uri::class);
+
+        $instance   = new Sdk\Api\Order\OrderOperation();
+        $reflection = new \ReflectionClass(get_class($instance));
+        $method     = $reflection->getMethod('associateTicketWithReference');
+        $method->setAccessible(true);
+
+        $uri = $this->createMock(Psr7\Uri::class);
         /** @var Sdk\Hal\HalResource|\PHPUnit_Framework_MockObject_MockObject $resource */
         $resource = $this->createMock(Sdk\Hal\HalResource::class);
         /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
@@ -347,7 +351,8 @@ class OrderOperationTest extends TestCase
             ->method('getUri')
             ->willReturn($uri);
 
-        $instance->associateTicketWithReference($resource, $request, $references);
+        $method->invokeArgs($instance, [$resource, $request, &$references]);
+
         $this->assertEquals($expected, $references);
     }
 }

@@ -230,10 +230,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
             $this->getPoolSize()
         );
 
-        $tickets = new Api\Order\OrderTicketCollection($resources);
-        $tickets->setTicketReferences($ticketReferences);
-
-        return $tickets;
+        return new Api\Order\OrderTicketCollection($resources, $ticketReferences);
     }
 
     /**
@@ -243,7 +240,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      * @param Request         $request
      * @param                 $ticketReferences
      */
-    public function associateTicketWithReference(
+    private function associateTicketWithReference(
         Hal\HalResource $resource,
         Request $request,
         &$ticketReferences

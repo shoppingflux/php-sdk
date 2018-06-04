@@ -44,17 +44,32 @@ class OrderTicketCollectionTest extends TestCase
         ],
     ];
 
-
     public function testFindTicket()
     {
         $this->generateTickets();
-        $instance = new OrderTicketCollection($this->tickets);
-        $ticket   = $instance
-            ->setTicketReferences($this->data)
-            ->getShippedTicket('orderRef5');
+        $instance = new OrderTicketCollectionMock($this->tickets, $this->data);
+        $tickets  = $instance->findTickets(['reference' => 'orderRef5', 'operation' => OrderOperation::TYPE_SHIP]);
 
-        $this->assertInstanceOf(TicketResource::class, $ticket);
-        $this->assertEquals('ticketId987', $ticket->getId());
+        $this->assertInstanceOf(TicketResource::class, $tickets[0]);
+        $this->assertEquals('ticketId987', $tickets[0]->getId());
+    }
+
+    public function testFindTicketWithNoOperationNoRef()
+    {
+        $this->generateTickets();
+        $instance = new OrderTicketCollectionMock($this->tickets, $this->data);
+        $tickets  = $instance->findTickets();
+
+        $this->assertCount(count($this->tickets), $tickets);
+    }
+
+    public function testFindTicketForOperation()
+    {
+        $this->generateTickets();
+        $instance = new OrderTicketCollectionMock($this->tickets, $this->data);
+        $tickets  = $instance->findTickets(['operation' => OrderOperation::TYPE_SHIP]);
+
+        $this->assertCount(count($this->data[OrderOperation::TYPE_SHIP]), $tickets);
     }
 
     public function testGetShippedTicket()
@@ -62,18 +77,18 @@ class OrderTicketCollectionTest extends TestCase
         /** @var OrderTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(OrderTicketCollection::class)
-            ->setMethods(['findTicketByOrder'])
+            ->setMethods(['findTickets'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findTicketByOrder')
-            ->with('orderRef5', OrderOperation::TYPE_SHIP)
+            ->method('findTickets')
+            ->with(['reference' => 'orderRef5', 'operation' => OrderOperation::TYPE_SHIP])
             ->willReturn(
                 $this->createMock(TicketResource::class)
             );
 
-        $instance->getShippedTicket('orderRef5');
+        $instance->getShipped('orderRef5');
     }
 
     public function testGetCanceledTicket()
@@ -81,18 +96,18 @@ class OrderTicketCollectionTest extends TestCase
         /** @var OrderTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(OrderTicketCollection::class)
-            ->setMethods(['findTicketByOrder'])
+            ->setMethods(['findTickets'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findTicketByOrder')
-            ->with('orderRef4', OrderOperation::TYPE_CANCEL)
+            ->method('findTickets')
+            ->with(['reference' => 'orderRef4', 'operation' => OrderOperation::TYPE_CANCEL])
             ->willReturn(
                 $this->createMock(TicketResource::class)
             );
 
-        $instance->getCanceledTicket('orderRef4');
+        $instance->getCanceled('orderRef4');
     }
 
     public function testGetRefusedTicket()
@@ -100,18 +115,18 @@ class OrderTicketCollectionTest extends TestCase
         /** @var OrderTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(OrderTicketCollection::class)
-            ->setMethods(['findTicketByOrder'])
+            ->setMethods(['findTickets'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findTicketByOrder')
-            ->with('orderRef1', OrderOperation::TYPE_REFUSE)
+            ->method('findTickets')
+            ->with(['reference' => 'orderRef1', 'operation' => OrderOperation::TYPE_REFUSE])
             ->willReturn(
                 $this->createMock(TicketResource::class)
             );
 
-        $instance->getRefusedTicket('orderRef1');
+        $instance->getRefused('orderRef1');
     }
 
     public function testGetAcceptedTicket()
@@ -119,18 +134,18 @@ class OrderTicketCollectionTest extends TestCase
         /** @var OrderTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(OrderTicketCollection::class)
-            ->setMethods(['findTicketByOrder'])
+            ->setMethods(['findTickets'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findTicketByOrder')
-            ->with('orderRef3', OrderOperation::TYPE_ACCEPT)
+            ->method('findTickets')
+            ->with(['reference' => 'orderRef3', 'operation' => OrderOperation::TYPE_ACCEPT])
             ->willReturn(
                 $this->createMock(TicketResource::class)
             );
 
-        $instance->getAcceptedTicket('orderRef3');
+        $instance->getAccepted('orderRef3');
     }
 
     public function testGetAcknowledgeTicket()
@@ -138,18 +153,18 @@ class OrderTicketCollectionTest extends TestCase
         /** @var OrderTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(OrderTicketCollection::class)
-            ->setMethods(['findTicketByOrder'])
+            ->setMethods(['findTickets'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findTicketByOrder')
-            ->with('orderRef6', OrderOperation::TYPE_ACKNOWLEDGE)
+            ->method('findTickets')
+            ->with(['reference' => 'orderRef6', 'operation' => OrderOperation::TYPE_ACKNOWLEDGE])
             ->willReturn(
                 $this->createMock(TicketResource::class)
             );
 
-        $instance->getAcknowledgeTicket('orderRef6');
+        $instance->getAcknowledge('orderRef6');
     }
 
     public function testGetUnacknowledgeTicket()
@@ -157,18 +172,18 @@ class OrderTicketCollectionTest extends TestCase
         /** @var OrderTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(OrderTicketCollection::class)
-            ->setMethods(['findTicketByOrder'])
+            ->setMethods(['findTickets'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findTicketByOrder')
-            ->with('orderRef7', OrderOperation::TYPE_UNACKNOWLEDGE)
+            ->method('findTickets')
+            ->with(['reference' => 'orderRef7', 'operation' => OrderOperation::TYPE_UNACKNOWLEDGE])
             ->willReturn(
                 $this->createMock(TicketResource::class)
             );
 
-        $instance->getUnacknowledgeTicket('orderRef7');
+        $instance->getUnacknowledge('orderRef7');
     }
 
     public function testFindTicketWrongOperation()
@@ -176,34 +191,22 @@ class OrderTicketCollectionTest extends TestCase
         $this->generateTickets();
         $instance = new OrderTicketCollection($this->tickets);
 
-        $this->expectException(TicketNotFoundException::class);
-
-        $instance->getShippedTicket('orderRef5');
+        $this->assertEquals([], $instance->getShipped('orderRef5'));
     }
 
     public function testFindTicketWrongReference()
     {
         $this->generateWrongTickets();
-        $instance = new OrderTicketCollection($this->tickets);
+        $instance = new OrderTicketCollection($this->tickets, $this->data);
 
         $this->expectException(TicketNotFoundException::class);
 
-        $instance
-            ->setTicketReferences($this->data)
-            ->getShippedTicket('orderRef22');
+        $instance->getShipped('orderRef22');
     }
 
-    public function testTicketNotFound()
-    {
-        $instance = new OrderTicketCollection($this->tickets);
-
-        $this->expectException(TicketNotFoundException::class);
-
-        $instance
-            ->setTicketReferences($this->data)
-            ->getShippedTicket('orderRef5');
-    }
-
+    /**
+     * Generate tickets based on $this->data
+     */
     private function generateTickets()
     {
         foreach ($this->data as $operation => $tickets) {
@@ -218,6 +221,9 @@ class OrderTicketCollectionTest extends TestCase
         }
     }
 
+    /**
+     * Generate wrong tickets
+     */
     private function generateWrongTickets()
     {
         foreach ($this->data as $operation => $tickets) {

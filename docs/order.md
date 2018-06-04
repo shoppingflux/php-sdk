@@ -34,18 +34,18 @@ With this ticket collection you will be able to find what ticket has been associ
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
 $updateOperation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderTicketCollection $ticketCollection */
-$ticketCollection = $updateOperation
+$updateOperation
     ->accept('ref3', 'amazon')
     ->refuse('ref4', 'amazon')
     ->ship('ref5', 'amazon')
     ->cancel('ref3', 'amazon');
-$orderApi->execute($updateOperation);
+$ticketCollection = $orderApi->execute($updateOperation);
 
-// Ticket ID to follow 'ref3' acceptance task
-$ticketId = $ticketCollection->getAcceptedTicket('ref3')->getId();
+// Tickets to follow all acceptance tasks
+$tickets = $ticketCollection->getAccepted();
 
 // Ticket ID to follow 'ref3' cancelling task
-$ticketId = $ticketCollection->getCanceledTicket('ref3')->getId();
+$ticketId = $ticketCollection->getCanceled('ref3')[0]->getId();
 ```
 
 ### Accept

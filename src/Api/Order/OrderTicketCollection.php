@@ -13,18 +13,14 @@ class OrderTicketCollection extends Task\TicketCollection
      */
     private $ticketReferences = [];
 
-    /**
-     * Associate an order reference to a ticket
-     *
-     * @param array $ticketReferences
-     *
-     * @return OrderTicketCollection
-     */
-    public function setTicketReferences($ticketReferences)
+    public function __construct(
+        array $resources = [],
+        array $ticketReferences = []
+    )
     {
-        $this->ticketReferences = (array) $ticketReferences;
+        parent::__construct($resources);
 
-        return $this;
+        $this->ticketReferences = $ticketReferences;
     }
 
     /**
@@ -32,13 +28,18 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param $reference
      *
-     * @return Task\TicketResource
+     * @return Task\TicketResource[]
      *
      * @throws Order\Exception\TicketNotFoundException
      */
-    public function getShippedTicket($reference)
+    public function getShipped($reference = null)
     {
-        return $this->findTicketByOrder($reference, OrderOperation::TYPE_SHIP);
+        return $this->findTickets(
+            [
+                'reference' => $reference,
+                'operation' => OrderOperation::TYPE_SHIP,
+            ]
+        );
     }
 
     /**
@@ -46,13 +47,18 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param $reference
      *
-     * @return Task\TicketResource
+     * @return Task\TicketResource[]
      *
      * @throws Order\Exception\TicketNotFoundException
      */
-    public function getAcceptedTicket($reference)
+    public function getAccepted($reference = null)
     {
-        return $this->findTicketByOrder($reference, OrderOperation::TYPE_ACCEPT);
+        return $this->findTickets(
+            [
+                'reference' => $reference,
+                'operation' => OrderOperation::TYPE_ACCEPT,
+            ]
+        );
     }
 
     /**
@@ -60,13 +66,18 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param $reference
      *
-     * @return Task\TicketResource
+     * @return Task\TicketResource[]
      *
      * @throws Order\Exception\TicketNotFoundException
      */
-    public function getRefusedTicket($reference)
+    public function getRefused($reference = null)
     {
-        return $this->findTicketByOrder($reference, OrderOperation::TYPE_REFUSE);
+        return $this->findTickets(
+            [
+                'reference' => $reference,
+                'operation' => OrderOperation::TYPE_REFUSE,
+            ]
+        );
     }
 
     /**
@@ -74,13 +85,18 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param $reference
      *
-     * @return Task\TicketResource
+     * @return Task\TicketResource[]
      *
      * @throws Order\Exception\TicketNotFoundException
      */
-    public function getCanceledTicket($reference)
+    public function getCanceled($reference = null)
     {
-        return $this->findTicketByOrder($reference, OrderOperation::TYPE_CANCEL);
+        return $this->findTickets(
+            [
+                'reference' => $reference,
+                'operation' => OrderOperation::TYPE_CANCEL,
+            ]
+        );
     }
 
     /**
@@ -88,13 +104,18 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param $reference
      *
-     * @return Task\TicketResource
+     * @return Task\TicketResource[]
      *
      * @throws Order\Exception\TicketNotFoundException
      */
-    public function getAcknowledgeTicket($reference)
+    public function getAcknowledge($reference = null)
     {
-        return $this->findTicketByOrder($reference, OrderOperation::TYPE_ACKNOWLEDGE);
+        return $this->findTickets(
+            [
+                'reference' => $reference,
+                'operation' => OrderOperation::TYPE_ACKNOWLEDGE,
+            ]
+        );
     }
 
     /**
@@ -102,58 +123,74 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param $reference
      *
-     * @return Task\TicketResource
+     * @return Task\TicketResource[]
      *
      * @throws Order\Exception\TicketNotFoundException
      */
-    public function getUnacknowledgeTicket($reference)
+    public function getUnacknowledge($reference = null)
     {
-        return $this->findTicketByOrder($reference, OrderOperation::TYPE_UNACKNOWLEDGE);
+        return $this->findTickets(
+            [
+                'reference' => $reference,
+                'operation' => OrderOperation::TYPE_UNACKNOWLEDGE,
+            ]
+        );
     }
 
     /**
-     * Find a ticket for an operation on an order
+     * Find tickets for an operation on an order
      *
-     * @param string $reference Order reference
-     * @param string $operation Operation name
+     * @param array $criteria Criteria to find tickets ['reference' => 'xxx', 'operation" => 'xxx']
      *
-     * @return Task\TicketResource
+     * @return Task\TicketResource[]
      *
      * @throws Order\Exception\TicketNotFoundException
      */
-    protected function findTicketByOrder($reference, $operation)
+    protected function findTickets(array $criteria = [])
     {
-        if (! isset($this->ticketReferences[$operation])) {
-            throw Order\Exception\TicketNotFoundException::withOperation($operation);
+        if (! $criteria['operation'] && ! $criteria['reference']) {
+            return (array) $this->getIterator();
         }
 
-        foreach ($this->ticketReferences[$operation] as $ticketId => $orders) {
-            if (in_array($reference, $orders)) {
-                return $this->getTicketById($ticketId);
+        if (isset($criteria['operation']) && ! isset($this->ticketReferences[$criteria['operation']])) {
+            return [];
+        }
+
+        if (isset($criteria['operation']) && ! isset($criteria['reference'])) {
+            return $this->getTicketsById(
+                array_keys($this->ticketReferences[$criteria['operation']])
+            );
+        }
+
+        foreach ($this->ticketReferences[$criteria['operation']] as $ticketId => $orders) {
+            if (in_array($criteria['reference'], $orders)) {
+                return $this->getTicketsById([$ticketId]);
             }
         }
 
-        throw Order\Exception\TicketNotFoundException::withOperationAndOrder($operation, $reference);
+        throw Order\Exception\TicketNotFoundException::forOperationAndOrder(
+            $criteria['operation'],
+            $criteria['reference']
+        );
     }
 
     /**
      * Find ticket in collection by its ID
      *
-     * @param string $id
+     * @param array $ids
      *
-     * @return Task\TicketResource
-     *
-     * @throws Order\Exception\TicketNotFoundException
+     * @return Task\TicketResource[]
      */
-    private function getTicketById($id)
+    private function getTicketsById(array $ids)
     {
+        $tickets = [];
         foreach ($this->getIterator() as $ticket) {
             /** @var Task\TicketResource $ticket */
-            if ($ticket->getId() === $id) {
-                return $ticket;
+            if (in_array($ticket->getId(), $ids)) {
+                $tickets[] = $ticket;
             }
         }
 
-        throw Order\Exception\TicketNotFoundException::withId($id);
+        return $tickets;
     }
 }

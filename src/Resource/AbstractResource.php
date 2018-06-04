@@ -114,14 +114,4 @@ abstract class AbstractResource implements \JsonSerializable
     {
         return $this->isPartial;
     }
-
-    /**
-     * @param string $name
-     *
-     * @return Hal\HalLink|null
-     */
-    protected function getLink($name)
-    {
-        return $this->resource->getLink($name);
-    }
 }
