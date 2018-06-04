@@ -148,7 +148,7 @@ class OrderTicketCollection extends Task\TicketCollection
      */
     protected function findTickets(array $criteria = [])
     {
-        if (! $criteria['operation'] && ! $criteria['reference']) {
+        if (! isset($criteria['operation']) && ! isset($criteria['reference'])) {
             return (array) $this->getIterator();
         }
 
