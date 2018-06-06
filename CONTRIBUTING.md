@@ -9,7 +9,7 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 1. Ensure that your PR must pass the build process
 2. Your code must be fully tested with phpunit tests (coverage 100%)
-3. Your code must respect our [coding standard rules](docs/coding-standards.md)
+3. Your code must respect our [coding standard rules](docs/development/coding-standards.md)
 4. Documentation should be up to date with the changes you added
 
 ## Code of Conduct
@@ -74,4 +74,4 @@ Further details of specific enforcement policies may be posted separately.
 ### Development
 
 We provide with this project some tools to help maintain and develop the project see the 
-[development documentation](./docs/development.md) for more detail.
+[development documentation](docs/development/development.md) for more detail.
