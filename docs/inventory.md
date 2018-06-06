@@ -28,9 +28,11 @@ Get a particular page of inventories
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Catalog\InventoryDomain $inventoryApi */
-$page  = 1;
-$limit = 20;
-foreach ($inventoryApi->getPage($page, $limit) as $inventory) {
+$criteria = [
+  'page' => 1,  
+  'limit' => 10,  
+];
+foreach ($inventoryApi->getPage($criteria) as $inventory) {
 	echo $inventory->getQuantity() . PHP_EOL;
 }
 ```
@@ -40,8 +42,7 @@ Or Iterates over all inventories of your catalog
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Catalog\InventoryDomain $inventoryApi */
-$page = 1;
-foreach ($inventoryApi->getAll($page) as $inventory) {
+foreach ($inventoryApi->getAll() as $inventory) {
 	echo $inventory->getQuantity() . PHP_EOL;
 }
 ```
