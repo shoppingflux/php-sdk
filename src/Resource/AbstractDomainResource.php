@@ -47,7 +47,8 @@ abstract class AbstractDomainResource
      */
     public function getAll(array $filters = [])
     {
-        foreach ($this->getPages(['filters' => $filters]) as $collection) {
+        $filters = isset($filters['filters']) ? $filters : ['filters' => $filters];
+        foreach ($this->getPages($filters) as $collection) {
             foreach ($collection as $item) {
                 yield $item;
             }
