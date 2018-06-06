@@ -60,4 +60,18 @@ class InventoryDomainTest extends TestCase
 
         $this->assertNull($instance->getByReference($reference));
     }
+
+    public function testExecute()
+    {
+        $link       = $this->createMock(Sdk\Hal\HalLink::class);
+        $operations = $this->createMock(Sdk\Api\Catalog\InventoryUpdate::class);
+        $operations
+            ->expects($this->once())
+            ->method('execute')
+            ->with($link)
+            ->willReturn($this->createMock(Sdk\Api\Catalog\InventoryCollection::class));
+
+        $instance = new Sdk\Api\Catalog\InventoryDomain($link);
+        $instance->execute($operations);
+    }
 }
