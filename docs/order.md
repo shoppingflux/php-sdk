@@ -16,7 +16,8 @@ To retrieve order you can use those methods :
 - `getPages()` : will retrieve all pages of orders
 - `getPage()` : will retrieve one page of orders
 
-You can pass search criterias to all those methods here are the available criteria at your disposal :
+You can pass search criteria to all those methods.  
+Here are the available criteria at your disposal :
 - `page` : the page to retrieve or start from
 - `limit` : the number of item per page you want to retrieve (up to a maximum define by the API)
 - `filters` : an array of filter to filter orders by certain attributes
@@ -28,28 +29,29 @@ Examples :
 ```php
 <?php
 /** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
+// Criteria used to query order API
 $criteria = [
-    'page'    => 1,
-    'limit'   => 20,
+    'page'    => 1, // first page
+    'limit'   => 20, // 20 order per page
     'filters' => [
-        'status' => ['shipped', 'cancelled']
+        'status' => ['shipped', 'cancelled'] // we only want order with shipped or cancelled status
     ]
 ];
 
 // Retrieve all orders shipped or cancelled
 foreach($orderApi->getAll($criteria) as $order) {
-    $order->getId();
+    echo $order->getId();
 }
 
 // Retrieve all pages of orders shipped or cancelled
 foreach($orderApi->getPages($criteria) as $orderCollection) {
-    $orderCollection->count();
+    echo $orderCollection->count();
 }
 
-// Retrieve first page of orders shipped or cancelled
-$orderCollection = $orderApi->getPage($criteria);
-$orderCollection->count();
-
+// Retrieve a page of orders shipped or cancelled
+foreach($orderApi->getPage($criteria) as $order) {
+    echo $order->getId();
+}
 ```
 
 ## Operations
