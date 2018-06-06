@@ -130,6 +130,7 @@ class AbstractDomainResourceTest extends TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getLink'])
             ->getMock();
+
         $link     = $this
             ->getMockBuilder(HalLink::class)
             ->disableOriginalConstructor()

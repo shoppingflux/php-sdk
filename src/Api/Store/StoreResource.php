@@ -2,6 +2,7 @@
 namespace ShoppingFeed\Sdk\Api\Store;
 
 use ShoppingFeed\Sdk\Api\Catalog\InventoryDomain;
+use ShoppingFeed\Sdk\Api\Order\OrderDomain;
 use ShoppingFeed\Sdk\Resource\AbstractResource;
 
 class StoreResource extends AbstractResource
@@ -45,6 +46,16 @@ class StoreResource extends AbstractResource
     {
         return new InventoryDomain(
             $this->resource->getLink('inventory')
+        );
+    }
+
+    /**
+     * @return OrderDomain
+     */
+    public function getOrderApi()
+    {
+        return new OrderDomain(
+            $this->resource->getLink('order')
         );
     }
 }

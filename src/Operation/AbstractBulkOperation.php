@@ -63,12 +63,52 @@ abstract class AbstractBulkOperation extends AbstractOperation
     }
 
     /**
-     * @param callable $callback
+     * Count operations
+     *
+     * @param string $filter
+     *
+     * @return int
      */
-    protected function eachBatch(callable $callback)
+    public function count($filter = null)
     {
-        foreach (array_chunk($this->operations, $this->batchSize) as $chunk) {
+        return count($this->getOperations($filter));
+
+    }
+
+    /**
+     * @param callable $callback
+     * @param string   $filter Allow to filter operations
+     */
+    protected function eachBatch(callable $callback, $filter = null)
+    {
+        foreach (array_chunk($this->getOperations($filter), $this->batchSize) as $chunk) {
             $callback($chunk);
         }
+    }
+
+    /**
+     * Get operations
+     * If operations are grouped but no filter is asked return operations ungrouped
+     *
+     * @param string $filter If operation are grouped get only the group
+     *
+     * @return AbstractOperation[]
+     */
+    protected function getOperations($filter = null)
+    {
+        if ($filter) {
+            return isset($this->operations[$filter]) ? $this->operations[$filter] : [];
+        }
+
+        $operations = (array) $this->operations;
+        // If operations are grouped but no filter is asked we ungrouped operations
+        if (is_null($filter) && ! current($operations) instanceof AbstractOperation) {
+            $operations = [];
+            foreach ($this->operations as $group => $groupedOperations) {
+                $operations = array_merge($operations, $groupedOperations);
+            }
+        }
+
+        return $operations;
     }
 }

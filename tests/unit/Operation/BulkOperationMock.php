@@ -16,9 +16,9 @@ class BulkOperationMock extends AbstractBulkOperation
         $this->operations = $operations;
     }
 
-    public function eachBatch(callable $callback)
+    public function eachBatch(callable $callback, $filter = '')
     {
-        parent::eachBatch($callback);
+        parent::eachBatch($callback, $filter);
     }
 
     public function execute(Hal\HalLink $link)
