@@ -93,16 +93,4 @@ class AbstractBulkOperationTest extends TestCase
 
         $this->assertEquals(count($operations['group1']), $instance->count('group1'));
     }
-
-    public function testCountGroupedOperationWithNoFilter()
-    {
-        $countOperation = 50;
-        $operations     = [];
-        for ($i = 0; $i < $countOperation; $i++) {
-            $operations[$i % 2 ? 'group1' : 'group2'][] = $this->createMock(AbstractOperation::class);
-        };
-        $instance = new BulkOperationMock($operations);
-
-        $this->assertEquals(50, $instance->count());
-    }
 }

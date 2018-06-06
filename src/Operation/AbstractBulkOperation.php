@@ -100,15 +100,6 @@ abstract class AbstractBulkOperation extends AbstractOperation
             return isset($this->operations[$filter]) ? $this->operations[$filter] : [];
         }
 
-        $operations = (array) $this->operations;
-        // If operations are grouped but no filter is asked we ungrouped operations
-        if (is_null($filter) && ! current($operations) instanceof AbstractOperation) {
-            $operations = [];
-            foreach ($this->operations as $group => $groupedOperations) {
-                $operations = array_merge($operations, $groupedOperations);
-            }
-        }
-
-        return $operations;
+        return (array) $this->operations;
     }
 }
