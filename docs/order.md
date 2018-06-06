@@ -6,6 +6,7 @@ Accessing order API can be done from the store.
 
 ```php
 <?php
+/** @var \ShoppingFeed\Sdk\Api\Session\SessionResource $session */
 $orderApi = $session->getMainStore()->getOrderApi();
 ```
 
@@ -20,7 +21,7 @@ You can pass search criteria to all those methods.
 Here are the available criteria at your disposal :
 - `page` : the page to retrieve or start from
 - `limit` : the number of item per page you want to retrieve (up to a maximum define by the API)
-- `filters` : an array of filter to filter orders by certain attributes
+- `filters` : an array of filters to filter orders by certain attributes
     - `status` : filter order by their status, multiple status are allowed. Status available are : created, 
     waiting_store_acceptance, refused, waiting_shipment, shipped, cancelled, refunded, partially_refunded, 
     partially_shipped
