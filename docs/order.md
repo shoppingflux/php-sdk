@@ -2,11 +2,54 @@
 
 ## Access
 
-Accessing order operation can be done from the store.
+Accessing order API can be done from the store.
 
 ```php
 <?php
 $orderApi = $session->getMainStore()->getOrderApi();
+```
+
+## Retrieve orders
+
+To retrieve order you can use those methods :
+- `getAll()` : will retrieve all orders
+- `getPages()` : will retrieve all pages of orders
+- `getPage()` : will retrieve one page of orders
+
+You can pass search criterias to all those methods here are the available criteria at your disposal :
+- `page` : the page to retrieve or start from
+- `limit` : the number of item per page you want to retrieve (up to a maximum define by the API)
+- `filters` : an array of filter to filter orders by certain attributes
+    - `status` : filter order by their status, multiple status are allowed. Status available are : created, 
+    waiting_store_acceptance, refused, waiting_shipment, shipped, cancelled, refunded, partially_refunded, 
+    partially_shipped
+
+Examples :
+```php
+<?php
+/** @var \ShoppingFeed\Sdk\Api\Order\OrderDomain $orderApi */
+$criteria = [
+    'page'    => 1,
+    'limit'   => 20,
+    'filters' => [
+        'status' => ['shipped', 'cancelled']
+    ]
+];
+
+// Retrieve all orders shipped or cancelled
+foreach($orderApi->getAll($criteria) as $order) {
+    $order->getId();
+}
+
+// Retrieve all pages of orders shipped or cancelled
+foreach($orderApi->getPages($criteria) as $orderCollection) {
+    $orderCollection->count();
+}
+
+// Retrieve first page of orders shipped or cancelled
+$orderCollection = $orderApi->getPage($criteria);
+$orderCollection->count();
+
 ```
 
 ## Operations
