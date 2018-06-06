@@ -64,8 +64,8 @@ class AbstractDomainResourceTest extends TestCase
 
     public function testGetAll()
     {
-        $criterias = ['page' => 10, 'limit' => 15];
-        $pages     = [
+        $filters = ['attr1' => 'value1'];
+        $pages   = [
             [
                 $this->createMock(HalResource::class),
                 $this->createMock(HalResource::class),
@@ -79,8 +79,9 @@ class AbstractDomainResourceTest extends TestCase
                 $this->createMock(HalResource::class),
             ],
         ];
-        $link      = $this->createMock(HalLink::class);
+        $link    = $this->createMock(HalLink::class);
 
+        /** @var DomainResourceMock|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(DomainResourceMock::class)
             ->setConstructorArgs([$link])
@@ -90,7 +91,8 @@ class AbstractDomainResourceTest extends TestCase
         $instance
             ->expects($this->once())
             ->method('getPages')
-            ->with($criterias)
+            ->with(
+                ['filters' => $filters])
             ->will($this->returnCallback(
                 function ($criterias) use ($pages) {
                     foreach ($pages as $page) {
@@ -100,7 +102,7 @@ class AbstractDomainResourceTest extends TestCase
             ));
 
         $count = 0;
-        foreach ($instance->getAll($criterias) as $resource) {
+        foreach ($instance->getAll($filters) as $resource) {
             $count++;
         }
 

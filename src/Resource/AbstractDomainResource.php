@@ -39,15 +39,15 @@ abstract class AbstractDomainResource
     }
 
     /**
-     * @param array $criteria
+     * @param array $filters
      *
      * @return AbstractResource[]|\Traversable
      *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getAll(array $criteria = [])
+    public function getAll(array $filters = [])
     {
-        foreach ($this->getPages($criteria) as $collection) {
+        foreach ($this->getPages(['filters' => $filters]) as $collection) {
             foreach ($collection as $item) {
                 yield $item;
             }
@@ -80,7 +80,7 @@ abstract class AbstractDomainResource
      */
     private function createPaginator(PaginationCriteria $criteria)
     {
-        $resource = $this->link->get([], ['query' => $criteria->toArray()]);
+        $resource = $this->link->get([], ['query' => $criteria->getQueryParams()]);
 
         if (! $resource) {
             return null;

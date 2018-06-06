@@ -25,10 +25,10 @@ class PaginationCriteriaTest extends TestCase
         $this->assertEquals($this->data['filters'], $instance->getFilters());
     }
 
-    public function testToArray()
+    public function testGetQueryParams()
     {
         $instance  = new PaginationCriteria($this->data);
-        $extracted = $instance->toArray();
+        $extracted = $instance->getQueryParams();
 
         $this->assertEquals($this->data['page'], $extracted['page']);
         $this->assertEquals($this->data['limit'], $extracted['limit']);

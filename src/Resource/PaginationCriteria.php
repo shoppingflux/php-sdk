@@ -64,7 +64,7 @@ class PaginationCriteria
      *
      * @return array
      */
-    public function toArray()
+    public function getQueryParams()
     {
         $query = [
             'page'  => $this->page,

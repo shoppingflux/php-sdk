@@ -17,7 +17,9 @@ To retrieve order you can use those methods :
 - `getPages()` : will retrieve all pages of orders
 - `getPage()` : will retrieve one page of orders
 
-You can pass search criteria to all those methods.  
+You can pass pagination and search criteria to `getPage` and `getPages` methods.  
+`getAll` only accept filters as it handle pagination automatically.  
+  
 Here are the available criteria at your disposal :
 - `page` : the page to retrieve or start from
 - `limit` : the number of item per page you want to retrieve (up to a maximum define by the API)
@@ -40,7 +42,7 @@ $criteria = [
 ];
 
 // Retrieve all orders shipped or cancelled
-foreach($orderApi->getAll($criteria) as $order) {
+foreach($orderApi->getAll($criteria['filters']) as $order) {
     echo $order->getId();
 }
 
