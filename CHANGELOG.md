@@ -1,5 +1,5 @@
-v0.0.2-beta
-===========
+v0.0.2-beta.1
+=============
 
 - Add authentication and session creation
 - Add store retrieval from session
