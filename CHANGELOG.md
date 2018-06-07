@@ -9,3 +9,6 @@ v0.0.2-beta.1
 - Add order status update operation for : acknowledgment, unacknowledgment, acceptance, cancellation, refusal and shipment
 - Add fetch order collection
 - Add status filtering to order collection fetch
+
+
+Versioning is based on [semver](https://semver.org/) specification. 
