@@ -1,4 +1,4 @@
-v0.0.2-beta.1
+v0.2.0-beta.1
 =============
 
 - Add authentication and session creation
