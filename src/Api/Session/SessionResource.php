@@ -23,6 +23,14 @@ class SessionResource extends AbstractResource
     }
 
     /**
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->resource->getProperty('token');
+    }
+
+    /**
      * @return Store\StoreCollection
      */
     public function getStores()
