@@ -1,4 +1,4 @@
-### Link to issue
+### Link to the issue
 Link here the issue this PR resolve if reletad to an issue.
 
 ### Reason for this PR
