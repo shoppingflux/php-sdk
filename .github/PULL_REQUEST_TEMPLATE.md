@@ -5,9 +5,9 @@ Link here the issue this PR resolve if reletad to an issue.
 Explain in short words what need this PR resolve.
 
 ### What does the PR do
-Explain in short words what feature is added or what bug is fixed
+Explain in short words what feature is added or how is a bug fixed
 
 ### How to test
-Give a quick run on how to test the modification
+Give a quick explanation on how to test the modification
 
 
