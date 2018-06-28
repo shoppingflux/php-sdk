@@ -1,3 +1,10 @@
+v0.2.1-beta.1
+=============
+
+- Add session token getter [#45](https://github.com/shoppingflux/php-sdk/pull/45)
+- Add order item read from order [#47](https://github.com/shoppingflux/php-sdk/pull/47)
+- Add channel read from order [#47](https://github.com/shoppingflux/php-sdk/pull/47)
+
 v0.2.0-beta.1
 =============
 
