@@ -17,9 +17,9 @@ class InventoryResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
     public function testPropertiesGetters()
     {
-        $this->initPropertyGetterTester();
+        $this->initHalResourceProperties();
 
-        $instance = new Sdk\Api\Catalog\InventoryResource($this->propertyGetter);
+        $instance = new Sdk\Api\Catalog\InventoryResource($this->halResource);
 
         $this->assertEquals($this->props['id'], $instance->getId());
         $this->assertEquals($this->props['reference'], $instance->getReference());

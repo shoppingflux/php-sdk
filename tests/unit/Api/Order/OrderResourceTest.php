@@ -55,9 +55,9 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
     public function testPropertiesGetters()
     {
-        $this->initPropertyGetterTester();
+        $this->initHalResourceProperties();
 
-        $instance = new Sdk\Api\Order\OrderResource($this->propertyGetter);
+        $instance = new Sdk\Api\Order\OrderResource($this->halResource);
 
         $this->assertEquals($this->props['id'], $instance->getId());
         $this->assertEquals($this->props['reference'], $instance->getReference());
@@ -78,9 +78,9 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
             'updatedAt'      => null,
             'acknowledgedAt' => null,
         ];
-        $this->initPropertyGetterTester();
+        $this->initHalResourceProperties();
 
-        $instance = new Sdk\Api\Order\OrderResource($this->propertyGetter);
+        $instance = new Sdk\Api\Order\OrderResource($this->halResource);
 
         $this->assertNull($instance->getUpdatedAt());
         $this->assertNull($instance->getAcknowledgedAt());
@@ -88,7 +88,7 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
     public function testGetItemsLoadOrderEntity()
     {
-        $this->props = [
+        $this->initHalResourceProperties([
             'items' => [
                 [
                     'reference' => 'a',
@@ -96,17 +96,9 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
                     'quantity'  => 1
                 ]
             ]
-        ];
+        ]);
 
-        $this->initPropertyGetterTester();
-
-        // Check that initialize call is performed
-        $this->propertyGetter
-            ->expects($this->once())
-            ->method('get')
-            ->willReturnSelf();
-
-        $instance = new Sdk\Api\Order\OrderResource($this->propertyGetter);
+        $instance = new Sdk\Api\Order\OrderResource($this->halResource);
         $items    = $instance->getItems();
 
         $this->assertInstanceOf(Sdk\Api\Order\OrderItemCollection::class, $items);

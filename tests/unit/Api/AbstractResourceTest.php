@@ -9,25 +9,28 @@ abstract class AbstractResourceTest extends TestCase
     /**
      * @var HalResource|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $propertyGetter;
+    protected $halResource;
 
     protected $props = [];
 
-    protected function initPropertyGetterTester()
+    protected function initHalResourceProperties(array $props = [])
     {
-        $this->propertyGetter = $this->createMock(HalResource::class);
-        $this->propertyGetter
-            ->expects($this->exactly(count($this->props)))
-            ->method('getProperty')
-            ->with($this->logicalOr(...array_keys($this->props)))
-            ->will($this->returnCallback([$this, 'get']));
-    }
+        if (! $props) {
+            $props = $this->props;
+        }
 
-    /**
-     * Simulate getProperty return
-     */
-    public function get($prop)
-    {
-        return $this->props[$prop];
+        $this->halResource = $this->createMock(HalResource::class);
+        $this->halResource
+            ->expects($this->exactly(count($props)))
+            ->method('getProperty')
+            ->with($this->logicalOr(...array_keys($props)))
+            ->will($this->returnCallback(function($prop) use($props) {
+                return $props[$prop];
+            }));
+
+        // supports initialization by default
+        $this->halResource
+            ->method('get')
+            ->willReturnSelf();
     }
 }

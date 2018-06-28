@@ -1,6 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Order;
 
+use ShoppingFeed\Sdk\Api\Channel\ChannelResource;
 use ShoppingFeed\Sdk\Resource\AbstractResource;
 
 class OrderResource extends AbstractResource
@@ -99,10 +100,18 @@ class OrderResource extends AbstractResource
      */
     public function getItems()
     {
-        $this->initialize();
-
         return OrderItemCollection::fromProperties(
-            $this->getProperty('items') ?: []
+            $this->getProperty('items', true) ?: []
+        );
+    }
+
+    /**
+     * @return ChannelResource A partial representation of the channel resource
+     */
+    public function getChannel()
+    {
+        return new ChannelResource(
+            $this->resource->getFirstResource('channel')
         );
     }
 }
