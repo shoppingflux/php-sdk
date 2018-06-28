@@ -10,9 +10,9 @@ use ShoppingFeed\Sdk\Resource\AbstractResource;
  */
 class ResourceMock extends AbstractResource
 {
-    public function getProperty($property)
+    public function getProperty($property, $initialize = false)
     {
-        return parent::getProperty($property);
+        return parent::getProperty($property, $initialize);
     }
 
     public function propertyMatch($property, $value)

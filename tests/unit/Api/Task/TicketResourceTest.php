@@ -15,9 +15,9 @@ class TicketResourceTest extends AbstractResourceTest
 
     public function testGetproperty()
     {
-        $this->initPropertyGetterTester();
+        $this->initHalResourceProperties();
 
-        $instance = new TicketResource($this->propertyGetter);
+        $instance = new TicketResource($this->halResource);
 
         $this->assertEquals($this->props['id'], $instance->getId());
     }

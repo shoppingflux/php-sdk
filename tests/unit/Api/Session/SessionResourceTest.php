@@ -26,9 +26,9 @@ class SessionResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
     public function testPropertiesGetters()
     {
-        $this->initPropertyGetterTester();
+        $this->initHalResourceProperties();
 
-        $instance = new Sdk\Api\Session\SessionResource($this->propertyGetter);
+        $instance = new Sdk\Api\Session\SessionResource($this->halResource);
 
         $this->assertEquals($this->props['email'], $instance->getEmail());
         $this->assertEquals($this->props['login'], $instance->getLogin());

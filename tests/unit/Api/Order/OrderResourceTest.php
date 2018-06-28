@@ -55,9 +55,9 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
     public function testPropertiesGetters()
     {
-        $this->initPropertyGetterTester();
+        $this->initHalResourceProperties();
 
-        $instance = new Sdk\Api\Order\OrderResource($this->propertyGetter);
+        $instance = new Sdk\Api\Order\OrderResource($this->halResource);
 
         $this->assertEquals($this->props['id'], $instance->getId());
         $this->assertEquals($this->props['reference'], $instance->getReference());
@@ -68,7 +68,7 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $this->assertEquals($this->props['shippingAddress'], $instance->getShippingAddress());
         $this->assertEquals($this->props['billingAddress'], $instance->getBillingAddress());
         $this->assertEquals(date_create_immutable($this->props['createdAt']), $instance->getCreatedAt());
-        $this->assertEquals(date_create_immutable($this->props['updatedAt']), $instance->getUpdateddAt());
+        $this->assertEquals(date_create_immutable($this->props['updatedAt']), $instance->getUpdatedAt());
         $this->assertEquals(date_create_immutable($this->props['acknowledgedAt']), $instance->getAcknowledgedAt());
     }
 
@@ -78,11 +78,30 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
             'updatedAt'      => null,
             'acknowledgedAt' => null,
         ];
-        $this->initPropertyGetterTester();
+        $this->initHalResourceProperties();
 
-        $instance = new Sdk\Api\Order\OrderResource($this->propertyGetter);
+        $instance = new Sdk\Api\Order\OrderResource($this->halResource);
 
-        $this->assertInstanceOf(\DateTimeImmutable::class, $instance->getUpdateddAt());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $instance->getAcknowledgedAt());
+        $this->assertNull($instance->getUpdatedAt());
+        $this->assertNull($instance->getAcknowledgedAt());
+    }
+
+    public function testGetItemsLoadOrderEntity()
+    {
+        $this->initHalResourceProperties([
+            'items' => [
+                [
+                    'reference' => 'a',
+                    'price'     => 9.99,
+                    'quantity'  => 1
+                ]
+            ]
+        ]);
+
+        $instance = new Sdk\Api\Order\OrderResource($this->halResource);
+        $items    = $instance->getItems();
+
+        $this->assertInstanceOf(Sdk\Api\Order\OrderItemCollection::class, $items);
+        $this->assertCount(1, $items, 'item is in collection');
     }
 }

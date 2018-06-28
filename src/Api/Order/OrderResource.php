@@ -1,6 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Order;
 
+use ShoppingFeed\Sdk\Api\Channel\ChannelResource;
 use ShoppingFeed\Sdk\Resource\AbstractResource;
 
 class OrderResource extends AbstractResource
@@ -42,17 +43,15 @@ class OrderResource extends AbstractResource
      */
     public function getAcknowledgedAt()
     {
-        $dateValue = $this->getProperty('acknowledgedAt');
-        return date_create_immutable(is_null($dateValue) ? 'now' : $dateValue);
+        return $this->getPropertyDatetime('acknowledgedAt');
     }
 
     /**
      * @return null|\DateTimeImmutable
      */
-    public function getUpdateddAt()
+    public function getUpdatedAt()
     {
-        $dateValue = $this->getProperty('updatedAt');
-        return date_create_immutable(is_null($dateValue) ? 'now' : $dateValue);
+        return $this->getPropertyDatetime('updatedAt');
     }
 
     /**
@@ -60,7 +59,7 @@ class OrderResource extends AbstractResource
      */
     public function getCreatedAt()
     {
-        return date_create_immutable($this->getProperty('createdAt'));
+        return $this->getPropertyDatetime('createdAt');
     }
 
     /**
@@ -93,5 +92,26 @@ class OrderResource extends AbstractResource
     public function getShipment()
     {
         return $this->getProperty('shipment');
+    }
+
+    /**
+     * Fetch order items details.
+     * The resource has to be loaded to access to items collection
+     */
+    public function getItems()
+    {
+        return OrderItemCollection::fromProperties(
+            $this->getProperty('items', true) ?: []
+        );
+    }
+
+    /**
+     * @return ChannelResource A partial representation of the channel resource
+     */
+    public function getChannel()
+    {
+        return new ChannelResource(
+            $this->resource->getFirstResource('channel')
+        );
     }
 }

@@ -35,6 +35,7 @@ abstract class AbstractDomainResource
     public function getPage(array $criteria = [])
     {
         $criteria = new PaginationCriteria($criteria);
+
         return $this->createPaginator($criteria);
     }
 
