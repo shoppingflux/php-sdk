@@ -49,4 +49,10 @@ class OrderItemCollectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($items[1], $secondOne);
     }
+
+    public function testCollectionCanBeRevertedBackToArray()
+    {
+        $instance = OrderItemCollection::fromProperties($this->items);
+        $this->assertEquals($this->items, $instance->toArray());
+    }
 }

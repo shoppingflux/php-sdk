@@ -53,4 +53,16 @@ class OrderItem
     {
         return $this->getUnitPrice() * $this->getQuantity();
     }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'reference' => $this->getReference(),
+            'quantity'  => $this->getQuantity(),
+            'price'     => $this->getUnitPrice()
+        ];
+    }
 }

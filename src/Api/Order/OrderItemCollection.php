@@ -39,6 +39,16 @@ class OrderItemCollection implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return array_map(function(OrderItem $item) {
+            return $item->toArray();
+        }, $this->items);
+    }
+
+    /**
      * @param OrderItem $item
      */
     private function add(OrderItem $item)
