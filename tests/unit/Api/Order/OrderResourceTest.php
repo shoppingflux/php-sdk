@@ -68,7 +68,7 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $this->assertEquals($this->props['shippingAddress'], $instance->getShippingAddress());
         $this->assertEquals($this->props['billingAddress'], $instance->getBillingAddress());
         $this->assertEquals(date_create_immutable($this->props['createdAt']), $instance->getCreatedAt());
-        $this->assertEquals(date_create_immutable($this->props['updatedAt']), $instance->getUpdateddAt());
+        $this->assertEquals(date_create_immutable($this->props['updatedAt']), $instance->getUpdatedAt());
         $this->assertEquals(date_create_immutable($this->props['acknowledgedAt']), $instance->getAcknowledgedAt());
     }
 
@@ -82,7 +82,34 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
         $instance = new Sdk\Api\Order\OrderResource($this->propertyGetter);
 
-        $this->assertInstanceOf(\DateTimeImmutable::class, $instance->getUpdateddAt());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $instance->getAcknowledgedAt());
+        $this->assertNull($instance->getUpdatedAt());
+        $this->assertNull($instance->getAcknowledgedAt());
+    }
+
+    public function testGetItemsLoadOrderEntity()
+    {
+        $this->props = [
+            'items' => [
+                [
+                    'reference' => 'a',
+                    'price'     => 9.99,
+                    'quantity'  => 1
+                ]
+            ]
+        ];
+
+        $this->initPropertyGetterTester();
+
+        // Check that initialize call is performed
+        $this->propertyGetter
+            ->expects($this->once())
+            ->method('get')
+            ->willReturnSelf();
+
+        $instance = new Sdk\Api\Order\OrderResource($this->propertyGetter);
+        $items    = $instance->getItems();
+
+        $this->assertInstanceOf(Sdk\Api\Order\OrderItemCollection::class, $items);
+        $this->assertCount(1, $items, 'item is in collection');
     }
 }

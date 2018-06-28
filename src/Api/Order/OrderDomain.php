@@ -7,6 +7,8 @@ use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
 /**
  * @method ApiOrder\OrderResource[] getIterator()
  * @method ApiOrder\OrderResource[] getAll($criteria = [])
+ * @method ApiOrder\OrderResource[] getPage(array $criteria = [])
+ * @method ApiOrder\OrderResource[] getPages(array $criteria = [])
  */
 class OrderDomain extends AbstractDomainResource
 {
