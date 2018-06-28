@@ -57,13 +57,15 @@ abstract class AbstractResource implements \JsonSerializable
     /**
      * @param string $property   The property name
      * @param bool   $initialize Indicates if the resource must be fetched from server
-     *                           in order to access to this property (when no present in partial representation)
+     *                           in order to access to this property (when not present in partial representation)
+     *                           The property absence in the current representation is mandatory to pull data
+     *                           from remote API
      *
      * @return mixed|null
      */
     protected function getProperty($property, $initialize = false)
     {
-        if (true === $initialize) {
+        if (true === $initialize && ! $this->resource->hasProperty($property)) {
             $this->initialize();
         }
 

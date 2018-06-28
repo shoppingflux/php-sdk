@@ -6,8 +6,19 @@ namespace ShoppingFeed\Sdk\Api\Order;
  */
 class OrderItem
 {
+    /**
+     * @var string
+     */
     private $reference;
+
+    /**
+     * @var int
+     */
     private $quantity;
+
+    /**
+     * @var float
+     */
     private $unitPrice;
 
     /**
