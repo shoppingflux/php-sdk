@@ -93,9 +93,9 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
                 [
                     'reference' => 'a',
                     'price'     => 9.99,
-                    'quantity'  => 1
-                ]
-            ]
+                    'quantity'  => 1,
+                ],
+            ],
         ]);
 
         $instance = new Sdk\Api\Order\OrderResource($this->halResource);
@@ -103,5 +103,22 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
         $this->assertInstanceOf(Sdk\Api\Order\OrderItemCollection::class, $items);
         $this->assertCount(1, $items, 'item is in collection');
+    }
+
+    public function testGetChannel()
+    {
+        $resource = $this->createMock(Sdk\Hal\HalResource::class);
+        $response = $this->createMock(Sdk\Hal\HalResource::class);
+        $response
+            ->expects($this->once())
+            ->method('getFirstResource')
+            ->with('channel')
+            ->willReturn($resource);
+
+        $instance = new Sdk\Api\Order\OrderResource($response);
+
+        $channel = $instance->getChannel();
+
+        $this->assertInstanceOf(Sdk\Api\Channel\ChannelResource::class, $channel);
     }
 }

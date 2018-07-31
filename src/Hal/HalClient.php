@@ -17,7 +17,6 @@ class HalClient
      */
     private $baseUri;
 
-
     /**
      * @param AdapterInterface $httpClient
      */
@@ -44,11 +43,10 @@ class HalClient
     }
 
     /**
-     * @param string $method
-     * @param string $uri
-     *
-     * @param array  $headers
-     * @param null   $body
+     * @param string      $method
+     * @param string      $uri
+     * @param array       $headers
+     * @param null|string $body
      *
      * @return RequestInterface
      */

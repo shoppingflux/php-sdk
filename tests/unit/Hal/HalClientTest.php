@@ -1,34 +1,46 @@
 <?php
 namespace ShoppingFeed\Sdk\Test\Hal;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use ShoppingFeed\Sdk\Hal\HalClient;
-use ShoppingFeed\Sdk\Hal\HalResource;
+use Psr\Http\Message;
+use ShoppingFeed\Sdk\Hal;
+use ShoppingFeed\Sdk\Http;
 
 class HalClientTest extends TestCase
 {
     public function testCreateRequest()
     {
-        $instance = new HalClient('http://fake.uri');
-        $request  = $instance->createRequest('GET', '/test', ['FakeHeader' => 'HeaderValue'], 'test');
+        $params  = ['GET', '/test', ['FakeHeader' => 'HeaderValue'], 'test'];
+        $request = $this->createMock(Message\RequestInterface::class);
+        /** @var Http\Adapter\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject $httpClient */
+        $httpClient = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $httpClient
+            ->expects($this->once())
+            ->method('createRequest')
+            ->with(...$params)
+            ->willReturn($request);
 
-        $this->assertInstanceOf(RequestInterface::class, $request);
-        $this->assertEquals('test', $request->getBody());
-        $this->assertEquals('HeaderValue', $request->getHeaderLine('FakeHeader'));
-        $this->assertEquals('GET', $request->getMethod());
-        $this->assertEquals('/test', $request->getUri());
+        $instance = new Hal\HalClient('http://fake.uri', $httpClient);
+        $result   = $instance->createRequest(...$params);
+
+        $this->assertSame($request, $result);
     }
 
     public function testRequest()
     {
+        /** @var Http\Adapter\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject $httpClient */
+        $httpClient = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $httpClient
+            ->expects($this->once())
+            ->method('createRequest')
+            ->willReturn(
+                $this->createMock(Message\RequestInterface::class)
+            );
+
         /** @var HalClient|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(HalClient::class)
-            ->setConstructorArgs(['http://fake.uri'])
+            ->getMockBuilder(Hal\HalClient::class)
+            ->setConstructorArgs(['http://fake.uri', $httpClient])
             ->setMethods(['send', 'createRequest'])
             ->getMock();
 
@@ -36,34 +48,40 @@ class HalClientTest extends TestCase
             ->expects($this->once())
             ->method('send')
             ->willReturn(true);
-        $instance
-            ->expects($this->once())
-            ->method('createRequest')
-            ->willReturn($this->createMock(Request::class));
 
         $this->assertTrue($instance->request('GET', '/test'));
     }
 
     public function testCreateResource()
     {
-        $response = $this->createMock(ResponseInterface::class);
+        /** @var Http\Adapter\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject $httpClient */
+        $httpClient = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $response   = $this->createMock(Message\ResponseInterface::class);
         $response
             ->expects($this->once())
             ->method('getBody')
             ->willReturn('{"foo":"bar", "foo2":"bar2"}');
 
-        $instance = new HalClient('http://fake.uri');
+        $instance = new Hal\HalClient('http://fake.uri', $httpClient);
         $resource = $instance->createResource($response);
 
-        $this->assertInstanceOf(HalResource::class, $resource);
+        $this->assertInstanceOf(Hal\HalResource::class, $resource);
     }
 
     public function testWithToken()
     {
-        $instance = new HalClient('http://fake.uri');
+        /** @var Http\Adapter\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject $httpClient */
+        $httpClient = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $httpClient
+            ->expects($this->once())
+            ->method('withToken')
+            ->with('3213213132132131')
+            ->willReturn($this->createMock(Http\Adapter\AdapterInterface::class));
+
+        $instance = new Hal\HalClient('http://fake.uri', $httpClient);
         $client   = $instance->withToken('3213213132132131');
 
-        $this->assertInstanceOf(HalClient::class, $client);
+        $this->assertInstanceOf(Hal\HalClient::class, $client);
         $this->assertNotSame($instance, $client);
     }
 
@@ -72,32 +90,42 @@ class HalClientTest extends TestCase
      */
     public function testSend()
     {
-        $clientInstanceMock = $this
-            ->getMockBuilder(HalClient::class)
-            ->setConstructorArgs(['http://fake.uri'])
-            ->setMethods(['createResource'])
-            ->getMock();
-        $clientInstance = new HalClient('http://fake.uri');
-        $reflection     = new \ReflectionClass($clientInstance);
-        $client         = $this->createMock(Client::class);
-
-        $client
+        /** @var Http\Adapter\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject $httpClient */
+        $httpClient = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $httpClient
             ->expects($this->once())
             ->method('send')
-            ->willReturn(
-                $this->createMock(ResponseInterface::class)
-            );
+            ->willReturn($this->createMock(Message\ResponseInterface::class));
 
-        $clientProp = $reflection->getProperty('client');
-        $clientProp->setAccessible(true);
-        $clientProp->setValue($clientInstanceMock, $client);
+        $clientInstanceMock = $this
+            ->getMockBuilder(Hal\HalClient::class)
+            ->setConstructorArgs(['http://fake.uri', $httpClient])
+            ->setMethods(['createResource'])
+            ->getMock();
 
         $clientInstanceMock
             ->expects($this->once())
             ->method('createResource')
-            ->willReturn($this->createMock(HalResource::class));
+            ->willReturn($this->createMock(Hal\HalResource::class));
 
-        $clientInstanceMock->send($this->createMock(RequestInterface::class));
+        $clientInstanceMock->send($this->createMock(Message\RequestInterface::class));
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    public function testBatchSend()
+    {
+        /** @var Http\Adapter\AdapterInterface|\PHPUnit_Framework_MockObject_MockObject $httpClient */
+        $httpClient = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $httpClient
+            ->expects($this->once())
+            ->method('batchSend')
+            ->willReturn($this->createMock(Message\ResponseInterface::class));
+
+        $instance = new Hal\HalClient('http://fake.uri', $httpClient);
+
+        $instance->batchSend([$this->createMock(Message\RequestInterface::class)]);
     }
 
     /**
@@ -106,20 +134,25 @@ class HalClientTest extends TestCase
      */
     public function testSendNoResponse()
     {
-        $clientInstance = new HalClient('http://fake.uri');
-        $reflection     = new \ReflectionClass($clientInstance);
-        $client         = $this->createMock(Client::class);
-
-        $client
+        $httpClient = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $httpClient
             ->expects($this->once())
             ->method('send')
             ->willReturn(null);
 
-        $clientProp = $reflection->getProperty('client');
-        $clientProp->setAccessible(true);
-        $clientProp->setValue($clientInstance, $client);
+        $clientInstance = new Hal\HalClient('http://fake.uri', $httpClient);
 
-        $result = $clientInstance->send($this->createMock(RequestInterface::class));
+        $result = $clientInstance->send(
+            $this->createMock(Message\RequestInterface::class)
+        );
         $this->assertNull($result);
+    }
+
+    public function testGetAdapter()
+    {
+        $httpClient = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $instance   = new Hal\HalClient('http://fake.uri', $httpClient);
+
+        $this->assertSame($httpClient, $instance->getAdapter());
     }
 }

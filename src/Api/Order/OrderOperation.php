@@ -198,13 +198,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $requests = [];
         foreach ($this->allowedOperationTypes as $type) {
             $this->eachBatch(
-                function (array $chunk) use ($type, $link, &$requests) {
-                    $requests[] = $link->createRequest(
-                        'POST',
-                        ['operation' => $type],
-                        ['order' => $chunk]
-                    );
-                },
+                $this->createRequestGenerator($type, $link, $requests),
                 $type
             );
         }
@@ -215,22 +209,62 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $requestIndex     = 0;
         $link->batchSend(
             $requests,
-            function (Hal\HalResource $resource) use (&$resources, &$ticketReferences, &$requestIndex, $requests) {
-                $this->associateTicketWithReference(
-                    $resource,
-                    $requests[$requestIndex],
-                    $ticketReferences
-                );
-
-                array_push($resources, $resource);
-                $requestIndex++;
-            },
+            $this->createSuccessBatchsendCallback($resources, $ticketReferences, $requestIndex, $requests),
             null,
             [],
             $this->getPoolSize()
         );
 
         return new Api\Order\OrderTicketCollection($resources, $ticketReferences);
+    }
+
+    /**
+     * Create request generation callback
+     *
+     * @param string      $type
+     * @param Hal\HalLink $link
+     * @param array       $requests
+     *
+     * @return \Closure
+     */
+    private function createRequestGenerator($type, Hal\HalLink $link, array &$requests)
+    {
+        return function (array $chunk) use ($type, $link, &$requests) {
+            $requests[] = $link->createRequest(
+                'POST',
+                ['operation' => $type],
+                ['order' => $chunk]
+            );
+        };
+    }
+
+    /**
+     * Batch send success callback
+     *
+     * @param array $resources
+     * @param array $ticketReferences
+     * @param int   $requestIndex
+     * @param array $requests
+     *
+     * @return \Closure
+     */
+    private function createSuccessBatchsendCallback(
+        array &$resources,
+        array &$ticketReferences,
+        &$requestIndex,
+        array $requests
+    )
+    {
+        return function (Hal\HalResource $resource) use (&$resources, &$ticketReferences, &$requestIndex, $requests) {
+            $this->associateTicketWithReference(
+                $resource,
+                $requests[$requestIndex],
+                $ticketReferences
+            );
+
+            array_push($resources, $resource);
+            $requestIndex++;
+        };
     }
 
     /**

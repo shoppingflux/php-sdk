@@ -23,12 +23,17 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
      */
     private $client;
 
+    /**
+     * @var GuzzleHttp\Pool
+     */
+    private $pool;
+
     public function __construct(
-        Client\ClientOptions $options,
+        Client\ClientOptions $options = null,
         GuzzleHttp\HandlerStack $stack = null
     )
     {
-        $this->options = $options;
+        $this->options = $options ?: new Client\ClientOptions();
         $this->stack   = $stack ?: $this->createHandlerStack($this->options);
         $this->client  = new GuzzleHttp\Client([
             'handler'  => $this->stack,
@@ -56,8 +61,8 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
      */
     public function batchSend(array $requests, array $options = [])
     {
-        $pool = new GuzzleHttp\Pool($this->client, $requests, $options);
-        $pool->promise()->wait(true);
+        $this->pool = new GuzzleHttp\Pool($this->client, $requests, $options);
+        $this->pool->promise()->wait(true);
     }
 
     /**
@@ -74,9 +79,12 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
     public function withToken($token)
     {
         $stack = clone $this->stack;
-        $stack->push(GuzzleHttp\Middleware::mapRequest(function (RequestInterface $request) use ($token) {
-            return $request->withHeader('Authorization', 'Bearer ' . trim($token));
-        }));
+        $stack->push(
+            GuzzleHttp\Middleware::mapRequest(function (RequestInterface $request) use ($token) {
+                return $request->withHeader('Authorization', 'Bearer ' . trim($token));
+            }),
+            'token_auth'
+        );
 
         return $this->createClient($this->options->getBaseUri(), $stack);
     }
@@ -111,17 +119,17 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
 
         if ($options->handleRateLimit()) {
             $handler = new Http\Middleware\RateLimitHandler(3, $logger);
-            $stack->push(GuzzleHttp\Middleware::retry([$handler, 'decide'], [$handler, 'delay']));
+            $stack->push(GuzzleHttp\Middleware::retry([$handler, 'decide'], [$handler, 'delay']), 'rate_limit');
         }
 
         $retryCount = $options->getRetryOnServerError();
         if ($retryCount) {
             $handler = new Http\Middleware\ServerErrorHandler($retryCount);
-            $stack->push(GuzzleHttp\Middleware::retry([$handler, 'decide']));
+            $stack->push(GuzzleHttp\Middleware::retry([$handler, 'decide']), 'retry_count');
         }
 
         if ($logger) {
-            $stack->push(GuzzleHttp\Middleware::log($logger, new GuzzleHttp\MessageFormatter()));
+            $stack->push(GuzzleHttp\Middleware::log($logger, new GuzzleHttp\MessageFormatter()), 'logger');
         }
 
         return $stack;

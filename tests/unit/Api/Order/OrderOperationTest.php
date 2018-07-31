@@ -4,6 +4,7 @@ namespace ShoppingFeed\Sdk\Test\Api\Order;
 use GuzzleHttp\Psr7;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\UriInterface;
 use ShoppingFeed\Sdk;
 
 class OrderOperationTest extends TestCase
@@ -354,5 +355,63 @@ class OrderOperationTest extends TestCase
         $method->invokeArgs($instance, [$resource, $request, &$references]);
 
         $this->assertEquals($expected, $references);
+    }
+
+    public function testCreateRequestGenerator()
+    {
+        $request  = $this->createMock(RequestInterface::class);
+        $link     = $this->createMock(Sdk\Hal\HalLink::class);
+        $requests = [];
+
+        $instance = new Sdk\Api\Order\OrderOperation();
+        $link
+            ->expects($this->once())
+            ->method('createRequest')
+            ->with('POST', ['operation' => 'type'], ['order' => ['data']])
+            ->willReturn($request);
+
+        $reflection = new \ReflectionClass(get_class($instance));
+        $method     = $reflection->getMethod('createRequestGenerator');
+        $method->setAccessible(true);
+
+        $callable = $method->invokeArgs($instance, ['type', $link, &$requests]);
+
+        $this->assertInternalType(\PHPUnit_Framework_Constraint_IsType::TYPE_CALLABLE, $callable);
+
+        $callable(['data']);
+
+        $this->assertEquals($request, $requests[0]);
+    }
+
+    public function testCreateSuccessBatchsendCallback()
+    {
+        $request = $this->createMock(RequestInterface::class);
+        $request
+            ->method('getUri')
+            ->willReturn($this->createMock(UriInterface::class));
+        $request
+            ->method('getBody')
+            ->willReturn('{"order":[{"reference":"abc-123"}]}');
+
+        $requests   = [$request];
+        $resources  = [];
+        $references = [];
+        $refIndex   = 0;
+
+        $instance = new Sdk\Api\Order\OrderOperation();
+
+        $reflection = new \ReflectionClass(get_class($instance));
+        $method     = $reflection->getMethod('createSuccessBatchsendCallback');
+        $resource   = $this->createMock(Sdk\Hal\HalResource::class);
+        $method->setAccessible(true);
+
+        $callable = $method->invokeArgs($instance, [&$resources, &$references, &$refIndex, &$requests]);
+
+        $this->assertInternalType(\PHPUnit_Framework_Constraint_IsType::TYPE_CALLABLE, $callable);
+
+        $callable($resource);
+
+        $this->assertEquals($resource, $resources[0]);
+        $this->assertEquals(count($requests), $refIndex);
     }
 }
