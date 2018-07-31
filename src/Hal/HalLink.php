@@ -3,6 +3,7 @@ namespace ShoppingFeed\Sdk\Hal;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use QL\UriTemplate\UriTemplate;
 
 class HalLink
 {
@@ -109,6 +110,8 @@ class HalLink
      * @param array $variables
      *
      * @return null|string|string[]
+     *
+     * @throws \QL\UriTemplate\Exception
      */
     public function getUri(array $variables)
     {
@@ -117,10 +120,10 @@ class HalLink
         }
 
         if (null === static::$uriTemplate) {
-            static::$uriTemplate = new UriTemplate();
+            static::$uriTemplate = new UriTemplate($this->getHref());
         }
 
-        return static::$uriTemplate->expand($this->getHref(), $variables);
+        return static::$uriTemplate->expand($variables);
     }
 
     /**
