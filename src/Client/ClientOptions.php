@@ -32,11 +32,6 @@ class ClientOptions
     private $httpAdapter;
 
     /**
-     * @var HandlerStack
-     */
-    private $stack;
-
-    /**
      * @return LoggerInterface
      */
     public function getLogger()
@@ -130,21 +125,5 @@ class ClientOptions
     public function setHttpAdapter($httpAdapter)
     {
         $this->httpAdapter = $httpAdapter;
-    }
-
-    /**
-     * @return HandlerStack
-     */
-    public function getStack()
-    {
-        return $this->stack;
-    }
-
-    /**
-     * @param HandlerStack $stack
-     */
-    public function setStack($stack)
-    {
-        $this->stack = $stack;
     }
 }

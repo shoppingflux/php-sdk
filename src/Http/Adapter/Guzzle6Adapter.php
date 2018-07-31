@@ -9,7 +9,7 @@ use ShoppingFeed\Sdk\Http;
 class Guzzle6Adapter implements Http\Adapter\AdapterInterface
 {
     /**
-     * @var Client\HandlerStack
+     * @var GuzzleHttp\HandlerStack
      */
     private $stack;
 
@@ -23,10 +23,13 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
      */
     private $client;
 
-    public function __construct(Client\ClientOptions $options)
+    public function __construct(
+        Client\ClientOptions $options,
+        GuzzleHttp\HandlerStack $stack = null
+    )
     {
         $this->options = $options;
-        $this->stack   = $this->options->getStack() ?: $this->createHandlerStack($this->options);
+        $this->stack   = $stack ?: $this->createHandlerStack($this->options);
         $this->client  = new GuzzleHttp\Client([
             'handler'  => $this->stack,
             'base_uri' => $this->options->getBaseUri(),
@@ -81,8 +84,8 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
     /**
      * Create new adapter with given stack
      *
-     * @param string       $baseUri
-     * @param Client\HandlerStack $stack
+     * @param string                  $baseUri
+     * @param GuzzleHttp\HandlerStack $stack
      *
      * @return Http\Adapter\AdapterInterface
      */
@@ -90,9 +93,8 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
     {
         $options = $this->options;
         $options->setBaseUri($baseUri);
-        $options->setStack($stack);
 
-        return new self($options);
+        return new self($options, $stack);
     }
 
     /**
@@ -100,11 +102,11 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
      *
      * @param Client\ClientOptions $options
      *
-     * @return Client\HandlerStack
+     * @return GuzzleHttp\HandlerStack
      */
     private function createHandlerStack(Client\ClientOptions $options)
     {
-        $stack  = new Client\HandlerStack(GuzzleHttp\HandlerStack::create());
+        $stack  = GuzzleHttp\HandlerStack::create();
         $logger = $options->getLogger();
 
         if ($options->handleRateLimit()) {
