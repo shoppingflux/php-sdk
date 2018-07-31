@@ -29,8 +29,6 @@ abstract class AbstractDomainResource
      * @param array $criteria
      *
      * @return null|PaginatedResourceCollection
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getPage(array $criteria = [])
     {
@@ -43,8 +41,6 @@ abstract class AbstractDomainResource
      * @param array $filters
      *
      * @return AbstractResource[]|\Traversable
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getAll(array $filters = [])
     {
@@ -60,8 +56,6 @@ abstract class AbstractDomainResource
      * @param array $criteria Pagination criteria
      *
      * @return PaginatedResourceCollection[]|\Traversable
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getPages(array $criteria = [])
     {
@@ -77,8 +71,6 @@ abstract class AbstractDomainResource
      * @param PaginationCriteria $criteria
      *
      * @return null|PaginatedResourceCollection
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function createPaginator(PaginationCriteria $criteria)
     {

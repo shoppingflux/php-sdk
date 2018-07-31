@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Guzzle\Middleware;
+namespace ShoppingFeed\Sdk\Http\Middleware;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

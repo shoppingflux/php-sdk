@@ -1,9 +1,9 @@
 <?php
-namespace ShoppingFeed\Sdk\Test\Guzzle\Middleware;
+namespace ShoppingFeed\Sdk\Test\Http\Middleware;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message;
-use ShoppingFeed\Sdk\Guzzle\Middleware\ServerErrorHandler;
+use ShoppingFeed\Sdk\Http\Middleware\ServerErrorHandler;
 
 class ServerErrorHandlerTest extends TestCase
 {

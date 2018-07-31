@@ -1,7 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Order;
 
-use GuzzleHttp\Psr7\Request;
+use Psr\Http\Message\RequestInterface;
 use ShoppingFeed\Sdk\Api;
 use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Operation;
@@ -236,13 +236,13 @@ class OrderOperation extends Operation\AbstractBulkOperation
     /**
      * Extract association between order references, operation and ticket
      *
-     * @param Hal\HalResource $resource
-     * @param Request         $request
-     * @param                 $ticketReferences
+     * @param Hal\HalResource  $resource
+     * @param RequestInterface $request
+     * @param                  $ticketReferences
      */
     private function associateTicketWithReference(
         Hal\HalResource $resource,
-        Request $request,
+        RequestInterface $request,
         &$ticketReferences
     )
     {

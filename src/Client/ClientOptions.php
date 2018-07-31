@@ -2,6 +2,7 @@
 namespace ShoppingFeed\Sdk\Client;
 
 use Psr\Log\LoggerInterface;
+use ShoppingFeed\Sdk\Http\Adapter\AdapterInterface;
 
 class ClientOptions
 {
@@ -24,6 +25,16 @@ class ClientOptions
      * @var LoggerInterface
      */
     private $logger;
+
+    /**
+     * @var AdapterInterface
+     */
+    private $httpAdapter;
+
+    /**
+     * @var HandlerStack
+     */
+    private $stack;
 
     /**
      * @return LoggerInterface
@@ -103,5 +114,37 @@ class ClientOptions
     public function getRetryOnServerError()
     {
         return $this->retryOnServerError;
+    }
+
+    /**
+     * @return AdapterInterface
+     */
+    public function getHttpAdapter()
+    {
+        return $this->httpAdapter;
+    }
+
+    /**
+     * @param AdapterInterface $httpAdapter
+     */
+    public function setHttpAdapter($httpAdapter)
+    {
+        $this->httpAdapter = $httpAdapter;
+    }
+
+    /**
+     * @return HandlerStack
+     */
+    public function getStack()
+    {
+        return $this->stack;
+    }
+
+    /**
+     * @param HandlerStack $stack
+     */
+    public function setStack($stack)
+    {
+        $this->stack = $stack;
     }
 }
