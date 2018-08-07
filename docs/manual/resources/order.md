@@ -28,6 +28,7 @@ Here are the available criteria at your disposal :
     - `status` : filter order by their status, multiple status are allowed. Status available are : created, 
     waiting_store_acceptance, refused, waiting_shipment, shipped, cancelled, refunded, partially_refunded, 
     partially_shipped
+    - `tag` : retrieve order linked to the requested tag
 
 Examples :
 
@@ -38,6 +39,7 @@ $criteria = [
     'limit'   => 20, // 20 order per page
     'filters' => [
         'status' => ['shipped', 'cancelled'] // we only want order with shipped or cancelled status
+        'tag'    => 'test'                   // we only want order linked to 'test' tag
     ]
 ];
 
