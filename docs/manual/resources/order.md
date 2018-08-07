@@ -28,18 +28,28 @@ Here are the available criteria at your disposal :
     - `status` : filter order by their status, multiple status are allowed. Status available are : created, 
     waiting_store_acceptance, refused, waiting_shipment, shipped, cancelled, refunded, partially_refunded, 
     partially_shipped
-    - `tag` : retrieve order linked to the requested tag
+    - `tag` : retrieve orders linked to the requested tag
+    - `channel` : filter orders by the requested channel id
+    - `since`: filter orders created since the given date time
+    - `until`: filter orders created until the given date time
+    - `acknowledgment`: filter orders by their acknowledgment status allow values are `acknowledged` or `unacknowledged`
+    - `carrier`: filter orders by carrier name
 
 Examples :
 
 ```php
 // Criteria used to query order API
 $criteria = [
-    'page'    => 1, // first page
+    'page'    => 1,  // first page
     'limit'   => 20, // 20 order per page
     'filters' => [
-        'status' => ['shipped', 'cancelled'] // we only want order with shipped or cancelled status
-        'tag'    => 'test'                   // we only want order linked to 'test' tag
+        'status'         => ['shipped', 'cancelled']            // we only want order with shipped or cancelled status
+        'tag'            => 'test'                              // we only want order linked to 'test' tag
+        'channel'        => 123                                 // we only want order from the channel 123
+        'since'          => new DateTime('2017-12-01T12:00:00') // we only want order created since 2017-12-01 12:00:00
+        'until'          => new DateTime('2018-01-31T12:00:00') // we only want order created until 2018-01-31 12:00:00
+        'acknowledgment' => 'acknowledged'                      // we only want order that have been acknowledged
+        'carrier'        => 'UPS'                               // we only want order that have been shipped via 'UPS' carrier
     ]
 ];
 
