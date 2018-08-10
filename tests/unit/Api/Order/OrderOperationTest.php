@@ -198,7 +198,7 @@ class OrderOperationTest extends TestCase
                         return $param['status'] === $data[2]
                                && $param['storeReference'] === $data[3]
                                && $param['message'] === $data[4]
-                               && $param['acknowledgedAt'] instanceof \DateTimeImmutable;
+                               && !empty($param['acknowledgedAt']);
                     }
                 )
             );
@@ -238,7 +238,7 @@ class OrderOperationTest extends TestCase
                         return $param['status'] === $data[2]
                                && $param['storeReference'] === $data[3]
                                && $param['message'] === $data[4]
-                               && $param['acknowledgedAt'] instanceof \DateTimeImmutable;
+                               && !empty($param['acknowledgedAt']);
                     }
                 )
             );
