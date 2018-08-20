@@ -6,6 +6,7 @@ use ShoppingFeed\Sdk\Api;
 use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Operation;
 use ShoppingFeed\Sdk\Order;
+use ShoppingFeed\Sdk\Resource\Json;
 
 class OrderOperation extends Operation\AbstractBulkOperation
 {
@@ -281,7 +282,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
     )
     {
         $ticketId  = $resource->getProperty('id');
-        $orders    = json_decode($request->getBody())->order;
+        $orders    = Json::decode($request->getBody())->order;
         $uri       = $request->getUri()->getPath();
         $operation = substr($uri, strrpos($uri, '/') + 1);
 

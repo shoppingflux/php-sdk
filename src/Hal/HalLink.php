@@ -4,6 +4,7 @@ namespace ShoppingFeed\Sdk\Hal;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use QL\UriTemplate\UriTemplate;
+use ShoppingFeed\Sdk\Resource\Json;
 
 class HalLink
 {
@@ -254,7 +255,7 @@ class HalLink
 
         if (! isset($headers['Content-Type']) && in_array($method, ['POST', 'PUT', 'PATCH'])) {
             $headers['Content-Type'] = 'application/json';
-            $body                    = json_encode($body);
+            $body                    = Json::encode($body);
         }
 
         return $this->client->createRequest($method, $uri, $headers, $body);

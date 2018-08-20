@@ -4,6 +4,7 @@ namespace ShoppingFeed\Sdk\Hal;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use ShoppingFeed\Sdk\Http\Adapter\AdapterInterface;
+use ShoppingFeed\Sdk\Resource\Json;
 
 class HalClient
 {
@@ -106,7 +107,7 @@ class HalClient
     {
         return HalResource::fromArray(
             $this,
-            json_decode($response->getBody(), true)
+            Json::decode($response->getBody(), true)
         );
     }
 
