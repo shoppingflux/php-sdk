@@ -33,6 +33,15 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
         GuzzleHttp\HandlerStack $stack = null
     )
     {
+        if (! interface_exists(GuzzleHttp\ClientInterface::class)
+            || version_compare(GuzzleHttp\ClientInterface::VERSION, '6', '<')
+            || version_compare(GuzzleHttp\ClientInterface::VERSION, '7', '>=')
+        ) {
+            throw new Http\Exception\MissingDependencyException(
+                'No GuzzleHttp client v6 found, please install the dependency or add your own http adapter'
+            );
+        }
+
         $this->options = $options ?: new Client\ClientOptions();
         $this->stack   = $stack ?: $this->createHandlerStack($this->options);
         $this->client  = new GuzzleHttp\Client([

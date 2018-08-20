@@ -122,7 +122,7 @@ class ClientOptions
     /**
      * @param AdapterInterface $httpAdapter
      */
-    public function setHttpAdapter($httpAdapter)
+    public function setHttpAdapter(AdapterInterface $httpAdapter)
     {
         $this->httpAdapter = $httpAdapter;
     }
