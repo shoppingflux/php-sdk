@@ -6,6 +6,9 @@ use Psr\Http\Message\RequestInterface;
 use ShoppingFeed\Sdk\Client;
 use ShoppingFeed\Sdk\Http;
 
+/**
+ * Http Client Adapter for GuzzleHttp v6
+ */
 class Guzzle6Adapter implements Http\Adapter\AdapterInterface
 {
     /**
@@ -84,6 +87,8 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
 
     /**
      * @inheritdoc
+     *
+     * @throws Http\Exception\MissingDependencyException
      */
     public function withToken($token)
     {
@@ -105,6 +110,8 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
      * @param GuzzleHttp\HandlerStack $stack
      *
      * @return Http\Adapter\AdapterInterface
+     *
+     * @throws Http\Exception\MissingDependencyException
      */
     private function createClient($baseUri, $stack)
     {
