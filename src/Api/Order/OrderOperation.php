@@ -147,7 +147,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      */
     public function acknowledge($reference, $channelName, $status, $storeReference, $message = '')
     {
-        $acknowledgedAt = (new \DateTimeImmutable())->format(\DateTime::ISO8601);
+        $acknowledgedAt = (new \DateTimeImmutable())->format('c');
 
         $this->addOperation(
             $reference,
@@ -175,7 +175,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      */
     public function unacknowledge($reference, $channelName, $status, $storeReference, $message = '')
     {
-        $acknowledgedAt = (new \DateTimeImmutable())->format(\DateTime::ISO8601);
+        $acknowledgedAt = (new \DateTimeImmutable())->format('c');
 
         $this->addOperation(
             $reference,
