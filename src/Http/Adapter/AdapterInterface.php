@@ -66,7 +66,7 @@ interface AdapterInterface
     public function createRequest($method, $uri, array $headers = [], $body = null);
 
     /**
-     * Create client instance that will use the given token in the 'Authorization' header for all request sent via it
+     * Use the given token in the 'Authorization' header for all request sent via the adapter
      *
      * @param string $token
      *
