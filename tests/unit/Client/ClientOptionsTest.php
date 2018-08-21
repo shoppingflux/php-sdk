@@ -11,8 +11,10 @@ class ClientOptionsTest extends TestCase
     {
         $uri      = 'http://uri.com';
         $logger   = $this->createMock(LoggerInterface::class);
+        $headers  = ['HeaderName' => 'HeaderValue'];
         $instance = new ClientOptions();
         $instance
+            ->setHeaders($headers)
             ->setLogger($logger)
             ->setRetryOnServerError(5)
             ->setHandleRateLimit(true)
@@ -21,6 +23,7 @@ class ClientOptionsTest extends TestCase
         $this->assertSame($logger, $instance->getLogger());
         $this->assertEquals(5, $instance->getRetryOnServerError());
         $this->assertEquals($uri, $instance->getBaseUri());
+        $this->assertEquals($headers, $instance->getHeaders());
         $this->assertTrue($instance->handleRateLimit());
     }
 }

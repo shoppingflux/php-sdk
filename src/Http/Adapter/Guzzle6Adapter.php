@@ -87,23 +87,6 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
 
     /**
      * @inheritdoc
-     */
-    public function addHeader($name, $value = null)
-    {
-        $headers = is_array($name) ? $name : [$name => $value];
-
-        if (! is_array($name) && is_null($value)) {
-            throw new \InvalidArgumentException('Missing value for header ' . $name);
-        }
-
-        $this->headers = array_merge($headers, $name);
-        $this->initClient();
-
-        return $this;
-    }
-
-    /**
-     * @inheritdoc
      *
      * @throws Http\Exception\MissingDependencyException
      */

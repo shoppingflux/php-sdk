@@ -99,7 +99,7 @@ class ClientOptions
     /**
      * @param int $retryCount
      *
-     * @return $this
+     * @return ClientOptions
      */
     public function setRetryOnServerError($retryCount)
     {
@@ -126,10 +126,14 @@ class ClientOptions
 
     /**
      * @param AdapterInterface $httpAdapter
+     *
+     * @return ClientOptions
      */
     public function setHttpAdapter(AdapterInterface $httpAdapter)
     {
         $this->httpAdapter = $httpAdapter;
+
+        return $this;
     }
 
     /**
@@ -142,9 +146,13 @@ class ClientOptions
 
     /**
      * @param array $headers
+     *
+     * @return ClientOptions
      */
     public function setHeaders(array $headers)
     {
         $this->headers = $headers;
+
+        return $this;
     }
 }
