@@ -284,10 +284,7 @@ class HalLink
     private function createExceptionCallback(callable $callback = null)
     {
         return function (\Exception $exception) use ($callback) {
-            if (method_exists($exception, 'hasResponse') && $exception->hasResponse() && $callback) {
-                $resource = $this->client->createResource($exception->getResponse());
-                call_user_func($callback, $resource);
-            }
+            call_user_func($callback, $exception);
         };
     }
 }
