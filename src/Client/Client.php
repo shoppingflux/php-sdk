@@ -15,6 +15,15 @@ class Client
     private $client;
 
     /**
+     * @var array
+     */
+    private $sdkHeaders = [
+        'Accept'          => 'application/json',
+        'User-Agent'      => 'SF-SDK-PHP/' . Client::VERSION,
+        'Accept-Encoding' => 'gzip',
+    ];
+
+    /**
      * @param CredentialInterface $credential
      * @param ClientOptions|null  $options
      *
@@ -25,14 +34,14 @@ class Client
         return (new self($options))->authenticate($credential);
     }
 
-    /**
-     * @param ClientOptions $options
-     */
     public function __construct(ClientOptions $options = null)
     {
         if (null === $options) {
             $options = new ClientOptions();
         }
+
+        $options->setHeaders(array_merge($options->getHeaders(), $this->sdkHeaders));
+
         if (null === $options->getHttpAdapter()) {
             $options->setHttpAdapter(new Http\Adapter\Guzzle6Adapter($options));
         }

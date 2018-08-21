@@ -44,6 +44,16 @@ interface AdapterInterface
     public function batchSend(array $requests, array $options = []);
 
     /**
+     * Set header into the http client
+     *
+     * @param string|array $name  Can be the header name or a full set of headers array('Name' => 'Value',...)
+     * @param string       $value Value in case of setting only one header
+     *
+     * @return AdapterInterface
+     */
+    public function addHeader($name, $value = null);
+
+    /**
      * Create request from given parameters
      *
      * @param string $method  Http method

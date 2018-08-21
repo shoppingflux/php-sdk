@@ -32,6 +32,11 @@ class ClientOptions
     private $httpAdapter;
 
     /**
+     * @var array
+     */
+    private $headers = [];
+
+    /**
      * @return LoggerInterface
      */
     public function getLogger()
@@ -125,5 +130,21 @@ class ClientOptions
     public function setHttpAdapter(AdapterInterface $httpAdapter)
     {
         $this->httpAdapter = $httpAdapter;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * @param array $headers
+     */
+    public function setHeaders(array $headers)
+    {
+        $this->headers = $headers;
     }
 }

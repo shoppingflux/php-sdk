@@ -37,14 +37,7 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
         GuzzleHttp\HandlerStack $stack = null
     )
     {
-        if (! interface_exists(GuzzleHttp\ClientInterface::class)
-            || version_compare(GuzzleHttp\ClientInterface::VERSION, '6', '<')
-            || version_compare(GuzzleHttp\ClientInterface::VERSION, '7', '>=')
-        ) {
-            throw new Http\Exception\MissingDependencyException(
-                'No GuzzleHttp client v6 found, please install the dependency or add your own http adapter'
-            );
-        }
+        $this->checkDependency();
 
         $this->options = $options ?: new Client\ClientOptions();
         $this->stack   = $stack ?: $this->createHandlerStack();
@@ -94,6 +87,23 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
 
     /**
      * @inheritdoc
+     */
+    public function addHeader($name, $value = null)
+    {
+        $headers = is_array($name) ? $name : [$name => $value];
+
+        if (! is_array($name) && is_null($value)) {
+            throw new \InvalidArgumentException('Missing value for header ' . $name);
+        }
+
+        $this->headers = array_merge($headers, $name);
+        $this->initClient();
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
      *
      * @throws Http\Exception\MissingDependencyException
      */
@@ -111,6 +121,23 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
     }
 
     /**
+     * Check for Guzzle 6 accessibility and version
+     *
+     * @throws Http\Exception\MissingDependencyException
+     */
+    private function checkDependency()
+    {
+        if (! interface_exists(GuzzleHttp\ClientInterface::class)
+            || version_compare(GuzzleHttp\ClientInterface::VERSION, '6', '<')
+            || version_compare(GuzzleHttp\ClientInterface::VERSION, '7', '>=')
+        ) {
+            throw new Http\Exception\MissingDependencyException(
+                'No GuzzleHttp client v6 found, please install the dependency or add your own http adapter'
+            );
+        }
+    }
+
+    /**
      * Initialise Http Client
      */
     private function initClient()
@@ -118,11 +145,7 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
         $this->client = new GuzzleHttp\Client([
             'handler'  => $this->stack,
             'base_uri' => $this->options->getBaseUri(),
-            'headers'  => [
-                'Accept'          => 'application/json',
-                'User-Agent'      => 'SF-SDK-PHP/' . Client\Client::VERSION,
-                'Accept-Encoding' => 'gzip',
-            ],
+            'headers'  => $this->options->getHeaders(),
         ]);
     }
 
