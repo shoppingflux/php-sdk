@@ -7,10 +7,31 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use ShoppingFeed\Sdk\Client\ClientOptions;
+use ShoppingFeed\Sdk\Http\Adapter\AdapterInterface;
 use ShoppingFeed\Sdk\Http\Adapter\Guzzle6Adapter;
 
 class Guzzle6AdapterTest extends TestCase
 {
+    public function testConfigure()
+    {
+        $instance = new Guzzle6Adapter();
+        $options  = new ClientOptions();
+        $options->setBaseUri('http://test');
+        $options->setRetryOnServerError(20);
+        $options->handleRateLimit();
+
+        $adapter = $instance->configure($options);
+
+        $reflexion = new \ReflectionClass($instance);
+        $property  = $reflexion->getProperty('options');
+        $property->setAccessible(true);
+        $extract = $property->getValue($instance);
+
+        $this->assertSame($options, $extract);
+        $this->assertInstanceOf(AdapterInterface::class, $adapter);
+        $this->assertEquals($adapter, $instance);
+    }
+
     public function testSend()
     {
         $client      = $this->createMock(GuzzleHttp\Client::class);

@@ -4,6 +4,7 @@ namespace ShoppingFeed\Sdk\Http\Adapter;
 use GuzzleHttp;
 use Psr\Http\Message\RequestInterface;
 use ShoppingFeed\Sdk\Client;
+use ShoppingFeed\Sdk\Client\ClientOptions;
 use ShoppingFeed\Sdk\Http;
 
 /**
@@ -46,16 +47,22 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
         }
 
         $this->options = $options ?: new Client\ClientOptions();
-        $this->stack   = $stack ?: $this->createHandlerStack($this->options);
-        $this->client  = new GuzzleHttp\Client([
-            'handler'  => $this->stack,
-            'base_uri' => $this->options->getBaseUri(),
-            'headers'  => [
-                'Accept'          => 'application/json',
-                'User-Agent'      => 'SF-SDK-PHP/' . Client\Client::VERSION,
-                'Accept-Encoding' => 'gzip',
-            ],
-        ]);
+        $this->stack   = $stack ?: $this->createHandlerStack();
+
+        $this->initClient();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function configure(ClientOptions $options)
+    {
+        $this->options = $options;
+
+        $this->createHandlerStack();
+        $this->initClient();
+
+        return $this;
     }
 
     /**
@@ -104,6 +111,22 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
     }
 
     /**
+     * Initialise Http Client
+     */
+    private function initClient()
+    {
+        $this->client = new GuzzleHttp\Client([
+            'handler'  => $this->stack,
+            'base_uri' => $this->options->getBaseUri(),
+            'headers'  => [
+                'Accept'          => 'application/json',
+                'User-Agent'      => 'SF-SDK-PHP/' . Client\Client::VERSION,
+                'Accept-Encoding' => 'gzip',
+            ],
+        ]);
+    }
+
+    /**
      * Create new adapter with given stack
      *
      * @param string                  $baseUri
@@ -124,30 +147,28 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
     /**
      * Create handler stack
      *
-     * @param Client\ClientOptions $options
-     *
      * @return GuzzleHttp\HandlerStack
      */
-    private function createHandlerStack(Client\ClientOptions $options)
+    private function createHandlerStack()
     {
-        $stack  = GuzzleHttp\HandlerStack::create();
-        $logger = $options->getLogger();
+        $this->stack = GuzzleHttp\HandlerStack::create();
+        $logger      = $this->options->getLogger();
 
-        if ($options->handleRateLimit()) {
+        if ($this->options->handleRateLimit()) {
             $handler = new Http\Middleware\RateLimitHandler(3, $logger);
-            $stack->push(GuzzleHttp\Middleware::retry([$handler, 'decide'], [$handler, 'delay']), 'rate_limit');
+            $this->stack->push(GuzzleHttp\Middleware::retry([$handler, 'decide'], [$handler, 'delay']), 'rate_limit');
         }
 
-        $retryCount = $options->getRetryOnServerError();
+        $retryCount = $this->options->getRetryOnServerError();
         if ($retryCount) {
             $handler = new Http\Middleware\ServerErrorHandler($retryCount);
-            $stack->push(GuzzleHttp\Middleware::retry([$handler, 'decide']), 'retry_count');
+            $this->stack->push(GuzzleHttp\Middleware::retry([$handler, 'decide']), 'retry_count');
         }
 
         if ($logger) {
-            $stack->push(GuzzleHttp\Middleware::log($logger, new GuzzleHttp\MessageFormatter()), 'logger');
+            $this->stack->push(GuzzleHttp\Middleware::log($logger, new GuzzleHttp\MessageFormatter()), 'logger');
         }
 
-        return $stack;
+        return $this->stack;
     }
 }
