@@ -5,6 +5,7 @@ use GuzzleHttp;
 use Psr\Http\Message\RequestInterface;
 use ShoppingFeed\Sdk\Client;
 use ShoppingFeed\Sdk\Client\ClientOptions;
+use ShoppingFeed\Sdk\Hal\HalClient;
 use ShoppingFeed\Sdk\Http;
 
 /**
@@ -73,6 +74,8 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
      */
     public function batchSend(array $requests, array $options = [])
     {
+        $options['rejected'] = $this->createExceptionCallback();
+
         $this->pool = new GuzzleHttp\Pool($this->client, $requests, $options);
         $this->pool->promise()->wait(true);
     }
@@ -101,6 +104,23 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
         );
 
         return $this->createClient($this->options->getBaseUri(), $stack);
+    }
+
+    /**
+     * @param callable|null $callback
+     *
+     * @return \Closure
+     */
+    private function createExceptionCallback(callable $callback = null)
+    {
+        return function (GuzzleHttp\Exception\RequestException $exception) use ($callback) {
+            if ($exception->hasResponse() && $callback) {
+                $halClient = new HalClient($this->options->getBaseUri(), $this);
+                $resource  = $halClient->createResource($exception->getResponse());
+
+                call_user_func($callback, $resource);
+            }
+        };
     }
 
     /**

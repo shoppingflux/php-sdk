@@ -232,16 +232,7 @@ class HalLinkTest extends TestCase
                 ),
                 $this->callback(
                     function ($config) use ($test) {
-                        $exception = $test->createMock(RequestException::class);
-                        $exception
-                            ->expects($this->once())
-                            ->method('hasResponse')
-                            ->willReturn(true);
-                        $exception
-                            ->expects($this->once())
-                            ->method('getResponse')
-                            ->willReturn($this->createMock(ResponseInterface::class));
-
+                        $exception = $test->createMock(\Exception::class);
                         $config['rejected']($exception);
                         $this->expectOutputString('Error');
                         return true;
