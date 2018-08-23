@@ -29,7 +29,7 @@ interface AdapterInterface
      * @param Message\RequestInterface $request Psr\RequestInterface object ready to be sent
      * @param array                    $options Options to pass to the http client
      *
-     * @return null|Message\ResponseInterface
+     * @return Message\ResponseInterface
      */
     public function send(Message\RequestInterface $request, array $options = []);
 
