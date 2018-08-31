@@ -34,7 +34,11 @@ class ClientOptions
     /**
      * @var array
      */
-    private $headers = [];
+    private $headers = [
+        'Accept'          => 'application/json',
+        'User-Agent'      => 'SF-SDK-PHP/' . Client::VERSION,
+        'Accept-Encoding' => 'gzip',
+    ];
 
     /**
      * @return LoggerInterface
@@ -151,7 +155,7 @@ class ClientOptions
      */
     public function setHeaders(array $headers)
     {
-        $this->headers = $headers;
+        $this->headers = array_merge($this->headers, $headers);
 
         return $this;
     }

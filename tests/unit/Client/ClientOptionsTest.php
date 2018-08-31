@@ -20,6 +20,13 @@ class ClientOptionsTest extends TestCase
             ->setHandleRateLimit(true)
             ->setBaseUri($uri);
 
+        $headers = [
+            'HeaderName'      => 'HeaderValue',
+            'Accept'          => 'application/json',
+            'User-Agent'      => 'SF-SDK-PHP/1.0.0',
+            'Accept-Encoding' => 'gzip',
+        ];
+
         $this->assertSame($logger, $instance->getLogger());
         $this->assertEquals(5, $instance->getRetryOnServerError());
         $this->assertEquals($uri, $instance->getBaseUri());
