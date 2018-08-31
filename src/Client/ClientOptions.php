@@ -153,7 +153,7 @@ class ClientOptions
      *
      * @return ClientOptions
      */
-    public function setHeaders(array $headers)
+    public function addHeaders(array $headers)
     {
         $this->headers = array_merge($this->headers, $headers);
 

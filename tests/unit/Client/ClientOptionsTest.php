@@ -14,7 +14,7 @@ class ClientOptionsTest extends TestCase
         $headers  = ['HeaderName' => 'HeaderValue'];
         $instance = new ClientOptions();
         $instance
-            ->setHeaders($headers)
+            ->addHeaders($headers)
             ->setLogger($logger)
             ->setRetryOnServerError(5)
             ->setHandleRateLimit(true)
