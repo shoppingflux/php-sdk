@@ -42,12 +42,12 @@ $criteria = [
     'page'    => 1,  // first page
     'limit'   => 20, // 20 order per page
     'filters' => [
-        'status'         => ['shipped', 'cancelled']            // we only want order with shipped or cancelled status
-        'acknowledgment' => 'acknowledged'                      // we only want order that have been acknowledged
-        'channel'        => 123                                 // we only want order from the channel 123
-        'tag'            => 'test'                              // we only want order linked to 'test' tag
-        'since'          => new DateTime('2017-12-01T12:00:00') // we only want order created since 2017-12-01 12:00:00
-        'until'          => new DateTime('2018-01-31T12:00:00') // we only want order created until 2018-01-31 12:00:00
+        'status'         => ['shipped', 'cancelled']  // we only want order with shipped or cancelled status
+        'acknowledgment' => 'acknowledged'            // we only want order that have been acknowledged
+        'channel'        => 123                       // we only want order from the channel 123
+        'tag'            => 'test'                    // we only want order linked to 'test' tag
+        'since'          => '2017-12-01T12:00:00'     // we only want order created since 2017-12-01 12:00:00
+        'until'          => '2018-01-31T12:00:00'     // we only want order created until 2018-01-31 12:00:00
     ]
 ];
 

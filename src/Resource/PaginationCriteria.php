@@ -80,7 +80,7 @@ class PaginationCriteria
                 }
                 // Format date in ISO 8601
                 if ($values instanceof \DateTimeInterface) {
-                    $query[$field] = $values->format(\DateTime::ISO8601);
+                    $query[$field] = $values->format('c');
                     continue;
                 }
 
