@@ -58,9 +58,13 @@ interface AdapterInterface
     /**
      * Use the given token in the 'Authorization' header for all request sent via the adapter
      *
-     * @param string $token
+     * When the use perform authentication with the SDK, a new session is created, associated to this token.
+     * As the SDK user can create more than one session with the same SDK client, the adapter must return
+     * A copy or a new instance of the underlying HTTP client, which hold the session token.
      *
-     * @return AdapterInterface
+     * @param string $token The token associated to a new session
+     *
+     * @return AdapterInterface A unique copy of the the current instance that will use the token to perform HTTP calls
      */
     public function withToken($token);
 }
