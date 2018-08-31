@@ -176,8 +176,8 @@ class OrderOperationTest extends TestCase
         $data = [
             'ref1',
             'amazon',
-            'success',
             '123654abc',
+            'success',
             'Acknowledged',
         ];
 
@@ -195,9 +195,9 @@ class OrderOperationTest extends TestCase
                 Sdk\Api\Order\OrderOperation::TYPE_ACKNOWLEDGE,
                 new \PHPUnit_Framework_Constraint_Callback(
                     function ($param) use ($data) {
-                        return $param['status'] === $data[2]
-                               && $param['storeReference'] === $data[3]
-                               && $param['message'] === $data[4]
+                        return $param['status'] === 'success'
+                               && $param['storeReference'] === '123654abc'
+                               && $param['message'] === 'Acknowledged'
                                && !empty($param['acknowledgedAt']);
                     }
                 )
@@ -214,11 +214,9 @@ class OrderOperationTest extends TestCase
      */
     public function testUnacknowledgeOperation()
     {
-        $data     = [
+        $data = [
             'ref2',
             'amazon2',
-            'success2',
-            '123654abcd',
             'Unacknowledged',
         ];
         $instance = $this
@@ -232,15 +230,7 @@ class OrderOperationTest extends TestCase
             ->with(
                 'ref2',
                 'amazon2',
-                Sdk\Api\Order\OrderOperation::TYPE_UNACKNOWLEDGE,
-                new \PHPUnit_Framework_Constraint_Callback(
-                    function ($param) use ($data) {
-                        return $param['status'] === $data[2]
-                               && $param['storeReference'] === $data[3]
-                               && $param['message'] === $data[4]
-                               && !empty($param['acknowledgedAt']);
-                    }
-                )
+                Sdk\Api\Order\OrderOperation::TYPE_UNACKNOWLEDGE
             );
 
         $this->assertInstanceOf(

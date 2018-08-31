@@ -145,9 +145,9 @@ class OrderOperation extends Operation\AbstractBulkOperation
      * @throws Order\Exception\UnexpectedTypeException
      * @throws \Exception
      */
-    public function acknowledge($reference, $channelName, $status, $storeReference, $message = '')
+    public function acknowledge($reference, $channelName, $storeReference = '', $status = 'success', $message = '')
     {
-        $acknowledgedAt = date('c');
+        $acknowledgedAt = date_create()->format('c');
 
         $this->addOperation(
             $reference,
@@ -162,26 +162,20 @@ class OrderOperation extends Operation\AbstractBulkOperation
     /**
      * Unacknowledge order reception
      *
-     * @param string $reference
-     * @param string $channelName
-     * @param string $status
-     * @param string $storeReference
-     * @param string $message
+     * @param string $reference     The channel's order reference
+     * @param string $channelName   The channel's name
      *
      * @return OrderOperation
      *
      * @throws Order\Exception\UnexpectedTypeException
      * @throws \Exception
      */
-    public function unacknowledge($reference, $channelName, $status, $storeReference, $message = '')
+    public function unacknowledge($reference, $channelName)
     {
-        $acknowledgedAt = date('c');
-
         $this->addOperation(
             $reference,
             $channelName,
-            OrderOperation::TYPE_UNACKNOWLEDGE,
-            compact('status', 'storeReference', 'acknowledgedAt', 'message')
+            OrderOperation::TYPE_UNACKNOWLEDGE
         );
 
         return $this;
