@@ -7,6 +7,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use ShoppingFeed\Sdk\Client\ClientOptions;
+use ShoppingFeed\Sdk\Hal\HalResource;
 use ShoppingFeed\Sdk\Http\Adapter\AdapterInterface;
 use ShoppingFeed\Sdk\Http\Adapter\Guzzle6Adapter;
 
@@ -188,6 +189,39 @@ class Guzzle6AdapterTest extends TestCase
         }
 
         $this->assertFalse($handlerPresent);
+    }
+
+    public function testCreateExceptionCallback()
+    {
+        $testOk = false;
+
+        $response = $this->createMock(ResponseInterface::class);
+        $response
+            ->method('getBody')
+            ->willReturn('{"foo": "bar"}');
+
+        $exception = $this->createMock(GuzzleHttp\Exception\RequestException::class);
+        $exception
+            ->method('hasResponse')
+            ->willReturn(true);
+        $exception
+            ->method('getResponse')
+            ->willReturn($response);
+
+        /** @var Guzzle6Adapter|\PHPUnit_Framework_MockObject_MockObject $instance */
+        $instance  = new Guzzle6Adapter();
+        $reflexion = new \ReflectionClass($instance);
+        $method    = $reflexion->getMethod('createExceptionCallback');
+        $method->setAccessible(true);
+
+        $errorCallback = $method->invoke($instance,
+            function (HalResource $resource) use (&$testOk) {
+                $testOk = true;
+            }
+        );
+        $errorCallback($exception);
+
+        $this->assertTrue($testOk);
     }
 
     /**
