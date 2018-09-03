@@ -141,4 +141,30 @@ class InventoryUpdateTest extends TestCase
 
         $this->assertEquals($resource, $resources[0]);
     }
+
+    public function testSuccessCallbackWithNoInvetoryReturned()
+    {
+        $resources = [];
+        $resource  = $this->createMock(Sdk\Hal\HalResource::class);
+        $instance  = new Sdk\Api\Catalog\InventoryUpdate(['ref1' => 1]);
+
+        $resource
+            ->expects($this->once())
+            ->method('getResources')
+            ->with('inventory')
+            ->willReturn([]);
+
+        $reflexion       = new \ReflectionClass($instance);
+        $reflexionMethod = $reflexion->getMethod('createSuccessCallback');
+        $reflexionMethod->setAccessible(true);
+
+        $callable = $reflexionMethod->invokeArgs($instance, [&$resources]);
+
+        $this->assertInternalType(\PHPUnit_Framework_Constraint_IsType::TYPE_CALLABLE, $callable);
+
+        $callable($resource);
+
+        $this->assertInternalType('array', $resources);
+        $this->assertEmpty($resources);
+    }
 }
