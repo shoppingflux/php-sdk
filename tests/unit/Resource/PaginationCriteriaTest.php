@@ -16,6 +16,11 @@ class PaginationCriteriaTest extends TestCase
         ],
     ];
 
+    public function setUp()
+    {
+        $this->data['filters']['field4'] = new \DateTime('2018-09-21');
+    }
+
     public function testGetters()
     {
         $instance = new PaginationCriteria($this->data);
@@ -35,6 +40,11 @@ class PaginationCriteriaTest extends TestCase
         foreach ($this->data['filters'] as $field => $value) {
             if (is_array($value)) {
                 $this->assertEquals(implode(',', $value), $extracted[$field]);
+                continue;
+            }
+
+            if ($value instanceof \DateTimeInterface) {
+                $this->assertEquals((new \DateTime('2018-09-21'))->format('c'), $extracted[$field]);
                 continue;
             }
 

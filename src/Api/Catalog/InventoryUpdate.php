@@ -85,7 +85,10 @@ class InventoryUpdate extends AbstractBulkOperation
     private function createSuccessCallback(array &$resources)
     {
         return function (Hal\HalResource $resource) use (&$resources) {
-            array_push($resources, ...$resource->getResources('inventory'));
+            $inventory = $resource->getResources('inventory');
+            if (count($inventory) > 0) {
+                array_push($resources, ...$inventory);
+            }
         };
     }
 }
