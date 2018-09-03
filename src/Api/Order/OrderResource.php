@@ -95,8 +95,10 @@ class OrderResource extends AbstractResource
     }
 
     /**
-     * Fetch order items details.
+     * Fetch order items details
      * The resource has to be loaded to access to items collection
+     *
+     * @return OrderItemCollection|OrderItem[]
      */
     public function getItems()
     {

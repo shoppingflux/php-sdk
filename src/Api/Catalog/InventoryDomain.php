@@ -20,8 +20,6 @@ class InventoryDomain extends AbstractDomainResource
      * @param string $reference the resource reference
      *
      * @return null|InventoryResource
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getByReference($reference)
     {

@@ -2,6 +2,7 @@
 namespace ShoppingFeed\Sdk\Client;
 
 use Psr\Log\LoggerInterface;
+use ShoppingFeed\Sdk\Http\Adapter\AdapterInterface;
 
 class ClientOptions
 {
@@ -24,6 +25,20 @@ class ClientOptions
      * @var LoggerInterface
      */
     private $logger;
+
+    /**
+     * @var AdapterInterface
+     */
+    private $httpAdapter;
+
+    /**
+     * @var array
+     */
+    private $headers = [
+        'Accept'          => 'application/json',
+        'User-Agent'      => 'SF-SDK-PHP/' . Client::VERSION,
+        'Accept-Encoding' => 'gzip',
+    ];
 
     /**
      * @return LoggerInterface
@@ -88,7 +103,7 @@ class ClientOptions
     /**
      * @param int $retryCount
      *
-     * @return $this
+     * @return ClientOptions
      */
     public function setRetryOnServerError($retryCount)
     {
@@ -103,5 +118,45 @@ class ClientOptions
     public function getRetryOnServerError()
     {
         return $this->retryOnServerError;
+    }
+
+    /**
+     * @return AdapterInterface
+     */
+    public function getHttpAdapter()
+    {
+        return $this->httpAdapter;
+    }
+
+    /**
+     * @param AdapterInterface $httpAdapter
+     *
+     * @return ClientOptions
+     */
+    public function setHttpAdapter(AdapterInterface $httpAdapter)
+    {
+        $this->httpAdapter = $httpAdapter;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * @param array $headers
+     *
+     * @return ClientOptions
+     */
+    public function addHeaders(array $headers)
+    {
+        $this->headers = array_merge($this->headers, $headers);
+
+        return $this;
     }
 }

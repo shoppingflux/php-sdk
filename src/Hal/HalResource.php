@@ -144,7 +144,6 @@ class HalResource
      * @param array $options
      *
      * @return null|HalResource
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function get(array $options = [])
     {
