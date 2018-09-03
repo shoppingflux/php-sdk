@@ -2,7 +2,6 @@
 namespace ShoppingFeed\Sdk\Test\Client;
 
 use PHPUnit\Framework\TestCase;
-use Psr\Log\LoggerInterface;
 use ShoppingFeed\Sdk;
 
 class ClientTest extends TestCase
@@ -21,6 +20,13 @@ class ClientTest extends TestCase
 
         $this->assertInstanceOf(Sdk\Api\Session\SessionResource::class, $session);
         $this->assertSame($sessionMock, $session);
+    }
+
+    public function testGetClient()
+    {
+        $instance = new Sdk\Client\Client();
+        $this->assertInstanceOf(Sdk\Hal\HalClient::class, $instance->getHalClient());
+
     }
 
     public function testPing()
@@ -61,24 +67,5 @@ class ClientTest extends TestCase
             ->method('authenticate');
 
         $instance->authenticate($credential);
-    }
-
-    public function testCreateHandlerStack()
-    {
-        $options = $this->createMock(Sdk\Client\ClientOptions::class);
-        $options
-            ->expects($this->once())
-            ->method('handleRateLimit')
-            ->willReturn(true);
-        $options
-            ->expects($this->once())
-            ->method('getRetryOnServerError')
-            ->willReturn(3);
-        $options
-            ->expects($this->once())
-            ->method('getLogger')
-            ->willReturn($this->createMock(LoggerInterface::class));
-
-        $instance = new Sdk\Client\Client($options);
     }
 }

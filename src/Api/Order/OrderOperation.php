@@ -1,11 +1,12 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Order;
 
-use GuzzleHttp\Psr7\Request;
+use Psr\Http\Message\RequestInterface;
 use ShoppingFeed\Sdk\Api;
 use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Operation;
 use ShoppingFeed\Sdk\Order;
+use ShoppingFeed\Sdk\Resource\Json;
 
 class OrderOperation extends Operation\AbstractBulkOperation
 {
@@ -145,9 +146,10 @@ class OrderOperation extends Operation\AbstractBulkOperation
      * @throws Order\Exception\UnexpectedTypeException
      * @throws \Exception
      */
-    public function acknowledge($reference, $channelName, $status, $storeReference, $message = '')
+    public function acknowledge($reference, $channelName, $storeReference = '', $status = 'success', $message = '')
     {
-        $acknowledgedAt = new \DateTimeImmutable('now');
+        $acknowledgedAt = date_create()->format('c');
+
         $this->addOperation(
             $reference,
             $channelName,
@@ -161,25 +163,20 @@ class OrderOperation extends Operation\AbstractBulkOperation
     /**
      * Unacknowledge order reception
      *
-     * @param string $reference
-     * @param string $channelName
-     * @param string $status
-     * @param string $storeReference
-     * @param string $message
+     * @param string $reference     The channel's order reference
+     * @param string $channelName   The channel's name
      *
      * @return OrderOperation
      *
      * @throws Order\Exception\UnexpectedTypeException
      * @throws \Exception
      */
-    public function unacknowledge($reference, $channelName, $status, $storeReference, $message = '')
+    public function unacknowledge($reference, $channelName)
     {
-        $acknowledgedAt = new \DateTimeImmutable('now');
         $this->addOperation(
             $reference,
             $channelName,
-            OrderOperation::TYPE_UNACKNOWLEDGE,
-            compact('status', 'storeReference', 'acknowledgedAt', 'message')
+            OrderOperation::TYPE_UNACKNOWLEDGE
         );
 
         return $this;
@@ -198,13 +195,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $requests = [];
         foreach ($this->allowedOperationTypes as $type) {
             $this->eachBatch(
-                function (array $chunk) use ($type, $link, &$requests) {
-                    $requests[] = $link->createRequest(
-                        'POST',
-                        ['operation' => $type],
-                        ['order' => $chunk]
-                    );
-                },
+                $this->createRequestGenerator($type, $link, $requests),
                 $type
             );
         }
@@ -215,16 +206,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $requestIndex     = 0;
         $link->batchSend(
             $requests,
-            function (Hal\HalResource $resource) use (&$resources, &$ticketReferences, &$requestIndex, $requests) {
-                $this->associateTicketWithReference(
-                    $resource,
-                    $requests[$requestIndex],
-                    $ticketReferences
-                );
-
-                array_push($resources, $resource);
-                $requestIndex++;
-            },
+            $this->createSuccessBatchsendCallback($resources, $ticketReferences, $requestIndex, $requests),
             null,
             [],
             $this->getPoolSize()
@@ -234,20 +216,69 @@ class OrderOperation extends Operation\AbstractBulkOperation
     }
 
     /**
+     * Create request generation callback
+     *
+     * @param string      $type
+     * @param Hal\HalLink $link
+     * @param array       $requests
+     *
+     * @return \Closure
+     */
+    private function createRequestGenerator($type, Hal\HalLink $link, array &$requests)
+    {
+        return function (array $chunk) use ($type, $link, &$requests) {
+            $requests[] = $link->createRequest(
+                'POST',
+                ['operation' => $type],
+                ['order' => $chunk]
+            );
+        };
+    }
+
+    /**
+     * Batch send success callback
+     *
+     * @param array $resources
+     * @param array $ticketReferences
+     * @param int   $requestIndex
+     * @param array $requests
+     *
+     * @return \Closure
+     */
+    private function createSuccessBatchsendCallback(
+        array &$resources,
+        array &$ticketReferences,
+        &$requestIndex,
+        array $requests
+    )
+    {
+        return function (Hal\HalResource $resource) use (&$resources, &$ticketReferences, &$requestIndex, $requests) {
+            $this->associateTicketWithReference(
+                $resource,
+                $requests[$requestIndex],
+                $ticketReferences
+            );
+
+            array_push($resources, $resource);
+            $requestIndex++;
+        };
+    }
+
+    /**
      * Extract association between order references, operation and ticket
      *
-     * @param Hal\HalResource $resource
-     * @param Request         $request
-     * @param                 $ticketReferences
+     * @param Hal\HalResource  $resource
+     * @param RequestInterface $request
+     * @param                  $ticketReferences
      */
     private function associateTicketWithReference(
         Hal\HalResource $resource,
-        Request $request,
+        RequestInterface $request,
         &$ticketReferences
     )
     {
         $ticketId  = $resource->getProperty('id');
-        $orders    = json_decode($request->getBody())->order;
+        $orders    = Json::decode($request->getBody())->order;
         $uri       = $request->getUri()->getPath();
         $operation = substr($uri, strrpos($uri, '/') + 1);
 

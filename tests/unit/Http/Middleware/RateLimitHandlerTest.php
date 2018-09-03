@@ -1,10 +1,10 @@
 <?php
-namespace ShoppingFeed\Sdk\Test\Guzzle\Middleware;
+namespace ShoppingFeed\Sdk\Test\Http\Middleware;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message;
 use Psr\Log\LoggerInterface;
-use ShoppingFeed\Sdk\Guzzle\Middleware\RateLimitHandler;
+use ShoppingFeed\Sdk\Http\Middleware\RateLimitHandler;
 
 class RateLimitHandlerTest extends TestCase
 {

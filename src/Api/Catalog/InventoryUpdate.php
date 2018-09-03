@@ -44,23 +44,51 @@ class InventoryUpdate extends AbstractBulkOperation
         // Create requests per batch
         $requests = [];
         $this->eachBatch(
-            function (array $chunk) use ($link, &$requests) {
-                $requests[] = $link->createRequest('PUT', [], ['inventory' => $chunk]);
-            }
+            $this->createBatchProcessorCallback($link, $requests)
         );
 
         // Send requests
         $resources = [];
         $link->batchSend(
             $requests,
-            function (Hal\HalResource $resource) use (&$resources) {
-                array_push($resources, ...$resource->getResources('inventory'));
-            },
+            $this->createSuccessCallback($resources),
             null,
             [],
             $this->getPoolSize()
         );
 
         return new InventoryCollection($resources);
+    }
+
+    /**
+     * Create batch processor
+     *
+     * @param Hal\HalLink $link
+     * @param array       $requests
+     *
+     * @return \Closure
+     */
+    private function createBatchProcessorCallback(Hal\HalLink $link, array &$requests)
+    {
+        return function (array $chunk) use ($link, &$requests) {
+            $requests[] = $link->createRequest('PUT', [], ['inventory' => $chunk]);
+        };
+    }
+
+    /**
+     * Create success callback
+     *
+     * @param array $resources
+     *
+     * @return \Closure
+     */
+    private function createSuccessCallback(array &$resources)
+    {
+        return function (Hal\HalResource $resource) use (&$resources) {
+            $inventory = $resource->getResources('inventory');
+            if (count($inventory) > 0) {
+                array_push($resources, ...$inventory);
+            }
+        };
     }
 }

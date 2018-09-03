@@ -87,4 +87,84 @@ class InventoryUpdateTest extends TestCase
             $instance->execute($link)
         );
     }
+
+    public function testBatchProcessor()
+    {
+        $requests = [];
+        $request  = $this->createMock(RequestInterface::class);
+        $link     = $this->createMock(Sdk\Hal\HalLink::class);
+        $instance = new Sdk\Api\Catalog\InventoryUpdate(['ref1' => 1]);
+
+        $link
+            ->expects($this->once())
+            ->method('createRequest')
+            ->with('PUT', [], ['inventory' => ['data']])
+            ->willReturn($request);
+
+        $reflexion       = new \ReflectionClass($instance);
+        $reflexionMethod = $reflexion->getMethod('createBatchProcessorCallback');
+        $reflexionMethod->setAccessible(true);
+
+        $callable = $reflexionMethod->invokeArgs($instance, [$link, &$requests]);
+
+        $this->assertInternalType(\PHPUnit_Framework_Constraint_IsType::TYPE_CALLABLE, $callable);
+
+        $callable(['data']);
+
+        $this->assertEquals($request, $requests[0]);
+    }
+
+    public function testSuccessCallback()
+    {
+        $resources = [];
+        $resource  = $this->createMock(Sdk\Hal\HalResource::class);
+        $instance  = new Sdk\Api\Catalog\InventoryUpdate(['ref1' => 1]);
+
+        $resource
+            ->expects($this->once())
+            ->method('getResources')
+            ->with('inventory')
+            ->willReturn([
+                $this->createMock(Sdk\Hal\HalResource::class),
+                $this->createMock(Sdk\Hal\HalResource::class),
+            ]);
+
+        $reflexion       = new \ReflectionClass($instance);
+        $reflexionMethod = $reflexion->getMethod('createSuccessCallback');
+        $reflexionMethod->setAccessible(true);
+
+        $callable = $reflexionMethod->invokeArgs($instance, [&$resources]);
+
+        $this->assertInternalType(\PHPUnit_Framework_Constraint_IsType::TYPE_CALLABLE, $callable);
+
+        $callable($resource);
+
+        $this->assertEquals($resource, $resources[0]);
+    }
+
+    public function testSuccessCallbackWithNoInvetoryReturned()
+    {
+        $resources = [];
+        $resource  = $this->createMock(Sdk\Hal\HalResource::class);
+        $instance  = new Sdk\Api\Catalog\InventoryUpdate(['ref1' => 1]);
+
+        $resource
+            ->expects($this->once())
+            ->method('getResources')
+            ->with('inventory')
+            ->willReturn([]);
+
+        $reflexion       = new \ReflectionClass($instance);
+        $reflexionMethod = $reflexion->getMethod('createSuccessCallback');
+        $reflexionMethod->setAccessible(true);
+
+        $callable = $reflexionMethod->invokeArgs($instance, [&$resources]);
+
+        $this->assertInternalType(\PHPUnit_Framework_Constraint_IsType::TYPE_CALLABLE, $callable);
+
+        $callable($resource);
+
+        $this->assertInternalType('array', $resources);
+        $this->assertEmpty($resources);
+    }
 }

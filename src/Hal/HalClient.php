@@ -1,20 +1,15 @@
 <?php
 namespace ShoppingFeed\Sdk\Hal;
 
-use GuzzleHttp as Guzzle;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use ShoppingFeed\Sdk\Client\Client as SdkClient;
+use ShoppingFeed\Sdk\Http\Adapter\AdapterInterface;
+use ShoppingFeed\Sdk\Resource\Json;
 
 class HalClient
 {
     /**
-     * @var Guzzle\HandlerStack
-     */
-    private $stack;
-
-    /**
-     * @var Guzzle\Client
+     * @var AdapterInterface
      */
     private $client;
 
@@ -24,13 +19,15 @@ class HalClient
     private $baseUri;
 
     /**
-     * @param string              $baseUri
-     * @param Guzzle\HandlerStack $stack
+     * @param AdapterInterface $httpClient
      */
-    public function __construct($baseUri, Guzzle\HandlerStack $stack = null)
+    public function __construct(
+        $baseUri,
+        AdapterInterface $httpClient
+    )
     {
         $this->baseUri = $baseUri;
-        $this->createClient($stack);
+        $this->client  = $httpClient;
     }
 
     /**
@@ -40,29 +37,23 @@ class HalClient
      */
     public function withToken($token)
     {
-        $stack = clone $this->stack;
-        $stack->push(Guzzle\Middleware::mapRequest(function (RequestInterface $request) use ($token) {
-            return $request->withHeader('Authorization', 'Bearer ' . trim($token));
-        }));
-
-        $instance = clone $this;
-        $instance->createClient($stack);
+        $httpClient = $this->client->withToken($token);
+        $instance   = new self($this->baseUri, $httpClient);
 
         return $instance;
     }
 
     /**
-     * @param string $method
-     * @param string $uri
-     *
-     * @param array  $headers
-     * @param null   $body
+     * @param string      $method
+     * @param string      $uri
+     * @param array       $headers
+     * @param null|string $body
      *
      * @return RequestInterface
      */
     public function createRequest($method, $uri, array $headers = [], $body = null)
     {
-        return new Guzzle\Psr7\Request($method, $uri, $headers, $body);
+        return $this->client->createRequest($method, $uri, $headers, $body);
     }
 
     /**
@@ -71,12 +62,11 @@ class HalClient
      * @param $options
      *
      * @return null|HalResource
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function request($method, $uri, array $options = [])
     {
         return $this->send(
-            $this->createRequest($method, $uri),
+            $this->client->createRequest($method, $uri),
             $options
         );
     }
@@ -89,8 +79,7 @@ class HalClient
      */
     public function batchSend($requests, array $config = [])
     {
-        $pool = new Guzzle\Pool($this->client, $requests, $config);
-        $pool->promise()->wait(true);
+        $this->client->batchSend($requests, $config);
     }
 
     /**
@@ -98,7 +87,6 @@ class HalClient
      * @param array            $options
      *
      * @return null|HalResource
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function send(RequestInterface $request, array $options = [])
     {
@@ -119,28 +107,17 @@ class HalClient
     {
         return HalResource::fromArray(
             $this,
-            \GuzzleHttp\json_decode($response->getBody(), true)
+            Json::decode($response->getBody(), true)
         );
     }
 
     /**
-     * @param Guzzle\HandlerStack $stack
+     * Get Http adapter
+     *
+     * @return AdapterInterface
      */
-    private function createClient(Guzzle\HandlerStack $stack = null)
+    public function getAdapter()
     {
-        if (null === $stack) {
-            $stack = Guzzle\HandlerStack::create();
-        }
-
-        $this->stack  = $stack;
-        $this->client = new Guzzle\Client([
-            'handler'    => $this->stack,
-            'base_uri'   => $this->baseUri,
-            'headers'    => [
-                'Accept'          => 'application/json',
-                'User-Agent'      => 'SF-SDK-PHP/' . SdkClient::VERSION,
-                'Accept-Encoding' => 'gzip',
-            ]
-        ]);
+        return $this->client;
     }
 }
