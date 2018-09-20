@@ -1,3 +1,16 @@
+v0.2.3
+======
+
+- Add store channel resource token getter [#59](https://github.com/shoppingflux/php-sdk/pull/59)
+
+v0.2.2-beta.1
+=============
+
+- Remove Guzzle library dependency [#50](https://github.com/shoppingflux/php-sdk/issues/50)
+- Add order collection filter documentation [#55](https://github.com/shoppingflux/php-sdk/issues/55)
+- Fix behaviour when no inventory is updated when doing an inventory update [#52](https://github.com/shoppingflux/php-sdk/issues/52)
+- Fix order acknowledge date handling [#57](https://github.com/shoppingflux/php-sdk/issues/57)
+
 v0.2.1-beta.1
 =============
 
