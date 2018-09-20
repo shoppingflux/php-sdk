@@ -11,16 +11,37 @@ abstract class AbstractResourceTest extends TestCase
      */
     protected $halResource;
 
+    /**
+     * @var array
+     */
     protected $props = [];
 
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|HalResource
+     */
+    protected function initHalResource()
+    {
+        $this->halResource = $this->createMock(HalResource::class);
+
+        // supports initialization by default
+        $this->halResource->method('get')->willReturnSelf();
+
+        return $this->halResource;
+    }
+
+    /**
+     * @param array $props
+     *
+     * @return \PHPUnit_Framework_MockObject_MockObject|HalResource
+     */
     protected function initHalResourceProperties(array $props = [])
     {
         if (! $props) {
             $props = $this->props;
         }
 
-        $this->halResource = $this->createMock(HalResource::class);
-        $this->halResource
+        $resource = $this->initHalResource();
+        $resource
             ->expects($this->exactly(count($props)))
             ->method('getProperty')
             ->with($this->logicalOr(...array_keys($props)))
@@ -28,9 +49,6 @@ abstract class AbstractResourceTest extends TestCase
                 return $props[$prop];
             }));
 
-        // supports initialization by default
-        $this->halResource
-            ->method('get')
-            ->willReturnSelf();
+        return $resource;
     }
 }
