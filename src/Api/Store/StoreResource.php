@@ -40,6 +40,16 @@ class StoreResource extends AbstractResource
     }
 
     /**
+     * @return StoreChannelDomain
+     */
+    public function getChannelApi()
+    {
+        return new StoreChannelDomain(
+            $this->resource->getLink('channel')
+        );
+    }
+
+    /**
      * @return InventoryDomain
      */
     public function getInventoryApi()
