@@ -7,7 +7,7 @@ use ShoppingFeed\Sdk\Http;
 
 class Client
 {
-    const VERSION = '1.0.0';
+    const VERSION = '0.2.3';
 
     /**
      * @var Hal\HalClient
