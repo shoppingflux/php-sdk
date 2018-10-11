@@ -3,6 +3,7 @@ namespace ShoppingFeed\Sdk\Test\Client;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
+use ShoppingFeed\Sdk\Client\Client;
 use ShoppingFeed\Sdk\Client\ClientOptions;
 
 class ClientOptionsTest extends TestCase
@@ -18,12 +19,13 @@ class ClientOptionsTest extends TestCase
             ->setLogger($logger)
             ->setRetryOnServerError(5)
             ->setHandleRateLimit(true)
+            ->setUserAgentDetails('MyPlatform', '1.1.4')
             ->setBaseUri($uri);
 
         $headers = [
             'HeaderName'      => 'HeaderValue',
             'Accept'          => 'application/json',
-            'User-Agent'      => 'SF-SDK-PHP/1.0.0',
+            'User-Agent'      => 'SF-SDK-PHP/' . Client::VERSION . ' (MyPlatform;1.1.4)',
             'Accept-Encoding' => 'gzip',
         ];
 

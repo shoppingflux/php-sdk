@@ -159,4 +159,19 @@ class ClientOptions
 
         return $this;
     }
+
+    /**
+     * Add platform information to sdk user agent
+     *
+     * @param string $plateform
+     * @param string $version
+     *
+     * @return ClientOptions
+     */
+    public function setUserAgentDetails($plateform, $version)
+    {
+        $this->headers['User-Agent'] .= " ($plateform;$version)";
+
+        return $this;
+    }
 }
