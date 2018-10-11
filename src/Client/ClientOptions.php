@@ -32,11 +32,29 @@ class ClientOptions
     private $httpAdapter;
 
     /**
+     * @var string
+     */
+    private $userAgent = 'SF-SDK-PHP/' . Client::VERSION;
+
+    /**
+     * Name of the platform using the SDK
+     *
+     * @var string
+     */
+    private $platform;
+
+    /**
+     * Version of the platform using the SDK
+     *
+     * @var string
+     */
+    private $platformVersion;
+
+    /**
      * @var array
      */
     private $headers = [
         'Accept'          => 'application/json',
-        'User-Agent'      => 'SF-SDK-PHP/' . Client::VERSION,
         'Accept-Encoding' => 'gzip',
     ];
 
@@ -145,6 +163,8 @@ class ClientOptions
      */
     public function getHeaders()
     {
+        $this->buildUserAgentHeader();
+
         return $this->headers;
     }
 
@@ -161,17 +181,29 @@ class ClientOptions
     }
 
     /**
-     * Add platform information to sdk user agent
+     * Add platform information for SDK user agent
      *
-     * @param string $plateform
+     * @param string $platform
      * @param string $version
      *
      * @return ClientOptions
      */
-    public function setUserAgentDetails($plateform, $version)
+    public function setUserAgentDetails($platform, $version)
     {
-        $this->headers['User-Agent'] .= " ($plateform;$version)";
+        $this->platform        = $platform;
+        $this->platformVersion = $version;
 
         return $this;
+    }
+
+    /**
+     * Build user agent http header based on available information
+     */
+    private function buildUserAgentHeader()
+    {
+        $this->headers['User-Agent'] = $this->userAgent;
+        if (! empty($this->platform)) {
+            $this->headers['User-Agent'] .= " ($this->platform;$this->platformVersion)";
+        }
     }
 }
