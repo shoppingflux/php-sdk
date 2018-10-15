@@ -42,7 +42,7 @@ abstract class AbstractResourceTest extends TestCase
 
         $resource = $this->initHalResource();
         $resource
-            ->expects($this->exactly(count($props)))
+            ->expects($this->any())
             ->method('getProperty')
             ->with($this->logicalOr(...array_keys($props)))
             ->will($this->returnCallback(function($prop) use($props) {
