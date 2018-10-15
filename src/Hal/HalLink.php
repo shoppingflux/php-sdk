@@ -108,6 +108,19 @@ class HalLink
     }
 
     /**
+     * @param $path
+     *
+     * @return HalLink
+     */
+    public function withAddedHref($path)
+    {
+        $instance       = clone $this;
+        $instance->href = rtrim($instance->href, '/') . '/' . ltrim($path, '/');
+
+        return $instance;
+    }
+
+    /**
      * @param array $variables
      *
      * @return null|string|string[]
