@@ -7,6 +7,26 @@ use ShoppingFeed\Sdk\Api\Store;
 class SessionResource extends AbstractResource
 {
     /**
+     * @return int|null NULL when account id is not found, id integer otherwise
+     */
+    public function getId()
+    {
+        if ($account = $this->resource->getFirstResource('account')) {
+            return $account->getProperty('id');
+        }
+
+        return null;
+    }
+
+    /**
+     * @return array A list of named roles
+     */
+    public function getRoles()
+    {
+        return $this->getProperty('roles') ?: [];
+    }
+
+    /**
      * @return string
      */
     public function getLogin()
