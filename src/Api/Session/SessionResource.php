@@ -51,7 +51,7 @@ class SessionResource extends AbstractResource
     }
 
     /**
-     * @return Store\StoreCollection
+     * @return Store\StoreCollection|Store\StoreResource[]
      */
     public function getStores()
     {
