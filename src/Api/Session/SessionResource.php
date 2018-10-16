@@ -31,7 +31,7 @@ class SessionResource extends AbstractResource
      */
     public function getLogin()
     {
-        return $this->resource->getProperty('login');
+        return (string) $this->resource->getProperty('login');
     }
 
     /**
@@ -39,7 +39,7 @@ class SessionResource extends AbstractResource
      */
     public function getEmail()
     {
-        return $this->resource->getProperty('email');
+        return (string) $this->resource->getProperty('email');
     }
 
     /**
@@ -47,7 +47,7 @@ class SessionResource extends AbstractResource
      */
     public function getToken()
     {
-        return $this->resource->getProperty('token');
+        return (string) $this->resource->getProperty('token');
     }
 
     /**
@@ -58,6 +58,21 @@ class SessionResource extends AbstractResource
         return new Store\StoreCollection(
             $this->resource->getResources('store')
         );
+    }
+
+    /**
+     * Return the language tag, as following:
+     *
+     * - en_US
+     * - fr_FR
+     *
+     * ...etc
+     *
+     * @return string
+     */
+    public function getLanguageTag()
+    {
+        return (string) $this->resource->getProperty('language');
     }
 
     /**

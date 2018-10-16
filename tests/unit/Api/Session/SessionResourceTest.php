@@ -12,12 +12,14 @@ class SessionResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
     public function setUp()
     {
-        $this->props     = [
-            'login' => 'username',
-            'email' => 'user@mail.com',
-            'token' => 'fd9cf7c178a1efd30bb1aad0e302abde',
-            'roles' => ['user']
+        $this->props = [
+            'login'    => 'username',
+            'email'    => 'user@mail.com',
+            'token'    => 'fd9cf7c178a1efd30bb1aad0e302abde',
+            'language' => 'en_US',
+            'roles'    => ['user'],
         ];
+
         $this->resources = [
             $this->createMock(Sdk\Hal\HalResource::class),
             $this->createMock(Sdk\Hal\HalResource::class),
@@ -35,6 +37,7 @@ class SessionResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $this->assertEquals($this->props['login'], $instance->getLogin());
         $this->assertEquals($this->props['token'], $instance->getToken());
         $this->assertEquals($this->props['roles'], $instance->getRoles());
+        $this->assertEquals($this->props['language'], $instance->getLanguageTag());
     }
 
     public function testGetAccountIdWithMatchedOrNullAccount()
