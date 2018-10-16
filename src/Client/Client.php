@@ -7,7 +7,7 @@ use ShoppingFeed\Sdk\Http;
 
 class Client
 {
-    const VERSION = '1.0.0';
+    const VERSION = '0.2.4';
 
     /**
      * @var Hal\HalClient
@@ -25,6 +25,9 @@ class Client
         return (new self($options))->authenticate($credential);
     }
 
+    /**
+     * @param ClientOptions|null $options
+     */
     public function __construct(ClientOptions $options = null)
     {
         if (null === $options) {

@@ -5,8 +5,7 @@
   "description": "Shopping Feed SDK to ease integration of our API",
   "require": {
     "php": ">= 5.6",
-    "ext-json": "*",
-    "shoppingfeed/php-feed-generator": "1.0.0"
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {
@@ -16,7 +15,8 @@
   },
   "suggest": {
     "psr/log": "trace HTTP requests performed by the SDK",
-    "guzzlehttp/guzzle": "Guzzle Http 6 is the default http adapter integrated in the SDK"
+    "guzzlehttp/guzzle": "Guzzle Http 6 is the default http adapter integrated in the SDK",
+    "shoppingfeed/php-feed-generator": "Generates compliant Shopping-Feed XML feed with ease"
   },
   "require-dev": {
     "monolog/monolog": "^1.23",
