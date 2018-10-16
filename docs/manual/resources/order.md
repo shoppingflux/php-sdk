@@ -2,7 +2,7 @@
 
 ## Access
 
-Accessing order API can be done from the store.
+Accessing the order API can be done from the store.
 
 ```php
 <?php
@@ -11,28 +11,28 @@ $orderApi = $session->getMainStore()->getOrderApi();
 
 ## Retrieve orders
 
-To retrieve order you can use those methods :
+To retrieve orders, you can use these methods :
 
 - `getAll()` : will retrieve all orders
 - `getPages()` : will retrieve all pages of orders
 - `getPage()` : will retrieve one page of orders
 
 You can pass pagination and search criteria to `getPage` and `getPages` methods.  
-`getAll` only accept filters as it handle pagination automatically.  
+`getAll` only accepts filters as it handles pagination automatically.  
   
 Here are the available criteria at your disposal :
 
 - `page` : the page to retrieve or start from
-- `limit` : the number of item per page you want to retrieve (up to a maximum define by the API)
-- `filters` : an array of filters to filter orders by certain attributes
-    - `status` : filter order by their status, multiple status are allowed. Status available are : created, 
+- `limit` : the number of items per page you want to retrieve (up to a maximum defined by the API)
+- `filters` : an array of filters to filter the orders by certain attributes
+    - `status` : filter orders by their status, multiple status are allowed. Status available are : created, 
     waiting_store_acceptance, refused, waiting_shipment, shipped, cancelled, refunded, partially_refunded, 
     partially_shipped
-    - `acknowledgment`: filter orders by their acknowledgment status allow values are `acknowledged` or `unacknowledged`
-    - `channel` : filter orders by the requested channel id
-    - `tag` : retrieve orders linked to the requested tag
-    - `since`: filter orders created since the given date time
-    - `until`: filter orders created until the given date time
+    - `acknowledgment`: filters orders by their acknowledgment status. Allowed values are `acknowledged` or `unacknowledged`
+    - `channel` : filters orders by the requested channel id
+    - `tag` : retrieves orders linked to the requested tag
+    - `since`: filters orders created since the given date time
+    - `until`: filters orders created until the given date time
 
 Examples :
 
@@ -40,14 +40,14 @@ Examples :
 // Criteria used to query order API
 $criteria = [
     'page'    => 1,  // first page
-    'limit'   => 20, // 20 order per page
+    'limit'   => 20, // 20 orders per page
     'filters' => [
-        'status'         => ['shipped', 'cancelled']  // we only want order with shipped or cancelled status
-        'acknowledgment' => 'acknowledged'            // we only want order that have been acknowledged
-        'channel'        => 123                       // we only want order from the channel 123
-        'tag'            => 'test'                    // we only want order linked to 'test' tag
-        'since'          => '2017-12-01T12:00:00'     // we only want order created since 2017-12-01 12:00:00
-        'until'          => '2018-01-31T12:00:00'     // we only want order created until 2018-01-31 12:00:00
+        'status'         => ['shipped', 'cancelled']  // we only want orders with shipped or cancelled status
+        'acknowledgment' => 'acknowledged'            // we only want orders that have been acknowledged
+        'channel'        => 123                       // we only want orders from the channel 123
+        'tag'            => 'test'                    // we only want orders linked to 'test' tag
+        'since'          => '2017-12-01T12:00:00'     // we only want orders created since (after) 2017-12-01 12:00:00
+        'until'          => '2018-01-31T12:00:00'     // we only want orders created until (before) 2018-01-31 12:00:00
     ]
 ];
 
@@ -69,7 +69,7 @@ foreach($orderApi->getPage($criteria) as $order) {
 
 ## Operations
 
-From order API you can then access all available operation :
+From order API you can then access all available operations :
 
 ```php
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
@@ -82,9 +82,9 @@ $operation
 $orderApi->execute($operation);
 ```
 
-Operations allowed on existing order will always be accepted as they are treated asynchronously.  
-When sending operation on order you will receive a collection of tickets corresponding to tasks in our system 
-that will handle the requested operation.
+Operations allowed on existing orders will always be accepted, as they are treated asynchronously.  
+When sending operations on an order, you will receive a collection of tickets corresponding to tasks in our system 
+that will handle the requested operations.
 With this ticket collection you will be able to find what ticket has been associated with the operation on an order.
 
 ```php
@@ -106,7 +106,7 @@ $ticketId = $tickets->getCanceled('ref3')[0]->getId();
 
 ### Accept
 
-The accept operation accept 3 parameters :
+The accept operation accepts 3 parameters :
 1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
 2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
 3. [optional] `$reason` : The reason of the acceptance (eq: 'Why we accept the order') 
@@ -124,7 +124,7 @@ $orderApi->execute($operation);
 
 ### Cancel
 
-The cancel operation accept 3 parameters :
+The cancel operation accepts 3 parameters :
 1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
 2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
 3. [optional] `$reason` : The reason of the cancelling (eq: 'Why we cancel the order') 
@@ -142,7 +142,7 @@ $orderApi->execute($operation);
 
 ### Refuse
 
-The refuse operation accept 3 parameters :
+The refuse operation accepts 3 parameters :
 1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
 2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
 3. [optional] `$refund` : Item references to refund (eq: `['itemref1', 'itemref2']`) 
@@ -160,7 +160,7 @@ $orderApi->execute($operation);
 
 ### Ship
 
-The ship operation accept 3 parameters :
+The ship operation accepts 3 parameters :
 
 1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
 2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
@@ -180,7 +180,7 @@ $orderApi->execute($operation);
 ```
 ### Acknowledge
 
-To acknowledge the good reception of order :
+To acknowledge the good reception of an order, you need the following parameters :
 
 1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
 2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
@@ -202,7 +202,7 @@ $orderApi->execute($operation);
 
 ### Unacknowledge
 
-To unacknowledge the good reception of order :
+To unacknowledge the good reception of an order, you need the following parameters :
 
 1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
 2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
