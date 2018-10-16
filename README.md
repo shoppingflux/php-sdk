@@ -14,7 +14,7 @@
     ```bash
     composer require guzzlehttp/guzzle ^6.3
     ```
-    You can also develop your own adapter if you already have a http client library in your project see the [http adapter documentation](docs/development/http-adapter.md) for more information.
+    You can also develop your own adapter, if you already have a http client library in your project (see the [http adapter documentation](docs/development/http-adapter.md) for more information).
 
 This will load the SDK library into the `vendor` repository.  
 And thanks to PSR-4 specification you should be able to access the SDK under the namespace `\ShoppingFeed\Sdk`.

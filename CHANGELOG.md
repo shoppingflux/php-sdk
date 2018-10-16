@@ -1,3 +1,21 @@
+v0.2.4
+======
+
+### Added
+
+- `SessionResource::getId()` : provides the account id associated to the token #63
+- `SessionResource::getRoles()` : provides an array of named roles associated to the token #63
+- `SessionResource::getLanguageTag()` : provides the language tag associate to the token #63
+- `AbstractDomainResource::getOne($id)` : allow to directly get a resource for the domain #63
+- `HalLink::withAddedHref(string $path)` : Allow to creates new instance of link with concatenated path #63
+- Allow to add platform information to SDK user agent #62
+
+### fixed
+
+- `InventoryDomain::getByReference()` was not checking for NULL resource #63
+- `Client::VERSION` mismatch with release version #62
+
+
 v0.2.3
 ======
 
