@@ -26,6 +26,21 @@ abstract class AbstractDomainResource
     }
 
     /**
+     * Get the resource by it's identity
+     *
+     * @param mixed $identity a scalar value that identity the resource
+     *
+     * @return AbstractResource
+     */
+    public function getOne($identity)
+    {
+        $link  = $this->link->withAddedHref($identity);
+        $class = $this->resourceClass;
+
+        return new $class($link->get());
+    }
+
+    /**
      * @param array $criteria
      *
      * @return null|PaginatedResourceCollection

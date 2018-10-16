@@ -21,9 +21,10 @@ class StoreResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
         $instance = new Sdk\Api\Store\StoreResource($this->halResource);
 
-        $this->assertEquals($this->props['id'], $instance->getId());
-        $this->assertEquals($this->props['name'], $instance->getName());
-        $this->assertEquals($this->props['country'], $instance->getCountryCode());
+        $this->assertSame($this->props['id'], $instance->getId());
+        $this->assertSame($this->props['name'], $instance->getName());
+        $this->assertSame($this->props['country'], $instance->getCountryCode());
+        $this->assertSame('active', $instance->getStatus());
         $this->assertTrue($instance->isActive());
     }
 

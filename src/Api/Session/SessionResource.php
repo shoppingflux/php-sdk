@@ -7,11 +7,31 @@ use ShoppingFeed\Sdk\Api\Store;
 class SessionResource extends AbstractResource
 {
     /**
+     * @return int|null NULL when account id is not found, id integer otherwise
+     */
+    public function getId()
+    {
+        if ($account = $this->resource->getFirstResource('account')) {
+            return $account->getProperty('id');
+        }
+
+        return null;
+    }
+
+    /**
+     * @return array A list of named roles
+     */
+    public function getRoles()
+    {
+        return $this->getProperty('roles') ?: [];
+    }
+
+    /**
      * @return string
      */
     public function getLogin()
     {
-        return $this->resource->getProperty('login');
+        return (string) $this->resource->getProperty('login');
     }
 
     /**
@@ -19,7 +39,7 @@ class SessionResource extends AbstractResource
      */
     public function getEmail()
     {
-        return $this->resource->getProperty('email');
+        return (string) $this->resource->getProperty('email');
     }
 
     /**
@@ -27,17 +47,32 @@ class SessionResource extends AbstractResource
      */
     public function getToken()
     {
-        return $this->resource->getProperty('token');
+        return (string) $this->resource->getProperty('token');
     }
 
     /**
-     * @return Store\StoreCollection
+     * @return Store\StoreCollection|Store\StoreResource[]
      */
     public function getStores()
     {
         return new Store\StoreCollection(
             $this->resource->getResources('store')
         );
+    }
+
+    /**
+     * Return the language tag, as following:
+     *
+     * - en_US
+     * - fr_FR
+     *
+     * ...etc
+     *
+     * @return string
+     */
+    public function getLanguageTag()
+    {
+        return (string) $this->resource->getProperty('language');
     }
 
     /**

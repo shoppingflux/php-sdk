@@ -12,11 +12,14 @@ class SessionResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
     public function setUp()
     {
-        $this->props     = [
-            'login' => 'username',
-            'email' => 'user@mail.com',
-            'token' => 'fd9cf7c178a1efd30bb1aad0e302abde',
+        $this->props = [
+            'login'    => 'username',
+            'email'    => 'user@mail.com',
+            'token'    => 'fd9cf7c178a1efd30bb1aad0e302abde',
+            'language' => 'en_US',
+            'roles'    => ['user'],
         ];
+
         $this->resources = [
             $this->createMock(Sdk\Hal\HalResource::class),
             $this->createMock(Sdk\Hal\HalResource::class),
@@ -33,6 +36,31 @@ class SessionResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $this->assertEquals($this->props['email'], $instance->getEmail());
         $this->assertEquals($this->props['login'], $instance->getLogin());
         $this->assertEquals($this->props['token'], $instance->getToken());
+        $this->assertEquals($this->props['roles'], $instance->getRoles());
+        $this->assertEquals($this->props['language'], $instance->getLanguageTag());
+    }
+
+    public function testGetAccountIdWithMatchedOrNullAccount()
+    {
+        $halResource = $this->createMock(Sdk\Hal\HalResource::class);
+        $halResource
+            ->expects($this->exactly(2))
+            ->method('getFirstResource')
+            ->with('account')
+            ->willReturnOnConsecutiveCalls(
+                $halResource,
+                null
+            );
+
+        $halResource
+            ->expects($this->once())
+            ->method('getProperty')
+            ->with('id')
+            ->willReturn(12);
+
+        $instance = new Sdk\Api\Session\SessionResource($halResource);
+        $this->assertSame(12, $instance->getId(), 'First call resource will return mock');
+        $this->assertNull($instance->getId(), 'Second resource call return NULL');
     }
 
     public function testGetStores()
