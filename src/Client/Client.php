@@ -25,6 +25,9 @@ class Client
         return (new self($options))->authenticate($credential);
     }
 
+    /**
+     * @param ClientOptions|null $options
+     */
     public function __construct(ClientOptions $options = null)
     {
         if (null === $options) {

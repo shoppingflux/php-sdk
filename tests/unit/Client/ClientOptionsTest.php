@@ -19,13 +19,13 @@ class ClientOptionsTest extends TestCase
             ->setLogger($logger)
             ->setRetryOnServerError(5)
             ->setHandleRateLimit(true)
-            ->setUserAgentDetails('MyPlatform', '1.1.4')
+            ->setPlatform('MyPlatform', '1.1.4')
             ->setBaseUri($uri);
 
         $headers = [
             'HeaderName'      => 'HeaderValue',
             'Accept'          => 'application/json',
-            'User-Agent'      => 'SF-SDK-PHP/' . Client::VERSION . ' (MyPlatform;1.1.4)',
+            'User-Agent'      => 'SF-SDK-PHP/' . Client::VERSION . ' (MyPlatform; 1.1.4)',
             'Accept-Encoding' => 'gzip',
         ];
 

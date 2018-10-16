@@ -44,7 +44,7 @@ namespace ShoppingFeed\Sdk;
 
 $options = new Client\ClientOptions();
 $options->setHandleRateLimit(false);
-$options->setUserAgentDetails('Magento', '2.2.0');
+$options->setPlatform('Magento', '2.2.0');
 
 $credential = new Credential\Token('api_token');
 $session    = Client\Client::createSession($credential, $options);
@@ -54,7 +54,7 @@ Available options are:
 
 | Name               | Description                                                                                                   |
 |--------------------|---------------------------------------------------------------------------------------------------------------|
-| userAgentDetails   | Allow to add information regarding the platform and its version to user agent HTTP header sent by the sdk     |
+| platform   | Allow to add information regarding the platform and its version to user agent HTTP header sent by the sdk     |
 | headers            | Allow to add headers to all HTTP calls made by the SDK                                                        |
 | httpAdapter        | Allow to set your own HTTP adapter used by the SDK (cf. [http adapter doc](./../development/http-adapter.md)) |
 | retryOnServerError | Allow to set the number of time the SDK should retry when a server error is happening                         |

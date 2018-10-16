@@ -32,11 +32,6 @@ class ClientOptions
     private $httpAdapter;
 
     /**
-     * @var string
-     */
-    private $userAgent = 'SF-SDK-PHP/' . Client::VERSION;
-
-    /**
      * Name of the platform using the SDK
      *
      * @var string
@@ -163,9 +158,15 @@ class ClientOptions
      */
     public function getHeaders()
     {
-        $this->buildUserAgentHeader();
+        $headers               = $this->headers;
+        $headers['User-Agent'] = sprintf(
+            'SF-SDK-PHP/%s (%s; %s)',
+            Client::VERSION,
+            $this->platform ?: gethostname(),
+            $this->platformVersion ?: 'Unknown'
+        );
 
-        return $this->headers;
+        return $headers;
     }
 
     /**
@@ -181,29 +182,19 @@ class ClientOptions
     }
 
     /**
-     * Add platform information for SDK user agent
+     * Add platform information for SDK user agent, useful
+     * for getting more accurate help from SF support team
      *
-     * @param string $platform
-     * @param string $version
+     * @param string $platform  The platform name (ex: Magento, Prestashop...etc)
+     * @param string $version   The platform version (ex: "1.2", "1.4.2")
      *
      * @return ClientOptions
      */
-    public function setUserAgentDetails($platform, $version)
+    public function setPlatform($platform, $version)
     {
         $this->platform        = $platform;
         $this->platformVersion = $version;
 
         return $this;
-    }
-
-    /**
-     * Build user agent http header based on available information
-     */
-    private function buildUserAgentHeader()
-    {
-        $this->headers['User-Agent'] = $this->userAgent;
-        if (! empty($this->platform)) {
-            $this->headers['User-Agent'] .= " ($this->platform;$this->platformVersion)";
-        }
     }
 }
