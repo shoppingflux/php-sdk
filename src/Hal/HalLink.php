@@ -124,8 +124,6 @@ class HalLink
      * @param array $variables
      *
      * @return null|string|string[]
-     *
-     * @throws \QL\UriTemplate\Exception
      */
     public function getUri(array $variables)
     {

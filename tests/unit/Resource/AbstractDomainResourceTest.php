@@ -2,8 +2,11 @@
 namespace ShoppingFeed\Sdk\Test\Resource;
 
 use PHPUnit\Framework\TestCase;
+use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Hal\HalLink;
 use ShoppingFeed\Sdk\Hal\HalResource;
+use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
+use ShoppingFeed\Sdk\Resource\AbstractResource;
 use ShoppingFeed\Sdk\Resource\PaginatedResourceCollection;
 
 class AbstractDomainResourceTest extends TestCase
@@ -154,5 +157,44 @@ class AbstractDomainResourceTest extends TestCase
             ->willReturn($link);
 
         return $resource;
+    }
+
+    public function testGetOneLinkToSingleResource()
+    {
+        $link     = $this->createMock(HalLink::class);
+        $resource = $this->createMock(HalResource::class);
+
+        $link
+            ->expects($this->once())
+            ->method('withAddedHref')
+            ->with('123')
+            ->willReturnSelf();
+
+        $link
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn($resource);
+
+        $instance = new AbstractDomainResourceStub($link);
+        $instance->resourceClass = AbstractDomainResourceResourceStub::class;
+
+        $result = $instance->getOne('123');
+        $this->assertInstanceOf(AbstractDomainResourceResourceStub::class, $result);
+        $this->assertSame($resource, $result->halResource);
+    }
+}
+
+class AbstractDomainResourceStub extends AbstractDomainResource
+{
+    public $resourceClass;
+}
+
+class AbstractDomainResourceResourceStub extends AbstractResource
+{
+    public $halResource;
+
+    public function __construct(Hal\HalResource $resource)
+    {
+        $this->halResource = $resource;
     }
 }

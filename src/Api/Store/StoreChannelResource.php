@@ -66,7 +66,9 @@ class StoreChannelResource extends Resource\AbstractResource
     public function getChannel()
     {
         if (null === $this->channel) {
-            $this->channel = new Channel\ChannelResource($this->resource->getFirstResource('channel'));
+            $this->channel = new Channel\ChannelResource(
+                $this->resource->getFirstResource('channel')
+            );
         }
 
         return $this->channel;
