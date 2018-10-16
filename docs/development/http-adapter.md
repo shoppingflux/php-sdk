@@ -22,7 +22,7 @@ $client  = new \ShoppingFeed\Sdk\Client\Client($clientOptions);
 Adapter Creation
 ----------------
 
-To develop your own adapter create a new class implementing `Http\Adapter\AdapterInterface` with those methods :
+To develop your own adapter create a new class implementing `Http\Adapter\AdapterInterface` with these methods :
 
 | Method          | Parameters                                                                                                           | Description |
 |-----------------|----------------------------------------------------------------------------------------------------------------------|-------------|
@@ -38,7 +38,7 @@ Batch Send
 
 Batch send method allow to handle sending of multiple requests.  
 This method is in charge of splitting and regrouping request to optimise calls based on API limits.  
-The `$config` parameter will contain those keys :
+The `$config` parameter will contain these keys :
 
 | Key            | Required | Type       | Description |
 |----------------|----------|------------|-------------|

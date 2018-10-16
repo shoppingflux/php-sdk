@@ -2,14 +2,14 @@
 
 ### Read inventories
 
-Accessing to the inventory API can be done from store resource
+Accessing the inventory API can be done using the store resource
 
 ```php
 <?php
 $inventoryApi = $session->getMainStore()->getInventoryApi();
 ```
 
-Find a inventory item by product's reference (sku):
+Find an inventory item by a product's reference (sku):
 
 ```php
 <?php
@@ -37,7 +37,7 @@ foreach ($inventoryApi->getPage($criteria) as $inventory) {
 }
 ```
 
-Or Iterates over all inventories of your catalog
+Or iterate over all inventories of your catalog
 
 ```php
 <?php
