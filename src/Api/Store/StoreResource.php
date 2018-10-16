@@ -32,6 +32,18 @@ class StoreResource extends AbstractResource
     }
 
     /**
+     * @return string One of the following status:
+     *  - active
+     *  - demo
+     *  - deleted
+     *  - suspended
+     */
+    public function getStatus()
+    {
+        return $this->getProperty('status');
+    }
+
+    /**
      * @return string
      */
     public function getCountryCode()

@@ -1,4 +1,4 @@
-# inventories operations
+# Inventory operations
 
 ### Read inventories
 

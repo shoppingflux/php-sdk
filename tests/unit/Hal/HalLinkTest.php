@@ -11,11 +11,20 @@ use ShoppingFeed\Sdk\Hal\HalResource;
 
 class HalLinkTest extends TestCase
 {
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|HalClient
+     */
+    private $client;
+
+    public function setUp()
+    {
+        $this->client = $this->createMock(HalClient::class);
+    }
+
     public function testSetters()
     {
-        $client   = $this->createMock(HalClient::class);
         $instance = new HalLink(
-            $client,
+            $this->client,
             'http://base.url',
             [
                 'templated' => true,
@@ -37,8 +46,7 @@ class HalLinkTest extends TestCase
      */
     public function testHttpClientCalls()
     {
-        $client = $this->createMock(HalClient::class);
-        $client
+        $this->client
             ->expects($this->exactly(5))
             ->method('send')
             ->willReturn(
@@ -47,7 +55,7 @@ class HalLinkTest extends TestCase
 
         $instance = $this
             ->getMockBuilder(HalLink::class)
-            ->setConstructorArgs([$client, 'http://base.url'])
+            ->setConstructorArgs([$this->client, 'http://base.url'])
             ->setMethods(['createRequest'])
             ->getMock();
 
@@ -67,8 +75,7 @@ class HalLinkTest extends TestCase
 
     public function testSend()
     {
-        $client = $this->createMock(HalClient::class);
-        $client
+        $this->client
             ->expects($this->once())
             ->method('send')
             ->willReturn(
@@ -77,7 +84,7 @@ class HalLinkTest extends TestCase
 
         $instance = $this
             ->getMockBuilder(HalLink::class)
-            ->setConstructorArgs([$client, 'http://base.url'])
+            ->setConstructorArgs([$this->client, 'http://base.url'])
             ->setMethods(['createRequest'])
             ->getMock();
 
@@ -88,8 +95,7 @@ class HalLinkTest extends TestCase
 
     public function testGetCreateRequest()
     {
-        $client = $this->createMock(HalClient::class);
-        $client
+        $this->client
             ->expects($this->once())
             ->method('createRequest')
             ->willReturn(
@@ -98,7 +104,7 @@ class HalLinkTest extends TestCase
 
         $instance = $this
             ->getMockBuilder(HalLink::class)
-            ->setConstructorArgs([$client, 'http://base.url'])
+            ->setConstructorArgs([$this->client, 'http://base.url'])
             ->setMethods(['getUri'])
             ->getMock();
 
@@ -112,8 +118,7 @@ class HalLinkTest extends TestCase
 
     public function testCreateRequestWithContent()
     {
-        $client = $this->createMock(HalClient::class);
-        $client
+        $this->client
             ->expects($this->exactly(3))
             ->method('createRequest')
             ->willReturn(
@@ -122,7 +127,7 @@ class HalLinkTest extends TestCase
 
         $instance = $this
             ->getMockBuilder(HalLink::class)
-            ->setConstructorArgs([$client, 'http://base.url'])
+            ->setConstructorArgs([$this->client, 'http://base.url'])
             ->setMethods(['getUri'])
             ->getMock();
 
@@ -139,8 +144,7 @@ class HalLinkTest extends TestCase
     public function testBatchSend()
     {
         $request = ['request'];
-        $client  = $this->createMock(HalClient::class);
-        $client
+        $this->client
             ->expects($this->once())
             ->method('batchSend')
             ->with(
@@ -151,7 +155,7 @@ class HalLinkTest extends TestCase
                 )
             );
 
-        $instance = new HalLink($client, 'http://base.url');
+        $instance = new HalLink($this->client, 'http://base.url');
 
         $instance->batchSend($request);
     }
@@ -160,8 +164,7 @@ class HalLinkTest extends TestCase
     {
         $request = ['request'];
         $options = ['test' => 'option'];
-        $client  = $this->createMock(HalClient::class);
-        $client
+        $this->client
             ->expects($this->once())
             ->method('batchSend')
             ->with(
@@ -177,7 +180,7 @@ class HalLinkTest extends TestCase
                 )
             );
 
-        $instance = new HalLink($client, 'http://base.url');
+        $instance = new HalLink($this->client, 'http://base.url');
 
         $instance->batchSend($request, null, null, $options);
     }
@@ -189,8 +192,7 @@ class HalLinkTest extends TestCase
         $success = function () {
             echo 'Success';
         };
-        $client  = $this->createMock(HalClient::class);
-        $client
+        $this->client
             ->expects($this->once())
             ->method('batchSend')
             ->with(
@@ -208,7 +210,7 @@ class HalLinkTest extends TestCase
                 )
             );
 
-        $instance = new HalLink($client, 'http://base.url');
+        $instance = new HalLink($this->client, 'http://base.url');
 
         $instance->batchSend($request, $success, null);
     }
@@ -220,8 +222,7 @@ class HalLinkTest extends TestCase
         $error   = function () {
             echo 'Error';
         };
-        $client  = $this->createMock(HalClient::class);
-        $client
+        $this->client
             ->expects($this->once())
             ->method('batchSend')
             ->with(
@@ -240,17 +241,16 @@ class HalLinkTest extends TestCase
                 )
             );
 
-        $instance = new HalLink($client, 'http://base.url');
+        $instance = new HalLink($this->client, 'http://base.url');
 
         $instance->batchSend($request, null, $error);
     }
 
     public function testGetUriDefault()
     {
-        $client   = $this->createMock(HalClient::class);
         $instance = $this
             ->getMockBuilder(HalLink::class)
-            ->setConstructorArgs([$client, 'http://base.url'])
+            ->setConstructorArgs([$this->client, 'http://base.url'])
             ->setMethods(['getHref'])
             ->getMock();
 
@@ -264,9 +264,31 @@ class HalLinkTest extends TestCase
 
     public function testGetUriTemplated()
     {
-        $client   = $this->createMock(HalClient::class);
-        $instance = new HalLink($client, 'http://base.url', ['templated' => true]);
+        $instance = new HalLink($this->client, 'http://base.url', ['templated' => true]);
 
         $this->assertInternalType('string', $instance->getUri([]));
+    }
+
+    /**
+     * @dataProvider addedHrefProvider
+     */
+    public function testWithAddedHref($href, $added, $expected)
+    {
+        $instance = new HalLink($this->client, $href);
+        $this->assertSame(
+            $instance->withAddedHref($added)->getHref(),
+            $expected
+        );
+    }
+
+    public function addedHrefProvider()
+    {
+        return [
+            ['http://base.url/v1', '12', 'http://base.url/v1/12'],
+            ['http://base.url/v1/', '12', 'http://base.url/v1/12'],
+            ['http://base.url/v1/', '/12', 'http://base.url/v1/12'],
+            ['http://base.url/v1', '/12', 'http://base.url/v1/12'],
+            ['http://base.url/v1', '/12/', 'http://base.url/v1/12/'],
+        ];
     }
 }

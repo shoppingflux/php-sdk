@@ -8,6 +8,7 @@ use ShoppingFeed\Sdk\Resource;
  * @method StoreChannelResource[] getAll($criteria = [])
  * @method StoreChannelResource[] getPage(array $criteria = [])
  * @method StoreChannelResource[] getPages(array $criteria = [])
+ * @method StoreChannelResource getOne($identity)
  */
 class StoreChannelDomain extends Resource\AbstractDomainResource
 {

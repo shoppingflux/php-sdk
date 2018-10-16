@@ -5,8 +5,25 @@ method with the ShoppingFeed team before making a change.
 
 Please note we have a code of conduct, please follow it in all your interactions with the project.
 
-## Pull Request Process
+## Pull Request
 
+### Creation
+
+To create a pull request first you must understand the [gitflow](https://nvie.com/posts/a-successful-git-branching-model/)
+workflow. We have chosen it to ease repository organisation and development communication.  
+We invite you to read the documentation to understand how it works.  
+
+Here are some basics to get started :
+1. Always start development from the `develop` branch.
+2. From it create a new branch you will name '#[ISSUEID]-feature-...', '#[ISSUEID]-fix-...'
+3. Develop and commit on this branch
+4. When finished create the PR to merge your branch into develop branch
+
+Please follow the PR template we have configure it will help us understand faster what the PR is about.
+
+### Requirement
+
+Here are some requirement for a PR to be valid : 
 1. Ensure that your PR must pass the build process
 2. Your code must be fully tested with phpunit tests (coverage 100%)
 3. Your code must respect our [coding standard rules](docs/development/coding-standards.md)
@@ -31,7 +48,7 @@ include:
 * Using welcoming and inclusive language
 * Being respectful of differing viewpoints and experiences
 * Gracefully accepting constructive criticism
-* Focusing on what is best for the community
+* Focusing on what is best for the project
 * Showing empathy towards other community members
 
 Examples of unacceptable behavior by participants include:
