@@ -1,3 +1,14 @@
+v0.2.5
+======
+
+### Added
+
+- `PricingResource` : access to catalog pricing API #69
+
+### Fixed
+
+- Readme fixes #65
+
 v0.2.4
 ======
 
@@ -10,7 +21,7 @@ v0.2.4
 - `HalLink::withAddedHref(string $path)` : Allow to creates new instance of link with concatenated path #63
 - Allow to add platform information to SDK user agent #62
 
-### fixed
+### Fixed
 
 - `InventoryDomain::getByReference()` was not checking for NULL resource #63
 - `Client::VERSION` mismatch with release version #62
