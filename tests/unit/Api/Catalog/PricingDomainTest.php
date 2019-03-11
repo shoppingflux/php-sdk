@@ -4,7 +4,7 @@ namespace ShoppingFeed\Sdk\Test\Api\Catalog;
 use PHPUnit\Framework\TestCase;
 use ShoppingFeed\Sdk;
 
-class InventoryDomainTest extends TestCase
+class PricingDomainTest extends TestCase
 {
     public function testGetByReference()
     {
@@ -19,7 +19,7 @@ class InventoryDomainTest extends TestCase
         $resource
             ->expects($this->once())
             ->method('getFirstResource')
-            ->with('inventory')
+            ->with('pricing')
             ->willReturn(
                 $this->createMock(Sdk\Hal\HalResource::class)
             );
@@ -32,12 +32,12 @@ class InventoryDomainTest extends TestCase
             )
             ->willReturn($resource);
 
-        $instance = new Sdk\Api\Catalog\InventoryDomain($link);
+        $instance = new Sdk\Api\Catalog\PricingDomain($link);
 
-        $this->assertInstanceOf(Sdk\Api\Catalog\InventoryResource::class, $instance->getByReference($reference));
+        $this->assertInstanceOf(Sdk\Api\Catalog\PricingResource::class, $instance->getByReference($reference));
     }
 
-    public function testGetByReferenceNoInventory()
+    public function testGetByReferenceNoPricing()
     {
         $reference = 'abc213';
         $link      = $this->createMock(Sdk\Hal\HalLink::class);
@@ -56,7 +56,7 @@ class InventoryDomainTest extends TestCase
             )
             ->willReturn($resource);
 
-        $instance = new Sdk\Api\Catalog\InventoryDomain($link);
+        $instance = new Sdk\Api\Catalog\PricingDomain($link);
 
         $this->assertNull($instance->getByReference($reference));
     }
@@ -64,14 +64,14 @@ class InventoryDomainTest extends TestCase
     public function testExecute()
     {
         $link       = $this->createMock(Sdk\Hal\HalLink::class);
-        $operations = $this->createMock(Sdk\Api\Catalog\InventoryUpdate::class);
+        $operations = $this->createMock(Sdk\Api\Catalog\PricingUpdate::class);
         $operations
             ->expects($this->once())
             ->method('execute')
             ->with($link)
-            ->willReturn($this->createMock(Sdk\Api\Catalog\InventoryCollection::class));
+            ->willReturn($this->createMock(Sdk\Api\Catalog\PricingCollection::class));
 
-        $instance = new Sdk\Api\Catalog\InventoryDomain($link);
+        $instance = new Sdk\Api\Catalog\PricingDomain($link);
         $instance->execute($operations);
     }
 }
