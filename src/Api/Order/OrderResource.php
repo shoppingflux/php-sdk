@@ -116,4 +116,12 @@ class OrderResource extends AbstractResource
             $this->resource->getFirstResource('channel')
         );
     }
+
+    /**
+     * @return array
+     */
+    public function getAdditionalFields()
+    {
+        return $this->getProperty('additionalFields');
+    }
 }
