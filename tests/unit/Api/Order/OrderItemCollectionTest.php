@@ -8,12 +8,14 @@ class OrderItemCollectionTest extends \PHPUnit_Framework_TestCase
         [
             'reference' => 'a',
             'quantity'  => 1,
-            'price'     => 2
+            'price'     => 2,
+            'taxAmount' => 7.99,
         ],
         [
             'reference' => 'b',
             'quantity'  => 2,
-            'price'     => 3
+            'price'     => 3,
+            'taxAmount' => 4.99,
         ]
     ];
 
@@ -36,7 +38,8 @@ class OrderItemCollectionTest extends \PHPUnit_Framework_TestCase
         $firstOne = new OrderItem(
             $this->items[0]['reference'],
             $this->items[0]['quantity'],
-            $this->items[0]['price']
+            $this->items[0]['price'],
+            $this->items[0]['taxAmount']
         );
 
         $this->assertEquals($items[0], $firstOne);
@@ -44,7 +47,8 @@ class OrderItemCollectionTest extends \PHPUnit_Framework_TestCase
         $secondOne = new OrderItem(
             $this->items[1]['reference'],
             $this->items[1]['quantity'],
-            $this->items[1]['price']
+            $this->items[1]['price'],
+            $this->items[1]['taxAmount']
         );
 
         $this->assertEquals($items[1], $secondOne);

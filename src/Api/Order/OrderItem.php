@@ -22,15 +22,22 @@ class OrderItem
     private $unitPrice;
 
     /**
+     * @var float
+     */
+    private $taxAmount;
+
+    /**
      * @param string $reference The product's reference
      * @param int    $quantity  Number product's occurrence in cart
      * @param float  $price     The price for a single unit of the reference (not price * quantity)
+     * @param float  $taxAmount The tax amount of the item price
      */
-    public function __construct($reference, $quantity, $price)
+    public function __construct($reference, $quantity, $price, $taxAmount)
     {
         $this->reference = $reference;
         $this->quantity  = $quantity;
         $this->unitPrice = $price;
+        $this->taxAmount = $taxAmount;
     }
 
     /**
@@ -58,6 +65,14 @@ class OrderItem
     }
 
     /**
+     * @return float
+     */
+    public function getTaxAmount()
+    {
+        return $this->taxAmount;
+    }
+
+    /**
      * @return float|int
      */
     public function getTotalPrice()
@@ -73,7 +88,8 @@ class OrderItem
         return [
             'reference' => $this->getReference(),
             'quantity'  => $this->getQuantity(),
-            'price'     => $this->getUnitPrice()
+            'price'     => $this->getUnitPrice(),
+            'taxAmount' => $this->getTaxAmount(),
         ];
     }
 }
