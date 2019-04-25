@@ -1,3 +1,11 @@
+v0.2.6
+======
+
+### Added
+
+- `OrderItem` : Adding TaxAmount retrieval #74
+
+
 v0.2.5
 ======
 
