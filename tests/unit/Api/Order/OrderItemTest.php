@@ -11,7 +11,7 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->instance = new OrderItem('a', 2, 9.99);
+        $this->instance = new OrderItem('a', 2, 9.99, 7.99);
     }
 
     public function testGetReference()
@@ -26,7 +26,12 @@ class OrderItemTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUnitPrice()
     {
-        $this->assertSame(9.99, $this->instance->getUnitPrice(), 'Unit Price is the last constructor arg');
+        $this->assertSame(9.99, $this->instance->getUnitPrice(), 'Unit Price is the third constructor arg');
+    }
+
+    public function testGetTaxAmount()
+    {
+        $this->assertSame(7.99, $this->instance->getTaxAmount(), 'TaxAmount is the last constructor arg');
     }
 
     public function testGetTotalPriceWithComputeRowPrice()

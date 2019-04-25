@@ -1,8 +1,6 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Order;
 
-use Traversable;
-
 class OrderItemCollection implements \Countable, \IteratorAggregate
 {
     /**
@@ -19,7 +17,9 @@ class OrderItemCollection implements \Countable, \IteratorAggregate
     {
         $instance = new self;
         foreach ($items as $item) {
-            $instance->add(new OrderItem($item['reference'], $item['quantity'], $item['price']));
+            $instance->add(
+                new OrderItem($item['reference'], $item['quantity'], $item['price'], $item['taxAmount'])
+            );
         }
 
         return $instance;

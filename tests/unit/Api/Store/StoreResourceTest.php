@@ -81,4 +81,21 @@ class StoreResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
         $this->assertInstanceOf(Sdk\Api\Order\OrderDomain::class, $instance->getOrderApi());
     }
+
+    public function testGetPricingApi()
+    {
+        /** @var Sdk\Hal\HalResource|\PHPUnit_Framework_MockObject_MockObject $halResource */
+        $halResource = $this->createMock(Sdk\Hal\HalResource::class);
+        $halResource
+            ->expects($this->once())
+            ->method('getLink')
+            ->with('pricing')
+            ->willReturn(
+                $this->createMock(Sdk\Hal\HalLink::class)
+            );
+
+        $instance = new Sdk\Api\Store\StoreResource($halResource);
+
+        $this->assertInstanceOf(Sdk\Api\Catalog\PricingDomain::class, $instance->getPricingApi());
+    }
 }

@@ -93,6 +93,7 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
                 [
                     'reference' => 'a',
                     'price'     => 9.99,
+                    'taxAmount' => 7.99,
                     'quantity'  => 1,
                 ],
             ],
