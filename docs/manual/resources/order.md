@@ -178,6 +178,26 @@ $operation
 
 $orderApi->execute($operation);
 ```
+
+### Refund
+
+The refund operation accepts 4 parameters :
+1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
+2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
+3. [optional] `$shipping` : true if shipping cost need to be refunded, false otherwise (eq: `false`) 
+4. [optional] `$products` : Item references and their quantities to refund (eq: `['itemref1' => 1, 'itemref2' => 2]`) 
+
+Example :
+
+```php
+$operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
+$operation
+    ->refund('ref1', 'amazon')
+    ->refund('ref2', 'amazon', true, ['itemref1' => 1, 'itemref2' => 2]);
+
+$orderApi->execute($operation);
+```
+
 ### Acknowledge
 
 To acknowledge the good reception of an order, you need the following parameters :

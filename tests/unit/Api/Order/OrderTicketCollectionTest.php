@@ -42,6 +42,10 @@ class OrderTicketCollectionTest extends TestCase
             'ticketId369' => ['orderRef1', 'orderRef2', 'orderRef3'],
             'ticketId486' => ['orderRef4', 'orderRef5', 'orderRef6'],
         ],
+        OrderOperation::TYPE_REFUND => [
+            'ticketId239' => ['orderRef1', 'orderRef2', 'orderRef3'],
+            'ticketId446' => ['orderRef4', 'orderRef5', 'orderRef6'],
+        ],
     ];
 
     public function testFindTicket()
@@ -127,6 +131,25 @@ class OrderTicketCollectionTest extends TestCase
             );
 
         $instance->getRefused('orderRef1');
+    }
+
+    public function testGetRefundedTicket()
+    {
+        /** @var OrderTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        $instance = $this
+            ->getMockBuilder(OrderTicketCollection::class)
+            ->setMethods(['findTickets'])
+            ->getMock();
+
+        $instance
+            ->expects($this->once())
+            ->method('findTickets')
+            ->with(['reference' => 'orderRef1', 'operation' => OrderOperation::TYPE_REFUND])
+            ->willReturn(
+                $this->createMock(TicketResource::class)
+            );
+
+        $instance->getRefunded('orderRef1');
     }
 
     public function testGetAcceptedTicket()

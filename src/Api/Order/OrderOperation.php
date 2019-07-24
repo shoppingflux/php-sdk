@@ -17,6 +17,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
     const TYPE_CANCEL        = 'cancel';
     const TYPE_REFUSE        = 'refuse';
     const TYPE_SHIP          = 'ship';
+    const TYPE_REFUND        = 'refund';
     const TYPE_ACKNOWLEDGE   = 'acknowledge';
     const TYPE_UNACKNOWLEDGE = 'unacknowledge';
 
@@ -28,6 +29,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         self::TYPE_CANCEL,
         self::TYPE_REFUSE,
         self::TYPE_SHIP,
+        self::TYPE_REFUND,
         self::TYPE_ACKNOWLEDGE,
         self::TYPE_UNACKNOWLEDGE,
     ];
@@ -114,19 +116,17 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @param string $reference   Order reference
      * @param string $channelName Channel to notify
-     * @param array  $refund      Order item reference that will be refunded
      *
      * @return OrderOperation
      *
      * @throws Order\Exception\UnexpectedTypeException
      */
-    public function refuse($reference, $channelName, $refund = [])
+    public function refuse($reference, $channelName)
     {
         $this->addOperation(
             $reference,
             $channelName,
-            OrderOperation::TYPE_REFUSE,
-            compact('refund')
+            OrderOperation::TYPE_REFUSE
         );
 
         return $this;
@@ -318,5 +318,29 @@ class OrderOperation extends Operation\AbstractBulkOperation
         }
 
         $this->operations[$type][] = array_merge(compact('reference', 'channelName'), $data);
+    }
+
+    /**
+     * Notify market place of order refund
+     *
+     * @param string $reference   Order reference
+     * @param string $channelName Channel to notify
+     * @param bool   $shipping    True to refund shipping costs
+     * @param array  $products    Order item reference and quantities that will be refunded
+     *
+     * @return OrderOperation
+     *
+     * @throws Order\Exception\UnexpectedTypeException
+     */
+    public function refund($reference, $channelName, $shipping = true, $products = [])
+    {
+        $this->addOperation(
+            $reference,
+            $channelName,
+            OrderOperation::TYPE_REFUND,
+            ['refund' => compact('shipping', 'products')]
+        );
+
+        return $this;
     }
 }
