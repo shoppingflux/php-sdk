@@ -22,12 +22,13 @@
     "monolog/monolog": "^1.23",
     "guzzlehttp/guzzle": "^6.0",
     "phpunit/phpunit": "^5.0",
-    "squizlabs/php_codesniffer": "^2.8"
+    "shoppingfeed/coding-style-php": "^2.0",
+    "overtrue/phplint": "^1.1"
   },
   "scripts": {
     "test": [
-      "@php vendor/bin/phpunit --configuration=phpunit.xml --coverage-html=build/phpunit/coverage/",
-      "@php vendor/bin/phpcs --colors --report=full --standard=resources/phpcs/ruleset.xml --report-checkstyle=build/phpcs/phpcs.xml --report-emacs=build/phpcs/phpcs.log --extensions=php -p src"
+      "@php vendor/bin/phpunit",
+      "@php vendor/bin/sfcs src --progress -vvv"
     ]
   },
   "scripts-descriptions": {

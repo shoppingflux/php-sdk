@@ -3,4 +3,3 @@ composer.lock
 .DS_Store
 vendor
 build
-data
