@@ -1,9 +1,5 @@
 # Welcome to the Shopping Feed PHP SDK
 
-## Status
-
-[![buddy pipeline](https://app.buddy.works/shopping-feed/php-sdk/pipelines/pipeline/201714/badge.svg "buddy pipeline")](https://app.buddy.works/shopping-feed/php-sdk/pipelines/pipeline/201714)
-
 ## Install
 
 1. In your project root repository run 
