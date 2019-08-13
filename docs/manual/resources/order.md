@@ -95,13 +95,13 @@ $operation
     ->ship('ref5', 'amazon')
     ->cancel('ref3', 'amazon');
 
-$tickets = $orderApi->execute($operation);
+$ticketCollection = $orderApi->execute($operation);
 
 // Tickets to follow all acceptance tasks
 $accepted = $ticketCollection->getAccepted();
 
 // Ticket ID to follow 'ref3' cancelling task
-$ticketId = $tickets->getCanceled('ref3')[0]->getId();
+$ticketId = $ticketCollection->getCanceled('ref3')[0]->getId();
 ```
 
 ### Accept
