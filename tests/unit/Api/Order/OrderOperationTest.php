@@ -119,16 +119,14 @@ class OrderOperationTest extends TestCase
             ->with(
                 'ref1',
                 'amazon',
-                Sdk\Api\Order\OrderOperation::TYPE_REFUSE,
-                ['refund' => ['item1', 'item2']]
+                Sdk\Api\Order\OrderOperation::TYPE_REFUSE
             );
 
         $this->assertInstanceOf(
             Sdk\Api\Order\OrderOperation::class,
             $instance->refuse(
                 'ref1',
-                'amazon',
-                ['item1', 'item2']
+                'amazon'
             )
         );
     }
@@ -301,7 +299,7 @@ class OrderOperationTest extends TestCase
         );
     }
 
-    public function testAssociationBetweenRefandTicketId()
+    public function testAssociationBetweenRefoundTicketId()
     {
         $expected = [
             'accept' => [
@@ -403,5 +401,47 @@ class OrderOperationTest extends TestCase
 
         $this->assertEquals($resource, $resources[0]);
         $this->assertEquals(count($requests), $refIndex);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testRefundOperation()
+    {
+        $instance = $this
+            ->getMockBuilder(Sdk\Api\Order\OrderOperation::class)
+            ->setMethods(['addOperation'])
+            ->getMock();
+
+        $instance
+            ->expects($this->once())
+            ->method('addOperation')
+            ->with(
+                'ref1',
+                'amazon',
+                Sdk\Api\Order\OrderOperation::TYPE_REFUND,
+                [
+                    'refund' => [
+                        'shipping' => true,
+                        'products' => [
+                            ['reference' => 'item1', 'quantity' => 1],
+                            ['reference' => 'item2', 'quantity' => 2],
+                        ]
+                    ]
+                ]
+            );
+
+        $this->assertInstanceOf(
+            Sdk\Api\Order\OrderOperation::class,
+            $instance->refund(
+                'ref1',
+                'amazon',
+                true,
+                [
+                    ['reference' => 'item1', 'quantity' => 1],
+                    ['reference' => 'item2', 'quantity' => 2],
+                ]
+            )
+        );
     }
 }

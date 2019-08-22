@@ -62,7 +62,7 @@ class OrderTicketCollection extends Task\TicketCollection
     }
 
     /**
-     * Get ticket for accepted reference
+     * Get ticket for refused reference
      *
      * @param $reference
      *
@@ -76,6 +76,25 @@ class OrderTicketCollection extends Task\TicketCollection
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_REFUSE,
+            ]
+        );
+    }
+
+    /**
+     * Get ticket for refunded reference
+     *
+     * @param $reference
+     *
+     * @return Task\TicketResource[]
+     *
+     * @throws Order\Exception\TicketNotFoundException
+     */
+    public function getRefunded($reference = null)
+    {
+        return $this->findTickets(
+            [
+                'reference' => $reference,
+                'operation' => OrderOperation::TYPE_REFUND,
             ]
         );
     }

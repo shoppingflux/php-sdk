@@ -59,3 +59,6 @@ Here is a description and links to documentation to help follow them :
   [WhiteSpace/OperatorSpacing](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/Squiz/Sniffs/WhiteSpace/OperatorSpacingSniff.php),
   [WhiteSpace/ScopeClosingBrace](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/Squiz/Sniffs/WhiteSpace/ScopeClosingBraceSniff.php),
   [WhiteSpace/SuperfluousWhitespace](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/Squiz/Sniffs/WhiteSpace/SuperfluousWhitespaceSniff.php),
+  
+  [Squiz/ArrayDeclarationSniff:NoCommaAfterLast,CommaAfterLast,FirstValueNoNewline](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/Squiz/Sniffs/Arrays/ArrayDeclarationSniff.php)
+  
