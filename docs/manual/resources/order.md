@@ -94,6 +94,7 @@ $operation
     ->refuse('ref4', 'amazon')
     ->ship('ref5', 'amazon')
     ->cancel('ref3', 'amazon');
+    ->refund('ref6', 'amazon');
 
 $ticketCollection = $orderApi->execute($operation);
 
@@ -188,10 +189,20 @@ The refund operation accepts 4 parameters :
 Example :
 
 ```php
+$products = [
+  [
+      'reference' => 'abc123',
+      'quantity'  => 1,
+  ],
+  [
+      'reference' => 'abc456',
+      'quantity'  => 2,
+  ],
+];
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $operation
-    ->refund('ref1', 'amazon')
-    ->refund('ref2', 'amazon', true, ['itemref1' => 1, 'itemref2' => 2]);
+    ->refund('orderRef1', 'amazon')
+    ->refund('orderRef2', 'amazon', true, $products);
 
 $orderApi->execute($operation);
 ```

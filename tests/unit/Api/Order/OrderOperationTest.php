@@ -424,7 +424,8 @@ class OrderOperationTest extends TestCase
                     'refund' => [
                         'shipping' => true,
                         'products' => [
-                            'item1' => 1, 'item2' => 2
+                            ['reference' => 'item1', 'quantity' => 1],
+                            ['reference' => 'item2', 'quantity' => 2],
                         ]
                     ]
                 ]
@@ -436,7 +437,10 @@ class OrderOperationTest extends TestCase
                 'ref1',
                 'amazon',
                 true,
-                ['item1' => 1, 'item2' => 2]
+                [
+                    ['reference' => 'item1', 'quantity' => 1],
+                    ['reference' => 'item2', 'quantity' => 2],
+                ]
             )
         );
     }
