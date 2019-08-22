@@ -30,13 +30,15 @@ class UriTemplate
     ];
 
     /** @var array Delimiters */
-    private static $delims = [':', '/', '?', '#', '[', ']', '@', '!', '$',
-        '&', '\'', '(', ')', '*', '+', ',', ';', '='];
+    private static $delims = [
+        ':', '/', '?', '#', '[', ']', '@', '!', '$', '&', '\'', '(', ')', '*', '+', ',', ';', '=',
+    ];
 
     /** @var array Percent encoded delimiters */
-    private static $delimsPct = ['%3A', '%2F', '%3F', '%23', '%5B', '%5D',
-        '%40', '%21', '%24', '%26', '%27', '%28', '%29', '%2A', '%2B', '%2C',
-        '%3B', '%3D'];
+    private static $delimsPct = [
+        '%3A', '%2F', '%3F', '%23', '%5B', '%5D', '%40', '%21', '%24', '%26', '%27', '%28', '%29', '%2A', '%2B', '%2C',
+        '%3B', '%3D',
+    ];
 
     public function expand($template, array $variables)
     {

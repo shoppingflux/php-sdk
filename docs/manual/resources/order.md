@@ -94,14 +94,15 @@ $operation
     ->refuse('ref4', 'amazon')
     ->ship('ref5', 'amazon')
     ->cancel('ref3', 'amazon');
+    ->refund('ref6', 'amazon');
 
-$tickets = $orderApi->execute($operation);
+$ticketCollection = $orderApi->execute($operation);
 
 // Tickets to follow all acceptance tasks
 $accepted = $ticketCollection->getAccepted();
 
 // Ticket ID to follow 'ref3' cancelling task
-$ticketId = $tickets->getCanceled('ref3')[0]->getId();
+$ticketId = $ticketCollection->getCanceled('ref3')[0]->getId();
 ```
 
 ### Accept
@@ -145,15 +146,13 @@ $orderApi->execute($operation);
 The refuse operation accepts 3 parameters :
 1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
 2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
-3. [optional] `$refund` : Item references to refund (eq: `['itemref1', 'itemref2']`) 
 
 Example :
 
 ```php
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $operation
-    ->refuse('ref1', 'amazon')
-    ->refuse('ref2', 'amazon', ['itemref1', 'itemref2']);
+    ->refuse('ref1', 'amazon');
 
 $orderApi->execute($operation);
 ```
@@ -178,6 +177,36 @@ $operation
 
 $orderApi->execute($operation);
 ```
+
+### Refund
+
+The refund operation accepts 4 parameters :
+1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
+2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
+3. [optional] `$shipping` : true if shipping cost need to be refunded, false otherwise (eq: `false`) 
+4. [optional] `$products` : Item references and their quantities to refund (eq: `['itemref1' => 1, 'itemref2' => 2]`) 
+
+Example :
+
+```php
+$products = [
+  [
+      'reference' => 'abc123',
+      'quantity'  => 1,
+  ],
+  [
+      'reference' => 'abc456',
+      'quantity'  => 2,
+  ],
+];
+$operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
+$operation
+    ->refund('orderRef1', 'amazon')
+    ->refund('orderRef2', 'amazon', true, $products);
+
+$orderApi->execute($operation);
+```
+
 ### Acknowledge
 
 To acknowledge the good reception of an order, you need the following parameters :

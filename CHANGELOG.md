@@ -1,3 +1,14 @@
+v0.2.7
+======
+
+### Added
+
+- `OrderOperation` : Adding access to refund operation API #81
+
+### Removed
+
+- On the refuse operation, the `$refund` parameter has been removed has it is not used by the API anymore
+
 v0.2.6
 ======
 
