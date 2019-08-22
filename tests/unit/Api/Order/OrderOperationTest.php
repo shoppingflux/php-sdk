@@ -299,7 +299,7 @@ class OrderOperationTest extends TestCase
         );
     }
 
-    public function testAssociationBetweenRefandTicketId()
+    public function testAssociationBetweenRefoundTicketId()
     {
         $expected = [
             'accept' => [

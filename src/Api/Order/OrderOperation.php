@@ -56,7 +56,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $this->addOperation(
             $reference,
             $channelName,
-            OrderOperation::TYPE_ACCEPT,
+            self::TYPE_ACCEPT,
             compact('reason')
         );
 
@@ -79,7 +79,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $this->addOperation(
             $reference,
             $channelName,
-            OrderOperation::TYPE_CANCEL,
+            self::TYPE_CANCEL,
             compact('reason')
         );
 
@@ -104,7 +104,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $this->addOperation(
             $reference,
             $channelName,
-            OrderOperation::TYPE_SHIP,
+            self::TYPE_SHIP,
             compact('carrier', 'trackingNumber', 'trackingLink')
         );
 
@@ -126,7 +126,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $this->addOperation(
             $reference,
             $channelName,
-            OrderOperation::TYPE_REFUSE
+            self::TYPE_REFUSE
         );
 
         return $this;
@@ -153,7 +153,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $this->addOperation(
             $reference,
             $channelName,
-            OrderOperation::TYPE_ACKNOWLEDGE,
+            self::TYPE_ACKNOWLEDGE,
             compact('status', 'storeReference', 'acknowledgedAt', 'message')
         );
 
@@ -176,7 +176,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $this->addOperation(
             $reference,
             $channelName,
-            OrderOperation::TYPE_UNACKNOWLEDGE
+            self::TYPE_UNACKNOWLEDGE
         );
 
         return $this;
@@ -337,7 +337,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $this->addOperation(
             $reference,
             $channelName,
-            OrderOperation::TYPE_REFUND,
+            self::TYPE_REFUND,
             ['refund' => compact('shipping', 'products')]
         );
 

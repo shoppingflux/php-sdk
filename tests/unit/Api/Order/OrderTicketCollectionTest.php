@@ -38,10 +38,6 @@ class OrderTicketCollectionTest extends TestCase
             'ticketId147' => ['orderRef1', 'orderRef2', 'orderRef3'],
             'ticketId258' => ['orderRef4', 'orderRef5', 'orderRef6'],
         ],
-        OrderOperation::TYPE_ACKNOWLEDGE => [
-            'ticketId369' => ['orderRef1', 'orderRef2', 'orderRef3'],
-            'ticketId486' => ['orderRef4', 'orderRef5', 'orderRef6'],
-        ],
         OrderOperation::TYPE_REFUND => [
             'ticketId239' => ['orderRef1', 'orderRef2', 'orderRef3'],
             'ticketId446' => ['orderRef4', 'orderRef5', 'orderRef6'],
