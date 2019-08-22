@@ -163,8 +163,8 @@ class OrderOperation extends Operation\AbstractBulkOperation
     /**
      * Unacknowledge order reception
      *
-     * @param string $reference     The channel's order reference
-     * @param string $channelName   The channel's name
+     * @param string $reference   The channel's order reference
+     * @param string $channelName The channel's name
      *
      * @return OrderOperation
      *
