@@ -14,6 +14,6 @@ class PaginatedTicketCollection extends PaginatedResourceCollection
     {
         $metadata = $this->getMetaData();
 
-        return isset($metadata['processing']) && $metadata['processing'];
+        return ! isset($metadata['processing']) || $metadata['processing'];
     }
 }
