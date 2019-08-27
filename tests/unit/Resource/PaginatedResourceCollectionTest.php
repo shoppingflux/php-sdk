@@ -30,6 +30,28 @@ class PaginatedResourceCollectionTest extends TestCase
 
         $this->assertEquals(15, $instance->getTotalCount());
     }
+    public function testIsProcessing()
+    {
+        /** @var PaginatedResourceCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        $instance = $this
+            ->getMockBuilder(PaginatedResourceCollection::class)
+            ->setConstructorArgs(
+                [
+                    $this->createMock(HalResource::class),
+                    ResourceMock::class,
+                ]
+            )
+            ->setMethods(['getProperty'])
+            ->getMock();
+
+        $instance
+            ->expects($this->once())
+            ->method('getProperty')
+            ->with('meta')
+            ->willReturn(['processing' => true]);
+
+        $this->assertTrue($instance->isProcessing());
+    }
 
     public function testGetCurrentCount()
     {

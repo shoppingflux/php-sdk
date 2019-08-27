@@ -1,7 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Order\Exception;
 
-class TicketNotFoundException extends \Exception
+class BatchNotFoundException extends \Exception
 {
     /**
      * Create exception for ticket not found for operation and order refence
@@ -9,12 +9,12 @@ class TicketNotFoundException extends \Exception
      * @param string $operation
      * @param string $reference
      *
-     * @return TicketNotFoundException
+     * @return BatchNotFoundException
      */
     public static function forOperationAndOrder($operation, $reference)
     {
         return new self(sprintf(
-            'No ticket found for operation %s and reference %s',
+            'No batch found for operation %s and reference %s',
             $operation,
             $reference
         ));

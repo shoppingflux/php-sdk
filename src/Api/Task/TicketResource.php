@@ -12,6 +12,13 @@ class TicketResource extends AbstractResource
     {
         return $this->getProperty('id');
     }
+    /**
+     * @return string
+     */
+    public function getBatchId()
+    {
+        return $this->getProperty('batchId');
+    }
 
     /**
      * @return string

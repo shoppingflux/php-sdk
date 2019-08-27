@@ -2,7 +2,6 @@
 namespace ShoppingFeed\Sdk\Api\Task;
 
 use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
-use ShoppingFeed\Sdk\Resource\PaginatedResourceCollection;
 
 /**
  * @method TicketResource[] getIterator()
@@ -15,6 +14,11 @@ class TicketDomain extends AbstractDomainResource
      * @var string
      */
     protected $resourceClass = TicketResource::class;
+
+    /**
+     * @var string
+     */
+    protected $paginatedCollectionClass = PaginatedTicketCollection::class;
 
     /**
      * @param string $reference the resource reference
@@ -37,13 +41,13 @@ class TicketDomain extends AbstractDomainResource
     /**
      * @param string $batchId
      *
-     * @return null|PaginatedResourceCollection
+     * @return null|PaginatedTicketCollection
      */
     public function getByBatch($batchId)
     {
         $resource = $this->link->get([], ['query' => ['batchId' => $batchId]]);
         if ($resource && $resource->getProperty('count') > 0) {
-            return new PaginatedResourceCollection(
+            return new $this->paginatedCollectionClass(
                 $resource,
                 TicketResource::class
             );

@@ -20,7 +20,7 @@ class OrderDomain extends AbstractDomainResource
     /**
      * @param OrderOperation $operation
      *
-     * @return OrderTicketCollection
+     * @return OperationBatchCollection
      */
     public function execute(OrderOperation $operation)
     {

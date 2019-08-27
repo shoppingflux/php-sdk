@@ -187,7 +187,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @param Hal\HalLink $link
      *
-     * @return Api\Order\OrderTicketCollection
+     * @return Api\Order\OperationBatchCollection
      */
     public function execute(Hal\HalLink $link)
     {
@@ -212,7 +212,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
             $this->getPoolSize()
         );
 
-        return new Api\Order\OrderTicketCollection($resources, $ticketReferences);
+        return new Api\Order\OperationBatchCollection($resources, $ticketReferences);
     }
 
     /**
@@ -252,14 +252,14 @@ class OrderOperation extends Operation\AbstractBulkOperation
         array $requests
     )
     {
-        return function (Hal\HalResource $resource) use (&$resources, &$ticketReferences, &$requestIndex, $requests) {
+        return function (Hal\HalResource $ticketBatch) use (&$resources, &$ticketReferences, &$requestIndex, $requests) {
             $this->associateTicketWithReference(
-                $resource,
+                $ticketBatch,
                 $requests[$requestIndex],
                 $ticketReferences
             );
 
-            array_push($resources, $resource);
+            array_push($resources, $ticketBatch);
             $requestIndex++;
         };
     }

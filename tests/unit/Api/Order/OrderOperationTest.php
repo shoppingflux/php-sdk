@@ -294,7 +294,7 @@ class OrderOperationTest extends TestCase
             );
 
         $this->assertInstanceOf(
-            Sdk\Api\Task\TicketCollection::class,
+            Sdk\Api\Task\BatchCollection::class,
             $instance->execute($link)
         );
     }

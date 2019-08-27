@@ -2,12 +2,12 @@
 namespace ShoppingFeed\Sdk\Test\Api\Order;
 
 use PHPUnit\Framework\TestCase;
-use ShoppingFeed\Sdk\Api\Order\OrderTicketCollection;
-use ShoppingFeed\Sdk\Api\Task\TicketResource;
-use ShoppingFeed\Sdk\Order\Exception\TicketNotFoundException;
+use ShoppingFeed\Sdk\Api\Order\OperationBatchCollection;
+use ShoppingFeed\Sdk\Api\Task\BatchResource;
+use ShoppingFeed\Sdk\Order\Exception\BatchNotFoundException;
 use ShoppingFeed\Sdk\Api\Order\OrderOperation;
 
-class OrderTicketCollectionTest extends TestCase
+class OperationBatchCollectionTest extends TestCase
 {
     /**
      * @var array
@@ -47,18 +47,18 @@ class OrderTicketCollectionTest extends TestCase
     public function testFindTicket()
     {
         $this->generateTickets();
-        $instance = new OrderTicketCollectionMock($this->tickets, $this->data);
-        $tickets  = $instance->findTickets(['reference' => 'orderRef5', 'operation' => OrderOperation::TYPE_SHIP]);
+        $instance = new OperationBatchCollectionMock($this->tickets, $this->data);
+        $tickets  = $instance->findBatchs(['reference' => 'orderRef5', 'operation' => OrderOperation::TYPE_SHIP]);
 
-        $this->assertInstanceOf(TicketResource::class, $tickets[0]);
+        $this->assertInstanceOf(BatchResource::class, $tickets[0]);
         $this->assertEquals('ticketId987', $tickets[0]->getId());
     }
 
     public function testFindTicketWithNoOperationNoRef()
     {
         $this->generateTickets();
-        $instance = new OrderTicketCollectionMock($this->tickets, $this->data);
-        $tickets  = $instance->findTickets();
+        $instance = new OperationBatchCollectionMock($this->tickets, $this->data);
+        $tickets  = $instance->findBatchs();
 
         $this->assertCount(count($this->tickets), $tickets);
     }
@@ -66,26 +66,26 @@ class OrderTicketCollectionTest extends TestCase
     public function testFindTicketForOperation()
     {
         $this->generateTickets();
-        $instance = new OrderTicketCollectionMock($this->tickets, $this->data);
-        $tickets  = $instance->findTickets(['operation' => OrderOperation::TYPE_SHIP]);
+        $instance = new OperationBatchCollectionMock($this->tickets, $this->data);
+        $tickets  = $instance->findBatchs(['operation' => OrderOperation::TYPE_SHIP]);
 
         $this->assertCount(count($this->data[OrderOperation::TYPE_SHIP]), $tickets);
     }
 
     public function testGetShippedTicket()
     {
-        /** @var OrderTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(OrderTicketCollection::class)
-            ->setMethods(['findTickets'])
+            ->getMockBuilder(OperationBatchCollection::class)
+            ->setMethods(['findBatchs'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findTickets')
+            ->method('findBatchs')
             ->with(['reference' => 'orderRef5', 'operation' => OrderOperation::TYPE_SHIP])
             ->willReturn(
-                $this->createMock(TicketResource::class)
+                $this->createMock(BatchResource::class)
             );
 
         $instance->getShipped('orderRef5');
@@ -93,18 +93,18 @@ class OrderTicketCollectionTest extends TestCase
 
     public function testGetCanceledTicket()
     {
-        /** @var OrderTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(OrderTicketCollection::class)
-            ->setMethods(['findTickets'])
+            ->getMockBuilder(OperationBatchCollection::class)
+            ->setMethods(['findBatchs'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findTickets')
+            ->method('findBatchs')
             ->with(['reference' => 'orderRef4', 'operation' => OrderOperation::TYPE_CANCEL])
             ->willReturn(
-                $this->createMock(TicketResource::class)
+                $this->createMock(BatchResource::class)
             );
 
         $instance->getCanceled('orderRef4');
@@ -112,18 +112,18 @@ class OrderTicketCollectionTest extends TestCase
 
     public function testGetRefusedTicket()
     {
-        /** @var OrderTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(OrderTicketCollection::class)
-            ->setMethods(['findTickets'])
+            ->getMockBuilder(OperationBatchCollection::class)
+            ->setMethods(['findBatchs'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findTickets')
+            ->method('findBatchs')
             ->with(['reference' => 'orderRef1', 'operation' => OrderOperation::TYPE_REFUSE])
             ->willReturn(
-                $this->createMock(TicketResource::class)
+                $this->createMock(BatchResource::class)
             );
 
         $instance->getRefused('orderRef1');
@@ -131,18 +131,18 @@ class OrderTicketCollectionTest extends TestCase
 
     public function testGetRefundedTicket()
     {
-        /** @var OrderTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(OrderTicketCollection::class)
-            ->setMethods(['findTickets'])
+            ->getMockBuilder(OperationBatchCollection::class)
+            ->setMethods(['findBatchs'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findTickets')
+            ->method('findBatchs')
             ->with(['reference' => 'orderRef1', 'operation' => OrderOperation::TYPE_REFUND])
             ->willReturn(
-                $this->createMock(TicketResource::class)
+                $this->createMock(BatchResource::class)
             );
 
         $instance->getRefunded('orderRef1');
@@ -150,18 +150,18 @@ class OrderTicketCollectionTest extends TestCase
 
     public function testGetAcceptedTicket()
     {
-        /** @var OrderTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(OrderTicketCollection::class)
-            ->setMethods(['findTickets'])
+            ->getMockBuilder(OperationBatchCollection::class)
+            ->setMethods(['findBatchs'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findTickets')
+            ->method('findBatchs')
             ->with(['reference' => 'orderRef3', 'operation' => OrderOperation::TYPE_ACCEPT])
             ->willReturn(
-                $this->createMock(TicketResource::class)
+                $this->createMock(BatchResource::class)
             );
 
         $instance->getAccepted('orderRef3');
@@ -169,18 +169,18 @@ class OrderTicketCollectionTest extends TestCase
 
     public function testGetAcknowledgeTicket()
     {
-        /** @var OrderTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(OrderTicketCollection::class)
-            ->setMethods(['findTickets'])
+            ->getMockBuilder(OperationBatchCollection::class)
+            ->setMethods(['findBatchs'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findTickets')
+            ->method('findBatchs')
             ->with(['reference' => 'orderRef6', 'operation' => OrderOperation::TYPE_ACKNOWLEDGE])
             ->willReturn(
-                $this->createMock(TicketResource::class)
+                $this->createMock(BatchResource::class)
             );
 
         $instance->getAcknowledge('orderRef6');
@@ -188,18 +188,18 @@ class OrderTicketCollectionTest extends TestCase
 
     public function testGetUnacknowledgeTicket()
     {
-        /** @var OrderTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(OrderTicketCollection::class)
-            ->setMethods(['findTickets'])
+            ->getMockBuilder(OperationBatchCollection::class)
+            ->setMethods(['findBatchs'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findTickets')
+            ->method('findBatchs')
             ->with(['reference' => 'orderRef7', 'operation' => OrderOperation::TYPE_UNACKNOWLEDGE])
             ->willReturn(
-                $this->createMock(TicketResource::class)
+                $this->createMock(BatchResource::class)
             );
 
         $instance->getUnacknowledge('orderRef7');
@@ -208,7 +208,7 @@ class OrderTicketCollectionTest extends TestCase
     public function testFindTicketWrongOperation()
     {
         $this->generateTickets();
-        $instance = new OrderTicketCollection($this->tickets);
+        $instance = new OperationBatchCollection($this->tickets);
 
         $this->assertEquals([], $instance->getShipped('orderRef5'));
     }
@@ -216,9 +216,9 @@ class OrderTicketCollectionTest extends TestCase
     public function testFindTicketWrongReference()
     {
         $this->generateWrongTickets();
-        $instance = new OrderTicketCollection($this->tickets, $this->data);
+        $instance = new OperationBatchCollection($this->tickets, $this->data);
 
-        $this->expectException(TicketNotFoundException::class);
+        $this->expectException(BatchNotFoundException::class);
 
         $instance->getShipped('orderRef22');
     }
@@ -230,7 +230,7 @@ class OrderTicketCollectionTest extends TestCase
     {
         foreach ($this->data as $operation => $tickets) {
             foreach ($tickets as $ticketId => $orders) {
-                $ticket = $this->createMock(TicketResource::class);
+                $ticket = $this->createMock(BatchResource::class);
                 $ticket
                     ->method('getId')
                     ->willReturn($ticketId);
@@ -247,7 +247,7 @@ class OrderTicketCollectionTest extends TestCase
     {
         foreach ($this->data as $operation => $tickets) {
             foreach ($tickets as $ticketId => $orders) {
-                $ticket = $this->createMock(TicketResource::class);
+                $ticket = $this->createMock(BatchResource::class);
                 $ticket
                     ->method('getId')
                     ->willReturn($ticketId . '22');

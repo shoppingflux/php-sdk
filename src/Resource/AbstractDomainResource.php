@@ -8,6 +8,13 @@ abstract class AbstractDomainResource
     const PER_PAGE = 200;
 
     /**
+     * Paginated collection class to use
+     *
+     * @var string
+     */
+    protected $paginatedCollectionClass = PaginatedResourceCollection::class;
+
+    /**
      * @var Hal\HalLink
      */
     protected $link;
@@ -95,7 +102,7 @@ abstract class AbstractDomainResource
             return null;
         }
 
-        return new PaginatedResourceCollection(
+        return new $this->paginatedCollectionClass(
             $resource,
             $this->resourceClass
         );

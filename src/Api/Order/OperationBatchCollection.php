@@ -4,7 +4,7 @@ namespace ShoppingFeed\Sdk\Api\Order;
 use ShoppingFeed\Sdk\Order;
 use ShoppingFeed\Sdk\Api\Task;
 
-class OrderTicketCollection extends Task\TicketCollection
+class OperationBatchCollection extends Task\BatchCollection
 {
     /**
      * Order ticket ID association
@@ -28,13 +28,13 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param $reference
      *
-     * @return Task\TicketResource[]
+     * @return Task\BatchResource[]
      *
-     * @throws Order\Exception\TicketNotFoundException
+     * @throws Order\Exception\BatchNotFoundException
      */
     public function getShipped($reference = null)
     {
-        return $this->findTickets(
+        return $this->findBatchs(
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_SHIP,
@@ -47,13 +47,13 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param $reference
      *
-     * @return Task\TicketResource[]
+     * @return Task\BatchResource[]
      *
-     * @throws Order\Exception\TicketNotFoundException
+     * @throws Order\Exception\BatchNotFoundException
      */
     public function getAccepted($reference = null)
     {
-        return $this->findTickets(
+        return $this->findBatchs(
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_ACCEPT,
@@ -66,13 +66,13 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param $reference
      *
-     * @return Task\TicketResource[]
+     * @return Task\BatchResource[]
      *
-     * @throws Order\Exception\TicketNotFoundException
+     * @throws Order\Exception\BatchNotFoundException
      */
     public function getRefused($reference = null)
     {
-        return $this->findTickets(
+        return $this->findBatchs(
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_REFUSE,
@@ -85,13 +85,13 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param $reference
      *
-     * @return Task\TicketResource[]
+     * @return Task\BatchResource[]
      *
-     * @throws Order\Exception\TicketNotFoundException
+     * @throws Order\Exception\BatchNotFoundException
      */
     public function getRefunded($reference = null)
     {
-        return $this->findTickets(
+        return $this->findBatchs(
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_REFUND,
@@ -104,13 +104,13 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param $reference
      *
-     * @return Task\TicketResource[]
+     * @return Task\BatchResource[]
      *
-     * @throws Order\Exception\TicketNotFoundException
+     * @throws Order\Exception\BatchNotFoundException
      */
     public function getCanceled($reference = null)
     {
-        return $this->findTickets(
+        return $this->findBatchs(
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_CANCEL,
@@ -123,13 +123,13 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param $reference
      *
-     * @return Task\TicketResource[]
+     * @return Task\BatchResource[]
      *
-     * @throws Order\Exception\TicketNotFoundException
+     * @throws Order\Exception\BatchNotFoundException
      */
     public function getAcknowledge($reference = null)
     {
-        return $this->findTickets(
+        return $this->findBatchs(
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_ACKNOWLEDGE,
@@ -142,13 +142,13 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param $reference
      *
-     * @return Task\TicketResource[]
+     * @return Task\BatchResource[]
      *
-     * @throws Order\Exception\TicketNotFoundException
+     * @throws Order\Exception\BatchNotFoundException
      */
     public function getUnacknowledge($reference = null)
     {
-        return $this->findTickets(
+        return $this->findBatchs(
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_UNACKNOWLEDGE,
@@ -161,11 +161,11 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param array $criteria Criteria to find tickets ['reference' => 'xxx', 'operation" => 'xxx']
      *
-     * @return Task\TicketResource[]
+     * @return Task\BatchResource[]
      *
-     * @throws Order\Exception\TicketNotFoundException
+     * @throws Order\Exception\BatchNotFoundException
      */
-    protected function findTickets(array $criteria = [])
+    protected function findBatchs(array $criteria = [])
     {
         if (! isset($criteria['operation']) && ! isset($criteria['reference'])) {
             return (array) $this->getIterator();
@@ -176,18 +176,18 @@ class OrderTicketCollection extends Task\TicketCollection
         }
 
         if (isset($criteria['operation']) && ! isset($criteria['reference'])) {
-            return $this->getTicketsById(
+            return $this->getBatchsById(
                 array_keys($this->ticketReferences[$criteria['operation']])
             );
         }
 
         foreach ($this->ticketReferences[$criteria['operation']] as $ticketId => $orders) {
             if (in_array($criteria['reference'], $orders)) {
-                return $this->getTicketsById([$ticketId]);
+                return $this->getBatchsById([$ticketId]);
             }
         }
 
-        throw Order\Exception\TicketNotFoundException::forOperationAndOrder(
+        throw Order\Exception\BatchNotFoundException::forOperationAndOrder(
             $criteria['operation'],
             $criteria['reference']
         );
@@ -198,18 +198,18 @@ class OrderTicketCollection extends Task\TicketCollection
      *
      * @param array $ids
      *
-     * @return Task\TicketResource[]
+     * @return Task\BatchResource[]
      */
-    private function getTicketsById(array $ids)
+    private function getBatchsById(array $ids)
     {
-        $tickets = [];
-        foreach ($this->getIterator() as $ticket) {
-            /** @var Task\TicketResource $ticket */
-            if (in_array($ticket->getId(), $ids)) {
-                $tickets[] = $ticket;
+        $batchs = [];
+        foreach ($this->getIterator() as $batch) {
+            /** @var Task\BatchResource $batch */
+            if (in_array($batch->getId(), $ids)) {
+                $batchs[] = $batch;
             }
         }
 
-        return $tickets;
+        return $batchs;
     }
 }
