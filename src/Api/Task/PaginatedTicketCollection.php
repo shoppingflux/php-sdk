@@ -16,5 +16,4 @@ class PaginatedTicketCollection extends PaginatedResourceCollection
 
         return isset($metadata['processing']) ? $metadata['processing'] : true;
     }
-
 }
