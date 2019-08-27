@@ -82,10 +82,9 @@ $operation
 $orderApi->execute($operation);
 ```
 
-Operations allowed on existing orders will always be accepted, as they are treated asynchronously.  
-When sending operations on an order, you will receive a collection of tickets corresponding to tasks in our system 
-that will handle the requested operations.
-With this ticket collection you will be able to find what ticket has been associated with the operation on an order.
+Operations allowed on existing orders will always be accepted, as they are treated asynchronously.    
+When sending operations on an order, you will receive batch IDs. 
+See [ticket documentation](ticket.md) for more information on how to retrieve ticket and batch information.  
 
 ```php
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
@@ -96,13 +95,14 @@ $operation
     ->cancel('ref3', 'amazon');
     ->refund('ref6', 'amazon');
 
-$ticketCollection = $orderApi->execute($operation);
+$batchCollection = $orderApi->execute($operation);
 
-// Tickets to follow all acceptance tasks
-$accepted = $ticketCollection->getAccepted();
+// Batch to follow all acceptance tasks
+$acceptedBatchCollection = $batchCollection->getAccepted();
 
-// Ticket ID to follow 'ref3' cancelling task
-$ticketId = $ticketCollection->getCanceled('ref3')[0]->getId();
+foreach ($batchCollection as $batch) {
+    $batch->getId();
+}
 ```
 
 ### Accept
