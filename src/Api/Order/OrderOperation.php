@@ -252,19 +252,19 @@ class OrderOperation extends Operation\AbstractBulkOperation
         array $requests
     )
     {
-        return function (Hal\HalResource $ticketBatch) use (
+        return function (Hal\HalResource $batch) use (
             &$resources,
             &$ticketReferences,
             &$requestIndex,
             $requests
         ) {
             $this->associateTicketWithReference(
-                $ticketBatch,
+                $batch,
                 $requests[$requestIndex],
                 $ticketReferences
             );
 
-            array_push($resources, $ticketBatch);
+            array_push($resources, $batch);
             $requestIndex++;
         };
     }
