@@ -181,9 +181,9 @@ class OperationBatchCollection extends Task\BatchCollection
             );
         }
 
-        foreach ($this->ticketReferences[$criteria['operation']] as $ticketId => $orders) {
-            if (in_array($criteria['reference'], $orders)) {
-                return $this->getBatchsById([$ticketId]);
+        foreach ($this->ticketReferences[$criteria['operation']] as $batchId => $orders) {
+            if (in_array($criteria['reference'], $orders, true)) {
+                return $this->getBatchsById([$batchId]);
             }
         }
 
@@ -205,7 +205,7 @@ class OperationBatchCollection extends Task\BatchCollection
         $batchs = [];
         foreach ($this->getIterator() as $batch) {
             /** @var Task\BatchResource $batch */
-            if (in_array($batch->getId(), $ids)) {
+            if (in_array($batch->getId(), $ids, false)) {
                 $batchs[] = $batch;
             }
         }
