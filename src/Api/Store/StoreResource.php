@@ -2,6 +2,7 @@
 namespace ShoppingFeed\Sdk\Api\Store;
 
 use ShoppingFeed\Sdk\Api\Catalog;
+use ShoppingFeed\Sdk\Api\Task;
 use ShoppingFeed\Sdk\Api\Order\OrderDomain;
 use ShoppingFeed\Sdk\Resource\AbstractResource;
 
@@ -88,6 +89,16 @@ class StoreResource extends AbstractResource
     {
         return new Catalog\PricingDomain(
             $this->resource->getLink('pricing')
+        );
+    }
+
+    /**
+     * @return Task\TicketDomain
+     */
+    public function getTicketApi()
+    {
+        return new Task\TicketDomain(
+            $this->resource->getLink('ticket')
         );
     }
 }
