@@ -89,4 +89,22 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
     {
         return $this->getCurrentCount();
     }
+
+    /**
+     * @return array
+     */
+    private function getMetaData()
+    {
+        return $this->getProperty('meta');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isProcessing()
+    {
+        $metadata = $this->getMetaData();
+
+        return isset($metadata['processing']) ? $metadata['processing'] : true;
+    }
 }
