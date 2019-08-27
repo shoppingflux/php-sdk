@@ -1,7 +1,7 @@
 # Ticket
 
 We handle most task asynchronously and to follow all tasks we have created a system of ticketing.  
-A ticket represent a task in our system and will contain the task timing and a current state.
+A ticket represent a unitary task in our system and will contain the task timings and a current state.
 
 ## Access
 
