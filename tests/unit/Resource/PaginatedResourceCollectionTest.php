@@ -3,6 +3,7 @@ namespace ShoppingFeed\Sdk\Test\Resource;
 
 
 use PHPUnit\Framework\TestCase;
+use ShoppingFeed\Sdk\Api\Task\PaginatedTicketCollection;
 use ShoppingFeed\Sdk\Hal\HalLink;
 use ShoppingFeed\Sdk\Hal\HalResource;
 use ShoppingFeed\Sdk\Resource\PaginatedResourceCollection;
@@ -30,11 +31,12 @@ class PaginatedResourceCollectionTest extends TestCase
 
         $this->assertEquals(15, $instance->getTotalCount());
     }
-    public function testIsProcessing()
+
+    public function testIsBeingProcessing()
     {
-        /** @var PaginatedResourceCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var PaginatedTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(PaginatedResourceCollection::class)
+            ->getMockBuilder(PaginatedTicketCollection::class)
             ->setConstructorArgs(
                 [
                     $this->createMock(HalResource::class),
@@ -50,7 +52,30 @@ class PaginatedResourceCollectionTest extends TestCase
             ->with('meta')
             ->willReturn(['processing' => true]);
 
-        $this->assertTrue($instance->isProcessing());
+        $this->assertTrue($instance->isBeingProcessed());
+    }
+
+    public function testIsBeingProcessingDefaultBehaviour()
+    {
+        /** @var PaginatedTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        $instance = $this
+            ->getMockBuilder(PaginatedTicketCollection::class)
+            ->setConstructorArgs(
+                [
+                    $this->createMock(HalResource::class),
+                    ResourceMock::class,
+                ]
+            )
+            ->setMethods(['getProperty'])
+            ->getMock();
+
+        $instance
+            ->expects($this->once())
+            ->method('getProperty')
+            ->with('meta')
+            ->willReturn([]);
+
+        $this->assertTrue($instance->isBeingProcessed());
     }
 
     public function testGetCurrentCount()
