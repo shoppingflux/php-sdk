@@ -4,7 +4,6 @@ namespace ShoppingFeed\Sdk\Test\Api\Order;
 use PHPUnit\Framework\TestCase;
 use ShoppingFeed\Sdk\Api\Order\OperationBatchCollection;
 use ShoppingFeed\Sdk\Api\Task\BatchResource;
-use ShoppingFeed\Sdk\Order\Exception\BatchNotFoundException;
 use ShoppingFeed\Sdk\Api\Order\OrderOperation;
 
 class OperationBatchCollectionTest extends TestCase
@@ -218,9 +217,7 @@ class OperationBatchCollectionTest extends TestCase
         $this->generateWrongTickets();
         $instance = new OperationBatchCollection($this->tickets, $this->data);
 
-        $this->expectException(BatchNotFoundException::class);
-
-        $instance->getShipped('orderRef22');
+        $this->assertEquals([], $instance->getShipped('orderRef5'));
     }
 
     /**

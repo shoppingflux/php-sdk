@@ -1,8 +1,8 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Order;
 
-use ShoppingFeed\Sdk\Order;
 use ShoppingFeed\Sdk\Api\Task;
+use ShoppingFeed\Sdk\Order;
 
 class OperationBatchCollection extends Task\BatchCollection
 {
@@ -29,8 +29,6 @@ class OperationBatchCollection extends Task\BatchCollection
      * @param $reference
      *
      * @return Task\BatchResource[]
-     *
-     * @throws Order\Exception\BatchNotFoundException
      */
     public function getShipped($reference = null)
     {
@@ -48,8 +46,6 @@ class OperationBatchCollection extends Task\BatchCollection
      * @param $reference
      *
      * @return Task\BatchResource[]
-     *
-     * @throws Order\Exception\BatchNotFoundException
      */
     public function getAccepted($reference = null)
     {
@@ -67,8 +63,6 @@ class OperationBatchCollection extends Task\BatchCollection
      * @param $reference
      *
      * @return Task\BatchResource[]
-     *
-     * @throws Order\Exception\BatchNotFoundException
      */
     public function getRefused($reference = null)
     {
@@ -86,8 +80,6 @@ class OperationBatchCollection extends Task\BatchCollection
      * @param $reference
      *
      * @return Task\BatchResource[]
-     *
-     * @throws Order\Exception\BatchNotFoundException
      */
     public function getRefunded($reference = null)
     {
@@ -105,8 +97,6 @@ class OperationBatchCollection extends Task\BatchCollection
      * @param $reference
      *
      * @return Task\BatchResource[]
-     *
-     * @throws Order\Exception\BatchNotFoundException
      */
     public function getCanceled($reference = null)
     {
@@ -124,8 +114,6 @@ class OperationBatchCollection extends Task\BatchCollection
      * @param $reference
      *
      * @return Task\BatchResource[]
-     *
-     * @throws Order\Exception\BatchNotFoundException
      */
     public function getAcknowledge($reference = null)
     {
@@ -143,8 +131,6 @@ class OperationBatchCollection extends Task\BatchCollection
      * @param $reference
      *
      * @return Task\BatchResource[]
-     *
-     * @throws Order\Exception\BatchNotFoundException
      */
     public function getUnacknowledge($reference = null)
     {
@@ -162,35 +148,29 @@ class OperationBatchCollection extends Task\BatchCollection
      * @param array $criteria Criteria to find tickets ['reference' => 'xxx', 'operation" => 'xxx']
      *
      * @return Task\BatchResource[]
-     *
-     * @throws Order\Exception\BatchNotFoundException
      */
     protected function findBatchs(array $criteria = [])
     {
+        $batchs = [];
+
         if (! isset($criteria['operation']) && ! isset($criteria['reference'])) {
-            return (array) $this->getIterator();
-        }
-
-        if (isset($criteria['operation']) && ! isset($this->ticketReferences[$criteria['operation']])) {
-            return [];
-        }
-
-        if (isset($criteria['operation']) && ! isset($criteria['reference'])) {
-            return $this->getBatchsById(
-                array_keys($this->ticketReferences[$criteria['operation']])
-            );
-        }
-
-        foreach ($this->ticketReferences[$criteria['operation']] as $batchId => $orders) {
-            if (in_array($criteria['reference'], $orders, true)) {
-                return $this->getBatchsById([$batchId]);
+            $batchs = (array) $this->getIterator();
+        } elseif (isset($criteria['operation'])) {
+            if (! isset($criteria['reference'])) {
+                $batchs = $this->getBatchsById(
+                    array_keys($this->ticketReferences[$criteria['operation']])
+                );
+            } else {
+                foreach ($this->ticketReferences[$criteria['operation']] as $batchId => $orders) {
+                    if (in_array($criteria['reference'], $orders, true)) {
+                        $batchs = $this->getBatchsById([$batchId]);
+                        break;
+                    }
+                }
             }
         }
 
-        throw Order\Exception\BatchNotFoundException::forOperationAndOrder(
-            $criteria['operation'],
-            $criteria['reference']
-        );
+        return $batchs;
     }
 
     /**

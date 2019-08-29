@@ -12,7 +12,6 @@ class OperationBatchCollectionMock extends Api\Order\OperationBatchCollection
      * @param array $criteria
      *
      * @return Api\Task\BatchResource[]
-     * @throws Order\Exception\BatchNotFoundException
      */
     public function findBatchs(array $criteria = [])
     {
