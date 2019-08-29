@@ -25,8 +25,8 @@ A batch ID is then returned to the user to be able to retrieve all tickets neede
 <?php
 $ticketApi = $session->getMainStore()->getTicketApi();
 
-/** @var \ShoppingFeed\Sdk\Api\Task\PaginatedTicketCollection $batch */
-$ticketCollection = $ticketDomain->getByBatch('987ihg654fed321cba');
+/** @var \ShoppingFeed\Sdk\Api\Task\TicketCollection $batch */
+$ticketCollection = $ticketApi->getByBatch('987ihg654fed321cba');
 
 // Global status of the batch based on all ticket status
 $ticketCollection->isBeingProcessed();

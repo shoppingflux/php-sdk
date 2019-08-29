@@ -1,10 +1,10 @@
 <?php
 namespace ShoppingFeed\Sdk\Test\Api\Task;
 
-use ShoppingFeed\Sdk\Api\Task\BatchResource;
+use ShoppingFeed\Sdk\Api\Task\TicketCollection;
 use ShoppingFeed\Sdk\Test\Api\AbstractResourceTest;
 
-class BatchResourceTest extends AbstractResourceTest
+class TicketCollectionTest extends AbstractResourceTest
 {
     public function setUp()
     {
@@ -17,8 +17,13 @@ class BatchResourceTest extends AbstractResourceTest
     {
         $this->initHalResourceProperties();
 
-        $instance = new BatchResource($this->halResource);
+        $instance = new TicketCollection($this->halResource);
 
         $this->assertEquals($this->props['id'], $instance->getId());
+    }
+
+    public function testIsProcessing()
+    {
+
     }
 }

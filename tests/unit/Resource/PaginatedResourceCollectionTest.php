@@ -3,7 +3,7 @@ namespace ShoppingFeed\Sdk\Test\Resource;
 
 
 use PHPUnit\Framework\TestCase;
-use ShoppingFeed\Sdk\Api\Task\PaginatedTicketCollection;
+use ShoppingFeed\Sdk\Api\Task\TicketCollection;
 use ShoppingFeed\Sdk\Hal\HalLink;
 use ShoppingFeed\Sdk\Hal\HalResource;
 use ShoppingFeed\Sdk\Resource\PaginatedResourceCollection;
@@ -34,9 +34,9 @@ class PaginatedResourceCollectionTest extends TestCase
 
     public function testIsBeingProcessing()
     {
-        /** @var PaginatedTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var TicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(PaginatedTicketCollection::class)
+            ->getMockBuilder(TicketCollection::class)
             ->setConstructorArgs(
                 [
                     $this->createMock(HalResource::class),
@@ -57,9 +57,9 @@ class PaginatedResourceCollectionTest extends TestCase
 
     public function testIsBeingProcessingDefaultBehaviour()
     {
-        /** @var PaginatedTicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var TicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(PaginatedTicketCollection::class)
+            ->getMockBuilder(TicketCollection::class)
             ->setConstructorArgs(
                 [
                     $this->createMock(HalResource::class),

@@ -97,11 +97,12 @@ $operation
 
 $batchCollection = $orderApi->execute($operation);
 
-// Batch to follow all acceptance tasks
-$acceptedBatchCollection = $batchCollection->getAccepted();
+// Tickets to follow all acceptance tasks
+$ticketCollection = $batchCollection->getAccepted();
 
-foreach ($batchCollection as $batch) {
-    $batch->getId();
+foreach ($ticketCollection as $ticket) {
+    $ticket->getId();
+    $ticket->getStatus();
 }
 ```
 

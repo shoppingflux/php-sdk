@@ -18,7 +18,7 @@ class TicketDomain extends AbstractDomainResource
     /**
      * @var string
      */
-    protected $paginatedCollectionClass = PaginatedTicketCollection::class;
+    protected $paginatedCollectionClass = TicketCollection::class;
 
     /**
      * @param string $reference the resource reference
@@ -41,7 +41,7 @@ class TicketDomain extends AbstractDomainResource
     /**
      * @param string $batchId
      *
-     * @return null|PaginatedTicketCollection
+     * @return null|TicketCollection
      */
     public function getByBatch($batchId)
     {

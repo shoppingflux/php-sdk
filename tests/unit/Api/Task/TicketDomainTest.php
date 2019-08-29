@@ -58,7 +58,7 @@ class TicketDomainTest extends TestCase
         $instance = new Sdk\Api\Task\TicketDomain($link);
 
         $this->assertInstanceOf(
-            Sdk\Api\Task\PaginatedTicketCollection::class,
+            Sdk\Api\Task\TicketCollection::class,
             $instance->getByBatch($reference)
         );
     }

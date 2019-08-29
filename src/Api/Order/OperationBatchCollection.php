@@ -4,7 +4,7 @@ namespace ShoppingFeed\Sdk\Api\Order;
 use ShoppingFeed\Sdk\Api\Task;
 use ShoppingFeed\Sdk\Order;
 
-class OperationBatchCollection extends Task\BatchCollection
+class OperationBatchCollection extends Task\TicketCollection
 {
     /**
      * Order ticket ID association
@@ -28,7 +28,7 @@ class OperationBatchCollection extends Task\BatchCollection
      *
      * @param $reference
      *
-     * @return Task\BatchResource[]
+     * @return Task\TicketCollection[]
      */
     public function getShipped($reference = null)
     {
@@ -45,7 +45,7 @@ class OperationBatchCollection extends Task\BatchCollection
      *
      * @param $reference
      *
-     * @return Task\BatchResource[]
+     * @return Task\TicketCollection[]
      */
     public function getAccepted($reference = null)
     {
@@ -62,7 +62,7 @@ class OperationBatchCollection extends Task\BatchCollection
      *
      * @param $reference
      *
-     * @return Task\BatchResource[]
+     * @return Task\TicketCollection[]
      */
     public function getRefused($reference = null)
     {
@@ -79,7 +79,7 @@ class OperationBatchCollection extends Task\BatchCollection
      *
      * @param $reference
      *
-     * @return Task\BatchResource[]
+     * @return Task\TicketCollection[]
      */
     public function getRefunded($reference = null)
     {
@@ -96,7 +96,7 @@ class OperationBatchCollection extends Task\BatchCollection
      *
      * @param $reference
      *
-     * @return Task\BatchResource[]
+     * @return Task\TicketCollection[]
      */
     public function getCanceled($reference = null)
     {
@@ -113,7 +113,7 @@ class OperationBatchCollection extends Task\BatchCollection
      *
      * @param $reference
      *
-     * @return Task\BatchResource[]
+     * @return Task\TicketCollection[]
      */
     public function getAcknowledge($reference = null)
     {
@@ -130,7 +130,7 @@ class OperationBatchCollection extends Task\BatchCollection
      *
      * @param $reference
      *
-     * @return Task\BatchResource[]
+     * @return Task\TicketCollection[]
      */
     public function getUnacknowledge($reference = null)
     {
@@ -147,7 +147,7 @@ class OperationBatchCollection extends Task\BatchCollection
      *
      * @param array $criteria Criteria to find tickets ['reference' => 'xxx', 'operation" => 'xxx']
      *
-     * @return Task\BatchResource[]
+     * @return Task\TicketCollection[]
      */
     protected function findBatchs(array $criteria = [])
     {
@@ -178,15 +178,15 @@ class OperationBatchCollection extends Task\BatchCollection
      *
      * @param array $ids
      *
-     * @return Task\BatchResource[]
+     * @return Task\TicketCollection[]
      */
     private function getBatchsById(array $ids)
     {
         $batchs = [];
         foreach ($this->getIterator() as $batch) {
-            /** @var Task\BatchResource $batch */
+            /** @var Task\TicketResource $batch */
             if (in_array($batch->getId(), $ids, false)) {
-                $batchs[] = $batch;
+                $batchs[] = $batch->loadBatchTickets();
             }
         }
 

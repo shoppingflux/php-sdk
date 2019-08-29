@@ -3,7 +3,7 @@ namespace ShoppingFeed\Sdk\Test\Api\Order;
 
 use PHPUnit\Framework\TestCase;
 use ShoppingFeed\Sdk\Api\Order\OperationBatchCollection;
-use ShoppingFeed\Sdk\Api\Task\BatchResource;
+use ShoppingFeed\Sdk\Api\Task\TicketCollection;
 use ShoppingFeed\Sdk\Api\Order\OrderOperation;
 
 class OperationBatchCollectionTest extends TestCase
@@ -49,7 +49,7 @@ class OperationBatchCollectionTest extends TestCase
         $instance = new OperationBatchCollectionMock($this->tickets, $this->data);
         $tickets  = $instance->findBatchs(['reference' => 'orderRef5', 'operation' => OrderOperation::TYPE_SHIP]);
 
-        $this->assertInstanceOf(BatchResource::class, $tickets[0]);
+        $this->assertInstanceOf(TicketCollection::class, $tickets[0]);
         $this->assertEquals('ticketId987', $tickets[0]->getId());
     }
 
@@ -84,7 +84,7 @@ class OperationBatchCollectionTest extends TestCase
             ->method('findBatchs')
             ->with(['reference' => 'orderRef5', 'operation' => OrderOperation::TYPE_SHIP])
             ->willReturn(
-                $this->createMock(BatchResource::class)
+                $this->createMock(TicketCollection::class)
             );
 
         $instance->getShipped('orderRef5');
@@ -103,7 +103,7 @@ class OperationBatchCollectionTest extends TestCase
             ->method('findBatchs')
             ->with(['reference' => 'orderRef4', 'operation' => OrderOperation::TYPE_CANCEL])
             ->willReturn(
-                $this->createMock(BatchResource::class)
+                $this->createMock(TicketCollection::class)
             );
 
         $instance->getCanceled('orderRef4');
@@ -122,7 +122,7 @@ class OperationBatchCollectionTest extends TestCase
             ->method('findBatchs')
             ->with(['reference' => 'orderRef1', 'operation' => OrderOperation::TYPE_REFUSE])
             ->willReturn(
-                $this->createMock(BatchResource::class)
+                $this->createMock(TicketCollection::class)
             );
 
         $instance->getRefused('orderRef1');
@@ -141,7 +141,7 @@ class OperationBatchCollectionTest extends TestCase
             ->method('findBatchs')
             ->with(['reference' => 'orderRef1', 'operation' => OrderOperation::TYPE_REFUND])
             ->willReturn(
-                $this->createMock(BatchResource::class)
+                $this->createMock(TicketCollection::class)
             );
 
         $instance->getRefunded('orderRef1');
@@ -160,7 +160,7 @@ class OperationBatchCollectionTest extends TestCase
             ->method('findBatchs')
             ->with(['reference' => 'orderRef3', 'operation' => OrderOperation::TYPE_ACCEPT])
             ->willReturn(
-                $this->createMock(BatchResource::class)
+                $this->createMock(TicketCollection::class)
             );
 
         $instance->getAccepted('orderRef3');
@@ -179,7 +179,7 @@ class OperationBatchCollectionTest extends TestCase
             ->method('findBatchs')
             ->with(['reference' => 'orderRef6', 'operation' => OrderOperation::TYPE_ACKNOWLEDGE])
             ->willReturn(
-                $this->createMock(BatchResource::class)
+                $this->createMock(TicketCollection::class)
             );
 
         $instance->getAcknowledge('orderRef6');
@@ -198,7 +198,7 @@ class OperationBatchCollectionTest extends TestCase
             ->method('findBatchs')
             ->with(['reference' => 'orderRef7', 'operation' => OrderOperation::TYPE_UNACKNOWLEDGE])
             ->willReturn(
-                $this->createMock(BatchResource::class)
+                $this->createMock(TicketCollection::class)
             );
 
         $instance->getUnacknowledge('orderRef7');
@@ -227,7 +227,7 @@ class OperationBatchCollectionTest extends TestCase
     {
         foreach ($this->data as $operation => $tickets) {
             foreach ($tickets as $ticketId => $orders) {
-                $ticket = $this->createMock(BatchResource::class);
+                $ticket = $this->createMock(TicketCollection::class);
                 $ticket
                     ->method('getId')
                     ->willReturn($ticketId);
@@ -244,7 +244,7 @@ class OperationBatchCollectionTest extends TestCase
     {
         foreach ($this->data as $operation => $tickets) {
             foreach ($tickets as $ticketId => $orders) {
-                $ticket = $this->createMock(BatchResource::class);
+                $ticket = $this->createMock(TicketCollection::class);
                 $ticket
                     ->method('getId')
                     ->willReturn($ticketId . '22');
