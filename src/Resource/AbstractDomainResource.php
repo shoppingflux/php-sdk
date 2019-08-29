@@ -12,7 +12,7 @@ abstract class AbstractDomainResource
      *
      * @var string
      */
-    protected $paginatedCollectionClass = PaginatedResourceCollection::class;
+    protected $paginatedResourcesClass = PaginatedResourceCollection::class;
 
     /**
      * @var Hal\HalLink
@@ -102,7 +102,7 @@ abstract class AbstractDomainResource
             return null;
         }
 
-        return new $this->paginatedCollectionClass(
+        return new $this->paginatedResourcesClass(
             $resource,
             $this->resourceClass
         );

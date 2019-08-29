@@ -6,24 +6,4 @@ use ShoppingFeed\Sdk\Resource\AbstractCollection;
 class TicketCollection extends AbstractCollection
 {
     protected $resourceClass = TicketResource::class;
-
-    /**
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->getProperty('id');
-    }
-
-    /**
-     * If one ticket of the collection is still being processed will return true.
-     *
-     * @return bool
-     */
-    public function isBeingProcessed()
-    {
-        $metadata = $this->getMetaData();
-
-        return ! isset($metadata['processing']) || $metadata['processing'];
-    }
 }
