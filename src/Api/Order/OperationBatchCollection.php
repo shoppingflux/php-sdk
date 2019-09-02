@@ -32,7 +32,7 @@ class OperationBatchCollection extends Task\TicketCollection
      */
     public function getShipped($reference = null)
     {
-        return $this->findBatchs(
+        return $this->findBatches(
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_SHIP,
@@ -49,7 +49,7 @@ class OperationBatchCollection extends Task\TicketCollection
      */
     public function getAccepted($reference = null)
     {
-        return $this->findBatchs(
+        return $this->findBatches(
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_ACCEPT,
@@ -66,7 +66,7 @@ class OperationBatchCollection extends Task\TicketCollection
      */
     public function getRefused($reference = null)
     {
-        return $this->findBatchs(
+        return $this->findBatches(
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_REFUSE,
@@ -83,7 +83,7 @@ class OperationBatchCollection extends Task\TicketCollection
      */
     public function getRefunded($reference = null)
     {
-        return $this->findBatchs(
+        return $this->findBatches(
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_REFUND,
@@ -100,7 +100,7 @@ class OperationBatchCollection extends Task\TicketCollection
      */
     public function getCanceled($reference = null)
     {
-        return $this->findBatchs(
+        return $this->findBatches(
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_CANCEL,
@@ -117,7 +117,7 @@ class OperationBatchCollection extends Task\TicketCollection
      */
     public function getAcknowledge($reference = null)
     {
-        return $this->findBatchs(
+        return $this->findBatches(
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_ACKNOWLEDGE,
@@ -134,7 +134,7 @@ class OperationBatchCollection extends Task\TicketCollection
      */
     public function getUnacknowledge($reference = null)
     {
-        return $this->findBatchs(
+        return $this->findBatches(
             [
                 'reference' => $reference,
                 'operation' => OrderOperation::TYPE_UNACKNOWLEDGE,
@@ -149,28 +149,29 @@ class OperationBatchCollection extends Task\TicketCollection
      *
      * @return Task\TicketCollection[]
      */
-    protected function findBatchs(array $criteria = [])
+    protected function findBatches(array $criteria = [])
     {
-        $batchs = [];
-
+        $batches = [];
         if (! isset($criteria['operation']) && ! isset($criteria['reference'])) {
-            $batchs = (array) $this->getIterator();
+            $batches = (array) $this->getIterator();
+
         } elseif (isset($criteria['operation'])) {
             if (! isset($criteria['reference'])) {
-                $batchs = $this->getBatchsById(
+                $batches = $this->getBatchsById(
                     array_keys($this->ticketReferences[$criteria['operation']])
                 );
-            } else {
+
+            } elseif (isset($this->ticketReferences[$criteria['operation']])) {
                 foreach ($this->ticketReferences[$criteria['operation']] as $batchId => $orders) {
                     if (in_array($criteria['reference'], $orders, true)) {
-                        $batchs = $this->getBatchsById([$batchId]);
+                        $batches = $this->getBatchsById([$batchId]);
                         break;
                     }
                 }
             }
         }
 
-        return $batchs;
+        return $batches;
     }
 
     /**
@@ -182,14 +183,16 @@ class OperationBatchCollection extends Task\TicketCollection
      */
     private function getBatchsById(array $ids)
     {
-        $batchs = [];
+        $batches = [];
         foreach ($this->getIterator() as $batch) {
             /** @var Task\TicketResource $batch */
-            if (in_array($batch->getId(), $ids, false)) {
-                $batchs[] = $batch->loadBatchTickets();
+            if (in_array($batch->getId(), $ids, false)
+                && $ticketCollection = $batch->loadBatchTickets()
+            ) {
+                $batches[] = $ticketCollection;
             }
         }
 
-        return $batchs;
+        return $batches;
     }
 }

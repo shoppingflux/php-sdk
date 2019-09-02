@@ -282,19 +282,19 @@ class OrderOperation extends Operation\AbstractBulkOperation
         &$ticketReferences
     )
     {
-        $ticketId  = $resource->getProperty('id');
+        $batchId   = $resource->getProperty('id');
         $orders    = Json::decode($request->getBody())->order;
         $uri       = $request->getUri()->getPath();
         $operation = substr($uri, strrpos($uri, '/') + 1);
 
-        // Extract reference > ticket association
+        // Extract order reference > batch association
         foreach ($orders as $order) {
             if (! isset($ticketReferences[$operation])) {
-                $ticketReferences[$operation][$ticketId] = [];
+                $ticketReferences[$operation][$batchId] = [];
             }
 
-            if (! in_array($order->reference, $ticketReferences[$operation][$ticketId])) {
-                $ticketReferences[$operation][$ticketId][] = $order->reference;
+            if (! in_array($order->reference, $ticketReferences[$operation][$batchId], true)) {
+                $ticketReferences[$operation][$batchId][] = $order->reference;
             }
         }
     }

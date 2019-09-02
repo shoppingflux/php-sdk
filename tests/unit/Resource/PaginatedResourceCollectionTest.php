@@ -32,52 +32,6 @@ class PaginatedResourceCollectionTest extends TestCase
         $this->assertEquals(15, $instance->getTotalCount());
     }
 
-    public function testIsBeingProcessing()
-    {
-        /** @var TicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
-        $instance = $this
-            ->getMockBuilder(TicketCollection::class)
-            ->setConstructorArgs(
-                [
-                    $this->createMock(HalResource::class),
-                    ResourceMock::class,
-                ]
-            )
-            ->setMethods(['getProperty'])
-            ->getMock();
-
-        $instance
-            ->expects($this->once())
-            ->method('getProperty')
-            ->with('meta')
-            ->willReturn(['processing' => true]);
-
-        $this->assertTrue($instance->isBeingProcessed());
-    }
-
-    public function testIsBeingProcessingDefaultBehaviour()
-    {
-        /** @var TicketCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
-        $instance = $this
-            ->getMockBuilder(TicketCollection::class)
-            ->setConstructorArgs(
-                [
-                    $this->createMock(HalResource::class),
-                    ResourceMock::class,
-                ]
-            )
-            ->setMethods(['getProperty'])
-            ->getMock();
-
-        $instance
-            ->expects($this->once())
-            ->method('getProperty')
-            ->with('meta')
-            ->willReturn([]);
-
-        $this->assertTrue($instance->isBeingProcessed());
-    }
-
     public function testGetCurrentCount()
     {
         $instance = $this

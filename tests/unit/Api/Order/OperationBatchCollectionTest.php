@@ -3,72 +3,98 @@ namespace ShoppingFeed\Sdk\Test\Api\Order;
 
 use PHPUnit\Framework\TestCase;
 use ShoppingFeed\Sdk\Api\Order\OperationBatchCollection;
-use ShoppingFeed\Sdk\Api\Task\TicketCollection;
 use ShoppingFeed\Sdk\Api\Order\OrderOperation;
+use ShoppingFeed\Sdk\Api\Task\TicketCollection;
+use ShoppingFeed\Sdk\Api\Task\TicketResource;
 
 class OperationBatchCollectionTest extends TestCase
 {
     /**
      * @var array
      */
-    private $tickets = [];
+    private $batchesData = [
+        OrderOperation::TYPE_ACCEPT      => [
+            'batchId123' => ['orderRef1', 'orderRef2', 'orderRef3'],
+            'batchId456' => ['orderRef4', 'orderRef5', 'orderRef6'],
+        ],
+        OrderOperation::TYPE_CANCEL      => [
+            'batchId789' => ['orderRef1', 'orderRef2', 'orderRef3'],
+            'batchId321' => ['orderRef4', 'orderRef5', 'orderRef6'],
+        ],
+        OrderOperation::TYPE_SHIP        => [
+            'batchId654' => ['orderRef1', 'orderRef2', 'orderRef3'],
+            'batchId987' => ['orderRef4', 'orderRef5', 'orderRef6'],
+        ],
+        OrderOperation::TYPE_REFUSE      => [
+            'batchId159' => ['orderRef1', 'orderRef2', 'orderRef3'],
+            'batchId753' => ['orderRef4', 'orderRef5', 'orderRef6'],
+        ],
+        OrderOperation::TYPE_ACKNOWLEDGE => [
+            'batchId147' => ['orderRef1', 'orderRef2', 'orderRef3'],
+            'batchId258' => ['orderRef4', 'orderRef5', 'orderRef6'],
+        ],
+        OrderOperation::TYPE_REFUND      => [
+            'batchId239' => ['orderRef1', 'orderRef2', 'orderRef3'],
+            'batchId446' => ['orderRef4', 'orderRef5', 'orderRef6'],
+        ],
+    ];
 
     /**
      * @var array
      */
-    private $data = [
-        OrderOperation::TYPE_ACCEPT      => [
+    private $ticketsData = [
+        'batchId123' => [
             'ticketId123' => ['orderRef1', 'orderRef2', 'orderRef3'],
             'ticketId456' => ['orderRef4', 'orderRef5', 'orderRef6'],
         ],
-        OrderOperation::TYPE_CANCEL      => [
+        'batchId456' => [
             'ticketId789' => ['orderRef1', 'orderRef2', 'orderRef3'],
             'ticketId321' => ['orderRef4', 'orderRef5', 'orderRef6'],
         ],
-        OrderOperation::TYPE_SHIP        => [
+        'batchId789' => [
             'ticketId654' => ['orderRef1', 'orderRef2', 'orderRef3'],
             'ticketId987' => ['orderRef4', 'orderRef5', 'orderRef6'],
         ],
-        OrderOperation::TYPE_REFUSE      => [
+        'batchId654' => [
             'ticketId159' => ['orderRef1', 'orderRef2', 'orderRef3'],
             'ticketId753' => ['orderRef4', 'orderRef5', 'orderRef6'],
         ],
-        OrderOperation::TYPE_ACKNOWLEDGE => [
+        'batchId987' => [
             'ticketId147' => ['orderRef1', 'orderRef2', 'orderRef3'],
             'ticketId258' => ['orderRef4', 'orderRef5', 'orderRef6'],
         ],
-        OrderOperation::TYPE_REFUND => [
+        'batchId147' => [
             'ticketId239' => ['orderRef1', 'orderRef2', 'orderRef3'],
             'ticketId446' => ['orderRef4', 'orderRef5', 'orderRef6'],
         ],
     ];
 
-    public function testFindTicket()
+    public function testFindBatches()
     {
-        $this->generateTickets();
-        $instance = new OperationBatchCollectionMock($this->tickets, $this->data);
-        $tickets  = $instance->findBatchs(['reference' => 'orderRef5', 'operation' => OrderOperation::TYPE_SHIP]);
+        $batches      = $this->generateTicketBatches();
+        $instance     = new OperationBatchCollectionMock($batches, $this->batchesData);
+        $batchesFound = $instance->findBatches(['reference' => 'orderRef5', 'operation' => OrderOperation::TYPE_SHIP]);
 
-        $this->assertInstanceOf(TicketCollection::class, $tickets[0]);
-        $this->assertEquals('ticketId987', $tickets[0]->getId());
+        $this->assertInstanceOf(TicketCollection::class, $batchesFound[0]);
+        $this->assertCount(2, $batchesFound[0]);
     }
 
     public function testFindTicketWithNoOperationNoRef()
     {
-        $this->generateTickets();
-        $instance = new OperationBatchCollectionMock($this->tickets, $this->data);
-        $tickets  = $instance->findBatchs();
+        $batches  = $this->generateTicketBatches();
+        $instance = new OperationBatchCollectionMock($batches, $this->batchesData);
+        $tickets  = $instance->findBatches();
 
-        $this->assertCount(count($this->tickets), $tickets);
+        $this->assertCount(count($batches), $tickets);
     }
 
     public function testFindTicketForOperation()
     {
-        $this->generateTickets();
-        $instance = new OperationBatchCollectionMock($this->tickets, $this->data);
-        $tickets  = $instance->findBatchs(['operation' => OrderOperation::TYPE_SHIP]);
+        $batches  = $this->generateTicketBatches();
+        $instance = new OperationBatchCollectionMock($batches, $this->batchesData);
+        $tickets  = $instance->findBatches(['operation' => OrderOperation::TYPE_SHIP]);
 
-        $this->assertCount(count($this->data[OrderOperation::TYPE_SHIP]), $tickets);
+        $this->assertCount(count($this->batchesData[OrderOperation::TYPE_SHIP]), $tickets);
     }
 
     public function testGetShippedTicket()
@@ -76,12 +102,12 @@ class OperationBatchCollectionTest extends TestCase
         /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(OperationBatchCollection::class)
-            ->setMethods(['findBatchs'])
+            ->setMethods(['findBatches'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findBatchs')
+            ->method('findBatches')
             ->with(['reference' => 'orderRef5', 'operation' => OrderOperation::TYPE_SHIP])
             ->willReturn(
                 $this->createMock(TicketCollection::class)
@@ -95,12 +121,12 @@ class OperationBatchCollectionTest extends TestCase
         /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(OperationBatchCollection::class)
-            ->setMethods(['findBatchs'])
+            ->setMethods(['findBatches'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findBatchs')
+            ->method('findBatches')
             ->with(['reference' => 'orderRef4', 'operation' => OrderOperation::TYPE_CANCEL])
             ->willReturn(
                 $this->createMock(TicketCollection::class)
@@ -114,12 +140,12 @@ class OperationBatchCollectionTest extends TestCase
         /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(OperationBatchCollection::class)
-            ->setMethods(['findBatchs'])
+            ->setMethods(['findBatches'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findBatchs')
+            ->method('findBatches')
             ->with(['reference' => 'orderRef1', 'operation' => OrderOperation::TYPE_REFUSE])
             ->willReturn(
                 $this->createMock(TicketCollection::class)
@@ -133,12 +159,12 @@ class OperationBatchCollectionTest extends TestCase
         /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(OperationBatchCollection::class)
-            ->setMethods(['findBatchs'])
+            ->setMethods(['findBatches'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findBatchs')
+            ->method('findBatches')
             ->with(['reference' => 'orderRef1', 'operation' => OrderOperation::TYPE_REFUND])
             ->willReturn(
                 $this->createMock(TicketCollection::class)
@@ -152,12 +178,12 @@ class OperationBatchCollectionTest extends TestCase
         /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(OperationBatchCollection::class)
-            ->setMethods(['findBatchs'])
+            ->setMethods(['findBatches'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findBatchs')
+            ->method('findBatches')
             ->with(['reference' => 'orderRef3', 'operation' => OrderOperation::TYPE_ACCEPT])
             ->willReturn(
                 $this->createMock(TicketCollection::class)
@@ -171,12 +197,12 @@ class OperationBatchCollectionTest extends TestCase
         /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(OperationBatchCollection::class)
-            ->setMethods(['findBatchs'])
+            ->setMethods(['findBatches'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findBatchs')
+            ->method('findBatches')
             ->with(['reference' => 'orderRef6', 'operation' => OrderOperation::TYPE_ACKNOWLEDGE])
             ->willReturn(
                 $this->createMock(TicketCollection::class)
@@ -190,12 +216,12 @@ class OperationBatchCollectionTest extends TestCase
         /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(OperationBatchCollection::class)
-            ->setMethods(['findBatchs'])
+            ->setMethods(['findBatches'])
             ->getMock();
 
         $instance
             ->expects($this->once())
-            ->method('findBatchs')
+            ->method('findBatches')
             ->with(['reference' => 'orderRef7', 'operation' => OrderOperation::TYPE_UNACKNOWLEDGE])
             ->willReturn(
                 $this->createMock(TicketCollection::class)
@@ -206,51 +232,105 @@ class OperationBatchCollectionTest extends TestCase
 
     public function testFindTicketWrongOperation()
     {
-        $this->generateTickets();
-        $instance = new OperationBatchCollection($this->tickets);
+        $tickets  = $this->generateTicketCollections();
+        $instance = new OperationBatchCollection($tickets);
 
         $this->assertEquals([], $instance->getShipped('orderRef5'));
     }
 
     public function testFindTicketWrongReference()
     {
-        $this->generateWrongTickets();
-        $instance = new OperationBatchCollection($this->tickets, $this->data);
+        $tickets  = $this->generateWrongBatch();
+        $instance = new OperationBatchCollection($tickets, $this->batchesData);
 
         $this->assertEquals([], $instance->getShipped('orderRef5'));
     }
 
     /**
      * Generate tickets based on $this->data
+     *
+     * @param null|string $filterBatchId
+     * @param null|[]     $ticketsId
+     *
+     * @return TicketCollection|TicketCollection[]
      */
-    private function generateTickets()
+    private function generateTicketCollections($filterBatchId = null, $ticketsId = null)
     {
-        foreach ($this->data as $operation => $tickets) {
-            foreach ($tickets as $ticketId => $orders) {
-                $ticket = $this->createMock(TicketCollection::class);
-                $ticket
-                    ->method('getId')
-                    ->willReturn($ticketId);
+        $ticketCollections = [];
 
-                $this->tickets[] = $ticket;
+        foreach ($this->ticketsData as $batchId => $tickets) {
+            if (! $batchId || $batchId === $filterBatchId) {
+                foreach ($tickets as $ticketId => $orders) {
+                    if (! $ticketsId || in_array($ticketId, $ticketsId, true)) {
+                        $ticket = $this->createMock(TicketResource::class);
+                        $ticket
+                            ->method('getId')
+                            ->willReturn($ticketId);
+                        $ticket
+                            ->method('loadBatchTickets')
+                            ->willReturn(null);
+
+                        $tickets[] = $ticket;
+                    }
+                }
+
+                if ($filterBatchId) {
+                    return new TicketCollection($tickets);
+                }
+
+                $ticketCollections[] = new TicketCollection($tickets);
             }
         }
+
+        return $ticketCollections;
     }
 
     /**
-     * Generate wrong tickets
+     * Generate tickets based on $this->data
      */
-    private function generateWrongTickets()
+    private function generateTicketBatches()
     {
-        foreach ($this->data as $operation => $tickets) {
-            foreach ($tickets as $ticketId => $orders) {
-                $ticket = $this->createMock(TicketCollection::class);
-                $ticket
-                    ->method('getId')
-                    ->willReturn($ticketId . '22');
+        $batches = [];
 
-                $this->tickets[] = $ticket;
+        foreach ($this->batchesData as $operation => $batchs) {
+            foreach ($batchs as $batchId => $tickets) {
+                $batch   = $this->createMock(TicketResource::class);
+                $tickets = $this->generateTicketCollections($batchId, $tickets);
+
+                $batch
+                    ->method('getId')
+                    ->willReturn($batchId);
+                $batch
+                    ->method('loadBatchTickets')
+                    ->willReturn($tickets);
+
+                $batches[] = $batch;
             }
         }
+
+        return $batches;
+    }
+
+    /**
+     * Generate wrong batch ticket
+     */
+    private function generateWrongBatch()
+    {
+        $batches = [];
+        foreach ($this->batchesData as $operation => $batchs) {
+            foreach ($batchs as $batchId => $tickets) {
+                $batch = $this->createMock(TicketResource::class);
+                $batch
+                    ->method('getId')
+                    ->willReturn($batchId . '22');
+                $batch
+                    ->method('loadBatchTickets')
+                    ->willReturn([]);
+
+                $batches[] = $batch;
+            }
+        }
+
+        return $batches;
     }
 }
