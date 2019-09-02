@@ -2,7 +2,6 @@
 namespace ShoppingFeed\Sdk\Api\Task;
 
 use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
-use ShoppingFeed\Sdk\Resource\PaginatedResourceCollection;
 
 /**
  * @method TicketResource[] getIterator()
