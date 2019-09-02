@@ -187,7 +187,7 @@ class OperationBatchCollection extends Task\TicketCollection
         foreach ($this->getIterator() as $batch) {
             /** @var Task\TicketResource $batch */
             if (in_array($batch->getId(), $ids, false)
-                && $ticketCollection = $batch->loadBatchTickets()
+                && $ticketCollection = $batch->fetchBatchTickets()
             ) {
                 $batches[] = $ticketCollection;
             }

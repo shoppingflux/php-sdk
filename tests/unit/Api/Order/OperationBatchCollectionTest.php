@@ -267,7 +267,7 @@ class OperationBatchCollectionTest extends TestCase
                             ->method('getId')
                             ->willReturn($ticketId);
                         $ticket
-                            ->method('loadBatchTickets')
+                            ->method('fetchBatchTickets')
                             ->willReturn(null);
 
                         $tickets[] = $ticket;
@@ -301,7 +301,7 @@ class OperationBatchCollectionTest extends TestCase
                     ->method('getId')
                     ->willReturn($batchId);
                 $batch
-                    ->method('loadBatchTickets')
+                    ->method('fetchBatchTickets')
                     ->willReturn($tickets);
 
                 $batches[] = $batch;
@@ -324,7 +324,7 @@ class OperationBatchCollectionTest extends TestCase
                     ->method('getId')
                     ->willReturn($batchId . '22');
                 $batch
-                    ->method('loadBatchTickets')
+                    ->method('fetchBatchTickets')
                     ->willReturn([]);
 
                 $batches[] = $batch;

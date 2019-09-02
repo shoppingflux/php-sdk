@@ -59,7 +59,7 @@ class TicketResource extends AbstractResource
      *
      * @return null|PaginatedResourceCollection
      */
-    public function loadBatchTickets()
+    public function fetchBatchTickets()
     {
         $link = $this->resource->getLink('ticket');
         if (null !== $link) {
