@@ -9,15 +9,15 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 ### Creation
 
-To create a pull request first you must understand the [gitflow](https://nvie.com/posts/a-successful-git-branching-model/)
+To create a pull request first you must know the [github flow](https://guides.github.com/introduction/flow/)
 workflow. We have chosen it to ease repository organisation and development communication.  
 We invite you to read the documentation to understand how it works.  
 
 Here are some basics to get started :
-1. Always start development from the `develop` branch.
+1. Always start development from the `master` branch.
 2. From it create a new branch you will name '#[ISSUEID]-feature-...', '#[ISSUEID]-fix-...'
 3. Develop and commit on this branch
-4. When finished create the PR to merge your branch into develop branch
+4. When finished create the PR to merge your branch into master branch
 
 Please follow the PR template we have configure it will help us understand faster what the PR is about.
 
