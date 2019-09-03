@@ -95,12 +95,20 @@ $operation
     ->cancel('ref3', 'amazon');
     ->refund('ref6', 'amazon');
 
-$batchCollection = $orderApi->execute($operation);
+$result = $orderApi->execute($operation);
 
-// Tickets to follow all acceptance tasks
-$ticketCollection = $batchCollection->getAccepted();
+// get the list of batch ids
+$ids = $result->getBatchIds(); // ['abc', 'def']
 
-foreach ($ticketCollection as $ticket) {
+// Fetch all tickets generated for the operation
+foreach ($result->getTickets() as $ticket) {
+    $ticket->getId();
+    $ticket->getStatus();
+}
+
+// Alternatively, you can wait until all ticket are processed
+// do not forget to define a timeout to prevent script to be blocked
+foreach ($result->wait(60)->getTickets() as $ticket) {
     $ticket->getId();
     $ticket->getStatus();
 }

@@ -74,9 +74,8 @@ abstract class AbstractDomainResource
     public function getAll(array $filters = [])
     {
         $criteria = new PaginationCriteria(isset($filters['filters']) ? $filters : ['filters' => $filters]);
-        foreach ($this->createIterator($criteria) as $item) {
-            yield $item;
-        }
+
+        return $this->createIterator($criteria);
     }
 
     /**

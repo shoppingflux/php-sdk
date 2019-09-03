@@ -18,6 +18,9 @@ class TicketResourceTest extends AbstractResourceTest
             'scheduledAt' => '2019-08-26T10:25:30+00:00',
             'startedAt'   => '2019-08-26T10:25:30+00:00',
             'finishedAt'  => '2019-08-26T12:01:25+00:00',
+            'payload'     => [
+                'channel' => 'Amazon'
+            ]
         ];
     }
 
@@ -30,45 +33,9 @@ class TicketResourceTest extends AbstractResourceTest
         $this->assertEquals($this->props['id'], $instance->getId());
         $this->assertEquals($this->props['batchId'], $instance->getBatchId());
         $this->assertEquals($this->props['state'], $instance->getStatus());
+        $this->assertEquals($this->props['payload']['channel'], $instance->getPayload()['channel']);
         $this->assertEquals(new \DateTime($this->props['scheduledAt']), $instance->getScheduledAt());
         $this->assertEquals(new \DateTime($this->props['startedAt']), $instance->getStartedAt());
         $this->assertEquals(new \DateTime($this->props['finishedAt']), $instance->getFinishedAt());
-    }
-
-    public function testFetchBatchTickets()
-    {
-        $halResource       = $this->createMock(HalResource::class);
-        $link              = $this->createMock(HalLink::class);
-        $paginatedResponse = $this->createMock(HalResource::class);
-
-        $link
-            ->expects($this->once())
-            ->method('get')
-            ->willReturn($paginatedResponse);
-
-        $halResource
-            ->expects($this->once())
-            ->method('getLink')
-            ->with('ticket')
-            ->willReturn($link);
-
-        $instance = new TicketResource($halResource);
-
-        $this->assertInstanceOf(PaginatedResourceCollection::class, $instance->fetchBatchTickets());
-    }
-
-    public function testFetchBatchTicketsFromTicket()
-    {
-        $halResource = $this->createMock(HalResource::class);
-
-        $halResource
-            ->expects($this->once())
-            ->method('getLink')
-            ->with('ticket')
-            ->willReturn(null);
-
-        $instance = new TicketResource($halResource);
-
-        $this->assertNull($instance->fetchBatchTickets());
     }
 }

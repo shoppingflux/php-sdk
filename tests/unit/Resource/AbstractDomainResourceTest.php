@@ -8,6 +8,7 @@ use ShoppingFeed\Sdk\Hal\HalResource;
 use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
 use ShoppingFeed\Sdk\Resource\AbstractResource;
 use ShoppingFeed\Sdk\Resource\PaginatedResourceCollection;
+use ShoppingFeed\Sdk\Resource\PaginatedResourceIterator;
 
 class AbstractDomainResourceTest extends TestCase
 {
@@ -67,54 +68,23 @@ class AbstractDomainResourceTest extends TestCase
 
     public function testGetAll()
     {
-        $filters = ['attr1' => 'value1'];
-        $pages   = [
-            [
-                $this->createMock(HalResource::class),
-                $this->createMock(HalResource::class),
-                $this->createMock(HalResource::class),
-                $this->createMock(HalResource::class),
-            ],
-            [
-                $this->createMock(HalResource::class),
-                $this->createMock(HalResource::class),
-                $this->createMock(HalResource::class),
-                $this->createMock(HalResource::class),
-            ],
-        ];
-        $link    = $this->createMock(HalLink::class);
+        $link = $this->createMock(HalLink::class);
 
         /** @var DomainResourceMock|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
             ->getMockBuilder(DomainResourceMock::class)
             ->setConstructorArgs([$link])
-            ->setMethods(['getPages'])
+            ->setMethods(['createIterator'])
             ->getMock();
+
+        $iterator = $this->createMock(PaginatedResourceIterator::class);
 
         $instance
             ->expects($this->once())
-            ->method('getPages')
-            ->with(
-                ['filters' => $filters])
-            ->will($this->returnCallback(
-                function ($criterias) use ($pages) {
-                    foreach ($pages as $page) {
-                        yield $page;
-                    }
-                }
-            ));
+            ->method('createIterator')
+            ->willReturn($iterator);
 
-        $count = 0;
-        foreach ($instance->getAll($filters) as $resource) {
-            $count++;
-        }
-
-        $awaited = 0;
-        foreach ($pages as $page) {
-            $awaited += count($page);
-        }
-
-        $this->assertEquals($awaited, $count);
+        $this->assertEquals($iterator, $instance->getAll());
     }
 
     /**

@@ -6,13 +6,12 @@ A ticket represent a unitary task in our system and will contain the task timing
 ## Access
 
 To get a ticket detail you need to call ticket API like so :
+
 ```php
 <?php
 $ticketApi = $session->getMainStore()->getTicketApi();
 
-/** @var \ShoppingFeed\Sdk\Api\Task\TicketResource $ticket */
-$ticket = $ticketApi->getByReference('abc123def456ghi789');
-
+$ticket = $ticketApi->getOne('abc123def456ghi789');
 $ticket->getStatus();
 ```
 
@@ -21,17 +20,21 @@ $ticket->getStatus();
 When an task is requested we create a batch, a batch is a list of ticket of all operation needed for 
 this task.  
 A batch ID is then returned to the user to be able to retrieve all tickets needed to handle the requested task.
+
 ```php
 <?php
 $ticketApi = $session->getMainStore()->getTicketApi();
+$tickets   = $ticketApi->getByBatch('987ihg654fed321cba');
 
-/** @var \ShoppingFeed\Sdk\Api\Task\TicketCollection $batch */
-$ticketCollection = $ticketApi->getByBatch('987ihg654fed321cba');
+// Check global status of the batch based on all ticket status
+if ($tickets->isBeingProcessed()) {
+    // wait for all are processed...
+}
 
-// Global status of the batch based on all ticket status
-$ticketCollection->isBeingProcessed();
+// Or wait (60 seconds) until all tickets are processed
+$processed = $tickets->wait(60);
 
-foreach ($ticketCollection as $ticket) {
+foreach ($processed as $ticket) {
     $ticket->getStatus();
 }
 ```

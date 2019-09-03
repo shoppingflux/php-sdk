@@ -8,18 +8,19 @@ class TicketIterator extends PaginatedResourceIterator
 {
     /**
      * Wait for all related ticket in collection to be processed.
-     * The SDK will try a new call every second forever or until the defined timeout is reached.
+     * The SDK will try a new call ev$sleepSec interval forever or until the defined timeout is reached.
      *
      * @param int $timeout Recommended to be defined, seconds to wait before fails
+     * @param int $sleepSec The number of seconds to wait between two calls
      *
      * @return $this The new instance of TicketIterator with up-to-date tickets
-     * @throws Exception\RuntimeException When the timeout is reached
      */
-    public function wait($timeout = null)
+    public function wait($timeout = null, $sleepSec = 1)
     {
         $until    = null;
         $timeout  = (int) $timeout;
         $instance = $this;
+        $sleepSec = (int) $sleepSec;
 
         if ($timeout > 0) {
             $until = time() + (int) $timeout;
@@ -33,7 +34,7 @@ class TicketIterator extends PaginatedResourceIterator
             }
 
             $instance = $this->refresh();
-            sleep(1);
+            usleep($sleepSec * 1000000);
         }
 
         return $instance;
@@ -46,6 +47,6 @@ class TicketIterator extends PaginatedResourceIterator
      */
     public function isBeingProcessed()
     {
-       return (bool) $this->getMeta('processing');
+        return (bool) $this->getMeta('processing');
     }
 }
