@@ -2,7 +2,7 @@
 namespace ShoppingFeed\Sdk\Test\Api\Order;
 
 use PHPUnit\Framework\TestCase;
-use ShoppingFeed\Sdk\Api\Order\OperationBatchCollection;
+use ShoppingFeed\Sdk\Api\Order\OrderOperationResult;
 use ShoppingFeed\Sdk\Api\Order\OrderOperation;
 use ShoppingFeed\Sdk\Api\Task\TicketCollection;
 use ShoppingFeed\Sdk\Api\Task\TicketResource;
@@ -72,7 +72,7 @@ class OperationBatchCollectionTest extends TestCase
     public function testFindBatches()
     {
         $batches      = $this->generateTicketBatches();
-        $instance     = new OperationBatchCollectionMock($batches, $this->batchesData);
+        $instance     = new OrderOperationResultMock($batches, $this->batchesData);
         $batchesFound = $instance->findBatches(['reference' => 'orderRef5', 'operation' => OrderOperation::TYPE_SHIP]);
 
         $this->assertInstanceOf(TicketCollection::class, $batchesFound[0]);
@@ -82,7 +82,7 @@ class OperationBatchCollectionTest extends TestCase
     public function testFindTicketWithNoOperationNoRef()
     {
         $batches  = $this->generateTicketBatches();
-        $instance = new OperationBatchCollectionMock($batches, $this->batchesData);
+        $instance = new OrderOperationResultMock($batches, $this->batchesData);
         $tickets  = $instance->findBatches();
 
         $this->assertCount(count($batches), $tickets);
@@ -91,7 +91,7 @@ class OperationBatchCollectionTest extends TestCase
     public function testFindTicketForOperation()
     {
         $batches  = $this->generateTicketBatches();
-        $instance = new OperationBatchCollectionMock($batches, $this->batchesData);
+        $instance = new OrderOperationResultMock($batches, $this->batchesData);
         $tickets  = $instance->findBatches(['operation' => OrderOperation::TYPE_SHIP]);
 
         $this->assertCount(count($this->batchesData[OrderOperation::TYPE_SHIP]), $tickets);
@@ -99,9 +99,9 @@ class OperationBatchCollectionTest extends TestCase
 
     public function testGetShippedTicket()
     {
-        /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var OrderOperationResult|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(OperationBatchCollection::class)
+            ->getMockBuilder(OrderOperationResult::class)
             ->setMethods(['findBatches'])
             ->getMock();
 
@@ -118,9 +118,9 @@ class OperationBatchCollectionTest extends TestCase
 
     public function testGetCanceledTicket()
     {
-        /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var OrderOperationResult|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(OperationBatchCollection::class)
+            ->getMockBuilder(OrderOperationResult::class)
             ->setMethods(['findBatches'])
             ->getMock();
 
@@ -137,9 +137,9 @@ class OperationBatchCollectionTest extends TestCase
 
     public function testGetRefusedTicket()
     {
-        /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var OrderOperationResult|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(OperationBatchCollection::class)
+            ->getMockBuilder(OrderOperationResult::class)
             ->setMethods(['findBatches'])
             ->getMock();
 
@@ -156,9 +156,9 @@ class OperationBatchCollectionTest extends TestCase
 
     public function testGetRefundedTicket()
     {
-        /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var OrderOperationResult|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(OperationBatchCollection::class)
+            ->getMockBuilder(OrderOperationResult::class)
             ->setMethods(['findBatches'])
             ->getMock();
 
@@ -175,9 +175,9 @@ class OperationBatchCollectionTest extends TestCase
 
     public function testGetAcceptedTicket()
     {
-        /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var OrderOperationResult|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(OperationBatchCollection::class)
+            ->getMockBuilder(OrderOperationResult::class)
             ->setMethods(['findBatches'])
             ->getMock();
 
@@ -194,9 +194,9 @@ class OperationBatchCollectionTest extends TestCase
 
     public function testGetAcknowledgeTicket()
     {
-        /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var OrderOperationResult|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(OperationBatchCollection::class)
+            ->getMockBuilder(OrderOperationResult::class)
             ->setMethods(['findBatches'])
             ->getMock();
 
@@ -213,9 +213,9 @@ class OperationBatchCollectionTest extends TestCase
 
     public function testGetUnacknowledgeTicket()
     {
-        /** @var OperationBatchCollection|\PHPUnit_Framework_MockObject_MockObject $instance */
+        /** @var OrderOperationResult|\PHPUnit_Framework_MockObject_MockObject $instance */
         $instance = $this
-            ->getMockBuilder(OperationBatchCollection::class)
+            ->getMockBuilder(OrderOperationResult::class)
             ->setMethods(['findBatches'])
             ->getMock();
 
@@ -233,7 +233,7 @@ class OperationBatchCollectionTest extends TestCase
     public function testFindTicketWrongOperation()
     {
         $tickets  = $this->generateTicketCollections();
-        $instance = new OperationBatchCollection($tickets);
+        $instance = new OrderOperationResult($tickets);
 
         $this->assertEquals([], $instance->getShipped('orderRef5'));
     }
@@ -241,7 +241,7 @@ class OperationBatchCollectionTest extends TestCase
     public function testFindTicketWrongReference()
     {
         $tickets  = $this->generateWrongBatch();
-        $instance = new OperationBatchCollection($tickets, $this->batchesData);
+        $instance = new OrderOperationResult($tickets, $this->batchesData);
 
         $this->assertEquals([], $instance->getShipped('orderRef5'));
     }

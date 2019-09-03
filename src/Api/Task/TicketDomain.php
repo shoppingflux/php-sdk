@@ -1,59 +1,31 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Task;
 
-use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
+use ShoppingFeed\Sdk\Resource;
 
 /**
  * @method TicketResource[] getIterator()
  * @method TicketResource[] getAll($page = 1, $limit = 100)
  * @method TicketResource getOne($identity)
- * @method TicketPaginatedCollection getPage(array $criteria = [])
  */
-class TicketDomain extends AbstractDomainResource
+class TicketDomain extends Resource\AbstractDomainResource
 {
-    /**
-     * @var string
-     */
     protected $resourceClass = TicketResource::class;
 
-    /**
-     * @var string
-     */
-    protected $paginatedResourcesClass = TicketPaginatedCollection::class;
+    protected $iteratorClass = TicketIterator::class;
 
     /**
-     * @param string $reference the resource reference
+     * @param string $batchId Filter tickets by related batch
+     * @param array  $filters
      *
-     * @return null|TicketResource
+     * @return TicketResource[]|TicketIterator|\Traversable
      */
-    public function getByReference($reference)
+    public function getByBatch($batchId, array $filters = [])
     {
-        $resource = $this->link->get([], ['query' => ['reference' => $reference]]);
-        if ($resource && $resource->getProperty('count') > 0) {
-            return new TicketResource(
-                $resource->getFirstResource('ticket'),
-                false
-            );
-        }
+        $filters['batchId'] = (string) $batchId;
 
-        return null;
-    }
-
-    /**
-     * @param string $batchId
-     *
-     * @return null|TicketPaginatedCollection
-     */
-    public function getByBatch($batchId)
-    {
-        $resource = $this->link->get([], ['query' => ['batchId' => $batchId]]);
-        if ($resource && $resource->getProperty('count') > 0) {
-            return new $this->paginatedResourcesClass(
-                $resource,
-                TicketResource::class
-            );
-        }
-
-        return null;
+        return $this->createIterator(
+            new Resource\PaginationCriteria(compact('filters'))
+        );
     }
 }

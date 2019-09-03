@@ -4,7 +4,7 @@ namespace ShoppingFeed\Sdk\Test\Api\Order;
 use ShoppingFeed\Sdk\Api;
 use ShoppingFeed\Sdk\Order;
 
-class OperationBatchCollectionMock extends Api\Order\OperationBatchCollection
+class OrderOperationResultMock extends Api\Order\OrderOperationResult
 {
     /**
      * Change accessibility for test
