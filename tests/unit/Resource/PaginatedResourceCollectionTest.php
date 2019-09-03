@@ -227,4 +227,17 @@ class PaginatedResourceCollectionTest extends TestCase
         $instance = new PaginatedResourceCollection($resource, ResourceMock::class);
         $this->assertSame('data', $instance->getMeta('test'));
     }
+
+    public function testGetSpecificMetadataIsMissing()
+    {
+        $resource = $this->createMock(HalResource::class);
+        $resource
+            ->expects($this->once())
+            ->method('getProperty')
+            ->with('meta')
+            ->willReturn(['test' => 'data']);
+
+        $instance = new PaginatedResourceCollection($resource, ResourceMock::class);
+        $this->assertNull($instance->getMeta('notfound'));
+    }
 }
