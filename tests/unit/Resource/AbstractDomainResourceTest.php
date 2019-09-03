@@ -87,6 +87,25 @@ class AbstractDomainResourceTest extends TestCase
         $this->assertEquals($iterator, $instance->getAll());
     }
 
+    public function testGetAllWithNoPaginator()
+    {
+        $link = $this->createMock(HalLink::class);
+
+        /** @var DomainResourceMock|\PHPUnit_Framework_MockObject_MockObject $instance */
+        $instance = $this
+            ->getMockBuilder(DomainResourceMock::class)
+            ->setConstructorArgs([$link])
+            ->setMethods(['createPaginator'])
+            ->getMock();
+
+        $instance
+            ->expects($this->once())
+            ->method('createPaginator')
+            ->willReturn(null);
+
+        $this->assertNull($instance->getAll());
+    }
+
     /**
      * Recurse to simulate load of next link
      *
