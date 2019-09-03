@@ -1,10 +1,9 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Task;
 
-use ShoppingFeed\Sdk\Resource\AbstractResource;
-use ShoppingFeed\Sdk\Resource\PaginatedResourceCollection;
+use ShoppingFeed\Sdk\Resource;
 
-class TicketResource extends AbstractResource
+class TicketResource extends Resource\AbstractResource
 {
     /**
      * @return string
@@ -12,6 +11,16 @@ class TicketResource extends AbstractResource
     public function getId()
     {
         return $this->getProperty('id');
+    }
+
+    /**
+     * @return Resource\ResourceProperties
+     */
+    public function getPayload()
+    {
+        return new Resource\ResourceProperties(
+            $this->getProperty('payload') ?: []
+        );
     }
 
     /**
@@ -52,23 +61,5 @@ class TicketResource extends AbstractResource
     public function getFinishedAt()
     {
         return $this->getPropertyDatetime('finishedAt');
-    }
-
-    /**
-     * In case a ticket is a batch we need to be able to load its tickets
-     *
-     * @return null|PaginatedResourceCollection
-     */
-    public function fetchBatchTickets()
-    {
-        $link = $this->resource->getLink('ticket');
-        if (null !== $link) {
-            return new PaginatedResourceCollection(
-                $link->get(),
-                TicketResource::class
-            );
-        }
-
-        return null;
     }
 }

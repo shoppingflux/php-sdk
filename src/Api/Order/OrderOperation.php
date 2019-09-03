@@ -1,12 +1,10 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Order;
 
-use Psr\Http\Message\RequestInterface;
 use ShoppingFeed\Sdk\Api;
 use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Operation;
 use ShoppingFeed\Sdk\Exception;
-use ShoppingFeed\Sdk\Resource\Json;
 
 class OrderOperation extends Operation\AbstractBulkOperation
 {
@@ -38,7 +36,6 @@ class OrderOperation extends Operation\AbstractBulkOperation
      * @var array
      */
     protected $operations = [];
-
 
     /**
      * Notify market place of order acceptance
@@ -191,8 +188,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      */
     public function execute(Hal\HalLink $link)
     {
-        // Create requests per batch
-        $requests  = [];
+        $requests  = new \ArrayObject();
         $resources = new \ArrayObject();
 
         foreach ($this->allowedOperationTypes as $type) {
@@ -203,8 +199,10 @@ class OrderOperation extends Operation\AbstractBulkOperation
         }
 
         $link->batchSend(
-            $requests,
-            $this->createSuccessBatchSendCallback($resources),
+            $requests->getArrayCopy(),
+            function (Hal\HalResource $batch) use ($resources) {
+                $resources->append($batch);
+            },
             null,
             [],
             $this->getPoolSize()
@@ -224,7 +222,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @return \Closure
      */
-    private function createRequestGenerator($type, Hal\HalLink $link, array &$requests)
+    private function createRequestGenerator($type, Hal\HalLink $link, \ArrayAccess $requests)
     {
         return function (array $chunk) use ($type, $link, &$requests) {
             $requests[] = $link->createRequest(
@@ -232,20 +230,6 @@ class OrderOperation extends Operation\AbstractBulkOperation
                 ['operation' => $type],
                 ['order' => $chunk]
             );
-        };
-    }
-
-    /**
-     * Batch send success callback
-     *
-     * @param \ArrayAccess $resources
-     *
-     * @return \Closure
-     */
-    private function createSuccessBatchSendCallback(\ArrayAccess $resources)
-    {
-        return function (Hal\HalResource $batch) use ($resources) {
-            $resources[] = $batch;
         };
     }
 

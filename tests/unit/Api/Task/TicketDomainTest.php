@@ -1,114 +1,29 @@
 <?php
-namespace ShoppingFeed\Sdk\Test\Api\Task;
+namespace ShoppingFeed\Sdk\Api\Task;
 
 use PHPUnit\Framework\TestCase;
 use ShoppingFeed\Sdk;
 
 class TicketDomainTest extends TestCase
 {
-    public function testGetByReference()
-    {
-        $reference = 'abc213';
-        $link      = $this->createMock(Sdk\Hal\HalLink::class);
-        $resource  = $this->createMock(Sdk\Hal\HalResource::class);
-        $resource
-            ->expects($this->once())
-            ->method('getProperty')
-            ->with('count')
-            ->willReturn(10);
-        $resource
-            ->expects($this->once())
-            ->method('getFirstResource')
-            ->with('ticket')
-            ->willReturn(
-                $this->createMock(Sdk\Hal\HalResource::class)
-            );
-        $link
-            ->expects($this->once())
-            ->method('get')
-            ->with(
-                [],
-                ['query' => ['reference' => $reference]]
-            )
-            ->willReturn($resource);
-
-        $instance = new Sdk\Api\Task\TicketDomain($link);
-
-        $this->assertInstanceOf(Sdk\Api\Task\TicketResource::class, $instance->getByReference($reference));
-    }
-
-    public function testGetByReferenceDefault()
-    {
-        $reference = 'abc213';
-        $link      = $this->createMock(Sdk\Hal\HalLink::class);
-        $resource  = $this->createMock(Sdk\Hal\HalResource::class);
-        $resource
-            ->expects($this->once())
-            ->method('getProperty')
-            ->with('count')
-            ->willReturn(0);
-        $link
-            ->expects($this->once())
-            ->method('get')
-            ->with(
-                [],
-                ['query' => ['reference' => $reference]]
-            )
-            ->willReturn($resource);
-
-        $instance = new Sdk\Api\Task\TicketDomain($link);
-
-        $this->assertNull($instance->getByReference($reference));
-    }
-
     public function testGetByBatch()
     {
         $reference = 'abc213';
         $link      = $this->createMock(Sdk\Hal\HalLink::class);
-        $resource  = $this->createMock(Sdk\Hal\HalResource::class);
-        $resource
-            ->expects($this->once())
-            ->method('getProperty')
-            ->with('count')
-            ->willReturn(10);
         $link
             ->expects($this->once())
             ->method('get')
             ->with(
                 [],
-                ['query' => ['batchId' => $reference]]
+                ['query' => ['batchId' => $reference, 'page' => 1, 'limit' => 200]]
             )
-            ->willReturn($resource);
+            ->willReturn($this->createMock(Sdk\Hal\HalResource::class));
 
         $instance = new Sdk\Api\Task\TicketDomain($link);
 
         $this->assertInstanceOf(
-            Sdk\Api\Task\TicketPaginatedCollection::class,
+            TicketIterator::class,
             $instance->getByBatch($reference)
         );
-    }
-
-    public function testGetByBatchDefault()
-    {
-        $reference = 'abc213';
-        $link      = $this->createMock(Sdk\Hal\HalLink::class);
-        $resource  = $this->createMock(Sdk\Hal\HalResource::class);
-        $resource
-            ->expects($this->once())
-            ->method('getProperty')
-            ->with('count')
-            ->willReturn(0);
-        $link
-            ->expects($this->once())
-            ->method('get')
-            ->with(
-                [],
-                ['query' => ['batchId' => $reference]]
-            )
-            ->willReturn($resource);
-
-        $instance = new Sdk\Api\Task\TicketDomain($link);
-
-        $this->assertNull($instance->getByBatch($reference));
     }
 }
