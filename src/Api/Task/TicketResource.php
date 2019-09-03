@@ -14,6 +14,8 @@ class TicketResource extends Resource\AbstractResource
     }
 
     /**
+     * Get the entire payload associated to the ticket
+     *
      * @return Resource\ResourceProperties
      */
     public function getPayload()
@@ -21,6 +23,23 @@ class TicketResource extends Resource\AbstractResource
         return new Resource\ResourceProperties(
             $this->getProperty('payload') ?: []
         );
+    }
+
+    /**
+     * Get a single element of the payload
+     *
+     * @param string $name The property name
+     *
+     * @return mixed
+     */
+    public function getPayloadProperty($name)
+    {
+        $payload = $this->getProperty('payload') ?: [];
+        if ($payload && isset($payload[$name])) {
+            return $payload[$name];
+        }
+
+        return null;
     }
 
     /**

@@ -38,4 +38,12 @@ class TicketResourceTest extends AbstractResourceTest
         $this->assertEquals(new \DateTime($this->props['startedAt']), $instance->getStartedAt());
         $this->assertEquals(new \DateTime($this->props['finishedAt']), $instance->getFinishedAt());
     }
+
+    public function testGetPayloadProperty()
+    {
+        $this->initHalResourceProperties();
+        $instance = new TicketResource($this->halResource);
+        $this->assertNull($instance->getPayloadProperty('toto'), 'property does not exists');
+        $this->assertSame($this->props['payload']['channel'], $instance->getPayloadProperty('channel'));
+    }
 }
