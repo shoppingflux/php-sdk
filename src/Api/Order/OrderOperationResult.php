@@ -3,7 +3,6 @@ namespace ShoppingFeed\Sdk\Api\Order;
 
 use ShoppingFeed\Sdk\Api\Task;
 use ShoppingFeed\Sdk\Hal\HalResource;
-use ShoppingFeed\Sdk\Exception;
 
 class OrderOperationResult
 {
