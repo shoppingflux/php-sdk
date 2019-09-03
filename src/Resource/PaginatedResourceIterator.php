@@ -1,6 +1,9 @@
 <?php
 namespace ShoppingFeed\Sdk\Resource;
 
+/**
+ * Iterates over a paginated collection until the last page has been reached
+ */
 class PaginatedResourceIterator implements \IteratorAggregate, \Countable
 {
     /**
