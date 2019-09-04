@@ -54,6 +54,25 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
     }
 
     /**
+     * @param null $key If defined, then look for a specific meta
+     *
+     * @return mixed
+     */
+    public function getMeta($key = null)
+    {
+        $all = $this->getProperty('meta');
+        if (null === $key) {
+            return $all;
+        }
+
+        if (isset($all[$key])) {
+            return $all[$key];
+        }
+
+        return null;
+    }
+
+    /**
      * @return null|PaginatedResourceCollection
      */
     public function next()

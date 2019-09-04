@@ -1,7 +1,6 @@
 <?php
 namespace ShoppingFeed\Sdk\Test\Resource;
 
-
 use PHPUnit\Framework\TestCase;
 use ShoppingFeed\Sdk\Hal\HalLink;
 use ShoppingFeed\Sdk\Hal\HalResource;
@@ -183,7 +182,7 @@ class PaginatedResourceCollectionTest extends TestCase
             $this->createMock(HalResource::class),
             $this->createMock(HalResource::class),
         ];
-        $resource  = $this->createMock(HalResource::class);
+        $resource = $this->createMock(HalResource::class);
         $resource
             ->expects($this->once())
             ->method('getAllResources')
@@ -199,5 +198,46 @@ class PaginatedResourceCollectionTest extends TestCase
         }
 
         $this->assertEquals(count($resources), $count);
+    }
+
+    public function testGetAllMetadata()
+    {
+        $expected = ['test' => true];
+        $resource = $this->createMock(HalResource::class);
+        $resource
+            ->expects($this->once())
+            ->method('getProperty')
+            ->with('meta')
+            ->willReturn($expected);
+
+        $instance = new PaginatedResourceCollection($resource, ResourceMock::class);
+        $this->assertSame($expected, $instance->getMeta());
+    }
+
+    public function testGetSpecificMetadata()
+    {
+        $expected = ['test' => 'data'];
+        $resource = $this->createMock(HalResource::class);
+        $resource
+            ->expects($this->once())
+            ->method('getProperty')
+            ->with('meta')
+            ->willReturn($expected);
+
+        $instance = new PaginatedResourceCollection($resource, ResourceMock::class);
+        $this->assertSame('data', $instance->getMeta('test'));
+    }
+
+    public function testGetSpecificMetadataIsMissing()
+    {
+        $resource = $this->createMock(HalResource::class);
+        $resource
+            ->expects($this->once())
+            ->method('getProperty')
+            ->with('meta')
+            ->willReturn(['test' => 'data']);
+
+        $instance = new PaginatedResourceCollection($resource, ResourceMock::class);
+        $this->assertNull($instance->getMeta('notfound'));
     }
 }
