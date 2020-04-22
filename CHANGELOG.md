@@ -1,3 +1,22 @@
+v0.3.1
+======
+
+### Added
+
+- Add accessor for itemsReferenceAliases #87
+
+v0.3.0
+======
+
+### Added
+
+- Add ticket API access #83 
+- Removing git flow use for dev workflow #83 
+
+### BC-Break
+
+Retrieval of ticket after sending operation on order as changed, see [order documentation](https://github.com/shoppingflux/php-sdk/blob/master/docs/manual/resources/order.md#operations) for new implementation.
+
 v0.2.7
 ======
 
