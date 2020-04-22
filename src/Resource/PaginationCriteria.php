@@ -58,7 +58,6 @@ class PaginationCriteria
         return $this->filters;
     }
 
-
     /**
      * Convert criteria as ready to be added to URL
      *
