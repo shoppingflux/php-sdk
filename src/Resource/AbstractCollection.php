@@ -2,7 +2,6 @@
 namespace ShoppingFeed\Sdk\Resource;
 
 use ShoppingFeed\Sdk\Hal;
-use Traversable;
 
 abstract class AbstractCollection extends AbstractResource implements \Countable, \IteratorAggregate
 {
@@ -64,7 +63,7 @@ abstract class AbstractCollection extends AbstractResource implements \Countable
     }
 
     /**
-     * @return Traversable
+     * @return \Traversable
      */
     public function getIterator()
     {

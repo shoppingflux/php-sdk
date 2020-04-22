@@ -1,7 +1,6 @@
 <?php
 namespace ShoppingFeed\Sdk\Hal;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use ShoppingFeed\Sdk\Http\UriTemplate;
 use ShoppingFeed\Sdk\Resource\Json;
@@ -243,7 +242,7 @@ class HalLink
     }
 
     /**
-     * @param RequestInterface|RequestInterface[] $request
+     * @param Psr\Http\Message\RequestInterface|Psr\Http\Message\RequestInterface[] $request
      * @param array                               $config
      *
      * @return null|HalResource
