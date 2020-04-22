@@ -108,6 +108,14 @@ class OrderResource extends AbstractResource
     }
 
     /**
+     * @return array
+     */
+    public function getItemsReferencesAliases()
+    {
+        return $this->getProperty('itemsReferencesAliases');
+    }
+
+    /**
      * @return ChannelResource A partial representation of the channel resource
      */
     public function getChannel()
