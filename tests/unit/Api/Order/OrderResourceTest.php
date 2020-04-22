@@ -8,25 +8,25 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
     public function setUp()
     {
         $this->props = [
-            'id'              => 10,
-            'reference'       => 'abc123',
-            'storeReference'  => 'def456',
-            'status'          => 'active',
-            'createdAt'       => '2017-12-05',
-            'updatedAt'       => '2017-12-06',
-            'acknowledgedAt'  => '2017-12-07',
-            'payment'         => [
+            'id'                     => 10,
+            'reference'              => 'abc123',
+            'storeReference'         => 'def456',
+            'status'                 => 'active',
+            'createdAt'              => '2017-12-05',
+            'updatedAt'              => '2017-12-06',
+            'acknowledgedAt'         => '2017-12-07',
+            'payment'                => [
                 "carrier"        => "Home",
                 "trackingNumber" => "94718832",
             ],
-            'shipment'        => [
+            'shipment'               => [
                 "shippingAmount" => 58.8,
                 "productAmount"  => 495.24,
                 "totalAmount"    => 554.04,
                 "currency"       => "EUR",
                 "method"         => "",
             ],
-            'shippingAddress' => [
+            'shippingAddress'        => [
                 "firstName"         => "Bill",
                 "lastName"          => "BOQUET",
                 "company"           => "BD",
@@ -38,7 +38,7 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
                 "phone"             => "061234579",
                 "email"             => "biletboule@mail.com",
             ],
-            'billingAddress'  => [
+            'billingAddress'         => [
                 "firstName"         => "Bill",
                 "lastName"          => "BOQUET",
                 "company"           => "BD",
@@ -49,6 +49,10 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
                 "country"           => "FR",
                 "phone"             => "061234579",
                 "email"             => "biletboule@mail.com",
+            ],
+            'itemsReferencesAliases' => [
+                'item1' => 'alias1',
+                'item2' => 'alias2',
             ],
         ];
     }
@@ -67,6 +71,7 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $this->assertEquals($this->props['shipment'], $instance->getShipment());
         $this->assertEquals($this->props['shippingAddress'], $instance->getShippingAddress());
         $this->assertEquals($this->props['billingAddress'], $instance->getBillingAddress());
+        $this->assertEquals($this->props['itemsReferencesAliases'], $instance->getItemsReferencesAliases());
         $this->assertEquals(date_create_immutable($this->props['createdAt']), $instance->getCreatedAt());
         $this->assertEquals(date_create_immutable($this->props['updatedAt']), $instance->getUpdatedAt());
         $this->assertEquals(date_create_immutable($this->props['acknowledgedAt']), $instance->getAcknowledgedAt());
