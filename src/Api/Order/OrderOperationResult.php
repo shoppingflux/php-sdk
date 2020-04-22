@@ -55,7 +55,7 @@ class OrderOperationResult
     }
 
     /**
-     * @var ShoppingFeed\Sdk\Hal\HalResource[] $resources
+     * @var \ShoppingFeed\Sdk\Hal\HalResource[] $resources
      */
     private function setBatches(array $resources)
     {

@@ -242,7 +242,7 @@ class HalLink
     }
 
     /**
-     * @param Psr\Http\Message\RequestInterface|Psr\Http\Message\RequestInterface[] $request
+     * @param \Psr\Http\Message\RequestInterface|\Psr\Http\Message\RequestInterface[] $request
      * @param array                               $config
      *
      * @return null|HalResource
