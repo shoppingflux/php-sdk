@@ -2,7 +2,6 @@
 namespace ShoppingFeed\Sdk\Api\Order;
 
 use ShoppingFeed\Sdk\Api\Task;
-use ShoppingFeed\Sdk\Hal\HalResource;
 
 class OrderOperationResult
 {
@@ -56,7 +55,7 @@ class OrderOperationResult
     }
 
     /**
-     * @var HalResource[] $resources
+     * @var \ShoppingFeed\Sdk\Hal\HalResource[] $resources
      */
     private function setBatches(array $resources)
     {
