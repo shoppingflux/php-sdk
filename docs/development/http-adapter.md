@@ -45,4 +45,4 @@ The `$config` parameter will contain these keys :
 | `concurrency`  | yes      | `int`      | Handle the http call of the given request. |
 | `fulfilled`    | yes      | `callable` | Callback that will handle all success responses. The callback take a `HalResource` build from the response |
 | `rejected`     | yes      | `callable` | Callback that will handle all exception that occurred during the call. The callback take and `Exception` as a parameter. |
-| `options`      | no       | `array`    | If additionnal options have been passed to the `batchSend()` method you will retrieve them here. |
+| `options`      | no       | `array`    | If additional options have been passed to the `batchSend()` method you will retrieve them here. |
