@@ -4,6 +4,7 @@ namespace ShoppingFeed\Sdk\Test\Hal;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message;
 use ShoppingFeed\Sdk\Hal;
+use ShoppingFeed\Sdk\Hal\HalResource;
 use ShoppingFeed\Sdk\Http;
 
 class HalClientTest extends TestCase
@@ -146,6 +147,46 @@ class HalClientTest extends TestCase
             $this->createMock(Message\RequestInterface::class)
         );
         $this->assertNull($result);
+    }
+
+    public function testSendWithEmptyResponseSkipEncoding()
+    {
+        $request = $this->createMock(Message\RequestInterface::class);
+
+        $response = $this->createMock(Message\ResponseInterface::class);
+        $response->method('getStatusCode')->willReturn(200);
+        $response->method('getBody')->willReturn('');
+
+        $client = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $client
+            ->expects($this->once())
+            ->method('send')
+            ->willReturn($response);
+
+        $instance = new Hal\HalClient('http://fake.uri', $client);
+        $result   = $instance->send($request);
+
+        $this->assertSame([], $result->getProperties(), 'No properties are filled');
+    }
+
+    public function testItDecodeResponse()
+    {
+        $request = $this->createMock(Message\RequestInterface::class);
+
+        $response = $this->createMock(Message\ResponseInterface::class);
+        $response->method('getStatusCode')->willReturn(200);
+        $response->method('getBody')->willReturn('{"status":"ok"}');
+
+        $client = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $client
+            ->expects($this->once())
+            ->method('send')
+            ->willReturn($response);
+
+        $instance = new Hal\HalClient('http://fake.uri', $client);
+        $result   = $instance->send($request);
+
+        $this->assertSame(['status' => 'ok'], $result->getProperties(), 'json has been decoded');
     }
 
     public function testGetAdapter()

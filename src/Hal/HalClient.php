@@ -105,10 +105,14 @@ class HalClient
      */
     public function createResource(ResponseInterface $response)
     {
-        return HalResource::fromArray(
-            $this,
-            Json::decode($response->getBody(), true)
-        );
+        $data = [];
+        $body = trim($response->getBody());
+
+        if ($body) {
+            $data = Json::decode($body, true);
+        }
+
+        return HalResource::fromArray($this, $data);
     }
 
     /**
