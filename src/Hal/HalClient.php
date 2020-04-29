@@ -105,21 +105,11 @@ class HalClient
      */
     public function createResource(ResponseInterface $response)
     {
-        switch ($response->getStatusCode()) {
-            // no content
-            case 204:
-                $data = [];
-                break;
-            // empty responses are accepted for async tasks
-            case 202:
-                $data = [];
-                $body = trim($response->getBody()->getContents());
-                if ($body) {
-                    $data = Json::decode($body, true);
-                }
-                break;
-            default:
-                $data = Json::decode($response->getBody(), true);
+        $data = [];
+        $body = trim($response->getBody());
+
+        if ($body) {
+            $data = Json::decode($body, true);
         }
 
         return HalResource::fromArray($this, $data);
