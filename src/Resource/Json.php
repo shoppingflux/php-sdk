@@ -31,7 +31,14 @@ class Json
      */
     public static function decode($json, $assoc = false)
     {
+        $json = (string) $json;
+
+        if ('' === $json) {
+            return null;
+        }
+
         $content = json_decode($json, $assoc);
+
         if (JSON_ERROR_NONE !== json_last_error()) {
             throw new \InvalidArgumentException(
                 'json_decode error: ' . json_last_error_msg()

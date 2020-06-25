@@ -23,6 +23,11 @@ class JsonTest extends TestCase
         $this->assertEquals(json_decode($this->json), Json::decode($this->json));
     }
 
+    public function testDecodeEmptyString()
+    {
+        $this->assertNull(Json::decode(''));
+    }
+
     public function testThrowDecodeException()
     {
         $this->expectException(\InvalidArgumentException::class);
