@@ -265,7 +265,7 @@ class HalLink
         $method  = strtoupper($method);
         $headers = [];
 
-        if (in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
+        if (null !== $body && in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
             $headers['Content-Type'] = 'application/json';
             $body                    = Json::encode($body);
         }

@@ -127,7 +127,7 @@ class HalLinkTest extends TestCase
                 $this->isType('string'),
                 $uri,
                 ['Content-Type' => 'application/json'],
-                $this->logicalOr($this->isNull(), $this->isType('string'))
+                $this->isType('string')
             )
             ->willReturn(
                 $this->createMock(RequestInterface::class)
@@ -147,6 +147,39 @@ class HalLinkTest extends TestCase
         $instance->createRequest('PUT', [], ['body' => ['id' => 123]]);
         $instance->createRequest('PATCH', [], ['body' => ['id' => 123]]);
         $instance->createRequest('DELETE', [], ['body' => ['id' => 123]]);
+    }
+
+    public function testCreateRequestWithoutContent()
+    {
+        $uri = '/fake/uri';
+
+        $this->client
+            ->expects($this->exactly(4))
+            ->method('createRequest')
+            ->with(
+                $this->isType('string'),
+                $uri,
+                [],
+                $this->isNull()
+            )
+            ->willReturn(
+                $this->createMock(RequestInterface::class)
+            );
+
+        $instance = $this
+            ->getMockBuilder(HalLink::class)
+            ->setConstructorArgs([$this->client, 'http://base.url'])
+            ->setMethods(['getUri'])
+            ->getMock();
+
+        $instance
+            ->method('getUri')
+            ->willReturn($uri);
+
+        $instance->createRequest('POST', []);
+        $instance->createRequest('PUT', []);
+        $instance->createRequest('PATCH', []);
+        $instance->createRequest('DELETE', []);
     }
 
     public function testBatchSend()
