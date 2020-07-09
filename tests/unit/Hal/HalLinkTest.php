@@ -154,13 +154,11 @@ class HalLinkTest extends TestCase
         $uri = '/fake/uri';
 
         $this->client
-            ->expects($this->exactly(4))
             ->method('createRequest')
             ->with(
                 $this->isType('string'),
                 $uri,
-                [],
-                $this->isNull()
+                []
             )
             ->willReturn(
                 $this->createMock(RequestInterface::class)
@@ -176,10 +174,14 @@ class HalLinkTest extends TestCase
             ->method('getUri')
             ->willReturn($uri);
 
-        $instance->createRequest('POST', []);
-        $instance->createRequest('PUT', []);
-        $instance->createRequest('PATCH', []);
-        $instance->createRequest('DELETE', []);
+        $instance->createRequest('POST', [], null);
+        $instance->createRequest('POST', [], '');
+        $instance->createRequest('PUT', [], null);
+        $instance->createRequest('PUT', [], '');
+        $instance->createRequest('PATCH', [], null);
+        $instance->createRequest('PATCH', [], '');
+        $instance->createRequest('DELETE', [], null);
+        $instance->createRequest('DELETE', [], '');
     }
 
     public function testBatchSend()
