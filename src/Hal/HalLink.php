@@ -253,9 +253,9 @@ class HalLink
     }
 
     /**
-     * @param       $method
-     * @param array $variables
-     * @param array $body
+     * @param string $method
+     * @param array  $variables
+     * @param mixed  $body
      *
      * @return \Psr\Http\Message\RequestInterface
      */
@@ -265,7 +265,7 @@ class HalLink
         $method  = strtoupper($method);
         $headers = [];
 
-        if (! isset($headers['Content-Type']) && in_array($method, ['POST', 'PUT', 'PATCH'])) {
+        if ((null !== $body && '' !== $body) && in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
             $headers['Content-Type'] = 'application/json';
             $body                    = Json::encode($body);
         }

@@ -118,9 +118,17 @@ class HalLinkTest extends TestCase
 
     public function testCreateRequestWithContent()
     {
+        $uri = '/fake/uri';
+
         $this->client
-            ->expects($this->exactly(3))
+            ->expects($this->exactly(4))
             ->method('createRequest')
+            ->with(
+                $this->isType('string'),
+                $uri,
+                ['Content-Type' => 'application/json'],
+                $this->isType('string')
+            )
             ->willReturn(
                 $this->createMock(RequestInterface::class)
             );
@@ -132,13 +140,48 @@ class HalLinkTest extends TestCase
             ->getMock();
 
         $instance
-            ->expects($this->exactly(3))
             ->method('getUri')
-            ->willReturn('/fake/uri');
+            ->willReturn($uri);
 
-        $instance->createRequest('POST');
-        $instance->createRequest('PUT');
-        $instance->createRequest('PATCH');
+        $instance->createRequest('POST', [], ['body' => ['id' => 123]]);
+        $instance->createRequest('PUT', [], ['body' => ['id' => 123]]);
+        $instance->createRequest('PATCH', [], ['body' => ['id' => 123]]);
+        $instance->createRequest('DELETE', [], ['body' => ['id' => 123]]);
+    }
+
+    public function testCreateRequestWithoutContent()
+    {
+        $uri = '/fake/uri';
+
+        $this->client
+            ->method('createRequest')
+            ->with(
+                $this->isType('string'),
+                $uri,
+                []
+            )
+            ->willReturn(
+                $this->createMock(RequestInterface::class)
+            );
+
+        $instance = $this
+            ->getMockBuilder(HalLink::class)
+            ->setConstructorArgs([$this->client, 'http://base.url'])
+            ->setMethods(['getUri'])
+            ->getMock();
+
+        $instance
+            ->method('getUri')
+            ->willReturn($uri);
+
+        $instance->createRequest('POST', [], null);
+        $instance->createRequest('POST', [], '');
+        $instance->createRequest('PUT', [], null);
+        $instance->createRequest('PUT', [], '');
+        $instance->createRequest('PATCH', [], null);
+        $instance->createRequest('PATCH', [], '');
+        $instance->createRequest('DELETE', [], null);
+        $instance->createRequest('DELETE', [], '');
     }
 
     public function testBatchSend()
