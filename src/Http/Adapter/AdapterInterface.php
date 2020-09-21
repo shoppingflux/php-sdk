@@ -56,6 +56,17 @@ interface AdapterInterface
     public function createRequest($method, $uri, array $headers = [], $body = null);
 
     /**
+     * Initiate request and get a response instance.
+     *
+     * @param string $method   Http method
+     * @param string $uri      The URI to call, ex: '/my/uri'
+     * @param array  $options  Options to pass to the http client
+     *
+     * @return Message\ResponseInterface
+     */
+    public function request($method, $uri, array $options = []);
+
+    /**
      * Use the given token in the 'Authorization' header for all request sent via the adapter
      *
      * When the use perform authentication with the SDK, a new session is created, associated to this token.

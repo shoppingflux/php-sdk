@@ -191,6 +191,35 @@ class Guzzle6AdapterTest extends TestCase
         $this->assertFalse($handlerPresent);
     }
 
+    public function testItForwardRequestToGuzzleClient()
+    {
+        $options  = new ClientOptions();
+        $response = $this->createMock(ResponseInterface::class);
+        $args     = ['GET', '/uri', ['opt' => 'a']];
+
+        $client      = $this->createMock(GuzzleHttp\Client::class);
+        $mockHandler = GuzzleHttp\HandlerStack::create(
+            new GuzzleHttp\Handler\MockHandler([new GuzzleHttp\Psr7\Response(200)])
+        );
+
+        /** @var Guzzle6Adapter|\PHPUnit_Framework_MockObject_MockObject $instance */
+        $instance = new Guzzle6Adapter($options, $mockHandler);
+
+        $reflexion = new \ReflectionClass($instance);
+        $property  = $reflexion->getProperty('client');
+        $property->setAccessible(true);
+        $property->setValue($instance, $client);
+
+        $client
+            ->expects($this->once())
+            ->method('request')
+            ->with(...$args)
+            ->willReturn($response);
+
+        $result = $instance->request(...$args);
+        $this->assertSame($response, $result);
+    }
+
     public function testCreateExceptionCallback()
     {
         $testOk = false;
@@ -260,4 +289,5 @@ class Guzzle6AdapterTest extends TestCase
         // Extract stack from handler stack
         return $propertyRes->getValue($handlerStack);
     }
+
 }

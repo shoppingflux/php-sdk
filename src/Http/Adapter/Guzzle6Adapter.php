@@ -61,8 +61,14 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
 
     /**
      * @inheritdoc
-     *
-     * @throws GuzzleHttp\Exception\GuzzleException
+     */
+    public function request($method, $uri, array $options = [])
+    {
+        return $this->client->request($method, $uri, $options);
+    }
+
+    /**
+     * @inheritdoc
      */
     public function send(RequestInterface $request, array $options = [])
     {
@@ -90,8 +96,6 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
 
     /**
      * @inheritdoc
-     *
-     * @throws Http\Exception\MissingDependencyException
      */
     public function withToken($token)
     {
