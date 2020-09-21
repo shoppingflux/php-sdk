@@ -208,6 +208,13 @@ class HalResourceTest extends TestCase
         $this->assertInstanceOf(HalResource::class, $resource);
     }
 
+    public function testInnerClientInstanceIsAccessible()
+    {
+        $client = $this->createMock(HalClient::class);
+        $instance = new HalResource($client);
+        $this->assertSame($client, $instance->getClient());
+    }
+
     /**
      * Format embedded data
      *

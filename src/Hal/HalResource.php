@@ -4,6 +4,11 @@ namespace ShoppingFeed\Sdk\Hal;
 class HalResource
 {
     /**
+     * @var HalClient
+     */
+    private $client;
+
+    /**
      * @var array
      */
     private $properties = [];
@@ -51,9 +56,10 @@ class HalResource
     public function __construct(HalClient $client, array $properties = [], array $links = [], array $embedded = [])
     {
         $this->properties = $properties;
+        $this->client     = $client;
 
-        $this->createLinks($client, $links);
-        $this->createEmbedded($client, $embedded);
+        $this->createLinks($links);
+        $this->createEmbedded($embedded);
     }
 
     /**
@@ -151,10 +157,17 @@ class HalResource
     }
 
     /**
-     * @param array     $links
-     * @param HalClient $client
+     * @return HalClient
      */
-    private function createLinks(HalClient $client, array $links)
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param array $links
+     */
+    private function createLinks(array $links)
     {
         foreach ($links as $rel => $link) {
             if ($link instanceof HalLink) {
@@ -162,15 +175,14 @@ class HalResource
                 continue;
             }
 
-            $this->links[$rel] = new HalLink($client, $link['href'], $link);
+            $this->links[$rel] = new HalLink($this->client, $link['href'], $link);
         }
     }
 
     /**
-     * @param HalClient $client
-     * @param array     $relations
+     * @param array $relations
      */
-    private function createEmbedded(HalClient $client, array $relations)
+    private function createEmbedded(array $relations)
     {
         foreach ($relations as $name => $resources) {
             if (array_values($resources) !== $resources) {
@@ -178,7 +190,7 @@ class HalResource
             }
 
             foreach ($resources as $index => $resource) {
-                $this->embedded[$name][$index] = static::fromArray($client, $resource);
+                $this->embedded[$name][$index] = static::fromArray($this->client, $resource);
             }
         }
     }
