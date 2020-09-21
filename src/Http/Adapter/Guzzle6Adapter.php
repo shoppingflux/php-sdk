@@ -2,7 +2,6 @@
 namespace ShoppingFeed\Sdk\Http\Adapter;
 
 use GuzzleHttp;
-use Psr\Http\Message;
 use Psr\Http\Message\RequestInterface;
 use ShoppingFeed\Sdk\Client;
 use ShoppingFeed\Sdk\Client\ClientOptions;
@@ -67,7 +66,6 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
     {
         return $this->client->request($method, $uri, $options);
     }
-
 
     /**
      * @inheritdoc
