@@ -101,4 +101,14 @@ class StoreResource extends AbstractResource
             $this->resource->getLink('ticket')
         );
     }
+
+    /**
+     * @return Catalog\CatalogDomain
+     */
+    public function getCatalogApi()
+    {
+        return new Catalog\CatalogDomain(
+            $this->resource->getLink('catalog')
+        );
+    }
 }
