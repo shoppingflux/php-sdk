@@ -15,7 +15,17 @@ class CatalogDomain extends AbstractDomainResource
      */
     protected $catalog = null;
 
-    public function askForFeedImport($force = null)
+    /**
+     * @param string|null $force List of comma separated values that are used
+     * in the `importFeed` operation. Allowed values :
+     * - all
+     * - products
+     * - references
+     * - categories
+     * Only certain roles are allowed to use the $force option.
+     * If the role does not allow it, the option is ignored.
+     */
+    public function requestFeedImport($force = null)
     {
         $extra = [];
 
@@ -27,21 +37,21 @@ class CatalogDomain extends AbstractDomainResource
             ];
         }
 
-        return $this->askForOperation('importFeed', $extra);
+        $this->requestOperation('importFeed', $extra);
     }
 
-    public function askForClearCache()
+    public function requestClearCache()
     {
-        return $this->askForOperation('clearCache');
+        $this->requestOperation('clearCache');
     }
 
-    protected function askForOperation($operation, $extra = [])
+    protected function requestOperation($operation, $extra = [])
     {
         $catalog = $this->getCatalog();
         if ($catalog) {
             $operationLink = $catalog->getOperationLink();
             if ($operationLink) {
-                return $operationLink->post(
+                $operationLink->post(
                     array_merge(
                         [
                             'operation' => $operation,
@@ -52,8 +62,6 @@ class CatalogDomain extends AbstractDomainResource
                 );
             }
         }
-
-        return null;
     }
 
     /**

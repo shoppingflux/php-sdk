@@ -26,7 +26,7 @@ class CatalogDomainTest extends TestCase
             $this->configureCatalogResource('clearCache')
         );
 
-        $instance->askForClearCache();
+        $instance->requestClearCache();
     }
 
     public function testAskForFeedImport()
@@ -35,7 +35,7 @@ class CatalogDomainTest extends TestCase
             $this->configureCatalogResource('importFeed')
         );
 
-        $instance->askForFeedImport();
+        $instance->requestFeedImport();
     }
 
     public function testAskForFeedImportWithForce()
@@ -48,7 +48,7 @@ class CatalogDomainTest extends TestCase
             ])
         );
 
-        $instance->askForFeedImport('products,references');
+        $instance->requestFeedImport('products,references');
     }
 
     protected function configureCatalogResource($operation, $extra = [])
