@@ -8,10 +8,13 @@ class StoreResourceTest extends Sdk\Test\Api\AbstractResourceTest
     public function setUp()
     {
         $this->props = [
-            'id'      => 10,
-            'name'    => 'abc123',
-            'country' => 'FR',
-            'status'  => 'active',
+            'id'        => 10,
+            'name'      => 'abc123',
+            'country'   => 'FR',
+            'status'    => 'active',
+            'email'     => 'zizou@fff.com',
+            'currency'  => 'EUR',
+            'createdAt' => '1998-07-12T20:57:55+00:00',
         ];
     }
 
@@ -25,6 +28,9 @@ class StoreResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $this->assertSame($this->props['name'], $instance->getName());
         $this->assertSame($this->props['country'], $instance->getCountryCode());
         $this->assertSame('active', $instance->getStatus());
+        $this->assertSame($this->props['email'], $instance->getEmail());
+        $this->assertSame($this->props['currency'], $instance->getCurrencyCode());
+        $this->assertEquals(date_create_immutable($this->props['createdAt']), $instance->getCreatedAt());
         $this->assertTrue($instance->isActive());
     }
 

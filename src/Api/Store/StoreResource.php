@@ -53,6 +53,32 @@ class StoreResource extends AbstractResource
     }
 
     /**
+     * @return string
+     */
+    public function getCurrencyCode()
+    {
+        return $this->getProperty('currency');
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->getProperty('email');
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     *
+     * @throws \Exception
+     */
+    public function getCreatedAt()
+    {
+        return new \DateTimeImmutable($this->getProperty('createdAt'));
+    }
+
+    /**
      * @return StoreChannelDomain
      */
     public function getChannelApi()
