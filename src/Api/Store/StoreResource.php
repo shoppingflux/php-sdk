@@ -101,4 +101,12 @@ class StoreResource extends AbstractResource
             $this->resource->getLink('ticket')
         );
     }
+
+    /**
+     * @return ?\DateTimeInterface
+     */
+    public function getDeletedAt()
+    {
+        return $this->getPropertyDatetime('deletedAt');
+    }
 }
