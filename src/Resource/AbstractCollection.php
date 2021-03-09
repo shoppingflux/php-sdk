@@ -80,6 +80,7 @@ abstract class AbstractCollection extends AbstractResource implements \Countable
             if ($resource instanceof Hal\HalResource) {
                 $resource = new $className($resource, true);
             }
+
             $this->resources[] = $resource;
         }
     }

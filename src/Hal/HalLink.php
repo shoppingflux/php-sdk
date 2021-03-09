@@ -55,12 +55,15 @@ class HalLink
         if (isset($config['templated'])) {
             $this->templated = (bool) $config['templated'];
         }
+
         if (isset($config['type'])) {
             $this->type = $config['type'];
         }
+
         if (isset($config['name'])) {
             $this->name = $config['name'];
         }
+
         if (isset($config['title'])) {
             $this->title = $config['title'];
         }

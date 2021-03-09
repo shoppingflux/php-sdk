@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+./vendor/bin/phplint src --cache=build/phplint.cache -v
+./vendor/bin/phpunit
+./vendor/bin/sfcs src --progress -vvv
+
