@@ -9,8 +9,11 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        phpv: [ 5.6, 7.1, 8.0 ]
     container:
-      image: ghcr.io/shoppingflux/php:7.4-fpm
+      image: php:${{ matrix.phpv }}-fpm
       env:
         COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
       credentials:
