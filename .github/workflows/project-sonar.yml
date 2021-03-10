@@ -13,9 +13,6 @@ jobs:
       image: ghcr.io/shoppingflux/php:7.4-fpm
       env:
         COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
-      credentials:
-        username: ${{ secrets.CR_USER }}
-        password: ${{ secrets.CR_PAT }}
 
     steps:
       - uses: actions/checkout@v2

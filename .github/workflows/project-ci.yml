@@ -16,9 +16,7 @@ jobs:
       image: php:${{ matrix.phpv }}-fpm
       env:
         COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
-      credentials:
-        username: ${{ secrets.CR_USER }}
-        password: ${{ secrets.CR_PAT }}
+
     steps:
       - uses: actions/checkout@v2
 
