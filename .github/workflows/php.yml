@@ -10,11 +10,6 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        phpv: [5.6]
-    container:
-      image: php:${{ matrix.phpv }}-fpm
 
     steps:
     - uses: actions/checkout@v2
