@@ -10,6 +10,9 @@ jobs:
   build:
 
     runs-on: ubuntu-16.04
+    strategy:
+      matrix:
+        phpv: [ 5.6, 7.1 ]
 
     steps:
     - uses: actions/checkout@v2
@@ -17,7 +20,7 @@ jobs:
     - name: Setup PHP with PECL extension
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '5.6'
+        php-version: ${{ matrix.phpv }}
 
     - name: Validate composer.json and composer.lock
       run: composer validate
