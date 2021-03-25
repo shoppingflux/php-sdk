@@ -5,13 +5,21 @@ use ShoppingFeed\Sdk;
 
 class StoreResourceTest extends Sdk\Test\Api\AbstractResourceTest
 {
+    /**
+     * @var string $deletedAt
+     */
+    private $deletedAt;
+
     public function setUp()
     {
+        $this->deletedAt = '2021-03-05';
+
         $this->props = [
-            'id'      => 10,
-            'name'    => 'abc123',
-            'country' => 'FR',
-            'status'  => 'active',
+            'id'        => 10,
+            'name'      => 'abc123',
+            'country'   => 'FR',
+            'status'    => 'active',
+            'deletedAt' => $this->deletedAt,
         ];
     }
 
@@ -26,6 +34,27 @@ class StoreResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $this->assertSame($this->props['country'], $instance->getCountryCode());
         $this->assertSame('active', $instance->getStatus());
         $this->assertTrue($instance->isActive());
+        $this->assertSame(
+            (new \DateTimeImmutable($this->deletedAt))->getTimestamp(),
+            $instance->getDeletedAt()->getTimestamp()
+        );
+    }
+
+    public function testPropertyDeletedAtIsNull()
+    {
+        $props = [
+            'id'        => 10,
+            'name'      => 'abc123',
+            'country'   => 'FR',
+            'status'    => 'active',
+            'deletedAt' => null,
+        ];
+
+        $this->initHalResourceProperties($props);
+
+        $instance = new Sdk\Api\Store\StoreResource($this->halResource);
+
+        $this->assertNull($instance->getDeletedAt());
     }
 
     public function testGetInventoryApi()
