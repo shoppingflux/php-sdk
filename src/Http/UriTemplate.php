@@ -88,6 +88,7 @@ class UriTemplate
                 $varspec['value']    = (string) $value;
                 $varspec['modifier'] = '';
             }
+
             $result['values'][] = $varspec;
         }
 
@@ -179,12 +180,14 @@ class UriTemplate
                             $v = $k . ',' . $v;
                         }
                     }
+
                     $expanded = implode(',', $kvp);
                 }
             } else {
                 if ($value['modifier'] === ':') {
                     $variable = substr($variable, 0, $value['position']);
                 }
+
                 $expanded = rawurlencode($variable);
                 if ($parsed['operator'] === '+' || $parsed['operator'] === '#') {
                     $expanded = $this->decodeReserved($expanded);
