@@ -19,6 +19,11 @@ class HalClient
     private $baseUri;
 
     /**
+     * @var null|int
+     */
+    private $transactionId = null;
+
+    /**
      * @param AdapterInterface $httpClient
      */
     public function __construct($baseUri, AdapterInterface $httpClient)
@@ -38,6 +43,19 @@ class HalClient
             $this->baseUri,
             $this->client->withToken($token)
         );
+    }
+
+    /**
+     * @param int $transactionId
+     *
+     * @return HalClient
+     */
+    public function withTransactionId($transactionId)
+    {
+        $instance                = clone $this;
+        $instance->transactionId = $transactionId;
+
+        return $instance;
     }
 
     /**
@@ -62,6 +80,13 @@ class HalClient
      */
     public function request($method, $uri, array $options = [])
     {
+        if (null !== $this->transactionId) {
+            if (! isset($options['query'])) {
+                $options['query'] = [];
+            }
+            $options['query']['tid'] = $this->transactionId;
+        }
+
         return $this->send(
             $this->client->createRequest($method, $uri),
             $options
@@ -76,6 +101,18 @@ class HalClient
      */
     public function batchSend($requests, array $config = [])
     {
+
+        if (null !== $this->transactionId) {
+            if (! isset($config['options'])) {
+                $config['options'] = [];
+            }
+            if (! isset($config['options']['query'])) {
+                $config['options']['query'] = [];
+            }
+
+            $config['options']['query']['tid'] = $this->transactionId;
+        }
+
         $this->client->batchSend($requests, $config);
     }
 
@@ -87,6 +124,13 @@ class HalClient
      */
     public function send(RequestInterface $request, array $options = [])
     {
+        if (null !== $this->transactionId) {
+            if (! isset($options['query'])) {
+                $options['query'] = [];
+            }
+            $options['query']['tid'] = $this->transactionId;
+        }
+
         $response = $this->client->send($request, $options);
         if ($response instanceof ResponseInterface) {
             return $this->createResource($response);

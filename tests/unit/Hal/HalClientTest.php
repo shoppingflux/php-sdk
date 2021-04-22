@@ -4,7 +4,6 @@ namespace ShoppingFeed\Sdk\Test\Hal;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message;
 use ShoppingFeed\Sdk\Hal;
-use ShoppingFeed\Sdk\Hal\HalResource;
 use ShoppingFeed\Sdk\Http;
 
 class HalClientTest extends TestCase
@@ -195,5 +194,169 @@ class HalClientTest extends TestCase
         $instance   = new Hal\HalClient('http://fake.uri', $httpClient);
 
         $this->assertSame($httpClient, $instance->getAdapter());
+    }
+
+    public function testSendWitTransactionId()
+    {
+        $response = $this->createMock(Message\ResponseInterface::class);
+        $request  = $this->createMock(Message\RequestInterface::class);
+
+        $client = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $client
+            ->expects($this->once())
+            ->method('send')
+            ->with(
+                $request,
+                [
+                    'query' => [
+                        'tid' => 'abc123',
+                    ],
+                ]
+            )
+            ->willReturn($response);
+
+        $instance = new Hal\HalClient('http://fake.uri', $client);
+        $instance = $instance->withTransactionId('abc123');
+
+        $instance->send($request);
+    }
+
+    public function testSendWitTransactionIdCantBeOverride()
+    {
+        $response = $this->createMock(Message\ResponseInterface::class);
+        $request  = $this->createMock(Message\RequestInterface::class);
+
+        $client = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $client
+            ->expects($this->once())
+            ->method('send')
+            ->with(
+                $request,
+                [
+                    'query' => [
+                        'tid' => 'abc123',
+                    ],
+                ]
+            )
+            ->willReturn($response);
+
+        $instance = new Hal\HalClient('http://fake.uri', $client);
+        $instance = $instance->withTransactionId('abc123');
+
+        $instance->send($request, ['query' => ['tid' => 'def456']]);
+    }
+
+    public function testBatchSendWitTransactionId()
+    {
+        $response = $this->createMock(Message\ResponseInterface::class);
+
+        $client = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $client
+            ->expects($this->once())
+            ->method('batchSend')
+            ->with(
+                [],
+                [
+                    'options' => [
+                        'query' => [
+                            'tid' => 'abc123',
+                        ],
+                    ],
+                ]
+            )
+            ->willReturn($response);
+
+        $instance = new Hal\HalClient('http://fake.uri', $client);
+        $instance = $instance->withTransactionId('abc123');
+
+        $instance->batchSend([]);
+    }
+
+    public function testRequestWitTransactionId()
+    {
+        $response = $this->createMock(Message\ResponseInterface::class);
+
+        $client = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $client
+            ->expects($this->once())
+            ->method('createRequest')
+            ->with('GET', '/')
+            ->willReturn($this->createMock(Message\RequestInterface::class));
+        $client
+            ->expects($this->once())
+            ->method('send')
+            ->with(
+                $this->isInstanceOf(Message\RequestInterface::class),
+                [
+                    'query' => [
+                        'tid' => 'abc123',
+                    ],
+                ]
+            )
+            ->willReturn($response);
+
+        $instance = new Hal\HalClient('http://fake.uri', $client);
+        $instance = $instance->withTransactionId('abc123');
+
+        $instance->request('GET', '/');
+    }
+
+    public function testWitTransactionIdInjected()
+    {
+        $response = $this->createMock(Message\ResponseInterface::class);
+
+        $client = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $client
+            ->expects($this->once())
+            ->method('createRequest')
+            ->with('GET', '/')
+            ->willReturn($this->createMock(Message\RequestInterface::class));
+        $client
+            ->expects($this->once())
+            ->method('send')
+            ->with(
+                $this->isInstanceOf(Message\RequestInterface::class),
+                [
+                    'prop1' => 'val1',
+                    'query' => [
+                        'tid' => 'abc123',
+                    ],
+                ]
+            )
+            ->willReturn($response);
+
+        $instance = new Hal\HalClient('http://fake.uri', $client);
+        $instance = $instance->withTransactionId('abc123');
+
+        $instance->request('GET', '/', ['prop1' => 'val1']);
+    }
+
+    public function testWitTransactionIdCantBeOverride()
+    {
+        $response = $this->createMock(Message\ResponseInterface::class);
+
+        $client = $this->createMock(Http\Adapter\AdapterInterface::class);
+        $client
+            ->expects($this->once())
+            ->method('createRequest')
+            ->with('GET', '/')
+            ->willReturn($this->createMock(Message\RequestInterface::class));
+        $client
+            ->expects($this->once())
+            ->method('send')
+            ->with(
+                $this->isInstanceOf(Message\RequestInterface::class),
+                [
+                    'query' => [
+                        'tid' => 'abc123',
+                    ],
+                ]
+            )
+            ->willReturn($response);
+
+        $instance = new Hal\HalClient('http://fake.uri', $client);
+        $instance = $instance->withTransactionId('abc123');
+
+        $instance->request('GET', '/', ['query' => ['tid' => 'def456']]);
     }
 }
