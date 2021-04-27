@@ -84,6 +84,7 @@ class HalClient
             if (! isset($options['query'])) {
                 $options['query'] = [];
             }
+
             $options['query']['tid'] = $this->transactionId;
         }
 
@@ -101,11 +102,11 @@ class HalClient
      */
     public function batchSend($requests, array $config = [])
     {
-
         if (null !== $this->transactionId) {
             if (! isset($config['options'])) {
                 $config['options'] = [];
             }
+
             if (! isset($config['options']['query'])) {
                 $config['options']['query'] = [];
             }
@@ -128,6 +129,7 @@ class HalClient
             if (! isset($options['query'])) {
                 $options['query'] = [];
             }
+
             $options['query']['tid'] = $this->transactionId;
         }
 
