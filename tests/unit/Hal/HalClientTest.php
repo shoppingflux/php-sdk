@@ -196,7 +196,7 @@ class HalClientTest extends TestCase
         $this->assertSame($httpClient, $instance->getAdapter());
     }
 
-    public function testSendWitTransactionId()
+    public function testSendWithTransactionId()
     {
         $response = $this->createMock(Message\ResponseInterface::class);
         $request  = $this->createMock(Message\RequestInterface::class);
@@ -221,7 +221,7 @@ class HalClientTest extends TestCase
         $instance->send($request);
     }
 
-    public function testSendWitTransactionIdCantBeOverride()
+    public function testSendWithTransactionIdCantBeOverride()
     {
         $response = $this->createMock(Message\ResponseInterface::class);
         $request  = $this->createMock(Message\RequestInterface::class);
@@ -246,7 +246,7 @@ class HalClientTest extends TestCase
         $instance->send($request, ['query' => ['tid' => 'def456']]);
     }
 
-    public function testBatchSendWitTransactionId()
+    public function testBatchSendWithTransactionId()
     {
         $response = $this->createMock(Message\ResponseInterface::class);
 
@@ -272,7 +272,7 @@ class HalClientTest extends TestCase
         $instance->batchSend([]);
     }
 
-    public function testRequestWitTransactionId()
+    public function testRequestWithTransactionId()
     {
         $response = $this->createMock(Message\ResponseInterface::class);
 
@@ -301,7 +301,7 @@ class HalClientTest extends TestCase
         $instance->request('GET', '/');
     }
 
-    public function testWitTransactionIdInjected()
+    public function testWithTransactionIdIsInjected()
     {
         $response = $this->createMock(Message\ResponseInterface::class);
 
@@ -331,7 +331,7 @@ class HalClientTest extends TestCase
         $instance->request('GET', '/', ['prop1' => 'val1']);
     }
 
-    public function testWitTransactionIdCantBeOverride()
+    public function testWithTransactionIdCantBeOverride()
     {
         $response = $this->createMock(Message\ResponseInterface::class);
 
