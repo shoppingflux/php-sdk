@@ -152,6 +152,8 @@ class HalClient
 
     /**
      * Inject transaction ID in query param of the request is one is available
+     *
+     * @param array &$options Request options to inject tid query param into
      */
     private function injectTransactionId(&$options)
     {
