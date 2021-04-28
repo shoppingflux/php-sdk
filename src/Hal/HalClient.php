@@ -80,13 +80,7 @@ class HalClient
      */
     public function request($method, $uri, array $options = [])
     {
-        if (null !== $this->transactionId) {
-            if (! isset($options['query'])) {
-                $options['query'] = [];
-            }
-
-            $options['query']['tid'] = $this->transactionId;
-        }
+        $this->injectTransactionId($options);
 
         return $this->send(
             $this->client->createRequest($method, $uri),
@@ -102,17 +96,11 @@ class HalClient
      */
     public function batchSend($requests, array $config = [])
     {
-        if (null !== $this->transactionId) {
-            if (! isset($config['options'])) {
-                $config['options'] = [];
-            }
-
-            if (! isset($config['options']['query'])) {
-                $config['options']['query'] = [];
-            }
-
-            $config['options']['query']['tid'] = $this->transactionId;
+        if (! isset($config['options'])) {
+            $config['options'] = [];
         }
+
+        $this->injectTransactionId($config['options']);
 
         $this->client->batchSend($requests, $config);
     }
@@ -125,13 +113,7 @@ class HalClient
      */
     public function send(RequestInterface $request, array $options = [])
     {
-        if (null !== $this->transactionId) {
-            if (! isset($options['query'])) {
-                $options['query'] = [];
-            }
-
-            $options['query']['tid'] = $this->transactionId;
-        }
+        $this->injectTransactionId($options);
 
         $response = $this->client->send($request, $options);
         if ($response instanceof ResponseInterface) {
@@ -166,5 +148,16 @@ class HalClient
     public function getAdapter()
     {
         return $this->client;
+    }
+
+    private function injectTransactionId(&$options): void
+    {
+        if (null !== $this->transactionId) {
+            if (! isset($options['query'])) {
+                $options['query'] = [];
+            }
+
+            $options['query']['tid'] = $this->transactionId;
+        }
     }
 }
