@@ -150,7 +150,10 @@ class HalClient
         return $this->client;
     }
 
-    private function injectTransactionId(&$options): void
+    /**
+     * Inject transaction ID in query param of the request is one is available
+     */
+    private function injectTransactionId(&$options)
     {
         if (null !== $this->transactionId) {
             if (! isset($options['query'])) {
