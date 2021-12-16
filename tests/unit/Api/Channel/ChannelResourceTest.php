@@ -11,7 +11,8 @@ class ChannelResourceTest extends AbstractResourceTest
         //Set up regular properties
         $this->initHalResourceProperties([
             'id'   => 1,
-            'name' => 'toto'
+            'name' => 'toto',
+            'mode' => 'replace',
         ]);
 
         // Setup image link
@@ -31,6 +32,7 @@ class ChannelResourceTest extends AbstractResourceTest
         $this->assertSame(1, $instance->getId());
         $this->assertSame('toto', $instance->getName());
         $this->assertSame('http://toto.jpg', $instance->getLogoUrl());
+        $this->assertSame('replace', $instance->getMode());
     }
 
     public function testOtherAccessors()
