@@ -56,4 +56,12 @@ class ChannelResource extends AbstractResource
     {
         return (array) $this->getProperty('countries', true);
     }
+
+    /**
+     * @return string The channel mode
+     */
+    public function getMode()
+    {
+        return (string) $this->getProperty('mode');
+    }
 }
