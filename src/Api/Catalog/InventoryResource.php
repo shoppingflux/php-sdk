@@ -22,6 +22,14 @@ class InventoryResource extends AbstractResource
     }
 
     /**
+     * @return string
+     */
+    public function getCatalogId()
+    {
+        return $this->getProperty('catalogId');
+    }
+
+    /**
      * @return int
      */
     public function getQuantity()
