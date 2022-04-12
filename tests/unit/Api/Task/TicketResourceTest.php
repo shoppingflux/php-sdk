@@ -9,7 +9,7 @@ use ShoppingFeed\Sdk\Test\Api\AbstractResourceTest;
 
 class TicketResourceTest extends AbstractResourceTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->props = [
             'id'          => '123abc',

@@ -35,7 +35,7 @@ class Client
         }
 
         if (null === $options->getHttpAdapter()) {
-            $options->setHttpAdapter(new Http\Adapter\Guzzle6Adapter($options));
+            $options->setHttpAdapter(new Http\Adapter\GuzzleHTTPAdapter($options));
         }
 
         $this->client = new Hal\HalClient(

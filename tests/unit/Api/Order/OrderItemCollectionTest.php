@@ -2,7 +2,9 @@
 
 namespace ShoppingFeed\Sdk\Api\Order;
 
-class OrderItemCollectionTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class OrderItemCollectionTest extends TestCase
 {
     private $items = [
         [

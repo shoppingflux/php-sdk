@@ -107,7 +107,7 @@ class PricingUpdateTest extends TestCase
 
         $callable = $reflexionMethod->invokeArgs($instance, [$link, &$requests]);
 
-        $this->assertInternalType(\PHPUnit_Framework_Constraint_IsType::TYPE_CALLABLE, $callable);
+        $this->assertIsCallable($callable);
 
         $callable(['data']);
 
@@ -135,7 +135,7 @@ class PricingUpdateTest extends TestCase
 
         $callable = $reflexionMethod->invokeArgs($instance, [&$resources]);
 
-        $this->assertInternalType(\PHPUnit_Framework_Constraint_IsType::TYPE_CALLABLE, $callable);
+        $this->assertIsCallable($callable);
 
         $callable($resource);
 
@@ -160,11 +160,11 @@ class PricingUpdateTest extends TestCase
 
         $callable = $reflexionMethod->invokeArgs($instance, [&$resources]);
 
-        $this->assertInternalType(\PHPUnit_Framework_Constraint_IsType::TYPE_CALLABLE, $callable);
+        $this->assertIsCallable($callable);
 
         $callable($resource);
 
-        $this->assertInternalType('array', $resources);
+        $this->assertIsArray($resources);
         $this->assertEmpty($resources);
     }
 }

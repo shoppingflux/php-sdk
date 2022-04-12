@@ -2,11 +2,12 @@
 
 namespace ShoppingFeed\Sdk\Api\Order;
 
+use PHPUnit\Framework\TestCase;
 use ShoppingFeed\Sdk\Api\Task\TicketResource;
 use ShoppingFeed\Sdk\Hal\HalLink;
 use ShoppingFeed\Sdk\Hal\HalResource;
 
-class OrderOperationResultTest extends \PHPUnit_Framework_TestCase
+class OrderOperationResultTest extends TestCase
 {
     /**
      * @var HalResource[]
@@ -20,7 +21,7 @@ class OrderOperationResultTest extends \PHPUnit_Framework_TestCase
 
     private $link;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->link = $this->createMock(HalLink::class);
 

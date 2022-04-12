@@ -17,7 +17,7 @@ class AbstractCollectionTest extends TestCase
      */
     private $collection;
 
-    public function setUp()
+    public function setUp(): void
     {
         for ($i = 0; $i < 10; $i++) {
             $this->data[] = $this->createMock(Hal\HalResource::class);

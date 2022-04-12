@@ -18,7 +18,7 @@ class AbstractResourceTest extends TestCase
      */
     private $data;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->halResource = $this->createMock(HalResource::class);
         $this->data        = [

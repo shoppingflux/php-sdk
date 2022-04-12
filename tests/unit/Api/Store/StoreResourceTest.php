@@ -10,7 +10,7 @@ class StoreResourceTest extends Sdk\Test\Api\AbstractResourceTest
      */
     private $deletedAt;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->deletedAt = '2021-03-05';
 
