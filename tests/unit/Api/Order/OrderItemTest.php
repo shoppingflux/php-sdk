@@ -2,14 +2,16 @@
 
 namespace ShoppingFeed\Sdk\Api\Order;
 
-class OrderItemTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class OrderItemTest extends TestCase
 {
     /**
      * @var OrderItem
      */
     private $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->instance = new OrderItem('a', 2, 9.99, 7.99);
     }

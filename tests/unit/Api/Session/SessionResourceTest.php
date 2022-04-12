@@ -10,7 +10,7 @@ class SessionResourceTest extends Sdk\Test\Api\AbstractResourceTest
      */
     private $resources = [];
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->props = [
             'login'    => 'username',

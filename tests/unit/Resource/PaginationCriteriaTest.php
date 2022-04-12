@@ -16,7 +16,7 @@ class PaginationCriteriaTest extends TestCase
         ],
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->data['filters']['field4'] = new \DateTime('2018-09-21');
     }

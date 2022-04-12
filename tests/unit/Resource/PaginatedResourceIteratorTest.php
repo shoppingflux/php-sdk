@@ -2,7 +2,9 @@
 
 namespace ShoppingFeed\Sdk\Resource;
 
-class PaginatedResourceIteratorTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class PaginatedResourceIteratorTest extends TestCase
 {
     /**
      * @var PaginatedResourceIterator
@@ -10,11 +12,11 @@ class PaginatedResourceIteratorTest extends \PHPUnit_Framework_TestCase
     private $instance;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|PaginatedResourceCollection
+     * @var PaginatedResourceCollection
      */
     private $collection;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->collection = $this->createMock(PaginatedResourceCollection::class);
         $this->instance   = new PaginatedResourceIterator($this->collection);

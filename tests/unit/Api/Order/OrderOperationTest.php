@@ -192,8 +192,8 @@ class OrderOperationTest extends TestCase
                 'ref1',
                 'amazon',
                 Sdk\Api\Order\OrderOperation::TYPE_ACKNOWLEDGE,
-                new \PHPUnit_Framework_Constraint_Callback(
-                    function ($param) use ($data) {
+                $this->callback(
+                    function ($param) {
                         return $param['status'] === 'success'
                                && $param['storeReference'] === '123654abc'
                                && $param['message'] === 'Acknowledged'

@@ -4,7 +4,7 @@
   "minimum-stability": "stable",
   "description": "Shopping Feed SDK to ease integration of our API",
   "require": {
-    "php": ">= 5.6",
+    "php": ">=7.1",
     "ext-json": "*"
   },
   "autoload": {
@@ -20,8 +20,8 @@
   },
   "require-dev": {
     "monolog/monolog": "^1.23",
-    "guzzlehttp/guzzle": "^6.0",
-    "phpunit/phpunit": "^5.0",
+    "guzzlehttp/guzzle": "^6.0 | ^7.0",
+    "phpunit/phpunit": "^5.0 | ^9.0",
     "shoppingfeed/coding-style-php": "~2.1.0",
     "overtrue/phplint": "^1.1"
   },

@@ -11,7 +11,7 @@ use ShoppingFeed\Sdk\Http;
 /**
  * Http Client Adapter for GuzzleHttp v6
  */
-class Guzzle6Adapter implements Http\Adapter\AdapterInterface
+class GuzzleHTTPAdapter implements Http\Adapter\AdapterInterface
 {
     /**
      * @var GuzzleHttp\HandlerStack
@@ -135,8 +135,8 @@ class Guzzle6Adapter implements Http\Adapter\AdapterInterface
     private function checkDependency()
     {
         if (! interface_exists(GuzzleHttp\ClientInterface::class)
-            || version_compare(GuzzleHttp\ClientInterface::VERSION, '6', '<')
-            || version_compare(GuzzleHttp\ClientInterface::VERSION, '7', '>=')
+            || (defined('\GuzzleHttp\ClientInterface::VERSION')
+            && version_compare(GuzzleHttp\ClientInterface::VERSION, '7', '>='))
         ) {
             throw new Http\Exception\MissingDependencyException(
                 'No GuzzleHttp client v6 found, please install the dependency or add your own http adapter'

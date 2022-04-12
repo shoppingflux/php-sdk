@@ -2,13 +2,14 @@
 
 namespace ShoppingFeed\Sdk\Api\Task;
 
+use PHPUnit\Framework\TestCase;
 use ShoppingFeed\Sdk\Exception\RuntimeException;
 use ShoppingFeed\Sdk\Resource\PaginatedResourceCollection;
 
-class TicketIteratorTest extends \PHPUnit_Framework_TestCase
+class TicketIteratorTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|PaginatedResourceCollection
+     * @var PaginatedResourceCollection
      */
     private $paginator;
 
@@ -17,7 +18,7 @@ class TicketIteratorTest extends \PHPUnit_Framework_TestCase
      */
     private $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->paginator = $this->createMock(PaginatedResourceCollection::class);
         $this->instance = new TicketIterator($this->paginator);

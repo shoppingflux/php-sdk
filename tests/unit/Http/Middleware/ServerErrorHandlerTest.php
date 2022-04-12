@@ -28,7 +28,7 @@ class ServerErrorHandlerTest extends TestCase
      */
     private $instance;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request  = $this->createMock(Message\RequestInterface::class);
         $this->instance = new ServerErrorHandler($this->limit);

@@ -28,7 +28,7 @@ class RateLimitHandlerTest extends TestCase
      */
     private $limit = 10;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->logger   = $this->createMock(LoggerInterface::class);
         $this->request  = $this->createMock(Message\RequestInterface::class);

@@ -5,7 +5,7 @@ use ShoppingFeed\Sdk;
 
 class InventoryResourceTest extends Sdk\Test\Api\AbstractResourceTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->props = [
             'id'        => 10,

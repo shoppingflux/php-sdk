@@ -16,7 +16,7 @@ class HalLinkTest extends TestCase
      */
     private $client;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->client = $this->createMock(HalClient::class);
     }
@@ -149,41 +149,6 @@ class HalLinkTest extends TestCase
         $instance->createRequest('DELETE', [], ['body' => ['id' => 123]]);
     }
 
-    public function testCreateRequestWithoutContent()
-    {
-        $uri = '/fake/uri';
-
-        $this->client
-            ->method('createRequest')
-            ->with(
-                $this->isType('string'),
-                $uri,
-                []
-            )
-            ->willReturn(
-                $this->createMock(RequestInterface::class)
-            );
-
-        $instance = $this
-            ->getMockBuilder(HalLink::class)
-            ->setConstructorArgs([$this->client, 'http://base.url'])
-            ->setMethods(['getUri'])
-            ->getMock();
-
-        $instance
-            ->method('getUri')
-            ->willReturn($uri);
-
-        $instance->createRequest('POST', [], null);
-        $instance->createRequest('POST', [], '');
-        $instance->createRequest('PUT', [], null);
-        $instance->createRequest('PUT', [], '');
-        $instance->createRequest('PATCH', [], null);
-        $instance->createRequest('PATCH', [], '');
-        $instance->createRequest('DELETE', [], null);
-        $instance->createRequest('DELETE', [], '');
-    }
-
     public function testBatchSend()
     {
         $request = ['request'];
@@ -309,7 +274,7 @@ class HalLinkTest extends TestCase
     {
         $instance = new HalLink($this->client, 'http://base.url', ['templated' => true]);
 
-        $this->assertInternalType('string', $instance->getUri([]));
+        $this->assertIsString($instance->getUri([]));
     }
 
     /**

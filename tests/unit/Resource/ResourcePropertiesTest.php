@@ -2,9 +2,10 @@
 
 namespace ShoppingFeed\Sdk\Resource;
 
+use PHPUnit\Framework\TestCase;
 use ShoppingFeed\Sdk\Exception\RuntimeException;
 
-class ResourcePropertiesTest extends \PHPUnit_Framework_TestCase
+class ResourcePropertiesTest extends TestCase
 {
     public function testAccessProperty()
     {
