@@ -19,6 +19,7 @@ class PaginatedResourceIterator implements \IteratorAggregate, \Countable
         $this->paginator = $resource;
     }
 
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         $resource = $this->paginator;
@@ -31,6 +32,7 @@ class PaginatedResourceIterator implements \IteratorAggregate, \Countable
         }
     }
 
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return $this->paginator->getTotalCount();
