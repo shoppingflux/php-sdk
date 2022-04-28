@@ -15,11 +15,13 @@ class ResourceProperties implements \ArrayAccess
         $this->data = $data;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->data[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if ($this->offsetExists($offset)) {
@@ -29,11 +31,13 @@ class ResourceProperties implements \ArrayAccess
         return null;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         throw new Exception\RuntimeException('Resource properties cannot be modified');
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         throw new Exception\RuntimeException('Resource properties cannot be modified');

@@ -25,6 +25,7 @@ class OrderItemCollection implements \Countable, \IteratorAggregate
         return $instance;
     }
 
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return count($this->items);
@@ -33,6 +34,7 @@ class OrderItemCollection implements \Countable, \IteratorAggregate
     /**
      * @return \ArrayIterator|OrderItem[]
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new \ArrayIterator($this->items);

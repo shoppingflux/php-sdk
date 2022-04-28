@@ -93,6 +93,7 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
     /**
      * @inheritdoc
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         $data = current($this->resource->getAllResources()) ?: [];
@@ -104,6 +105,7 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
     /**
      * @inheritdoc
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return $this->getCurrentCount();

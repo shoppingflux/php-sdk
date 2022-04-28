@@ -39,6 +39,7 @@ abstract class AbstractCollection extends AbstractResource implements \Countable
     /**
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return count($this->resources);
@@ -65,6 +66,7 @@ abstract class AbstractCollection extends AbstractResource implements \Countable
     /**
      * @return \Traversable
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new \ArrayIterator($this->resources);
