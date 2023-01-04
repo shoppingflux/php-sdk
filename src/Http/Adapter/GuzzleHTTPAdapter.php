@@ -117,12 +117,12 @@ class GuzzleHTTPAdapter implements Http\Adapter\AdapterInterface
      */
     private function createExceptionCallback(callable $callback = null)
     {
-        return function (GuzzleHttp\Exception\RequestException $exception) use ($callback) {
-            if ($exception->hasResponse() && $callback) {
+        return function (GuzzleHttp\Exception\TransferException $exception) use ($callback) {
+            if ($callback && $exception instanceof GuzzleHttp\Exception\RequestException && $exception->hasResponse()) {
                 $halClient = new HalClient($this->options->getBaseUri(), $this);
                 $resource  = $halClient->createResource($exception->getResponse());
 
-                call_user_func($callback, $resource);
+                $callback($resource);
             }
         };
     }
