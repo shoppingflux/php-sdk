@@ -16,7 +16,7 @@ class ServerErrorHandlerTest extends TestCase
     /**
      * @var array
      */
-    private $validCodes = [500, 502, 503, 504];
+    private $validCodes = [499, 500, 502, 503, 504];
 
     /**
      * @var Message\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
