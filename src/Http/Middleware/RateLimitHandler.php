@@ -57,7 +57,9 @@ class RateLimitHandler
      */
     public function delay($count, ResponseInterface $response)
     {
-        $waitMS = (int) ceil($response->getHeaderLine('X-RateLimit-Wait') * 1000);
+        $waitS  = (float) $response->getHeaderLine('X-RateLimit-Wait');
+        $waitMS = (int) ceil($waitS * 1000);
+
         if (null !== $this->logger) {
             $this->logger->notice(sprintf('Request throttled for %d ms', $waitMS));
         }

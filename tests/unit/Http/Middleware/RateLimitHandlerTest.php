@@ -72,10 +72,9 @@ class RateLimitHandlerTest extends TestCase
 
     public function testDelay()
     {
-        $limitWait = 440;
+        $limitWait = '440';
         $response  = $this->createMock(Message\ResponseInterface::class);
         $response
-            ->expects($this->once())
             ->method('getHeaderLine')
             ->with('X-RateLimit-Wait')
             ->willReturn($limitWait);
@@ -84,6 +83,21 @@ class RateLimitHandlerTest extends TestCase
             ->expects($this->once())
             ->method('notice');
 
-        $this->assertEquals($limitWait * 1000, $this->instance->delay(null, $response));
+        $this->assertSame($limitWait * 1000, $this->instance->delay(null, $response));
+    }
+
+    public function testDelayWhenHeaderIsNotProvided()
+    {
+        $response  = $this->createMock(Message\ResponseInterface::class);
+        $response
+            ->method('getHeaderLine')
+            ->with('X-RateLimit-Wait')
+            ->willReturn('');
+
+        $this->logger
+            ->expects($this->once())
+            ->method('notice');
+
+        $this->assertSame(0, $this->instance->delay(0, $response));
     }
 }
