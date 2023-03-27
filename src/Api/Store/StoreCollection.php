@@ -43,13 +43,13 @@ class StoreCollection extends AbstractCollection
     }
 
     /**
-     * @param $idOrName
+     * @param int|string $idOrName
      *
      * @return null|StoreResource
      */
     public function select($idOrName)
     {
-        if (is_int($idOrName) | ctype_digit($idOrName)) {
+        if (is_int($idOrName) || ctype_digit($idOrName)) {
             return $this->getById($idOrName);
         }
 
