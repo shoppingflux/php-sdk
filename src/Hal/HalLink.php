@@ -311,9 +311,4 @@ class HalLink
             call_user_func($callback, $exception);
         };
     }
-
-    public function getHalClient()
-    {
-        return $this->client;
-    }
 }
