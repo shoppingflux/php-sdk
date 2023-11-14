@@ -259,3 +259,23 @@ $operation
 
 $orderApi->execute($operation);
 ```
+
+### Upload documents
+
+To upload order documents, you need the following parameters :
+1. [mandatory] `$reference` : Order reference (eg: 'reference1')
+2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon')
+3. [mandatory] `$documents` : One or more documents to upload
+
+Example :
+
+```php
+namespace ShoppingFeed\Sdk\Api\Order; 
+
+$operation = new OrderOperation();
+$operation
+    ->uploadDocument('ref1', 'amazon', new Document\Invoice('/tmp/amazon_ref1_invoice.pdf'))
+    ->uploadDocument('ref2', 'amazon', new Document\Invoice('/tmp/amazon_ref2_invoice.pdf'));
+
+$orderApi->execute($operation);
+```

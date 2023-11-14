@@ -262,15 +262,24 @@ class HalLink
      *
      * @return \Psr\Http\Message\RequestInterface
      */
-    public function createRequest($method, array $variables = [], $body = null)
+    public function createRequest($method, array $variables = [], $body = null, $headers = [])
     {
         $uri     = $this->getUri($variables);
         $method  = strtoupper($method);
-        $headers = [];
 
         if ((null !== $body && '' !== $body) && in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
-            $headers['Content-Type'] = 'application/json';
-            $body                    = Json::encode($body);
+            if (! isset($headers['Content-Type'])) {
+                $headers['Content-Type'] = 'application/json';
+            }
+
+            switch ($headers['Content-Type']) {
+                case 'application/json':
+                    $body = Json::encode($body);
+                    break;
+                case 'multipart/form-data':
+                    $body = ['multipart' => $body];
+                    break;
+            }
         }
 
         return $this->client->createRequest($method, $uri, $headers, $body);

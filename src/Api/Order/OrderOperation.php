@@ -1,10 +1,12 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Order;
 
+use GuzzleHttp\Psr7;
 use ShoppingFeed\Sdk\Api;
+use ShoppingFeed\Sdk\Api\Order\Document\AbstractDocument;
+use ShoppingFeed\Sdk\Exception;
 use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Operation;
-use ShoppingFeed\Sdk\Exception;
 
 class OrderOperation extends Operation\AbstractBulkOperation
 {
@@ -181,17 +183,22 @@ class OrderOperation extends Operation\AbstractBulkOperation
         return $this;
     }
 
-    public function uploadDocuments(
-        $reference,
-        $channelName,
-        UploadOrderDocumentCollection $collection
-    ): self
+    /**
+     * @param string                    $reference The channel's order reference
+     * @param string                    $channelName The channel's name
+     * @param Document\AbstractDocument $document
+     *
+     * @return OrderOperation
+     *
+     * @throws Exception\InvalidArgumentException
+     */
+    public function uploadDocument($reference, $channelName, Document\AbstractDocument $document): self
     {
         $this->addOperation(
             $reference,
             $channelName,
             self::TYPE_UPLOAD_DOCUMENTS,
-            ['documents' => $collection->getDocuments()]
+            ['document' => $document]
         );
 
         return $this;
@@ -210,10 +217,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $resources = new \ArrayObject();
 
         foreach ($this->allowedOperationTypes as $type) {
-            $this->eachBatch(
-                $this->createRequestGenerator($type, $link, $requests),
-                $type
-            );
+            $this->populateRequests($type, $link, $requests);
         }
 
         $link->batchSend(
@@ -231,85 +235,78 @@ class OrderOperation extends Operation\AbstractBulkOperation
         );
     }
 
-    /**
-     * Create request generation callback
-     *
-     * @param string      $type
-     * @param Hal\HalLink $link
-     * @param array       $requests
-     *
-     * @return \Closure
-     */
-    private function createRequestGenerator($type, Hal\HalLink $link, \ArrayAccess $requests)
+    private function populateRequests($type, Hal\HalLink $link, \ArrayAccess $requests): void
     {
-        return function (array $chunk) use ($type, $link, &$requests) {
-            if ($type === self::TYPE_UPLOAD_DOCUMENTS) {
-                $requests[] = $this->createUploadDocumentRequest($link, $chunk);
-            } else {
+        // Upload documents require dedicated processing because of file upload specificities
+        if (self::TYPE_UPLOAD_DOCUMENTS === $type) {
+            $this->populateRequestsForUploadDocuments($link, $requests);
+            return;
+        }
+
+        $this->eachBatch(
+            function (array $chunk) use ($type, $link, &$requests) {
                 $requests[] = $link->createRequest(
                     'POST',
                     ['operation' => $type],
                     ['order' => $chunk]
                 );
-            }
-        };
+            },
+            $type
+        );
     }
 
     /**
-     * Create custom request generation callback for uploadDocument
+     * Create requests for upload documents operation. We batch request by 20
+     * to not send too many files at once.
      *
      * @param Hal\HalLink $link
      * @param array       $requests
      *
      * @return \Psr\Http\Message\RequestInterface
      */
-    private function createUploadDocumentRequest(Hal\HalLink $link, array $chunk)
+    private function populateRequestsForUploadDocuments(Hal\HalLink $link, \ArrayAccess $requests)
     {
-        $client = $link->getHalClient();
+        $type = self::TYPE_UPLOAD_DOCUMENTS;
 
-        $files   = [];
-        $payload = [
-            'order' => [],
-        ];
+        foreach (array_chunk($this->getOperations($type), 20) as $batch) {
+            $files   = [];
+            $payload = [];
 
-        foreach ($chunk as $operation) {
-            $reference   = $operation['reference'];
-            $channelName = $operation['channelName'];
+            foreach ($batch as $operation) {
+                /** @var AbstractDocument $document */
+                $document = $operation['document'];
 
-            $documents = [];
-
-            foreach ($operation['documents'] as $document) {
-                /** @var UploadOrderDocument $document */
-                $files[]     = [
+                $files[] = [
                     'name'     => 'files[]',
-                    'contents' => fopen($document->getPath(), 'rb'),
+                    'contents' => Psr7\Utils::tryFopen($document->getPath(), 'rb'),
                 ];
-                $documents[] = ['type' => $document->getPath()];
+
+                $payload[] = [
+                    'reference'   => $operation['reference'],
+                    'channelName' => $operation['channelName'],
+                    'documents'   => [
+                        ['type' => $document->getType()]
+                    ],
+                ];
             }
 
-            $payload['order'][] = [
-                'reference'   => $reference,
-                'channelName' => $channelName,
-                'documents'   => $documents,
-            ];
-        }
-
-        return $client->createRequest(
-            'POST',
-            $link->getUri(['operation' => self::TYPE_UPLOAD_DOCUMENTS]),
-            [
-                'Content-Type' => 'multipart/form-data',
-            ],
-            [
-                'multipart' => [
+            $requests[] = $link->createRequest(
+                'POST',
+                ['operation' => $type],
+                [
                     $files,
                     [
                         'name'     => 'body',
-                        'contents' => json_encode($payload),
+                        'contents' => json_encode([
+                            'order' => $payload,
+                        ]),
                     ],
                 ],
-            ]
-        );
+                [
+                    'Content-Type' => 'multipart/form-data',
+                ]
+            );
+        }
     }
 
     /**
