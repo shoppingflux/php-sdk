@@ -1,10 +1,10 @@
 <?php
 namespace ShoppingFeed\Sdk\Test\Hal;
 
+use GuzzleHttp\Psr7;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message;
 use ShoppingFeed\Sdk\Hal;
-use ShoppingFeed\Sdk\Hal\HalResource;
 use ShoppingFeed\Sdk\Http;
 
 class HalClientTest extends TestCase
@@ -61,7 +61,7 @@ class HalClientTest extends TestCase
         $response
             ->expects($this->once())
             ->method('getBody')
-            ->willReturn('{"foo":"bar", "foo2":"bar2"}');
+            ->willReturn($this->createStream('{"foo":"bar", "foo2":"bar2"}'));
 
         $instance = new Hal\HalClient('http://fake.uri', $httpClient);
         $resource = $instance->createResource($response);
@@ -155,7 +155,7 @@ class HalClientTest extends TestCase
 
         $response = $this->createMock(Message\ResponseInterface::class);
         $response->method('getStatusCode')->willReturn(200);
-        $response->method('getBody')->willReturn('');
+        $response->method('getBody')->willReturn($this->createStream(''));
 
         $client = $this->createMock(Http\Adapter\AdapterInterface::class);
         $client
@@ -175,7 +175,7 @@ class HalClientTest extends TestCase
 
         $response = $this->createMock(Message\ResponseInterface::class);
         $response->method('getStatusCode')->willReturn(200);
-        $response->method('getBody')->willReturn('{"status":"ok"}');
+        $response->method('getBody')->willReturn($this->createStream('{"status":"ok"}'));
 
         $client = $this->createMock(Http\Adapter\AdapterInterface::class);
         $client
@@ -195,5 +195,10 @@ class HalClientTest extends TestCase
         $instance   = new Hal\HalClient('http://fake.uri', $httpClient);
 
         $this->assertSame($httpClient, $instance->getAdapter());
+    }
+
+    private function createStream(string $contents): Message\StreamInterface
+    {
+        return Psr7\Utils::streamFor($contents);
     }
 }
