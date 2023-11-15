@@ -1,6 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Hal;
 
+use GuzzleHttp\Psr7\MultipartStream;
 use Psr\Http\Message\ResponseInterface;
 use ShoppingFeed\Sdk\Http\UriTemplate;
 use ShoppingFeed\Sdk\Resource\Json;
@@ -119,7 +120,7 @@ class HalLink
     {
         $instance       = clone $this;
         $instance->href = rtrim($instance->getUri($variables), '/') .
-                          '/' . ltrim($path, '/');
+            '/' . ltrim($path, '/');
 
         return $instance;
     }
@@ -267,7 +268,9 @@ class HalLink
         $uri    = $this->getUri($variables);
         $method = strtoupper($method);
 
-        if ((null !== $body && '' !== $body) && in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
+        $hasBody = null !== $body && '' !== $body && ! $body instanceof MultipartStream;
+
+        if ($hasBody && in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
             if (! isset($headers['Content-Type'])) {
                 $headers['Content-Type'] = 'application/json';
             }
@@ -275,9 +278,6 @@ class HalLink
             switch ($headers['Content-Type']) {
                 case 'application/json':
                     $body = Json::encode($body);
-                    break;
-                case 'multipart/form-data':
-                    $body = ['multipart' => $body];
                     break;
             }
         }

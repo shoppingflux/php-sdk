@@ -269,19 +269,19 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $type = self::TYPE_UPLOAD_DOCUMENTS;
 
         foreach (array_chunk($this->getOperations($type), 20) as $batch) {
-            $files   = [];
-            $payload = [];
+            $body   = [];
+            $orders = [];
 
             foreach ($batch as $operation) {
                 /** @var AbstractDocument $document */
                 $document = $operation['document'];
 
-                $files[] = [
+                $body[] = [
                     'name'     => 'files[]',
                     'contents' => Psr7\Utils::tryFopen($document->getPath(), 'rb'),
                 ];
 
-                $payload[] = [
+                $orders[] = [
                     'reference'   => $operation['reference'],
                     'channelName' => $operation['channelName'],
                     'documents'   => [
@@ -290,19 +290,15 @@ class OrderOperation extends Operation\AbstractBulkOperation
                 ];
             }
 
+            $body[] = [
+                'name'     => 'body',
+                'contents' => json_encode(['order' => $orders]),
+            ];
+
             $requests[] = $link->createRequest(
                 'POST',
                 ['operation' => $type],
-                [
-                    $files,
-                    [
-                        'name'     => 'body',
-                        'contents' => json_encode(['order' => $payload]),
-                    ],
-                ],
-                [
-                    'Content-Type' => 'multipart/form-data',
-                ]
+                Psr7\Utils::streamFor(new Psr7\MultipartStream($body))
             );
         }
     }
