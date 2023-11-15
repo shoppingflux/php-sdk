@@ -298,7 +298,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
             $requests[] = $link->createRequest(
                 'POST',
                 ['operation' => $type],
-                Psr7\Utils::streamFor(new Psr7\MultipartStream($body))
+                new Psr7\MultipartStream($body)
             );
         }
     }
