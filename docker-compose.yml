@@ -2,6 +2,7 @@ version: '3'
 
 services:
   sf-php-sdk-dev:
+    container_name: sfeed.php-sdk-dev
     image: php-sdk-dev
     build:
       context: .

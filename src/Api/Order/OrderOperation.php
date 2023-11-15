@@ -285,7 +285,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
                     'reference'   => $operation['reference'],
                     'channelName' => $operation['channelName'],
                     'documents'   => [
-                        ['type' => $document->getType()]
+                        ['type' => $document->getType()],
                     ],
                 ];
             }
@@ -297,9 +297,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
                     $files,
                     [
                         'name'     => 'body',
-                        'contents' => json_encode([
-                            'order' => $payload,
-                        ]),
+                        'contents' => json_encode(['order' => $payload]),
                     ],
                 ],
                 [

@@ -264,8 +264,8 @@ class HalLink
      */
     public function createRequest($method, array $variables = [], $body = null, $headers = [])
     {
-        $uri     = $this->getUri($variables);
-        $method  = strtoupper($method);
+        $uri    = $this->getUri($variables);
+        $method = strtoupper($method);
 
         if ((null !== $body && '' !== $body) && in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
             if (! isset($headers['Content-Type'])) {

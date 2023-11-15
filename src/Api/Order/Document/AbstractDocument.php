@@ -17,7 +17,8 @@ abstract class AbstractDocument
     public function __construct(
         string $path,
         string $type
-    ) {
+    )
+    {
         $this->path = $path;
         $this->type = $type;
     }

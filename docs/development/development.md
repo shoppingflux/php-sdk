@@ -23,6 +23,11 @@ docker-compose build
 docker-compose run sf-php-sdk-dev composer install --dev
 ```
 
+3. Connect to container
+```bash
+docker-compose run sf-php-sdk-dev /bin/sh
+```
+
 ## Code checks
 
 To help you test your code against our requirements, there is a composer test script configured :
