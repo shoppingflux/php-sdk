@@ -13,14 +13,14 @@ class OrderOperation extends Operation\AbstractBulkOperation
     /**
      * Operation types
      */
-    const TYPE_ACCEPT           = 'accept';
-    const TYPE_CANCEL           = 'cancel';
-    const TYPE_REFUSE           = 'refuse';
-    const TYPE_SHIP             = 'ship';
-    const TYPE_REFUND           = 'refund';
-    const TYPE_ACKNOWLEDGE      = 'acknowledge';
-    const TYPE_UNACKNOWLEDGE    = 'unacknowledge';
-    const TYPE_UPLOAD_DOCUMENTS = 'upload-documents';
+    public const TYPE_ACCEPT           = 'accept';
+    public const TYPE_CANCEL           = 'cancel';
+    public const TYPE_REFUSE           = 'refuse';
+    public const TYPE_SHIP             = 'ship';
+    public const TYPE_REFUND           = 'refund';
+    public const TYPE_ACKNOWLEDGE      = 'acknowledge';
+    public const TYPE_UNACKNOWLEDGE    = 'unacknowledge';
+    public const TYPE_UPLOAD_DOCUMENTS = 'upload-documents';
 
     /**
      * @var array
