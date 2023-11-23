@@ -1,7 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Order;
 
-use GuzzleHttp\Psr7;
+use RuntimeException;
 use ShoppingFeed\Sdk\Api;
 use ShoppingFeed\Sdk\Api\Order\Document\AbstractDocument;
 use ShoppingFeed\Sdk\Exception;
@@ -276,9 +276,17 @@ class OrderOperation extends Operation\AbstractBulkOperation
                 /** @var AbstractDocument $document */
                 $document = $operation['document'];
 
+                $resource = fopen($document->getPath(), 'rb');
+
+                if (false === $resource) {
+                    throw new RuntimeException(
+                        sprintf('Unable to read "%s"', $document->getPath())
+                    );
+                }
+
                 $body[] = [
                     'name'     => 'files[]',
-                    'contents' => Psr7\Utils::tryFopen($document->getPath(), 'rb'),
+                    'contents' => $resource,
                 ];
 
                 $orders[] = [
@@ -298,7 +306,8 @@ class OrderOperation extends Operation\AbstractBulkOperation
             $requests[] = $link->createRequest(
                 'POST',
                 ['operation' => $type],
-                new Psr7\MultipartStream($body)
+                $body,
+                ['Content-Type' => 'multipart/form-data']
             );
         }
     }

@@ -1,7 +1,6 @@
 <?php
 namespace ShoppingFeed\Sdk\Hal;
 
-use GuzzleHttp\Psr7\MultipartStream;
 use Psr\Http\Message\ResponseInterface;
 use ShoppingFeed\Sdk\Http\UriTemplate;
 use ShoppingFeed\Sdk\Resource\Json;
@@ -268,7 +267,7 @@ class HalLink
         $uri    = $this->getUri($variables);
         $method = strtoupper($method);
 
-        $hasBody = null !== $body && '' !== $body && ! $body instanceof MultipartStream;
+        $hasBody = null !== $body && '' !== $body;
 
         if ($hasBody && in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
             if (! isset($headers['Content-Type'])) {
