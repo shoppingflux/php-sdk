@@ -274,8 +274,8 @@ namespace ShoppingFeed\Sdk\Api\Order;
 
 $operation = new OrderOperation();
 $operation
-    ->uploadDocument('ref1', 'amazon', new Document\Invoice('/tmp/amazon_ref1_invoice.pdf'))
-    ->uploadDocument('ref2', 'amazon', new Document\Invoice('/tmp/amazon_ref2_invoice.pdf'));
+    ->uploadDocument('ref1', 'leroymerlin', new Document\Invoice('/tmp/amazon_ref1_invoice.pdf'))
+    ->uploadDocument('ref2', 'leroymerlin', new Document\Invoice('/tmp/amazon_ref2_invoice.pdf'));
 
 $orderApi->execute($operation);
 ```
