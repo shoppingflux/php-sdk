@@ -1,23 +1,26 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Order;
 
+use RuntimeException;
 use ShoppingFeed\Sdk\Api;
+use ShoppingFeed\Sdk\Api\Order\Document\AbstractDocument;
+use ShoppingFeed\Sdk\Exception;
 use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Operation;
-use ShoppingFeed\Sdk\Exception;
 
 class OrderOperation extends Operation\AbstractBulkOperation
 {
     /**
      * Operation types
      */
-    const TYPE_ACCEPT        = 'accept';
-    const TYPE_CANCEL        = 'cancel';
-    const TYPE_REFUSE        = 'refuse';
-    const TYPE_SHIP          = 'ship';
-    const TYPE_REFUND        = 'refund';
-    const TYPE_ACKNOWLEDGE   = 'acknowledge';
-    const TYPE_UNACKNOWLEDGE = 'unacknowledge';
+    public const TYPE_ACCEPT           = 'accept';
+    public const TYPE_CANCEL           = 'cancel';
+    public const TYPE_REFUSE           = 'refuse';
+    public const TYPE_SHIP             = 'ship';
+    public const TYPE_REFUND           = 'refund';
+    public const TYPE_ACKNOWLEDGE      = 'acknowledge';
+    public const TYPE_UNACKNOWLEDGE    = 'unacknowledge';
+    public const TYPE_UPLOAD_DOCUMENTS = 'upload-documents';
 
     /**
      * @var array
@@ -30,6 +33,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         self::TYPE_REFUND,
         self::TYPE_ACKNOWLEDGE,
         self::TYPE_UNACKNOWLEDGE,
+        self::TYPE_UPLOAD_DOCUMENTS,
     ];
 
     /**
@@ -180,6 +184,27 @@ class OrderOperation extends Operation\AbstractBulkOperation
     }
 
     /**
+     * @param string                    $reference The channel's order reference
+     * @param string                    $channelName The channel's name
+     * @param Document\AbstractDocument $document
+     *
+     * @return OrderOperation
+     *
+     * @throws Exception\InvalidArgumentException
+     */
+    public function uploadDocument($reference, $channelName, Document\AbstractDocument $document): self
+    {
+        $this->addOperation(
+            $reference,
+            $channelName,
+            self::TYPE_UPLOAD_DOCUMENTS,
+            ['document' => $document]
+        );
+
+        return $this;
+    }
+
+    /**
      * Execute all declared operations
      *
      * @param Hal\HalLink $link
@@ -192,10 +217,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $resources = new \ArrayObject();
 
         foreach ($this->allowedOperationTypes as $type) {
-            $this->eachBatch(
-                $this->createRequestGenerator($type, $link, $requests),
-                $type
-            );
+            $this->populateRequests($type, $link, $requests);
         }
 
         $link->batchSend(
@@ -213,24 +235,81 @@ class OrderOperation extends Operation\AbstractBulkOperation
         );
     }
 
+    private function populateRequests($type, Hal\HalLink $link, \ArrayAccess $requests): void
+    {
+        // Upload documents require dedicated processing because of file upload specificities
+        if (self::TYPE_UPLOAD_DOCUMENTS === $type) {
+            $this->populateRequestsForUploadDocuments($link, $requests);
+            return;
+        }
+
+        $this->eachBatch(
+            function (array $chunk) use ($type, $link, &$requests) {
+                $requests[] = $link->createRequest(
+                    'POST',
+                    ['operation' => $type],
+                    ['order' => $chunk]
+                );
+            },
+            $type
+        );
+    }
+
     /**
-     * Create request generation callback
+     * Create requests for upload documents operation. We batch request by 20
+     * to not send too many files at once.
      *
-     * @param string      $type
      * @param Hal\HalLink $link
      * @param array       $requests
      *
-     * @return \Closure
+     * @return \Psr\Http\Message\RequestInterface
      */
-    private function createRequestGenerator($type, Hal\HalLink $link, \ArrayAccess $requests)
+    private function populateRequestsForUploadDocuments(Hal\HalLink $link, \ArrayAccess $requests)
     {
-        return function (array $chunk) use ($type, $link, &$requests) {
+        $type = self::TYPE_UPLOAD_DOCUMENTS;
+
+        foreach (array_chunk($this->getOperations($type), 20) as $batch) {
+            $body   = [];
+            $orders = [];
+
+            foreach ($batch as $operation) {
+                /** @var AbstractDocument $document */
+                $document = $operation['document'];
+
+                $resource = fopen($document->getPath(), 'rb');
+
+                if (false === $resource) {
+                    throw new RuntimeException(
+                        sprintf('Unable to read "%s"', $document->getPath())
+                    );
+                }
+
+                $body[] = [
+                    'name'     => 'files[]',
+                    'contents' => $resource,
+                ];
+
+                $orders[] = [
+                    'reference'   => $operation['reference'],
+                    'channelName' => $operation['channelName'],
+                    'documents'   => [
+                        ['type' => $document->getType()],
+                    ],
+                ];
+            }
+
+            $body[] = [
+                'name'     => 'body',
+                'contents' => json_encode(['order' => $orders]),
+            ];
+
             $requests[] = $link->createRequest(
                 'POST',
                 ['operation' => $type],
-                ['order' => $chunk]
+                $body,
+                ['Content-Type' => 'multipart/form-data']
             );
-        };
+        }
     }
 
     /**

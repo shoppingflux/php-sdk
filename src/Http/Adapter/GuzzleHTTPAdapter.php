@@ -91,6 +91,11 @@ class GuzzleHTTPAdapter implements Http\Adapter\AdapterInterface
      */
     public function createRequest($method, $uri, array $headers = [], $body = null)
     {
+        if (isset($headers['Content-Type']) && 'multipart/form-data' === $headers['Content-Type']) {
+            unset($headers['Content-Type']);
+            $body = new GuzzleHttp\Psr7\MultipartStream($body);
+        }
+
         return new GuzzleHttp\Psr7\Request($method, $uri, $headers, $body);
     }
 
