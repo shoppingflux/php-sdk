@@ -26,4 +26,12 @@ class OrderDomain extends AbstractDomainResource
     {
         return $operation->execute($this->link);
     }
+
+    public function getShipmentsByOrder($identity)
+    {
+        $link  = $this->link->withAddedHref($identity . '/shipment');
+        $class = $this->resourceClass;
+
+        return new $class($link->get());
+    }
 }
