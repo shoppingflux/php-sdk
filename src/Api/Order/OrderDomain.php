@@ -18,6 +18,27 @@ class OrderDomain extends AbstractDomainResource
     protected $resourceClass = OrderResource::class;
 
     /**
+     * @var string
+     */
+    protected $shipmentResourceClass = ShipmentResource::class;
+
+
+    public function getShipmentsByOrder($identity)
+    {
+        $link  = $this->link->withAddedHref($identity . '/shipment');
+        $class = $this->shipmentResourceClass;
+
+        $resource = $link->get();
+        $shipments = [];
+        /** @var HalResource[] $shipment */
+        foreach ($resource->getAllResources() as $shipment) {
+            $shipments[] = new $class($shipment);
+        }
+
+        return $shipments;
+    }
+
+    /**
      * @param OrderOperation $operation
      *
      * @return OrderOperationResult
@@ -27,11 +48,4 @@ class OrderDomain extends AbstractDomainResource
         return $operation->execute($this->link);
     }
 
-    public function getShipmentsByOrder($identity)
-    {
-        $link  = $this->link->withAddedHref($identity . '/shipment');
-        $class = $this->resourceClass;
-
-        return new $class($link->get());
-    }
 }
