@@ -55,4 +55,3 @@ class ShipmentResource extends AbstractResource
         return (array) $this->getProperty('items');
     }
 }
-

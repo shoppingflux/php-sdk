@@ -30,9 +30,12 @@ class OrderDomain extends AbstractDomainResource
 
         $resource = $link->get();
         $shipments = [];
-        /** @var HalResource[] $shipment */
-        foreach ($resource->getAllResources() as $shipment) {
-            $shipments[] = new $class($shipment);
+
+        /** @var HalResource[] $resources */
+        foreach ($resource->getAllResources() as $resources) {
+            foreach ($resources as $resource) {
+                $shipments[] = new $class($resource);
+            }
         }
 
         return $shipments;
