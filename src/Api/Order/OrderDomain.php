@@ -21,7 +21,7 @@ class OrderDomain extends AbstractDomainResource
     /** @return ShipmentResource[] */
     public function getShipmentsByOrder(int $orderId): array
     {
-        $link  = $this->link->withAddedHref($orderId . '/shipment');
+        $link      = $this->link->withAddedHref($orderId . '/shipment');
 
         /** @var HalResource|null $response */
         $response  = $link->get();
@@ -45,5 +45,4 @@ class OrderDomain extends AbstractDomainResource
     {
         return $operation->execute($this->link);
     }
-
 }
