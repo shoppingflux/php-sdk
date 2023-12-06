@@ -1,6 +1,7 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Order;
 
+use ShoppingFeed\Sdk\Hal\HalResource;
 use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
 
 /**
@@ -17,24 +18,18 @@ class OrderDomain extends AbstractDomainResource
      */
     protected $resourceClass = OrderResource::class;
 
-    /**
-     * @var string
-     */
-    protected $shipmentResourceClass = ShipmentResource::class;
-
-
-    public function getShipmentsByOrder($identity)
+    /** @return ShipmentResource[] */
+    public function getShipmentsByOrder(int $orderId): array
     {
-        $link  = $this->link->withAddedHref($identity . '/shipment');
-        $class = $this->shipmentResourceClass;
+        $link  = $this->link->withAddedHref($orderId . '/shipment');
 
-        $resource = $link->get();
+        /** @var HalResource|null $response */
+        $response  = $link->get();
         $shipments = [];
 
-        /** @var HalResource[] $resources */
-        foreach ($resource->getAllResources() as $resources) {
+        foreach ($response ? $response->getAllResources() : [] as $resources) {
             foreach ($resources as $resource) {
-                $shipments[] = new $class($resource);
+                $shipments[] = new ShipmentResource($resource);
             }
         }
 
@@ -46,7 +41,7 @@ class OrderDomain extends AbstractDomainResource
      *
      * @return OrderOperationResult
      */
-    public function execute(OrderOperation $operation)
+    public function execute(OrderOperation $operation): OrderOperationResult
     {
         return $operation->execute($this->link);
     }

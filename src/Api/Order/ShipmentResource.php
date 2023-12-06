@@ -6,52 +6,33 @@ use ShoppingFeed\Sdk\Resource\AbstractResource;
 
 class ShipmentResource extends AbstractResource
 {
-
-    /**
-     * @return string
-     */
-    public function getCarrier()
+    public function getCarrier(): string
     {
         return (string) $this->getProperty('carrier');
     }
 
-    /**
-     * @return string
-     */
-    public function getTrackingNumber()
+    public function getTrackingNumber(): string
     {
         return (string) $this->getProperty('trackingNumber');
     }
 
-    /**
-     * @return string
-     */
-    public function getTrackingUrl()
+    public function getTrackingUrl(): string
     {
-        return (string) $this->getProperty('trackingUrl');
+        return (string) $this->getProperty('trackingLink');
     }
 
-    /**
-     * @return array
-     */
-    public function getReturnInfo()
+    public function getReturnInfo(): array
     {
         return (array) $this->getProperty('returnInfo');
     }
 
-    /**
-     * @return string
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return (string) $this->getProperty('createdAt');
+        return $this->getPropertyDatetime('createdAt');
     }
 
-    /**
-     * @return array
-     */
-    public function getItems()
+    public function getItems(): ?array
     {
-        return (array) $this->getProperty('items');
+        return $this->getProperty('items');
     }
 }
