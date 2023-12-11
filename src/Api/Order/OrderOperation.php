@@ -96,13 +96,20 @@ class OrderOperation extends Operation\AbstractBulkOperation
      * @param string $carrier                      Optional carrier name
      * @param string $trackingNumber               Optional tracking number
      * @param string $trackingLink                 Optional tracking link
-     * @param array<ShipmentItem> $items           Optional items
+     * @param array<ShipmentItem>|null $items      Optional items
      *
      * @return OrderOperation
      *
      * @throws Exception\InvalidArgumentException
      */
-    public function ship($reference, $channelName, $carrier = '', $trackingNumber = '', $trackingLink = '', $items = [])
+    public function ship(
+        $reference,
+        $channelName,
+        $carrier = '',
+        $trackingNumber = '',
+        $trackingLink = '',
+        $items = null
+    )
     {
         $this->addOperation(
             $reference,
