@@ -151,7 +151,7 @@ class OrderOperationTest extends TestCase
                     'carrier'        => 'ups',
                     'trackingNumber' => '123654abc',
                     'trackingLink'   => 'http://tracking.lnk',
-                    'items'          => null,
+                    'items'          => [],
                 ]
             );
 

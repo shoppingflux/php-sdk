@@ -4,7 +4,6 @@ namespace ShoppingFeed\Sdk\Api\Order;
 use RuntimeException;
 use ShoppingFeed\Sdk\Api;
 use ShoppingFeed\Sdk\Api\Order\Document\AbstractDocument;
-use ShoppingFeed\Sdk\Api\Order\Shipment\ShipmentItem;
 use ShoppingFeed\Sdk\Exception;
 use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Operation;
@@ -91,12 +90,12 @@ class OrderOperation extends Operation\AbstractBulkOperation
     /**
      * Notify market place of order shipment sent
      *
-     * @param string $reference                    Order reference
-     * @param string $channelName                  Channel to notify
-     * @param string $carrier                      Optional carrier name
-     * @param string $trackingNumber               Optional tracking number
-     * @param string $trackingLink                 Optional tracking link
-     * @param array<ShipmentItem>|null $items      Optional items
+     * @param string $reference                                Order reference
+     * @param string $channelName                              Channel to notify
+     * @param string $carrier                                  Optional carrier name
+     * @param string $trackingNumber                           Optional tracking number
+     * @param string $trackingLink                             Optional tracking link
+     * @param array<array{id: int, quantity: int}> $items      Optional items
      *
      * @return OrderOperation
      *
@@ -108,7 +107,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         $carrier = '',
         $trackingNumber = '',
         $trackingLink = '',
-        $items = null
+        $items = []
     )
     {
         $this->addOperation(
