@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Order;
 
 use ShoppingFeed\Sdk\Api\Channel\ChannelResource;
@@ -26,7 +27,7 @@ class ShipmentResource extends AbstractResource
         return (array) $this->getProperty('returnInfo');
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->getPropertyDatetime('createdAt');
     }
