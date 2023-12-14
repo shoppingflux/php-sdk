@@ -21,6 +21,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
     public const TYPE_ACKNOWLEDGE      = 'acknowledge';
     public const TYPE_UNACKNOWLEDGE    = 'unacknowledge';
     public const TYPE_UPLOAD_DOCUMENTS = 'upload-documents';
+    public const TYPE_DELIVER          = 'deliver';
 
     /**
      * @var array
@@ -34,6 +35,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         self::TYPE_ACKNOWLEDGE,
         self::TYPE_UNACKNOWLEDGE,
         self::TYPE_UPLOAD_DOCUMENTS,
+        self::TYPE_DELIVER,
     ];
 
     /**
