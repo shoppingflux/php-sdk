@@ -363,4 +363,29 @@ class OrderOperation extends Operation\AbstractBulkOperation
 
         return $this;
     }
+
+    /**
+     * Notify marketplace of order delivery
+     *
+     * @param string $id Order id
+     * @param string $reference Order reference
+     * @param string $channelName Channel to notify
+     *
+     * @return OrderOperation
+     *
+     * @throws Exception\InvalidArgumentException
+     */
+    public function deliver($id, $reference = '', $channelName = ''): self
+    {
+        $this->addOperation(
+            $reference,
+            $channelName,
+            self::TYPE_DELIVER,
+            [
+                'id' => $id,
+            ]
+        );
+
+        return $this;
+    }
 }

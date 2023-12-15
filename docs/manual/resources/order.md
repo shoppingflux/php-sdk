@@ -187,6 +187,24 @@ $operation
 $orderApi->execute($operation);
 ```
 
+
+### Deliver
+
+The deliver operation accepts 3 parameters:
+
+1. [mandatory] `$id` : Order id (eg: '123456qwerty')
+2. [optional] `$reference` : Order reference (eg: 'reference1')
+3. [optional] `$channelName` : The channel where the order is from (eg: 'amazon')
+
+Example :
+
+```php
+$operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
+$operation->deliver('123456qwerty');
+$orderApi->execute($operation);
+```
+
+
 ### Refund
 
 The refund operation accepts 4 parameters :
