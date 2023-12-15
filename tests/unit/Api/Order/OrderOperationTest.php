@@ -373,6 +373,7 @@ class OrderOperationTest extends TestCase
             'amazon',
         ];
 
+        $op = new Api\Order\OrderOperation();
         $instance = $this
             ->getMockBuilder(Api\Order\OrderOperation::class)
             ->setMethods(['addOperation'])
@@ -395,6 +396,11 @@ class OrderOperationTest extends TestCase
         $this->assertInstanceOf(
             Api\Order\OrderOperation::class,
             $instance->deliver(...$data)
+        );
+        $op->deliver(...$data);
+        $this->assertEquals(
+            1,
+            $op->count(Api\Order\OrderOperation::TYPE_DELIVER)
         );
     }
 }
