@@ -2,6 +2,7 @@
 namespace ShoppingFeed\Sdk\Test\Api\Order;
 
 use ShoppingFeed\Sdk;
+use ShoppingFeed\Sdk\Hal\HalLink;
 
 class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
 {
@@ -55,11 +56,12 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
                 'item2' => 'alias2',
             ],
         ];
+
     }
 
     public function testPropertiesGetters()
     {
-        $this->initHalResourceProperties();
+        $resource = $this->initHalResourceProperties();
 
         $instance = new Sdk\Api\Order\OrderResource($this->halResource);
 
@@ -75,6 +77,25 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $this->assertEquals(date_create_immutable($this->props['createdAt']), $instance->getCreatedAt());
         $this->assertEquals(date_create_immutable($this->props['updatedAt']), $instance->getUpdatedAt());
         $this->assertEquals(date_create_immutable($this->props['acknowledgedAt']), $instance->getAcknowledgedAt());
+
+        $resource
+            ->expects($this->any())
+            ->method('getLink')
+            ->with('self')
+            ->willReturn($link = $this->createMock(HalLink::class));
+
+        $link
+            ->expects($this->once())
+            ->method('withAddedHref')
+            ->with('/shipment')
+            ->willReturn($link);
+
+        $link
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn(null);
+
+        $this->assertEquals([], $instance->getShipments());
     }
 
     public function testNullDates()

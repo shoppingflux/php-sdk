@@ -2,6 +2,8 @@
 namespace ShoppingFeed\Sdk\Api\Order;
 
 use ShoppingFeed\Sdk\Api\Channel\ChannelResource;
+use ShoppingFeed\Sdk\Api\Order\Shipment\ShipmentDomain;
+use ShoppingFeed\Sdk\Api\Order\Shipment\ShipmentResource;
 use ShoppingFeed\Sdk\Resource\AbstractResource;
 
 class OrderResource extends AbstractResource
@@ -123,5 +125,15 @@ class OrderResource extends AbstractResource
         return new ChannelResource(
             $this->resource->getFirstResource('channel')
         );
+    }
+
+    /**
+     * @return ShipmentResource[]
+     */
+    public function getShipments(): array
+    {
+        $link = $this->resource->getLink('self');
+
+        return (new ShipmentDomain($link->withAddedHref('/shipment')))->getAll();
     }
 }

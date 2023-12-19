@@ -1,5 +1,5 @@
 <?php
-namespace ShoppingFeed\Sdk\Test\Api\Order;
+namespace ShoppingFeed\Sdk\Test\Api\Order\Shipment;
 
 use ShoppingFeed\Sdk;
 
@@ -19,7 +19,7 @@ class ShipmentResourceTest extends Sdk\Test\Api\AbstractResourceTest
             'createdAt'      => '2023-11-28T14:25:18+00:00',
         ]);
 
-        $instance = new Sdk\Api\Order\ShipmentResource($this->halResource);
+        $instance = new Sdk\Api\Order\Shipment\ShipmentResource($this->halResource);
 
         $this->assertNull($instance->getItems());
         $this->assertEquals('ES_CORREOS', $instance->getCarrier());

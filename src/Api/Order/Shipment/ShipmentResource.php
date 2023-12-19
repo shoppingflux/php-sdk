@@ -1,8 +1,7 @@
 <?php
 
-namespace ShoppingFeed\Sdk\Api\Order;
+namespace ShoppingFeed\Sdk\Api\Order\Shipment;
 
-use ShoppingFeed\Sdk\Api\Channel\ChannelResource;
 use ShoppingFeed\Sdk\Resource\AbstractResource;
 
 class ShipmentResource extends AbstractResource

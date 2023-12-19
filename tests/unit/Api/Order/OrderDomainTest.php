@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use ShoppingFeed\Sdk\Api\Order\OrderDomain;
 use ShoppingFeed\Sdk\Api\Order\OrderOperation;
 use ShoppingFeed\Sdk\Api\Order\OrderOperationResult;
-use ShoppingFeed\Sdk\Api\Order\ShipmentResource;
+use ShoppingFeed\Sdk\Api\Order\Shipment\ShipmentResource;
 use ShoppingFeed\Sdk\Hal\HalLink;
 use ShoppingFeed\Sdk\Hal\HalResource;
 

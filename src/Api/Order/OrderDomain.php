@@ -1,7 +1,8 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Order;
 
-use ShoppingFeed\Sdk\Hal\HalResource;
+use ShoppingFeed\Sdk\Api\Order\Shipment\ShipmentDomain;
+use ShoppingFeed\Sdk\Api\Order\Shipment\ShipmentResource;
 use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
 
 /**
@@ -21,19 +22,7 @@ class OrderDomain extends AbstractDomainResource
     /** @return ShipmentResource[] */
     public function getShipmentsByOrder(int $orderId): array
     {
-        $link = $this->link->withAddedHref($orderId . '/shipment');
-
-        /** @var HalResource|null $response */
-        $response  = $link->get();
-        $shipments = [];
-
-        foreach ($response ? $response->getAllResources() : [] as $resources) {
-            foreach ($resources as $resource) {
-                $shipments[] = new ShipmentResource($resource);
-            }
-        }
-
-        return $shipments;
+        return (new ShipmentDomain($this->link->withAddedHref($orderId . '/shipment')))->getAll();
     }
 
     /**
