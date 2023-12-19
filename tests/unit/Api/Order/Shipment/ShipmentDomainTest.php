@@ -11,9 +11,9 @@ use ShoppingFeed\Sdk\Hal\HalResource;
 class ShipmentDomainTest extends TestCase
 {
     /**
-     * @dataProvider getProvidedData
+     * @dataProvider resourceProvider
      */
-    public function testShipmentGetters($resources, $expected): void
+    public function testShipmentGetters(array $resources, array $expected): void
     {
         $link = $this->createMock(HalLink::class);
 
@@ -32,19 +32,22 @@ class ShipmentDomainTest extends TestCase
         $this->assertEquals($expected, $instance->getAll());
     }
 
-    public function getProvidedData(): array
+    public function resourceProvider(): array
     {
         return [
-            'with_shipments'    => [
+            'With shipments'   => [
                 [
                     [
                         ($resource1 = $this->createMock(HalResource::class)),
-                        ($resource2 = $this->createMock(HalResource::class))
-                    ]
+                        ($resource2 = $this->createMock(HalResource::class)),
+                    ],
                 ],
-                [new ShipmentResource($resource1), new ShipmentResource($resource2)]
+                [new ShipmentResource($resource1), new ShipmentResource($resource2)],
             ],
-            'without_shipments' => [[[]], []],
+            'Without shipment' => [
+                [[]],
+                [],
+            ],
         ];
     }
 }
