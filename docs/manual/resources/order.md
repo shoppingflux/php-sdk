@@ -173,8 +173,9 @@ The ship operation accepts 3 parameters :
 1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
 2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
 3. [optional] `$carrier` : The carrier name used for the shipment (eq: 'ups') 
-3. [optional] `$trackingNumber` : Tracking number (eq: '01234598abcdef') 
-3. [optional] `$trackingLink` : Tracking link (eq: 'http://tracking.url/') 
+4. [optional] `$trackingNumber` : Tracking number (eq: '01234598abcdef') 
+5. [optional] `$trackingLink` : Tracking link (eq: 'http://tracking.url/') 
+6. [optional] `$items` : Array of order item id and quantity to be shipped (eq: [['id' => 1234, 'quantity' => 1]]) 
 
 Example :
 
@@ -279,3 +280,31 @@ $operation
 
 $orderApi->execute($operation);
 ```
+
+## Retrieve shipments
+To retrieve shipments, you can use these methods :
+
+### getShipmentsByOrder
+1. [mandatory] `$orderId` : id (eg: 1234)
+
+Example :
+
+```php
+namespace ShoppingFeed\Sdk\Api\Order; 
+
+$shipments = $orderApi->getShipmentsByOrder(1234);
+``` 
+
+### getShipments
+In the order object :
+
+Example : 
+
+```php
+namespace ShoppingFeed\Sdk\Api\Order; 
+
+foreach($orderApi->getAll($criteria['filters']) as $order) {
+    $shipments = $order->getShipments();
+}
+``` 
+
