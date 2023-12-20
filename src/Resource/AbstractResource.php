@@ -123,9 +123,4 @@ abstract class AbstractResource implements \JsonSerializable
     {
         return $this->isPartial;
     }
-
-    protected function getAllResources(): array
-    {
-        return $this->resource->getAllResources();
-    }
 }
