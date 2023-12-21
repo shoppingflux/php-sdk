@@ -2,7 +2,6 @@
 namespace ShoppingFeed\Sdk\Test\Api\Order;
 
 use ShoppingFeed\Sdk;
-use ShoppingFeed\Sdk\Api\Order\Shipment\ShipmentDomain;
 use ShoppingFeed\Sdk\Hal\HalLink;
 use ShoppingFeed\Sdk\Hal\HalResource;
 use ShoppingFeed\Sdk\Resource\PaginatedResourceIterator;
