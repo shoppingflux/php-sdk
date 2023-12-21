@@ -2,7 +2,6 @@
 
 namespace ShoppingFeed\Sdk\Api\Order\Shipment;
 
-use ShoppingFeed\Sdk\Hal\HalResource;
 use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
 
 class ShipmentDomain extends AbstractDomainResource

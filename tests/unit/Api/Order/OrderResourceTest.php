@@ -2,7 +2,10 @@
 namespace ShoppingFeed\Sdk\Test\Api\Order;
 
 use ShoppingFeed\Sdk;
+use ShoppingFeed\Sdk\Api\Order\Shipment\ShipmentDomain;
 use ShoppingFeed\Sdk\Hal\HalLink;
+use ShoppingFeed\Sdk\Hal\HalResource;
+use ShoppingFeed\Sdk\Resource\PaginatedResourceIterator;
 
 class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
 {
@@ -61,7 +64,7 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
 
     public function testPropertiesGetters()
     {
-        $resource = $this->initHalResourceProperties();
+        $this->initHalResourceProperties();
 
         $instance = new Sdk\Api\Order\OrderResource($this->halResource);
 
@@ -77,25 +80,6 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $this->assertEquals(date_create_immutable($this->props['createdAt']), $instance->getCreatedAt());
         $this->assertEquals(date_create_immutable($this->props['updatedAt']), $instance->getUpdatedAt());
         $this->assertEquals(date_create_immutable($this->props['acknowledgedAt']), $instance->getAcknowledgedAt());
-
-        $resource
-            ->expects($this->any())
-            ->method('getLink')
-            ->with('self')
-            ->willReturn($link = $this->createMock(HalLink::class));
-
-        $link
-            ->expects($this->once())
-            ->method('withAddedHref')
-            ->with('/shipment')
-            ->willReturn($link);
-
-        $link
-            ->expects($this->once())
-            ->method('get')
-            ->willReturn(null);
-
-        $this->assertEquals([], $instance->getShipments());
     }
 
     public function testNullDates()
@@ -147,5 +131,30 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $channel = $instance->getChannel();
 
         $this->assertInstanceOf(Sdk\Api\Channel\ChannelResource::class, $channel);
+    }
+
+    public function testGetShipments(): void
+    {
+        $resource = $this->initHalResourceProperties();
+        $instance = new Sdk\Api\Order\OrderResource($this->halResource);
+
+        $resource
+            ->expects($this->any())
+            ->method('getLink')
+            ->with('self')
+            ->willReturn($link = $this->createMock(HalLink::class));
+
+        $link
+            ->expects($this->once())
+            ->method('withAddedHref')
+            ->with('/shipment')
+            ->willReturn($link);
+
+        $link
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn($this->createMock(HalResource::class));
+
+        $this->assertInstanceOf(PaginatedResourceIterator::class, $instance->getShipments());
     }
 }
