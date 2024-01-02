@@ -90,23 +90,31 @@ class OrderOperation extends Operation\AbstractBulkOperation
     /**
      * Notify market place of order shipment sent
      *
-     * @param string $reference      Order reference
-     * @param string $channelName    Channel to notify
-     * @param string $carrier        Optional carrier name
-     * @param string $trackingNumber Optional tracking number
-     * @param string $trackingLink   Optional tracking link
+     * @param string $reference                                Order reference
+     * @param string $channelName                              Channel to notify
+     * @param string $carrier                                  Optional carrier name
+     * @param string $trackingNumber                           Optional tracking number
+     * @param string $trackingLink                             Optional tracking link
+     * @param array<array{id: int, quantity: int}> $items      Optional items
      *
      * @return OrderOperation
      *
      * @throws Exception\InvalidArgumentException
      */
-    public function ship($reference, $channelName, $carrier = '', $trackingNumber = '', $trackingLink = '')
+    public function ship(
+        $reference,
+        $channelName,
+        $carrier = '',
+        $trackingNumber = '',
+        $trackingLink = '',
+        $items = []
+    )
     {
         $this->addOperation(
             $reference,
             $channelName,
             self::TYPE_SHIP,
-            compact('carrier', 'trackingNumber', 'trackingLink')
+            compact('carrier', 'trackingNumber', 'trackingLink', 'items')
         );
 
         return $this;

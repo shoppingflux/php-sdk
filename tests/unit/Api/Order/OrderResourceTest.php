@@ -2,6 +2,9 @@
 namespace ShoppingFeed\Sdk\Test\Api\Order;
 
 use ShoppingFeed\Sdk;
+use ShoppingFeed\Sdk\Hal\HalLink;
+use ShoppingFeed\Sdk\Hal\HalResource;
+use ShoppingFeed\Sdk\Resource\PaginatedResourceIterator;
 
 class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
 {
@@ -55,6 +58,7 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
                 'item2' => 'alias2',
             ],
         ];
+
     }
 
     public function testPropertiesGetters()
@@ -126,5 +130,30 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $channel = $instance->getChannel();
 
         $this->assertInstanceOf(Sdk\Api\Channel\ChannelResource::class, $channel);
+    }
+
+    public function testGetShipments(): void
+    {
+        $resource = $this->initHalResourceProperties();
+        $instance = new Sdk\Api\Order\OrderResource($this->halResource);
+
+        $resource
+            ->expects($this->any())
+            ->method('getLink')
+            ->with('self')
+            ->willReturn($link = $this->createMock(HalLink::class));
+
+        $link
+            ->expects($this->once())
+            ->method('withAddedHref')
+            ->with('/shipment')
+            ->willReturn($link);
+
+        $link
+            ->expects($this->once())
+            ->method('get')
+            ->willReturn($this->createMock(HalResource::class));
+
+        $this->assertInstanceOf(PaginatedResourceIterator::class, $instance->getShipments());
     }
 }
