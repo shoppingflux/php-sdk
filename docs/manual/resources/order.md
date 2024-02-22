@@ -211,52 +211,49 @@ $products = [
 ];
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $operation
-    ->refund('orderRef1', 'amazon')
-    ->refund('orderRef2', 'amazon', true, $products);
+    ->refund('ref1', 'amazon')
+    ->refund('ref2', 'amazon', true, $products);
 
 $orderApi->execute($operation);
 ```
 
 ### Acknowledge
 
-To acknowledge the good reception of an order, you need the following parameters :
+To acknowledge the reception of an order, you need the following parameters :
 
 1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
 2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
-3. [mandatory] `$status` : Status of acknowledgment (eq: 'success') 
-4. [mandatory] `$storeReference` : Store reference (eq: 'store-reference') 
-5. [optional] `$message` : Acknowledge message  (eq: 'Order well acknowledge') 
+3. [optional] `$storeReference` : Store reference (eg: 'store-reference')
+4. [optional] `$status` : Status of acknowledgment (eg: 'success' or 'error')
+5. [optional] `$message` : In case or error status, you can provide a message (eg: 'Unknown product #ABC-123') 
 
 Example :
 
 ```php
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $operation
-    ->acknowledge('reference1', 'amazon', 'success', 'store-reference')
-    ->acknowledge('reference1', 'amazon', 'error', 'store-reference')
-    ->acknowledge('reference1', 'amazon', 'error', 'store-reference', 'Order well acknowledged');
+    ->acknowledge('ref1', 'amazon', 'store-reference', 'success')
+    ->acknowledge('ref2', 'amazon', 'store-reference', 'error')
+    ->acknowledge('ref3', 'amazon', 'store-reference', 'error', 'Order well acknowledged');
 
 $orderApi->execute($operation);
 ```
 
 ### Unacknowledge
 
-To unacknowledge the good reception of an order, you need the following parameters :
+To unacknowledge the reception of an order previously acknowledged, you need the following parameters :
 
 1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
-2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
-3. [mandatory] `$status` : Status of unacknowledgment (eq: 'success') 
-4. [mandatory] `$storeReference` : Store reference (eq: 'store-reference') 
-5. [optional] `$message` : Unacknowledge message  (eq: 'Order well unacknowledge') 
+2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon')
 
 Example :
 
 ```php
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $operation
-    ->unacknowledge('reference1', 'amazon', 'success', 'store-reference')
-    ->unacknowledge('reference1', 'amazon', 'error', 'store-reference')
-    ->unacknowledge('reference1', 'amazon', 'error', 'store-reference', 'Order well unacknowledged');
+    ->unacknowledge('ref1', 'amazon')
+    ->unacknowledge('ref2', 'amazon')
+    ->unacknowledge('ref3', 'amazon');
 
 $orderApi->execute($operation);
 ```
