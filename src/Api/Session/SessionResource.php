@@ -92,11 +92,20 @@ class SessionResource extends AbstractResource
     }
 
     /**
+     * @deprecated Use either selectStore instead
+     *
      * @return \ShoppingFeed\Sdk\Api\Store\StoreResource|null
      */
     public function getMainStore()
     {
+        trigger_deprecation(
+            'shopping-feed/sdk',
+            '2.0',
+            'The getMainStore method is deprecated, use selectStore instead'
+        );
+
         $resource = $this->resource->getFirstResource('store');
+
         if ($resource) {
             return new Store\StoreResource($resource, true);
         }

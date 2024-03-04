@@ -2,11 +2,47 @@
 
 ## Access
 
-Accessing the order API can be done from the store.
+Accessing the order API can be done from your sessions. As your session can be 
+linked to multiple stores, you have to select stores you want to access to.
+
+### Single store management
+```php
+$storeId  = 1234;
+$orderApi = $session->selectStore($storeId)->getOrderApi();
+```
+
+### Multiple stores management
 
 ```php
-<?php
-$orderApi = $session->getMainStore()->getOrderApi();
+$storesIds = [1234, 5678];
+
+foreach ($storesIds as $storeId) {
+    $orderApi = $session->selectStore($storeId)->getOrderApi();
+}
+```
+
+Please note that whole order API is store scoped. You cannot access an order 
+from the wrong store even if your session is allowed to access the given 
+order's store.
+
+For instance, if your session has access to stores `1` and `5`, and if store 
+`1` has an order `1111` and store `5` has an order `5555`, you cannot access 
+order `5555` from store `1`:
+
+```php
+// Lead to a 404
+$session->selectStore(1)->getOrderApi()->getOne(5555);
+```
+
+### Deprecated method
+
+Usage of getMainStore() has been deprecated and SHOULD NOT be used anymore. 
+It can lead to major issue if your session get access to new stores.
+It will be removed in the next major version of the SDK.
+
+```php
+$storeId  = 1276;
+$orderApi = $session->selectStore($storeId)->getOrderApi();
 ```
 
 ## Retrieve orders

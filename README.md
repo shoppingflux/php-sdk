@@ -42,7 +42,7 @@ $session = Client\Client::createSession($credential);
 
 ```php
 /** @var \ShoppingFeed\Sdk\Api\Session\SessionResource $session */
-$store = $session->getMainStore();
+$store = $session->selectStore(1276);
 $store->getName(); // test-store
 $store->getId(); // 1276
 // ... and so on
@@ -60,7 +60,7 @@ $stores->count();
 $store = $stores->select('id-or-store-name');
 // Loop over available stores
 foreach ($stores as $store) {
-	$store->getName(); 
+    $store->getName(); 
 }
 ```
 

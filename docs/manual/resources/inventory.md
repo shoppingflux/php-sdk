@@ -5,8 +5,8 @@
 Accessing the inventory API can be done using the store resource
 
 ```php
-<?php
-$inventoryApi = $session->getMainStore()->getInventoryApi();
+$storeId      = 1276;
+$inventoryApi = $session->selectStore($storeId)->getInventoryApi();
 ```
 
 Find an inventory item by a product's reference (sku):
