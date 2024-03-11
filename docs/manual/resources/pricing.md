@@ -6,7 +6,8 @@ Accessing the pricing API can be done using the store resource
 
 ```php
 <?php
-$pricingApi = $session->getMainStore()->getPricingApi();
+$storeId    = 1276;
+$pricingApi = $session->selectStore($storeId)->getPricingApi();
 ```
 
 Find an pricing item by a product's reference (sku):

@@ -9,7 +9,8 @@ To get a ticket detail you need to call ticket API like so :
 
 ```php
 <?php
-$ticketApi = $session->getMainStore()->getTicketApi();
+$storeId   = 1276;
+$ticketApi = $session->selectStore($storeId)->getTicketApi();
 
 $ticket = $ticketApi->getOne('abc123def456ghi789');
 $ticket->getStatus();
@@ -23,7 +24,8 @@ A batch ID is then returned to the user to be able to retrieve all tickets neede
 
 ```php
 <?php
-$ticketApi = $session->getMainStore()->getTicketApi();
+$storeId   = 1276;
+$ticketApi = $session->selectStore($storeId)->getTicketApi();
 $tickets   = $ticketApi->getByBatch('987ihg654fed321cba');
 
 // Check global status of the batch based on all ticket status
