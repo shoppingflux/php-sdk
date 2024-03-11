@@ -78,7 +78,7 @@ class SessionResource extends AbstractResource
     /**
      * @param int|string $idOrName
      *
-     * @return \ShoppingFeed\Sdk\Api\Store\StoreResource
+     * @return \ShoppingFeed\Sdk\Api\Store\StoreResource|null
      */
     public function selectStore($idOrName)
     {
@@ -92,7 +92,7 @@ class SessionResource extends AbstractResource
     }
 
     /**
-     * @deprecated Use either selectStore instead
+     * @deprecated Use selectStore instead
      *
      * @return \ShoppingFeed\Sdk\Api\Store\StoreResource|null
      */
@@ -100,8 +100,9 @@ class SessionResource extends AbstractResource
     {
         trigger_deprecation(
             'shopping-feed/sdk',
-            '2.0',
-            'The getMainStore method is deprecated, use selectStore instead'
+            '0.8.0',
+            'The SessionResource::getMainStore() method is deprecated and will '
+            . 'be removed in 1.0. Use selectStore instead'
         );
 
         $resource = $this->resource->getFirstResource('store');
