@@ -362,4 +362,46 @@ class OrderOperationTest extends TestCase
             )
         );
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function testDeliverOperation()
+    {
+        $data = [
+            '123456qwerty',
+            'ref1',
+            'amazon',
+        ];
+
+        $op = new Api\Order\OrderOperation();
+        $instance = $this
+            ->getMockBuilder(Api\Order\OrderOperation::class)
+            ->setMethods(['addOperation'])
+            ->getMock();
+
+        $instance
+            ->expects($this->once())
+            ->method('addOperation')
+            ->with(
+                'ref1',
+                'amazon',
+                Api\Order\OrderOperation::TYPE_DELIVER,
+                $this->callback(
+                    function ($param) {
+                        return $param['id'] === '123456qwerty';
+                    }
+                )
+            );
+
+        $this->assertInstanceOf(
+            Api\Order\OrderOperation::class,
+            $instance->deliver(...$data)
+        );
+        $op->deliver(...$data);
+        $this->assertEquals(
+            1,
+            $op->count(Api\Order\OrderOperation::TYPE_DELIVER)
+        );
+    }
 }

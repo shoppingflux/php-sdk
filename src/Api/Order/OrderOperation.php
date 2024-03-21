@@ -21,6 +21,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
     public const TYPE_ACKNOWLEDGE      = 'acknowledge';
     public const TYPE_UNACKNOWLEDGE    = 'unacknowledge';
     public const TYPE_UPLOAD_DOCUMENTS = 'upload-documents';
+    public const TYPE_DELIVER          = 'deliver';
 
     /**
      * @var array
@@ -34,6 +35,7 @@ class OrderOperation extends Operation\AbstractBulkOperation
         self::TYPE_ACKNOWLEDGE,
         self::TYPE_UNACKNOWLEDGE,
         self::TYPE_UPLOAD_DOCUMENTS,
+        self::TYPE_DELIVER,
     ];
 
     /**
@@ -365,6 +367,31 @@ class OrderOperation extends Operation\AbstractBulkOperation
             $channelName,
             self::TYPE_REFUND,
             ['refund' => compact('shipping', 'products')]
+        );
+
+        return $this;
+    }
+
+    /**
+     * Notify marketplace of order delivery
+     *
+     * @param string $id Order id
+     * @param string $reference Order reference
+     * @param string $channelName Channel to notify
+     *
+     * @return OrderOperation
+     *
+     * @throws Exception\InvalidArgumentException
+     */
+    public function deliver($id, $reference = '', $channelName = ''): self
+    {
+        $this->addOperation(
+            $reference,
+            $channelName,
+            self::TYPE_DELIVER,
+            [
+                'id' => $id,
+            ]
         );
 
         return $this;
