@@ -4,7 +4,7 @@
   "minimum-stability": "stable",
   "description": "Shopping Feed SDK to ease integration of our API",
   "require": {
-    "php": ">=8.1",
+    "php": ">=8.0",
     "ext-json": "*",
     "symfony/deprecation-contracts": "^2.5|^3.0"
   },
