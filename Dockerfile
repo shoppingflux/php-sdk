@@ -1,4 +1,4 @@
-FROM php:8.1-unit
+FROM php:7.1-cli-alpine
 
 ARG MOUNTPOINT=/var/www
 ARG COMPOSER_BIN_DIR=/usr/local/bin

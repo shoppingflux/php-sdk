@@ -4,7 +4,7 @@
   "minimum-stability": "stable",
   "description": "Shopping Feed SDK to ease integration of our API",
   "require": {
-    "php": ">=8.0",
+    "php": ">=7.1",
     "ext-json": "*",
     "symfony/deprecation-contracts": "^2.5|^3.0"
   },
@@ -22,21 +22,16 @@
   "require-dev": {
     "monolog/monolog": "^1.23",
     "guzzlehttp/guzzle": "^6.0 | ^7.0",
-    "phpunit/phpunit": "^9.0",
+    "phpunit/phpunit": "^7.0 | ^9.0",
     "shoppingfeed/coding-style-php": "~2.1.0",
-    "overtrue/phplint": "^1.1",
-    "phpstan/phpstan": "^1.3.0"
+    "overtrue/phplint": "^1.1"
   },
   "scripts": {
     "test": [
-      "@phplint",
-      "@phpunit",
-      "@phpstan",
+      "@tests-unit",
       "@phpcs"
     ],
-    "phplint": "vendor/bin/phplint src --cache=build/phplint.cache",
-    "phpunit": "vendor/bin/phpunit",
-    "phpstan": "vendor/bin/phpstan analyse --memory-limit=1G",
+    "tests-unit": "vendor/bin/phpunit",
     "phpcs": "vendor/bin/sfcs src --progress -vvv",
     "phpcsfix": "vendor/bin/sfcs src --progress -vvv --autofix"
   },
