@@ -15,11 +15,12 @@ class StoreResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $this->deletedAt = '2021-03-05';
 
         $this->props = [
-            'id'        => 10,
-            'name'      => 'abc123',
-            'country'   => 'FR',
-            'status'    => 'active',
-            'deletedAt' => $this->deletedAt,
+            'id'           => 10,
+            'name'         => 'abc123',
+            'country'      => 'FR',
+            'status'       => 'active',
+            'deletedAt'    => $this->deletedAt,
+            'organization' => 'pms111',
         ];
     }
 
@@ -38,6 +39,7 @@ class StoreResourceTest extends Sdk\Test\Api\AbstractResourceTest
             (new \DateTimeImmutable($this->deletedAt))->getTimestamp(),
             $instance->getDeletedAt()->getTimestamp()
         );
+        $this->assertSame($this->props['organization'], $instance->getOrganization());
     }
 
     public function testPropertyDeletedAtIsNull()

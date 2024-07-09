@@ -109,4 +109,9 @@ class StoreResource extends AbstractResource
     {
         return $this->getPropertyDatetime('deletedAt');
     }
+
+    public function getOrganization(): ?string
+    {
+        return $this->getProperty('organization');
+    }
 }
