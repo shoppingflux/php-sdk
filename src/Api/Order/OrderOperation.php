@@ -83,7 +83,8 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
         string $trackingNumber = '',
         string $trackingLink = '',
         array $items = []
-    ): self {
+    ): self
+    {
         $this->operation->addOperation(
             new Api\Order\Identifier\Reference($reference, $channelName),
             Api\Order\Operation::TYPE_SHIP,
@@ -123,7 +124,8 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
         string $storeReference = '',
         string $status = 'success',
         string $message = ''
-    ): self {
+    ): self
+    {
         $acknowledgedAt = date_create()->format('c');
 
         $this->operation->addOperation(

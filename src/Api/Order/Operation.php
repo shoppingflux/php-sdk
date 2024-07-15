@@ -76,7 +76,8 @@ class Operation extends AbstractBulkOperation implements OperationInterface
         string $trackingNumber = '',
         string $trackingLink = '',
         array $items = []
-    ): self {
+    ): self
+    {
         $this->addOperation(
             $identifier,
             self::TYPE_SHIP,
@@ -125,7 +126,8 @@ class Operation extends AbstractBulkOperation implements OperationInterface
         string $storeReference = '',
         string $status = 'success',
         string $message = ''
-    ): self {
+    ): self
+    {
         $acknowledgedAt = date_create()->format('c');
 
         $this->addOperation(
