@@ -11,6 +11,9 @@ class Id implements OrderIdentifier
         $this->id = $id;
     }
 
+    /**
+     * @return array{id: int}
+     */
     public function toArray(): array
     {
         return ['id' => $this->id];

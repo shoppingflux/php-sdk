@@ -14,6 +14,9 @@ class Reference implements OrderIdentifier
         $this->channelName = $channelName;
     }
 
+    /**
+     * @return array{reference: string, channel_name: string}
+     */
     public function toArray(): array
     {
         return [
