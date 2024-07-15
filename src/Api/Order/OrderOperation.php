@@ -1,63 +1,43 @@
 <?php
 namespace ShoppingFeed\Sdk\Api\Order;
 
-use RuntimeException;
 use ShoppingFeed\Sdk\Api;
-use ShoppingFeed\Sdk\Api\Order\Document\AbstractDocument;
 use ShoppingFeed\Sdk\Exception;
 use ShoppingFeed\Sdk\Hal;
-use ShoppingFeed\Sdk\Operation;
+use ShoppingFeed\Sdk\Operation\AbstractBulkOperation;
+use ShoppingFeed\Sdk\Operation\OperationInterface;
 
-class OrderOperation extends Operation\AbstractBulkOperation
+class OrderOperation extends AbstractBulkOperation implements OperationInterface
 {
-    /**
-     * Operation types
-     */
-    public const TYPE_ACCEPT           = 'accept';
-    public const TYPE_CANCEL           = 'cancel';
-    public const TYPE_REFUSE           = 'refuse';
-    public const TYPE_SHIP             = 'ship';
-    public const TYPE_REFUND           = 'refund';
-    public const TYPE_ACKNOWLEDGE      = 'acknowledge';
-    public const TYPE_UNACKNOWLEDGE    = 'unacknowledge';
-    public const TYPE_UPLOAD_DOCUMENTS = 'upload-documents';
-
-    /**
-     * @var array
-     */
-    private $allowedOperationTypes = [
-        self::TYPE_ACCEPT,
-        self::TYPE_CANCEL,
-        self::TYPE_REFUSE,
-        self::TYPE_SHIP,
-        self::TYPE_REFUND,
-        self::TYPE_ACKNOWLEDGE,
-        self::TYPE_UNACKNOWLEDGE,
-        self::TYPE_UPLOAD_DOCUMENTS,
-    ];
-
     /**
      * @var array
      */
     protected $operations = [];
 
     /**
-     * Notify market place of order acceptance
+     * @var Operation $operation
+     */
+    private $operation;
+
+    public function __construct()
+    {
+        $this->operation = new Operation();
+    }
+
+    /**
+     * Notify marketplace of order acceptance
      *
      * @param string $reference   Order reference
      * @param string $channelName Channel to notify
      * @param string $reason      Optional reason of acceptance
      *
-     * @return OrderOperation
-     *
      * @throws Exception\InvalidArgumentException
      */
-    public function accept($reference, $channelName, $reason = '')
+    public function accept(string $reference, string $channelName, string $reason = ''): self
     {
-        $this->addOperation(
-            $reference,
-            $channelName,
-            self::TYPE_ACCEPT,
+        $this->operation->addOperation(
+            new Api\Order\Identifier\Reference($reference, $channelName),
+            Api\Order\Operation::TYPE_ACCEPT,
             compact('reason')
         );
 
@@ -65,22 +45,19 @@ class OrderOperation extends Operation\AbstractBulkOperation
     }
 
     /**
-     * Notify market place of order cancellation
+     * Notify marketplace of order cancellation
      *
      * @param string $reference   Order reference
      * @param string $channelName Channel to notify
      * @param string $reason      Optional reason of cancellation
      *
-     * @return OrderOperation
-     *
      * @throws Exception\InvalidArgumentException
      */
-    public function cancel($reference, $channelName, $reason = '')
+    public function cancel(string $reference, string $channelName, string $reason = ''): self
     {
-        $this->addOperation(
-            $reference,
-            $channelName,
-            self::TYPE_CANCEL,
+        $this->operation->addOperation(
+            new Api\Order\Identifier\Reference($reference, $channelName),
+            Api\Order\Operation::TYPE_CANCEL,
             compact('reason')
         );
 
@@ -88,32 +65,28 @@ class OrderOperation extends Operation\AbstractBulkOperation
     }
 
     /**
-     * Notify market place of order shipment sent
+     * Notify marketplace of order shipment sent
      *
-     * @param string $reference                                Order reference
-     * @param string $channelName                              Channel to notify
-     * @param string $carrier                                  Optional carrier name
-     * @param string $trackingNumber                           Optional tracking number
-     * @param string $trackingLink                             Optional tracking link
-     * @param array<array{id: int, quantity: int}> $items      Optional items
-     *
-     * @return OrderOperation
+     * @param string $reference                           Order reference
+     * @param string $channelName                         Channel to notify
+     * @param string $carrier                             Optional carrier name
+     * @param string $trackingNumber                      Optional tracking number
+     * @param string $trackingLink                        Optional tracking link
+     * @param array<array{id: int, quantity: int}> $items Optional items
      *
      * @throws Exception\InvalidArgumentException
      */
     public function ship(
-        $reference,
-        $channelName,
-        $carrier = '',
-        $trackingNumber = '',
-        $trackingLink = '',
-        $items = []
-    )
-    {
-        $this->addOperation(
-            $reference,
-            $channelName,
-            self::TYPE_SHIP,
+        string $reference,
+        string $channelName,
+        string $carrier = '',
+        string $trackingNumber = '',
+        string $trackingLink = '',
+        array $items = []
+    ): self {
+        $this->operation->addOperation(
+            new Api\Order\Identifier\Reference($reference, $channelName),
+            Api\Order\Operation::TYPE_SHIP,
             compact('carrier', 'trackingNumber', 'trackingLink', 'items')
         );
 
@@ -121,21 +94,18 @@ class OrderOperation extends Operation\AbstractBulkOperation
     }
 
     /**
-     * Notify market place of order refusal
+     * Notify marketplace of order refusal
      *
      * @param string $reference   Order reference
      * @param string $channelName Channel to notify
      *
-     * @return OrderOperation
-     *
      * @throws Exception\InvalidArgumentException
      */
-    public function refuse($reference, $channelName)
+    public function refuse(string $reference, string $channelName): self
     {
-        $this->addOperation(
-            $reference,
-            $channelName,
-            self::TYPE_REFUSE
+        $this->operation->addOperation(
+            new Api\Order\Identifier\Reference($reference, $channelName),
+            Api\Order\Operation::TYPE_REFUSE
         );
 
         return $this;
@@ -144,25 +114,21 @@ class OrderOperation extends Operation\AbstractBulkOperation
     /**
      * Acknowledge order reception
      *
-     * @param string $reference
-     * @param string $channelName
-     * @param string $status
-     * @param string $storeReference
-     * @param string $message
-     *
-     * @return OrderOperation
-     *
      * @throws Exception\InvalidArgumentException
      * @throws \Exception
      */
-    public function acknowledge($reference, $channelName, $storeReference = '', $status = 'success', $message = '')
-    {
+    public function acknowledge(
+        string $reference,
+        string $channelName,
+        string $storeReference = '',
+        string $status = 'success',
+        string $message = ''
+    ): self {
         $acknowledgedAt = date_create()->format('c');
 
-        $this->addOperation(
-            $reference,
-            $channelName,
-            self::TYPE_ACKNOWLEDGE,
+        $this->operation->addOperation(
+            new Api\Order\Identifier\Reference($reference, $channelName),
+            Api\Order\Operation::TYPE_ACKNOWLEDGE,
             compact('status', 'storeReference', 'acknowledgedAt', 'message')
         );
 
@@ -175,17 +141,14 @@ class OrderOperation extends Operation\AbstractBulkOperation
      * @param string $reference   The channel's order reference
      * @param string $channelName The channel's name
      *
-     * @return OrderOperation
-     *
      * @throws Exception\InvalidArgumentException
      * @throws \Exception
      */
-    public function unacknowledge($reference, $channelName)
+    public function unacknowledge(string $reference, string $channelName): self
     {
-        $this->addOperation(
-            $reference,
-            $channelName,
-            self::TYPE_UNACKNOWLEDGE
+        $this->operation->addOperation(
+            new Api\Order\Identifier\Reference($reference, $channelName),
+            Api\Order\Operation::TYPE_UNACKNOWLEDGE
         );
 
         return $this;
@@ -196,16 +159,13 @@ class OrderOperation extends Operation\AbstractBulkOperation
      * @param string                    $channelName The channel's name
      * @param Document\AbstractDocument $document
      *
-     * @return OrderOperation
-     *
      * @throws Exception\InvalidArgumentException
      */
-    public function uploadDocument($reference, $channelName, Document\AbstractDocument $document): self
+    public function uploadDocument(string $reference, string $channelName, Document\AbstractDocument $document): self
     {
-        $this->addOperation(
-            $reference,
-            $channelName,
-            self::TYPE_UPLOAD_DOCUMENTS,
+        $this->operation->addOperation(
+            new Api\Order\Identifier\Reference($reference, $channelName),
+            Api\Order\Operation::TYPE_UPLOAD_DOCUMENTS,
             ['document' => $document]
         );
 
@@ -213,111 +173,32 @@ class OrderOperation extends Operation\AbstractBulkOperation
     }
 
     /**
-     * Execute all declared operations
+     * Notify marketplace of order refund
      *
-     * @param Hal\HalLink $link
+     * @param string $reference   Order reference
+     * @param string $channelName Channel to notify
+     * @param bool   $shipping    True to refund shipping costs
+     * @param array  $products    Order item reference and quantities that will be refunded
      *
-     * @return Api\Order\OrderOperationResult
+     * @throws Exception\InvalidArgumentException
      */
-    public function execute(Hal\HalLink $link)
+    public function refund(string $reference, string $channelName, bool $shipping = true, array $products = []): self
     {
-        $requests  = new \ArrayObject();
-        $resources = new \ArrayObject();
-
-        foreach ($this->allowedOperationTypes as $type) {
-            $this->populateRequests($type, $link, $requests);
-        }
-
-        $link->batchSend(
-            $requests->getArrayCopy(),
-            function (Hal\HalResource $batch) use ($resources) {
-                $resources->append($batch);
-            },
-            null,
-            [],
-            $this->getPoolSize()
+        $this->operation->addOperation(
+            new Api\Order\Identifier\Reference($reference, $channelName),
+            Api\Order\Operation::TYPE_REFUND,
+            ['refund' => compact('shipping', 'products')]
         );
 
-        return new Api\Order\OrderOperationResult(
-            $resources->getArrayCopy()
-        );
-    }
-
-    private function populateRequests($type, Hal\HalLink $link, \ArrayAccess $requests): void
-    {
-        // Upload documents require dedicated processing because of file upload specificities
-        if (self::TYPE_UPLOAD_DOCUMENTS === $type) {
-            $this->populateRequestsForUploadDocuments($link, $requests);
-            return;
-        }
-
-        $this->eachBatch(
-            function (array $chunk) use ($type, $link, &$requests) {
-                $requests[] = $link->createRequest(
-                    'POST',
-                    ['operation' => $type],
-                    ['order' => $chunk]
-                );
-            },
-            $type
-        );
+        return $this;
     }
 
     /**
-     * Create requests for upload documents operation. We batch request by 20
-     * to not send too many files at once.
-     *
-     * @param Hal\HalLink $link
-     * @param array       $requests
-     *
-     * @return \Psr\Http\Message\RequestInterface
+     * Execute all declared operations
      */
-    private function populateRequestsForUploadDocuments(Hal\HalLink $link, \ArrayAccess $requests)
+    public function execute(Hal\HalLink $link): OrderOperationResult
     {
-        $type = self::TYPE_UPLOAD_DOCUMENTS;
-
-        foreach (array_chunk($this->getOperations($type), 20) as $batch) {
-            $body   = [];
-            $orders = [];
-
-            foreach ($batch as $operation) {
-                /** @var AbstractDocument $document */
-                $document = $operation['document'];
-
-                $resource = fopen($document->getPath(), 'rb');
-
-                if (false === $resource) {
-                    throw new RuntimeException(
-                        sprintf('Unable to read "%s"', $document->getPath())
-                    );
-                }
-
-                $body[] = [
-                    'name'     => 'files[]',
-                    'contents' => $resource,
-                ];
-
-                $orders[] = [
-                    'reference'   => $operation['reference'],
-                    'channelName' => $operation['channelName'],
-                    'documents'   => [
-                        ['type' => $document->getType()],
-                    ],
-                ];
-            }
-
-            $body[] = [
-                'name'     => 'body',
-                'contents' => json_encode(['order' => $orders]),
-            ];
-
-            $requests[] = $link->createRequest(
-                'POST',
-                ['operation' => $type],
-                $body,
-                ['Content-Type' => 'multipart/form-data']
-            );
-        }
+        return $this->operation->execute($link);
     }
 
     /**
@@ -330,43 +211,8 @@ class OrderOperation extends Operation\AbstractBulkOperation
      *
      * @throws Exception\InvalidArgumentException
      */
-    public function addOperation($reference, $channelName, $type, $data = [])
+    public function addOperation(string $reference, string $channelName, string $type, array $data = []): void
     {
-        if (! in_array($type, $this->allowedOperationTypes)) {
-            throw new Exception\InvalidArgumentException(sprintf(
-                'Only %s operations are accepted',
-                implode(', ', $this->allowedOperationTypes)
-            ));
-        }
-
-        if (! isset($this->operations[$type])) {
-            $this->operations[$type] = [];
-        }
-
-        $this->operations[$type][] = array_merge(compact('reference', 'channelName'), $data);
-    }
-
-    /**
-     * Notify market place of order refund
-     *
-     * @param string $reference   Order reference
-     * @param string $channelName Channel to notify
-     * @param bool   $shipping    True to refund shipping costs
-     * @param array  $products    Order item reference and quantities that will be refunded
-     *
-     * @return OrderOperation
-     *
-     * @throws Exception\InvalidArgumentException
-     */
-    public function refund($reference, $channelName, $shipping = true, $products = [])
-    {
-        $this->addOperation(
-            $reference,
-            $channelName,
-            self::TYPE_REFUND,
-            ['refund' => compact('shipping', 'products')]
-        );
-
-        return $this;
+        $this->operation->addOperation(new Api\Order\Identifier\Reference($reference, $channelName), $type, $data);
     }
 }
