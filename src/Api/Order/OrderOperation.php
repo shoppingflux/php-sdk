@@ -2,18 +2,17 @@
 namespace ShoppingFeed\Sdk\Api\Order;
 
 use ShoppingFeed\Sdk\Api;
+use ShoppingFeed\Sdk\Api\Order\Identifier\Reference;
 use ShoppingFeed\Sdk\Exception;
 use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Operation\AbstractBulkOperation;
 use ShoppingFeed\Sdk\Operation\OperationInterface;
 
+/**
+ * @deprecated Use ShoppingFeed\Sdk\Api\Order\Operation instead
+ */
 class OrderOperation extends AbstractBulkOperation implements OperationInterface
 {
-    /**
-     * @var array
-     */
-    protected $operations = [];
-
     /**
      * @var Operation $operation
      */
@@ -36,8 +35,8 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
     public function accept(string $reference, string $channelName, string $reason = ''): self
     {
         $this->operation->addOperation(
-            new Api\Order\Identifier\Reference($reference, $channelName),
-            Api\Order\Operation::TYPE_ACCEPT,
+            new Reference($reference, $channelName),
+            Operation::TYPE_ACCEPT,
             compact('reason')
         );
 
@@ -56,8 +55,8 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
     public function cancel(string $reference, string $channelName, string $reason = ''): self
     {
         $this->operation->addOperation(
-            new Api\Order\Identifier\Reference($reference, $channelName),
-            Api\Order\Operation::TYPE_CANCEL,
+            new Reference($reference, $channelName),
+            Operation::TYPE_CANCEL,
             compact('reason')
         );
 
@@ -86,8 +85,8 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
     ): self
     {
         $this->operation->addOperation(
-            new Api\Order\Identifier\Reference($reference, $channelName),
-            Api\Order\Operation::TYPE_SHIP,
+            new Reference($reference, $channelName),
+            Operation::TYPE_SHIP,
             compact('carrier', 'trackingNumber', 'trackingLink', 'items')
         );
 
@@ -105,8 +104,8 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
     public function refuse(string $reference, string $channelName): self
     {
         $this->operation->addOperation(
-            new Api\Order\Identifier\Reference($reference, $channelName),
-            Api\Order\Operation::TYPE_REFUSE
+            new Reference($reference, $channelName),
+            Operation::TYPE_REFUSE
         );
 
         return $this;
@@ -129,8 +128,8 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
         $acknowledgedAt = date_create()->format('c');
 
         $this->operation->addOperation(
-            new Api\Order\Identifier\Reference($reference, $channelName),
-            Api\Order\Operation::TYPE_ACKNOWLEDGE,
+            new Reference($reference, $channelName),
+            Operation::TYPE_ACKNOWLEDGE,
             compact('status', 'storeReference', 'acknowledgedAt', 'message')
         );
 
@@ -149,8 +148,8 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
     public function unacknowledge(string $reference, string $channelName): self
     {
         $this->operation->addOperation(
-            new Api\Order\Identifier\Reference($reference, $channelName),
-            Api\Order\Operation::TYPE_UNACKNOWLEDGE
+            new Reference($reference, $channelName),
+            Operation::TYPE_UNACKNOWLEDGE
         );
 
         return $this;
@@ -166,8 +165,8 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
     public function uploadDocument(string $reference, string $channelName, Document\AbstractDocument $document): self
     {
         $this->operation->addOperation(
-            new Api\Order\Identifier\Reference($reference, $channelName),
-            Api\Order\Operation::TYPE_UPLOAD_DOCUMENTS,
+            new Reference($reference, $channelName),
+            Operation::TYPE_UPLOAD_DOCUMENTS,
             ['document' => $document]
         );
 
@@ -187,8 +186,8 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
     public function refund(string $reference, string $channelName, bool $shipping = true, array $products = []): self
     {
         $this->operation->addOperation(
-            new Api\Order\Identifier\Reference($reference, $channelName),
-            Api\Order\Operation::TYPE_REFUND,
+            new Reference($reference, $channelName),
+            Operation::TYPE_REFUND,
             ['refund' => compact('shipping', 'products')]
         );
 
@@ -215,6 +214,6 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      */
     public function addOperation(string $reference, string $channelName, string $type, array $data = []): void
     {
-        $this->operation->addOperation(new Api\Order\Identifier\Reference($reference, $channelName), $type, $data);
+        $this->operation->addOperation(new Reference($reference, $channelName), $type, $data);
     }
 }

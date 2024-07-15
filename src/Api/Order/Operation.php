@@ -176,7 +176,7 @@ class Operation extends AbstractBulkOperation implements OperationInterface
         return $this;
     }
 
-    public function addOperation(OrderIdentifier $identifier, string $type, array $data = [])
+    public function addOperation(OrderIdentifier $identifier, string $type, array $data = []): void
     {
         if (! in_array($type, $this->allowedOperationTypes)) {
             throw new InvalidArgumentException(sprintf(
