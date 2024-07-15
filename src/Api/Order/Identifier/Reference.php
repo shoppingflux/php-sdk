@@ -2,6 +2,9 @@
 
 namespace ShoppingFeed\Sdk\Api\Order\Identifier;
 
+/**
+ * @deprecated Use ShoppingFeed\Sdk\Api\Order\Identifier\Id instead
+ */
 class Reference implements OrderIdentifier
 {
     private $reference;
