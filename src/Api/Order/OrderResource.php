@@ -65,6 +65,14 @@ class OrderResource extends Resource\AbstractResource
     }
 
     /**
+     * @return \DateTimeImmutable
+     */
+    public function getLatestShipDate()
+    {
+        return $this->getPropertyDatetime('latestShipDate');
+    }
+    
+    /**
      * @return array
      */
     public function getShippingAddress()
