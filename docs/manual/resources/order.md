@@ -174,7 +174,7 @@ foreach ($result->wait(60)->getTickets() as $ticket) {
 ### Accept
 
 The accept operation accepts 2 parameters :
-1. [mandatory] `$id` : Order ID (eg: 1234)
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
 2. [optional] `$reason` : The reason of the acceptance (eq: 'Why we accept the order') 
 
 Example :
@@ -193,7 +193,7 @@ $orderApi->execute($operation);
 ### Cancel
 
 The cancel operation accepts 2 parameters :
-1. [mandatory] `$id` : Order ID (eg: 1234)
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
 2. [optional] `$reason` : The reason of the cancelling (eq: 'Why we cancel the order')
 
 Example :
@@ -212,7 +212,7 @@ $orderApi->execute($operation);
 ### Refuse
 
 The refuse operation accepts 1 parameter :
-1. [mandatory] `$id` : Order ID (eg: 1234)
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
 
 Example :
 
@@ -230,7 +230,7 @@ $orderApi->execute($operation);
 
 The ship operation accepts 5 parameters :
 
-1. [mandatory] `$id` : Order ID (eg: 1234)
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
 2. [optional] `$carrier` : The carrier name used for the shipment (eq: 'ups') 
 3. [optional] `$trackingNumber` : Tracking number (eq: '01234598abcdef') 
 4. [optional] `$trackingLink` : Tracking link (eq: 'http://tracking.url/') 
@@ -252,7 +252,7 @@ $orderApi->execute($operation);
 ### Refund
 
 The refund operation accepts 3 parameters :
-1. [mandatory] `$id` : Order ID (eg: 1234)
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
 2. [optional] `$shipping` : true if shipping cost need to be refunded, false otherwise (eq: `false`) 
 3. [optional] `$products` : Item references and their quantities to refund (eq: `['itemref1' => 1, 'itemref2' => 2]`) 
 
@@ -283,11 +283,10 @@ $orderApi->execute($operation);
 
 To acknowledge the reception of an order, you need the following parameters :
 
-1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
-2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
-3. [optional] `$storeReference` : Store reference (eg: 'store-reference')
-4. [optional] `$status` : Status of acknowledgment (eg: 'success' or 'error')
-5. [optional] `$message` : In case or error status, you can provide a message (eg: 'Unknown product #ABC-123') 
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
+2. [optional] `$storeReference` : Store reference (eg: 'store-reference')
+3. [optional] `$status` : Status of acknowledgment (eg: 'success' or 'error')
+4. [optional] `$message` : In case or error status, you can provide a message (eg: 'Unknown product #ABC-123') 
 
 Example :
 
@@ -307,8 +306,7 @@ $orderApi->execute($operation);
 
 To unacknowledge the reception of an order previously acknowledged, you need the following parameters :
 
-1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
-2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon')
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
 
 Example :
 
@@ -327,9 +325,8 @@ $orderApi->execute($operation);
 ### Upload documents
 
 To upload order documents, you need the following parameters :
-1. [mandatory] `$reference` : Order reference (eg: 'reference1')
-2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon')
-3. [mandatory] `$documents` : One or more documents to upload
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
+2. [mandatory] `$documents` : One or more documents to upload
 
 Example :
 
@@ -343,6 +340,21 @@ $operation
     ->uploadDocument(new Id(1111), new Document\Invoice('/tmp/amazon_ref1_invoice.pdf'))
     ->uploadDocument(new Id(2222), new Document\Invoice('/tmp/amazon_ref2_invoice.pdf'));
 
+$orderApi->execute($operation);
+```
+
+### Deliver
+
+The deliver operation accepts 3 parameters:
+
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
+2. [optional] `$channelName` : The channel where the order is from (eg: 'amazon')
+
+Example :
+
+```php
+$operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
+$operation->deliver(new Id(1111));
 $orderApi->execute($operation);
 ```
 
