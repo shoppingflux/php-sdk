@@ -34,7 +34,7 @@ order `5555` from store `1`:
 $session->selectStore(1)->getOrderApi()->getOne(5555);
 ```
 
-### Deprecated method
+### Deprecated
 
 1. Usage of getMainStore() has been deprecated and SHOULD NOT be used anymore. 
 It can lead to major issue if your session get access to new stores.
@@ -348,7 +348,6 @@ $orderApi->execute($operation);
 The deliver operation accepts 3 parameters:
 
 1. [mandatory] `$orderId` : Order ID (eg: 1234)
-2. [optional] `$channelName` : The channel where the order is from (eg: 'amazon')
 
 Example :
 
