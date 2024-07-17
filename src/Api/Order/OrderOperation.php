@@ -102,32 +102,6 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
         return $this;
     }
 
-    private function createReference(string $reference, string $channelName): Api\Order\Identifier\OrderIdentifier
-    {
-        return new class implements Api\Order\Identifier\OrderIdentifier {
-            private $reference;
-
-            private $channelName;
-
-            public function __construct($reference, $channelName)
-            {
-                $this->reference   = (string) $reference;
-                $this->channelName = (string) $channelName;
-            }
-
-            /**
-             * @return array{reference: string, channel_name: string}
-             */
-            public function toArray(): array
-            {
-                return [
-                    'reference'    => $this->reference,
-                    'channel_name' => $this->channelName,
-                ];
-            }
-        };
-    }
-
     /**
      * Notify marketplace of order refusal
      *
@@ -148,6 +122,12 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
 
     /**
      * Acknowledge order reception
+     *
+     * @param string $reference
+     * @param string $channelName
+     * @param string $storeReference
+     * @param string $status
+     * @param string $message
      *
      * @throws Exception\InvalidArgumentException
      * @throws \Exception
@@ -252,5 +232,37 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
         $this->operation->addOperation(
             $this->createReference((string) $reference, (string) $channelName), (string) $type, (array) $data
         );
+    }
+
+    private function createReference(string $reference, string $channelName): Api\Order\Identifier\OrderIdentifier
+    {
+        return new class implements Api\Order\Identifier\OrderIdentifier {
+            /**
+             * @var string
+             */
+            private $reference;
+
+            /**
+             * @var string
+             */
+            private $channelName;
+
+            public function __construct(string $reference, string $channelName)
+            {
+                $this->reference   = $reference;
+                $this->channelName = $channelName;
+            }
+
+            /**
+             * @return array{reference: string, channel_name: string}
+             */
+            public function toArray(): array
+            {
+                return [
+                    'reference'    => $this->reference,
+                    'channel_name' => $this->channelName,
+                ];
+            }
+        };
     }
 }

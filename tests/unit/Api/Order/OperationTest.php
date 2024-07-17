@@ -39,9 +39,9 @@ class OperationTest extends TestCase
     /**
      * @dataProvider operationDeliverOrRefuseProvider
      */
-    public function testDeliverOrRefuseOperation(string $operation, ...$args): void
+    public function testDeliverOrRefuseOperation(string $operation, string $type): void
     {
-        $this->instance->expects($this->once())->method('addOperation')->with($this->identifier, ...$args);
+        $this->instance->expects($this->once())->method('addOperation')->with($this->identifier, $type);
 
         $this->assertInstanceOf(Api\Order\Operation::class, $this->instance->$operation($this->identifier));
     }
