@@ -45,20 +45,26 @@ $storeId  = 1276;
 $orderApi = $session->selectStore($storeId)->getOrderApi();
 ```
 
-2. Use following parameters as identifier:
+2. Usage of reference & channelName as identifier of orders has been deprecated
+   and SHOULD NOT be used anymore.
+
+Please use :
+
+```php
+$operation = new \ShoppingFeed\Sdk\Api\Order\Operation();
+$operation->accept(new Id(111));
+$orderApi->execute($operation);
+```
+
+Instead of :
 
 - `$reference` : Order reference (eg: 'reference1')
 - `$channelName` : The channel where the order is from (eg: 'amazon')
 
 ```
+// Deprecated version
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $operation->accept('ref1', 'amazon')
-$orderApi->execute($operation);
-```
-or
-```
-$operation = new \ShoppingFeed\Sdk\Api\Order\Operation();
-$operation->accept(new \ShoppingFeed\Sdk\Api\Order\Identifier\Reference('ref1', 'amazon'))
 $orderApi->execute($operation);
 ```
 

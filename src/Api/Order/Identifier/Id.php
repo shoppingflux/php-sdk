@@ -2,7 +2,7 @@
 
 namespace ShoppingFeed\Sdk\Api\Order\Identifier;
 
-class Id implements OrderIdentifier
+final class Id implements OrderIdentifier
 {
     private $id;
 

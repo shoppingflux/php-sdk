@@ -216,7 +216,7 @@ class Operation extends AbstractBulkOperation implements OperationInterface
         );
     }
 
-    private function populateRequests($type, Hal\HalLink $link, ArrayAccess $requests): void
+    private function populateRequests(string $type, Hal\HalLink $link, ArrayAccess $requests): void
     {
         $this->eachBatch(
             function (array $chunk) use ($type, $link, &$requests) {

@@ -7,7 +7,6 @@ use Psr\Http\Message\RequestInterface;
 use ShoppingFeed\Sdk;
 use ShoppingFeed\Sdk\Api;
 use ShoppingFeed\Sdk\Api\Order\Identifier\Id;
-use ShoppingFeed\Sdk\Api\Order\Identifier\Reference;
 use ShoppingFeed\Sdk\Exception\InvalidArgumentException;
 
 class OperationTest extends TestCase
@@ -22,24 +21,19 @@ class OperationTest extends TestCase
      */
     private $operationCount = 10;
 
+    /**
+     * @var Id
+     */
+    private $identifier;
+
     public function setUp(): void
     {
+        $this->identifier = new Id(123);
+
         $this->instance = $this
             ->getMockBuilder(Api\Order\Operation::class)
             ->setMethods(['addOperation'])
             ->getMock();
-    }
-
-    public function testOperationWithId(): void
-    {
-        $id = new Id(123);
-
-        $this->instance
-            ->expects($this->once())
-            ->method('addOperation')
-            ->with($id, Api\Order\Operation::TYPE_DELIVER);
-
-        $this->assertInstanceOf(Api\Order\Operation::class, $this->instance->deliver($id));
     }
 
     /**
@@ -47,14 +41,12 @@ class OperationTest extends TestCase
      */
     public function testDeliverOrRefuseOperation(string $operation, ...$args): void
     {
-        $reference = new Reference('ref1', 'amazon');
+        $this->instance->expects($this->once())->method('addOperation')->with($this->identifier, ...$args);
 
-        $this->instance->expects($this->once())->method('addOperation')->with($reference, ...$args);
-
-        $this->assertInstanceOf(Api\Order\Operation::class, $this->instance->$operation($reference));
+        $this->assertInstanceOf(Api\Order\Operation::class, $this->instance->$operation($this->identifier));
     }
 
-    public function operationDeliverOrRefuseProvider(): array
+    public static function operationDeliverOrRefuseProvider(): array
     {
         return [
             'refuse' => [
@@ -76,22 +68,15 @@ class OperationTest extends TestCase
         $this->instance
             ->expects($this->once())
             ->method('addOperation')
-            ->with(
-                new Reference('ref1', 'amazon'),
-                $type,
-                $data
-            );
+            ->with($this->identifier, $type, $data);
 
         $this->assertInstanceOf(
             Api\Order\Operation::class,
-            $this->instance->$operation(
-                new Reference('ref1', 'amazon'),
-                $data['reason']
-            )
+            $this->instance->$operation($this->identifier, $data['reason'])
         );
     }
 
-    public function operationAcceptOrCancelProvider(): array
+    public static function operationAcceptOrCancelProvider(): array
     {
         return [
             'accept'  => [
@@ -113,7 +98,7 @@ class OperationTest extends TestCase
             ->expects($this->once())
             ->method('addOperation')
             ->with(
-                new Reference('ref1', 'amazon'),
+                $this->identifier,
                 Api\Order\Operation::TYPE_SHIP,
                 [
                     'carrier'        => 'ups',
@@ -126,7 +111,7 @@ class OperationTest extends TestCase
         $this->assertInstanceOf(
             Api\Order\Operation::class,
             $this->instance->ship(
-                new Reference('ref1', 'amazon'),
+                $this->identifier,
                 'ups',
                 '123654abc',
                 'http://tracking.lnk'
@@ -140,7 +125,7 @@ class OperationTest extends TestCase
             ->expects($this->once())
             ->method('addOperation')
             ->with(
-                new Reference('ref1', 'amazon'),
+                $this->identifier,
                 Api\Order\Operation::TYPE_REFUND,
                 [
                     'refund' => [
@@ -156,7 +141,7 @@ class OperationTest extends TestCase
         $this->assertInstanceOf(
             Api\Order\Operation::class,
             $this->instance->refund(
-                new Reference('ref1', 'amazon'),
+                $this->identifier,
                 true,
                 [
                     ['reference' => 'item1', 'quantity' => 1],
@@ -174,21 +159,21 @@ class OperationTest extends TestCase
             ->expects($this->once())
             ->method('addOperation')
             ->with(
-                new Reference('ref1', 'amazon'),
+                $this->identifier,
                 Api\Order\Operation::TYPE_UPLOAD_DOCUMENTS,
                 ['document' => $document]
             );
 
         $this->assertInstanceOf(
             Api\Order\Operation::class,
-            $this->instance->uploadDocument(new Reference('ref1', 'amazon'), $document)
+            $this->instance->uploadDocument($this->identifier, $document)
         );
     }
 
     public function testAcknowledgeOperation(): void
     {
         $data = [
-            new Reference('ref1', 'amazon'),
+            $this->identifier,
             '123654abc',
             'success',
             'Acknowledged',
@@ -198,7 +183,7 @@ class OperationTest extends TestCase
             ->expects($this->once())
             ->method('addOperation')
             ->with(
-                new Reference('ref1', 'amazon'),
+                $this->identifier,
                 Api\Order\Operation::TYPE_ACKNOWLEDGE,
                 $this->callback(
                     function ($param) {
@@ -216,7 +201,7 @@ class OperationTest extends TestCase
     public function testUnacknowledgeOperation(): void
     {
         $data = [
-            new Reference('ref2', 'amazon2'),
+            $this->identifier,
             'Unacknowledged',
         ];
 
@@ -224,7 +209,7 @@ class OperationTest extends TestCase
             ->expects($this->once())
             ->method('addOperation')
             ->with(
-                new Reference('ref2', 'amazon2'),
+                $this->identifier,
                 Api\Order\Operation::TYPE_UNACKNOWLEDGE
             );
 
@@ -245,10 +230,7 @@ class OperationTest extends TestCase
     private function generateOperations(Api\Order\Operation $orderOperation): void
     {
         for ($i = 0; $i < $this->operationCount; $i++) {
-            $orderOperation->addOperation(
-                new Reference('ref' . $i, 'amazon'),
-                Api\Order\Operation::TYPE_ACCEPT
-            );
+            $orderOperation->addOperation($this->identifier, Api\Order\Operation::TYPE_ACCEPT);
         }
     }
 
@@ -258,7 +240,7 @@ class OperationTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        $orderOperation->addOperation(new Reference('ref', 'amazon'), 'FakeType');
+        $orderOperation->addOperation($this->identifier, 'FakeType');
     }
 
     public function testExecute(): void
