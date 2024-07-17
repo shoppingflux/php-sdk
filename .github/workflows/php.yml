@@ -15,7 +15,7 @@ jobs:
         phpv: [ "7.1", "8.0", "8.1", "8.2", "8.3" ]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Setup PHP with PECL extension
       uses: shivammathur/setup-php@v2
@@ -24,6 +24,15 @@ jobs:
 
     - name: Validate composer.json and composer.lock
       run: composer validate
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
