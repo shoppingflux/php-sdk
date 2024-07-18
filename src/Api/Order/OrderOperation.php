@@ -139,13 +139,7 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      * @throws Exception\InvalidArgumentException
      * @throws \Exception
      */
-    public function acknowledge(
-        $reference,
-        $channelName,
-        $storeReference = '',
-        $status = 'success',
-        $message = ''
-    )
+    public function acknowledge($reference, $channelName, $storeReference = '', $status = 'success', $message = '')
     {
         $this->operation->acknowledge(
             $this->createReference((string) $reference, (string) $channelName),
