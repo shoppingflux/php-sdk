@@ -11,7 +11,7 @@ use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Operation\AbstractBulkOperation;
 use ShoppingFeed\Sdk\Operation\OperationInterface;
 
-class Operation extends AbstractBulkOperation implements OperationInterface
+final class Operation extends AbstractBulkOperation implements OperationInterface
 {
     /**
      * Operation types
@@ -48,9 +48,7 @@ class Operation extends AbstractBulkOperation implements OperationInterface
      */
     public function accept(OrderIdentifier $identifier, string $reason = ''): self
     {
-        $this->addOperation($identifier, self::TYPE_ACCEPT, compact('reason'));
-
-        return $this;
+        return $this->addOperation($identifier, self::TYPE_ACCEPT, compact('reason'));
     }
 
     /**
@@ -60,9 +58,7 @@ class Operation extends AbstractBulkOperation implements OperationInterface
      */
     public function refuse(OrderIdentifier $identifier): self
     {
-        $this->addOperation($identifier, self::TYPE_REFUSE);
-
-        return $this;
+        return $this->addOperation($identifier, self::TYPE_REFUSE);
     }
 
     /**
@@ -78,13 +74,11 @@ class Operation extends AbstractBulkOperation implements OperationInterface
         array $items = []
     ): self
     {
-        $this->addOperation(
+        return $this->addOperation(
             $identifier,
             self::TYPE_SHIP,
             compact('carrier', 'trackingNumber', 'trackingLink', 'items')
         );
-
-        return $this;
     }
 
     /**
@@ -94,9 +88,7 @@ class Operation extends AbstractBulkOperation implements OperationInterface
      */
     public function cancel(OrderIdentifier $identifier, string $reason = ''): self
     {
-        $this->addOperation($identifier, self::TYPE_CANCEL, compact('reason'));
-
-        return $this;
+        return $this->addOperation($identifier, self::TYPE_CANCEL, compact('reason'));
     }
 
     /**
@@ -106,13 +98,11 @@ class Operation extends AbstractBulkOperation implements OperationInterface
      */
     public function refund(OrderIdentifier $identifier, bool $shipping = true, array $products = []): self
     {
-        $this->addOperation(
+        return $this->addOperation(
             $identifier,
             self::TYPE_REFUND,
             ['refund' => compact('shipping', 'products')]
         );
-
-        return $this;
     }
 
     /**
@@ -130,13 +120,11 @@ class Operation extends AbstractBulkOperation implements OperationInterface
     {
         $acknowledgedAt = date_create()->format('c');
 
-        $this->addOperation(
+        return $this->addOperation(
             $identifier,
             self::TYPE_ACKNOWLEDGE,
             compact('status', 'storeReference', 'acknowledgedAt', 'message')
         );
-
-        return $this;
     }
 
     /**
@@ -147,9 +135,7 @@ class Operation extends AbstractBulkOperation implements OperationInterface
      */
     public function unacknowledge(OrderIdentifier $identifier): self
     {
-        $this->addOperation($identifier, self::TYPE_UNACKNOWLEDGE);
-
-        return $this;
+        return $this->addOperation($identifier, self::TYPE_UNACKNOWLEDGE);
     }
 
     /**
@@ -159,9 +145,7 @@ class Operation extends AbstractBulkOperation implements OperationInterface
      */
     public function uploadDocument(OrderIdentifier $identifier, Document\AbstractDocument $document): self
     {
-        $this->addOperation($identifier, self::TYPE_UPLOAD_DOCUMENTS, ['document' => $document]);
-
-        return $this;
+        return $this->addOperation($identifier, self::TYPE_UPLOAD_DOCUMENTS, ['document' => $document]);
     }
 
     /**
@@ -171,12 +155,10 @@ class Operation extends AbstractBulkOperation implements OperationInterface
      */
     public function deliver(OrderIdentifier $identifier): self
     {
-        $this->addOperation($identifier, self::TYPE_DELIVER);
-
-        return $this;
+        return $this->addOperation($identifier, self::TYPE_DELIVER);
     }
 
-    public function addOperation(OrderIdentifier $identifier, string $type, array $data = []): void
+    private function addOperation(OrderIdentifier $identifier, string $type, array $data = []): self
     {
         if (! in_array($type, $this->allowedOperationTypes)) {
             throw new InvalidArgumentException(sprintf(
@@ -190,6 +172,8 @@ class Operation extends AbstractBulkOperation implements OperationInterface
         }
 
         $this->operations[$type][] = array_merge($identifier->toArray(), $data);
+
+        return $this;
     }
 
     public function execute(Hal\HalLink $link): OrderOperationResult

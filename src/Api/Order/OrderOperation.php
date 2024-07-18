@@ -39,14 +39,15 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      * @param string $channelName Channel to notify
      * @param string $reason      Optional reason of acceptance
      *
+     * @return OrderOperation
+     *
      * @throws Exception\InvalidArgumentException
      */
-    public function accept($reference, $channelName, $reason = ''): self
+    public function accept($reference, $channelName, $reason = '')
     {
-        $this->operation->addOperation(
+        $this->operation->accept(
             $this->createReference((string) $reference, (string) $channelName),
-            Operation::TYPE_ACCEPT,
-            compact('reason')
+            (string) $reason
         );
 
         return $this;
@@ -59,14 +60,15 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      * @param string $channelName Channel to notify
      * @param string $reason      Optional reason of cancellation
      *
+     * @return OrderOperation
+     *
      * @throws Exception\InvalidArgumentException
      */
-    public function cancel($reference, $channelName, $reason = ''): self
+    public function cancel($reference, $channelName, $reason = '')
     {
-        $this->operation->addOperation(
+        $this->operation->cancel(
             $this->createReference((string) $reference, (string) $channelName),
-            Operation::TYPE_CANCEL,
-            compact('reason')
+            (string) $reason
         );
 
         return $this;
@@ -82,6 +84,8 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      * @param string $trackingLink                        Optional tracking link
      * @param array<array{id: int, quantity: int}> $items Optional items
      *
+     * @return OrderOperation
+     *
      * @throws Exception\InvalidArgumentException
      */
     public function ship(
@@ -91,12 +95,14 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
         $trackingNumber = '',
         $trackingLink = '',
         $items = []
-    ): self
+    )
     {
-        $this->operation->addOperation(
+        $this->operation->ship(
             $this->createReference((string) $reference, (string) $channelName),
-            Operation::TYPE_SHIP,
-            compact('carrier', 'trackingNumber', 'trackingLink', 'items')
+            (string) $carrier,
+            (string) $trackingNumber,
+            (string) $trackingLink,
+            (array) $items
         );
 
         return $this;
@@ -108,14 +114,13 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      * @param string $reference   Order reference
      * @param string $channelName Channel to notify
      *
+     * @return OrderOperation
+     *
      * @throws Exception\InvalidArgumentException
      */
-    public function refuse($reference, $channelName): self
+    public function refuse($reference, $channelName)
     {
-        $this->operation->addOperation(
-            $this->createReference((string) $reference, (string) $channelName),
-            Operation::TYPE_REFUSE
-        );
+        $this->operation->refuse($this->createReference((string) $reference, (string) $channelName));
 
         return $this;
     }
@@ -129,6 +134,8 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      * @param string $status
      * @param string $message
      *
+     * @return OrderOperation
+     *
      * @throws Exception\InvalidArgumentException
      * @throws \Exception
      */
@@ -138,14 +145,13 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
         $storeReference = '',
         $status = 'success',
         $message = ''
-    ): self
+    )
     {
-        $acknowledgedAt = date_create()->format('c');
-
-        $this->operation->addOperation(
+        $this->operation->acknowledge(
             $this->createReference((string) $reference, (string) $channelName),
-            Operation::TYPE_ACKNOWLEDGE,
-            compact('status', 'storeReference', 'acknowledgedAt', 'message')
+            (string) $storeReference,
+            (string) $status,
+            (string) $message
         );
 
         return $this;
@@ -157,15 +163,14 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      * @param string $reference   The channel's order reference
      * @param string $channelName The channel's name
      *
+     * @return OrderOperation
+     *
      * @throws Exception\InvalidArgumentException
      * @throws \Exception
      */
-    public function unacknowledge($reference, $channelName): self
+    public function unacknowledge($reference, $channelName)
     {
-        $this->operation->addOperation(
-            $this->createReference((string) $reference, (string) $channelName),
-            Operation::TYPE_UNACKNOWLEDGE
-        );
+        $this->operation->unacknowledge($this->createReference((string) $reference, (string) $channelName));
 
         return $this;
     }
@@ -175,14 +180,15 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      * @param string                    $channelName The channel's name
      * @param Document\AbstractDocument $document
      *
+     * @return OrderOperation
+     *
      * @throws Exception\InvalidArgumentException
      */
     public function uploadDocument($reference, $channelName, Document\AbstractDocument $document): self
     {
-        $this->operation->addOperation(
+        $this->operation->uploadDocument(
             $this->createReference((string) $reference, (string) $channelName),
-            Operation::TYPE_UPLOAD_DOCUMENTS,
-            ['document' => $document]
+            $document
         );
 
         return $this;
@@ -196,14 +202,16 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      * @param bool   $shipping    True to refund shipping costs
      * @param array  $products    Order item reference and quantities that will be refunded
      *
+     * @return OrderOperation
+     *
      * @throws Exception\InvalidArgumentException
      */
-    public function refund($reference, $channelName, $shipping = true, $products = []): self
+    public function refund($reference, $channelName, $shipping = true, $products = [])
     {
-        $this->operation->addOperation(
+        $this->operation->refund(
             $this->createReference((string) $reference, (string) $channelName),
-            Operation::TYPE_REFUND,
-            ['refund' => compact('shipping', 'products')]
+            (bool) $shipping,
+            (array) $products
         );
 
         return $this;
@@ -215,23 +223,6 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
     public function execute(Hal\HalLink $link): OrderOperationResult
     {
         return $this->operation->execute($link);
-    }
-
-    /**
-     * Add operation to queue
-     *
-     * @param string $reference   Order reference
-     * @param string $channelName Channel to notify
-     * @param string $type        Type of operation
-     * @param array  $data        Extra data to pass to operation call
-     *
-     * @throws Exception\InvalidArgumentException
-     */
-    public function addOperation($reference, $channelName, $type, $data = []): void
-    {
-        $this->operation->addOperation(
-            $this->createReference((string) $reference, (string) $channelName), (string) $type, (array) $data
-        );
     }
 
     private function createReference(string $reference, string $channelName): Api\Order\Identifier\OrderIdentifier
