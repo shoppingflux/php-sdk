@@ -351,7 +351,7 @@ $orderApi->execute($operation);
 
 ### Deliver
 
-The deliver operation accepts 3 parameters:
+The deliver operation accepts 1 parameter:
 
 1. [mandatory] `$orderId` : Order ID (eg: 1234)
 
