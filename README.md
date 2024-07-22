@@ -73,6 +73,8 @@ foreach ($stores as $store) {
 
 - [Inventory management](docs/manual/resources/inventory.md)
 - [Order management](docs/manual/resources/order.md)
+- [Pricing management](docs/manual/resources/pricing.md)
+- [Ticket management](docs/manual/resources/ticket.md)
 
 
 ### Generates XML compliant feed for import
