@@ -3,6 +3,7 @@ namespace ShoppingFeed\Sdk\Api\Order;
 
 use ShoppingFeed\Sdk\Api\Order\Shipment\ShipmentDomain;
 use ShoppingFeed\Sdk\Api\Order\Shipment\ShipmentResource;
+use ShoppingFeed\Sdk\Operation\OperationInterface;
 use ShoppingFeed\Sdk\Resource;
 
 /**
@@ -25,12 +26,7 @@ class OrderDomain extends Resource\AbstractDomainResource
         return (new ShipmentDomain($this->link->withAddedHref($orderId . '/shipment')))->getAll();
     }
 
-    /**
-     * @param OrderOperation $operation
-     *
-     * @return OrderOperationResult
-     */
-    public function execute(OrderOperation $operation): OrderOperationResult
+    public function execute(OperationInterface $operation): OrderOperationResult
     {
         return $operation->execute($this->link);
     }

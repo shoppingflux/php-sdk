@@ -34,15 +34,38 @@ order `5555` from store `1`:
 $session->selectStore(1)->getOrderApi()->getOne(5555);
 ```
 
-### Deprecated method
+### Deprecated
 
-Usage of getMainStore() has been deprecated and SHOULD NOT be used anymore. 
+1. Usage of getMainStore() has been deprecated and SHOULD NOT be used anymore. 
 It can lead to major issue if your session get access to new stores.
 It will be removed in the next major version of the SDK.
 
 ```php
 $storeId  = 1276;
 $orderApi = $session->selectStore($storeId)->getOrderApi();
+```
+
+2. Usage of reference & channelName as identifier of orders has been deprecated
+   and SHOULD NOT be used anymore.
+
+Please use :
+
+```php
+$operation = new \ShoppingFeed\Sdk\Api\Order\Operation();
+$operation->accept(new Id(111));
+$orderApi->execute($operation);
+```
+
+Instead of :
+
+- `$reference` : Order reference (eg: 'reference1')
+- `$channelName` : The channel where the order is from (eg: 'amazon')
+
+```
+// Deprecated version
+$operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
+$operation->accept('ref1', 'amazon')
+$orderApi->execute($operation);
 ```
 
 ## Retrieve orders
@@ -108,12 +131,14 @@ foreach($orderApi->getPage($criteria) as $order) {
 From order API you can then access all available operations :
 
 ```php
-$operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
+use ShoppingFeed\Sdk\Api\Order\Identifier\Id;
+
+$operation = new \ShoppingFeed\Sdk\Api\Order\Operation();
 $operation
-    ->accept('ref3', 'amazon')
-    ->refuse('ref4', 'amazon')
-    ->ship('ref5', 'amazon')
-    ->cancel('ref1', 'amazon');
+    ->accept(new Id(111))
+    ->refuse(new Id(222))
+    ->ship(new Id(333))
+    ->cancel(new Id(444));
 
 $orderApi->execute($operation);
 ```
@@ -123,13 +148,15 @@ When sending operations on an order, you will receive batch IDs.
 See [ticket documentation](ticket.md) for more information on how to retrieve ticket and batch information.  
 
 ```php
+use ShoppingFeed\Sdk\Api\Order\Identifier\Id;
+
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $operation
-    ->accept('ref3', 'amazon')
-    ->refuse('ref4', 'amazon')
-    ->ship('ref5', 'amazon')
-    ->cancel('ref3', 'amazon');
-    ->refund('ref6', 'amazon');
+    ->accept(new Id(111))
+    ->refuse(new Id(222))
+    ->ship(new Id(333))
+    ->cancel(new Id(444))
+    ->refund(new Id(555));
 
 $result = $orderApi->execute($operation);
 
@@ -152,89 +179,94 @@ foreach ($result->wait(60)->getTickets() as $ticket) {
 
 ### Accept
 
-The accept operation accepts 3 parameters :
-1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
-2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
-3. [optional] `$reason` : The reason of the acceptance (eq: 'Why we accept the order') 
+The accept operation accepts 2 parameters :
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
+2. [optional] `$reason` : The reason of the acceptance (eq: 'Why we accept the order') 
 
 Example :
 
 ```php
-$operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
+use ShoppingFeed\Sdk\Api\Order\Identifier\Id;
+
+$operation = new \ShoppingFeed\Sdk\Api\Order\Operation();
 $operation
-    ->accept('ref1', 'amazon')
-    ->accept('ref2', 'amazon', 'Why we accept it');
+    ->accept(new Id(1234))
+    ->accept(new Id(5678), 'Why we accept it');
 
 $orderApi->execute($operation);
 ```
 
 ### Cancel
 
-The cancel operation accepts 3 parameters :
-1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
-2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
-3. [optional] `$reason` : The reason of the cancelling (eq: 'Why we cancel the order') 
+The cancel operation accepts 2 parameters :
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
+2. [optional] `$reason` : The reason of the cancelling (eq: 'Why we cancel the order')
 
 Example :
 
 ```php
+use ShoppingFeed\Sdk\Api\Order\Identifier\Id;
+
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $operation
-    ->cancel('ref1', 'amazon')
-    ->cancel('ref2', 'amazon', 'Why we accept it');
+    ->cancel(new Id(1234))
+    ->cancel(new Id(5678), 'Why we accept it');
 
 $orderApi->execute($operation);
 ```
 
 ### Refuse
 
-The refuse operation accepts 3 parameters :
-1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
-2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
+The refuse operation accepts 1 parameter :
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
 
 Example :
 
 ```php
+use ShoppingFeed\Sdk\Api\Order\Identifier\Id;
+
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $operation
-    ->refuse('ref1', 'amazon');
+    ->refuse(new Id(1234));
 
 $orderApi->execute($operation);
 ```
 
 ### Ship
 
-The ship operation accepts 3 parameters :
+The ship operation accepts 5 parameters :
 
-1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
-2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
-3. [optional] `$carrier` : The carrier name used for the shipment (eq: 'ups') 
-4. [optional] `$trackingNumber` : Tracking number (eq: '01234598abcdef') 
-5. [optional] `$trackingLink` : Tracking link (eq: 'http://tracking.url/') 
-6. [optional] `$items` : Array of order item id and quantity to be shipped (eq: [['id' => 1234, 'quantity' => 1]]) 
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
+2. [optional] `$carrier` : The carrier name used for the shipment (eq: 'ups') 
+3. [optional] `$trackingNumber` : Tracking number (eq: '01234598abcdef') 
+4. [optional] `$trackingLink` : Tracking link (eq: 'http://tracking.url/') 
+5. [optional] `$items` : Array of order item id and quantity to be shipped (eq: [['id' => 1234, 'quantity' => 1]]) 
 
 Example :
 
 ```php
+use ShoppingFeed\Sdk\Api\Order\Identifier\Id;
+
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $operation
-    ->ship('ref1', 'amazon')
-    ->ship('ref2', 'amazon', 'ups', '123456789abcdefg', 'http://tracking.url/');
+    ->ship(new Id(1234))
+    ->ship(new Id(5678), 'ups', '123456789abcdefg', 'http://tracking.url/');
 
 $orderApi->execute($operation);
 ```
 
 ### Refund
 
-The refund operation accepts 4 parameters :
-1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
-2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
-3. [optional] `$shipping` : true if shipping cost need to be refunded, false otherwise (eq: `false`) 
-4. [optional] `$products` : Item references and their quantities to refund (eq: `['itemref1' => 1, 'itemref2' => 2]`) 
+The refund operation accepts 3 parameters :
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
+2. [optional] `$shipping` : true if shipping cost need to be refunded, false otherwise (eq: `false`) 
+3. [optional] `$products` : Item references and their quantities to refund (eq: `['itemref1' => 1, 'itemref2' => 2]`) 
 
 Example :
 
 ```php
+use ShoppingFeed\Sdk\Api\Order\Identifier\Id;
+
 $products = [
   [
       'reference' => 'abc123',
@@ -247,8 +279,8 @@ $products = [
 ];
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $operation
-    ->refund('ref1', 'amazon')
-    ->refund('ref2', 'amazon', true, $products);
+    ->refund(new Id(1234))
+    ->refund(new Id(5678), true, $products);
 
 $orderApi->execute($operation);
 ```
@@ -257,20 +289,21 @@ $orderApi->execute($operation);
 
 To acknowledge the reception of an order, you need the following parameters :
 
-1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
-2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon') 
-3. [optional] `$storeReference` : Store reference (eg: 'store-reference')
-4. [optional] `$status` : Status of acknowledgment (eg: 'success' or 'error')
-5. [optional] `$message` : In case or error status, you can provide a message (eg: 'Unknown product #ABC-123') 
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
+2. [optional] `$storeReference` : Store reference (eg: 'store-reference')
+3. [optional] `$status` : Status of acknowledgment (eg: 'success' or 'error')
+4. [optional] `$message` : In case or error status, you can provide a message (eg: 'Unknown product #ABC-123') 
 
 Example :
 
 ```php
+use ShoppingFeed\Sdk\Api\Order\Identifier\Id;
+
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $operation
-    ->acknowledge('ref1', 'amazon', 'store-reference', 'success')
-    ->acknowledge('ref2', 'amazon', 'store-reference', 'error')
-    ->acknowledge('ref3', 'amazon', 'store-reference', 'error', 'Order well acknowledged');
+    ->acknowledge(new Id(1234), 'store-reference', 'success')
+    ->acknowledge(new Id(5678), 'store-reference', 'error')
+    ->acknowledge(new Id(9012), 'store-reference', 'error', 'Order well acknowledged');
 
 $orderApi->execute($operation);
 ```
@@ -279,17 +312,18 @@ $orderApi->execute($operation);
 
 To unacknowledge the reception of an order previously acknowledged, you need the following parameters :
 
-1. [mandatory] `$reference` : Order reference (eg: 'reference1') 
-2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon')
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
 
 Example :
 
 ```php
+use ShoppingFeed\Sdk\Api\Order\Identifier\Id;
+
 $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $operation
-    ->unacknowledge('ref1', 'amazon')
-    ->unacknowledge('ref2', 'amazon')
-    ->unacknowledge('ref3', 'amazon');
+    ->unacknowledge(new Id(1111))
+    ->unacknowledge(new Id(2222));
+    ->unacknowledge(new Id(3333));
 
 $orderApi->execute($operation);
 ```
@@ -297,20 +331,35 @@ $orderApi->execute($operation);
 ### Upload documents
 
 To upload order documents, you need the following parameters :
-1. [mandatory] `$reference` : Order reference (eg: 'reference1')
-2. [mandatory] `$channelName` : The channel where the order is from (eg: 'amazon')
-3. [mandatory] `$documents` : One or more documents to upload
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
+2. [mandatory] `$documents` : One or more documents to upload
 
 Example :
 
 ```php
 namespace ShoppingFeed\Sdk\Api\Order; 
 
+use ShoppingFeed\Sdk\Api\Order\Identifier\Id;
+
 $operation = new OrderOperation();
 $operation
-    ->uploadDocument('ref1', 'leroymerlin', new Document\Invoice('/tmp/amazon_ref1_invoice.pdf'))
-    ->uploadDocument('ref2', 'leroymerlin', new Document\Invoice('/tmp/amazon_ref2_invoice.pdf'));
+    ->uploadDocument(new Id(1111), new Document\Invoice('/tmp/amazon_ref1_invoice.pdf'))
+    ->uploadDocument(new Id(2222), new Document\Invoice('/tmp/amazon_ref2_invoice.pdf'));
 
+$orderApi->execute($operation);
+```
+
+### Deliver
+
+The deliver operation accepts 1 parameter:
+
+1. [mandatory] `$orderId` : Order ID (eg: 1234)
+
+Example :
+
+```php
+$operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
+$operation->deliver(new Id(1111));
 $orderApi->execute($operation);
 ```
 

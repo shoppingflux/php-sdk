@@ -71,7 +71,7 @@ class OrderResource extends Resource\AbstractResource
     {
         return $this->getPropertyDatetime('latestShipDate');
     }
-    
+
     /**
      * @return array
      */
