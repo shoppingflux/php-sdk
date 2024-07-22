@@ -13,6 +13,19 @@ use ShoppingFeed\Sdk\Operation\OperationInterface;
 class OrderOperation extends AbstractBulkOperation implements OperationInterface
 {
     /**
+     * Operation types
+     */
+    public const TYPE_ACCEPT           = 'accept';
+    public const TYPE_CANCEL           = 'cancel';
+    public const TYPE_REFUSE           = 'refuse';
+    public const TYPE_SHIP             = 'ship';
+    public const TYPE_REFUND           = 'refund';
+    public const TYPE_ACKNOWLEDGE      = 'acknowledge';
+    public const TYPE_UNACKNOWLEDGE    = 'unacknowledge';
+    public const TYPE_UPLOAD_DOCUMENTS = 'upload-documents';
+    public const TYPE_DELIVER          = 'deliver';
+
+    /**
      * @var Operation $operation
      */
     private $operation;

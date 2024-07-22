@@ -16,15 +16,15 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
     /**
      * Operation types
      */
-    public const TYPE_ACCEPT           = 'accept';
-    public const TYPE_CANCEL           = 'cancel';
-    public const TYPE_REFUSE           = 'refuse';
-    public const TYPE_SHIP             = 'ship';
-    public const TYPE_REFUND           = 'refund';
-    public const TYPE_ACKNOWLEDGE      = 'acknowledge';
-    public const TYPE_UNACKNOWLEDGE    = 'unacknowledge';
-    public const TYPE_UPLOAD_DOCUMENTS = 'upload-documents';
-    public const TYPE_DELIVER          = 'deliver';
+    private const TYPE_ACCEPT           = 'accept';
+    private const TYPE_CANCEL           = 'cancel';
+    private const TYPE_REFUSE           = 'refuse';
+    private const TYPE_SHIP             = 'ship';
+    private const TYPE_REFUND           = 'refund';
+    private const TYPE_ACKNOWLEDGE      = 'acknowledge';
+    private const TYPE_UNACKNOWLEDGE    = 'unacknowledge';
+    private const TYPE_UPLOAD_DOCUMENTS = 'upload-documents';
+    private const TYPE_DELIVER          = 'deliver';
 
     /**
      * @var string[]
