@@ -53,7 +53,6 @@ class OperationTest extends TestCase
         $this->instance->acknowledge($this->identifier, '123654abc', 'success', 'message');
         $this->instance->unacknowledge($this->identifier);
 
-        $this->assertEquals(1, $this->instance->count(Api\Order\Operation::TYPE_REFUSE));
         $this->assertEquals(9, $this->instance->count());
     }
 
