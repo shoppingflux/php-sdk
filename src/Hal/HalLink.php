@@ -30,6 +30,11 @@ class HalLink
     /**
      * @var string
      */
+    private $cursor;
+
+    /**
+     * @var string
+     */
     private $name;
 
     /**
@@ -67,6 +72,10 @@ class HalLink
         if (isset($config['title'])) {
             $this->title = $config['title'];
         }
+
+        if (isset($config['cursor'])) {
+            $this->cursor = $config['cursor'];
+        }
     }
 
     /**
@@ -99,6 +108,14 @@ class HalLink
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCursor()
+    {
+        return $this->cursor;
     }
 
     /**

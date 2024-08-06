@@ -31,12 +31,14 @@ class HalLinkTest extends TestCase
                 'type'      => 'Type',
                 'name'      => 'Name',
                 'title'     => 'Title',
+                'cursor'    => 'Cursor',
             ]
         );
 
         $this->assertEquals('Type', $instance->getType());
         $this->assertEquals('Name', $instance->getName());
         $this->assertEquals('Title', $instance->getTitle());
+        $this->assertEquals('Cursor', $instance->getCursor());
         $this->assertEquals('http://base.url', $instance->getHref());
         $this->assertTrue($instance->isTemplated());
     }
