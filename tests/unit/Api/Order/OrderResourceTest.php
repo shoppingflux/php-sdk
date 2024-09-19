@@ -100,10 +100,18 @@ class OrderResourceTest extends Sdk\Test\Api\AbstractResourceTest
         $this->initHalResourceProperties([
             'items' => [
                 [
-                    'reference' => 'a',
-                    'price'     => 9.99,
-                    'taxAmount' => 7.99,
-                    'quantity'  => 1,
+                    'id'               => 123,
+                    'reference'        => 'a',
+                    'status'           => '',
+                    'quantity'         => 1,
+                    'price'            => 9.99,
+                    'commission'       => null,
+                    'taxAmount'        => 7.99,
+                    'ecotaxAmount'     => 0,
+                    'channelReference' => 'ref',
+                    'additionalFields' => ['taxRate' => 20],
+                    'name'             => null,
+                    'image'            => null,
                 ],
             ],
         ]);
