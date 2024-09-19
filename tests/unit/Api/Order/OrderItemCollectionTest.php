@@ -8,17 +8,33 @@ class OrderItemCollectionTest extends TestCase
 {
     private $items = [
         [
-            'reference' => 'a',
-            'quantity'  => 1,
-            'price'     => 2,
-            'taxAmount' => 7.99,
+            'id'               => 123,
+            'reference'        => 'a',
+            'status'           => '',
+            'quantity'         => 1,
+            'price'            => 2,
+            'commission'       => null,
+            'taxAmount'        => 7.99,
+            'ecotaxAmount'     => 0,
+            'channelReference' => 'ref',
+            'additionalFields' => ['taxRate' => 20],
+            'name'             => null,
+            'image'            => null,
         ],
         [
-            'reference' => 'b',
-            'quantity'  => 2,
-            'price'     => 3,
-            'taxAmount' => 4.99,
-        ]
+            'id'               => 456,
+            'reference'        => 'b',
+            'status'           => '',
+            'quantity'         => 2,
+            'price'            => 3,
+            'commission'       => null,
+            'taxAmount'        => 4.99,
+            'ecotaxAmount'     => 0,
+            'channelReference' => 'ref2',
+            'additionalFields' => ['taxRate' => 45],
+            'name'             => null,
+            'image'            => null,
+        ],
     ];
 
     public function testCreateCollectionFromArrayOfRemoteProperties()
@@ -37,23 +53,29 @@ class OrderItemCollectionTest extends TestCase
         $instance = OrderItemCollection::fromProperties($this->items);
         $items    = $instance->getIterator()->getArrayCopy();
 
-        $firstOne = new OrderItem(
-            $this->items[0]['reference'],
-            $this->items[0]['quantity'],
-            $this->items[0]['price'],
-            $this->items[0]['taxAmount']
-        );
+        $firstOne  = $this->createItem($this->items[0]);
+        $secondOne = $this->createItem($this->items[1]);
 
         $this->assertEquals($items[0], $firstOne);
-
-        $secondOne = new OrderItem(
-            $this->items[1]['reference'],
-            $this->items[1]['quantity'],
-            $this->items[1]['price'],
-            $this->items[1]['taxAmount']
-        );
-
         $this->assertEquals($items[1], $secondOne);
+    }
+
+    private function createItem(array $item): OrderItem
+    {
+        return new OrderItem(
+            $item['id'],
+            $item['reference'],
+            $item['status'],
+            $item['quantity'],
+            $item['price'],
+            $item['commission'],
+            $item['taxAmount'],
+            $item['ecotaxAmount'],
+            $item['channelReference'],
+            $item['additionalFields'],
+            $item['name'],
+            $item['image']
+        );
     }
 
     public function testCollectionCanBeRevertedBackToArray()
