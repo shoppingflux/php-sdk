@@ -93,7 +93,8 @@ class OrderItem
         $additionalFields,
         $name,
         $image
-    ) {
+    )
+    {
         $this->id               = $id;
         $this->reference        = $reference;
         $this->status           = $status;
