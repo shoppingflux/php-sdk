@@ -7,9 +7,19 @@ namespace ShoppingFeed\Sdk\Api\Order;
 class OrderItem
 {
     /**
+     * @var int
+     */
+    private $id;
+
+    /**
      * @var string
      */
     private $reference;
+
+    /**
+     * @var string
+     */
+    private $status;
 
     /**
      * @var int
@@ -22,22 +32,89 @@ class OrderItem
     private $unitPrice;
 
     /**
+     * @var null|float
+     */
+    private $commission;
+
+    /**
      * @var float
      */
     private $taxAmount;
 
     /**
-     * @param string $reference The product's reference
-     * @param int    $quantity  Number product's occurrence in cart
-     * @param float  $price     The price for a single unit of the reference (not price * quantity)
-     * @param float  $taxAmount The tax amount of the item price
+     * @var float
      */
-    public function __construct($reference, $quantity, $price, $taxAmount)
+    private $ecotaxAmount;
+
+    /**
+     * @var string
+     */
+    private $channelReference;
+
+    /**
+     * @var null|array
+     */
+    private $additionalFields;
+
+    /**
+     * @var null|string
+     */
+    private $name;
+
+    /**
+     * @var null|string
+     */
+    private $image;
+
+    /**
+     * @param int $id The product's id
+     * @param string $reference The product's reference
+     * @param string $status The product's status
+     * @param int $quantity Number product's occurrence in cart
+     * @param float $price The price for a single unit of the reference (not price * quantity)
+     * @param null|float $commission The commission taken by the channel for this item
+     * @param float $taxAmount The tax amount of the item price
+     * @param float $ecotaxAmount The ecotax amount of the item price
+     * @param string $channelReference The channel reference of the product
+     * @param null|array $additionalFields A key / value object containing additional marketplace fields for the item
+     * @param null|string $name The product's name
+     * @param null|string $image The main image of the product
+     */
+    public function __construct(
+        $id,
+        $reference,
+        $status,
+        $quantity,
+        $price,
+        $commission,
+        $taxAmount,
+        $ecotaxAmount,
+        $channelReference,
+        $additionalFields,
+        $name,
+        $image
+    )
     {
-        $this->reference = $reference;
-        $this->quantity  = $quantity;
-        $this->unitPrice = $price;
-        $this->taxAmount = $taxAmount;
+        $this->id               = $id;
+        $this->reference        = $reference;
+        $this->status           = $status;
+        $this->quantity         = $quantity;
+        $this->unitPrice        = $price;
+        $this->commission       = $commission;
+        $this->taxAmount        = $taxAmount;
+        $this->ecotaxAmount     = $ecotaxAmount;
+        $this->channelReference = $channelReference;
+        $this->additionalFields = $additionalFields;
+        $this->name             = $name;
+        $this->image            = $image;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -46,6 +123,14 @@ class OrderItem
     public function getReference()
     {
         return $this->reference;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     /**
@@ -65,11 +150,59 @@ class OrderItem
     }
 
     /**
+     * @return null|float
+     */
+    public function getCommission()
+    {
+        return $this->commission;
+    }
+
+    /**
      * @return float
      */
     public function getTaxAmount()
     {
         return $this->taxAmount;
+    }
+
+    /**
+     * @return float
+     */
+    public function getEcotaxAmount()
+    {
+        return $this->ecotaxAmount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChannelReference()
+    {
+        return $this->channelReference;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAdditionalFields()
+    {
+        return $this->additionalFields;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 
     /**
@@ -86,10 +219,18 @@ class OrderItem
     public function toArray()
     {
         return [
-            'reference' => $this->getReference(),
-            'quantity'  => $this->getQuantity(),
-            'price'     => $this->getUnitPrice(),
-            'taxAmount' => $this->getTaxAmount(),
+            'id'               => $this->getId(),
+            'reference'        => $this->getReference(),
+            'status'           => $this->getStatus(),
+            'quantity'         => $this->getQuantity(),
+            'price'            => $this->getUnitPrice(),
+            'commission'       => $this->getCommission(),
+            'taxAmount'        => $this->getTaxAmount(),
+            'ecotaxAmount'     => $this->getEcotaxAmount(),
+            'channelReference' => $this->getChannelReference(),
+            'additionalFields' => $this->getAdditionalFields(),
+            'name'             => $this->getName(),
+            'image'            => $this->getImage(),
         ];
     }
 }
