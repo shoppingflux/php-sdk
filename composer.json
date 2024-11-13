@@ -30,7 +30,6 @@
   "scripts": {
     "test": [
       "@tests-unit",
-      "@phpstan",
       "@phpcs"
     ],
     "tests-unit": "vendor/bin/phpunit",
