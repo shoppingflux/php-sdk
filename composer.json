@@ -24,16 +24,19 @@
     "guzzlehttp/guzzle": "^6.0 | ^7.0",
     "phpunit/phpunit": "^7.0 | ^9.0",
     "shoppingfeed/coding-style-php": "~2.1.0",
-    "overtrue/phplint": "^1.1"
+    "overtrue/phplint": "^1.1",
+    "phpstan/phpstan": "^1.4"
   },
   "scripts": {
     "test": [
       "@tests-unit",
+      "@phpstan",
       "@phpcs"
     ],
     "tests-unit": "vendor/bin/phpunit",
     "phpcs": "vendor/bin/sfcs src --progress -vvv",
-    "phpcsfix": "vendor/bin/sfcs src --progress -vvv --autofix"
+    "phpcsfix": "vendor/bin/sfcs src --progress -vvv --autofix",
+    "phpstan": "vendor/bin/phpstan analyse"
   },
   "scripts-descriptions": {
     "test" : "Run PHPUnit tests suites and Coding standards validator"
