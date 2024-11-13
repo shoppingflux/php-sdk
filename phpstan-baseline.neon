@@ -1,0 +1,1037 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\InventoryDomain\\:\\:execute\\(\\) return type has no value type specified in iterable type ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\InventoryCollection\\.$#"
+			count: 1
+			path: src/Api/Catalog/InventoryDomain.php
+
+		-
+			message: "#^Parameter \\#1 \\$resource of class ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\InventoryResource constructor expects ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource, ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\|null given\\.$#"
+			count: 1
+			path: src/Api/Catalog/InventoryDomain.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\InventoryUpdate\\:\\:__construct\\(\\) has parameter \\$operations with no value type specified in iterable type Traversable\\.$#"
+			count: 1
+			path: src/Api/Catalog/InventoryUpdate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\InventoryUpdate\\:\\:__construct\\(\\) has parameter \\$operations with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Catalog/InventoryUpdate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\InventoryUpdate\\:\\:__construct\\(\\) has parameter \\$operations with no value type specified in iterable type array\\|Traversable\\.$#"
+			count: 1
+			path: src/Api/Catalog/InventoryUpdate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\InventoryUpdate\\:\\:createBatchProcessorCallback\\(\\) has parameter \\$requests with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Catalog/InventoryUpdate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\InventoryUpdate\\:\\:createSuccessCallback\\(\\) has parameter \\$resources with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Catalog/InventoryUpdate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\InventoryUpdate\\:\\:execute\\(\\) return type has no value type specified in iterable type ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\InventoryCollection\\.$#"
+			count: 1
+			path: src/Api/Catalog/InventoryUpdate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\PricingDomain\\:\\:execute\\(\\) return type has no value type specified in iterable type ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\PricingCollection\\.$#"
+			count: 1
+			path: src/Api/Catalog/PricingDomain.php
+
+		-
+			message: "#^Parameter \\#1 \\$resource of class ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\PricingResource constructor expects ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource, ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\|null given\\.$#"
+			count: 1
+			path: src/Api/Catalog/PricingDomain.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\PricingUpdate\\:\\:__construct\\(\\) has parameter \\$operations with no value type specified in iterable type Traversable\\.$#"
+			count: 1
+			path: src/Api/Catalog/PricingUpdate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\PricingUpdate\\:\\:__construct\\(\\) has parameter \\$operations with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Catalog/PricingUpdate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\PricingUpdate\\:\\:__construct\\(\\) has parameter \\$operations with no value type specified in iterable type array\\|Traversable\\.$#"
+			count: 1
+			path: src/Api/Catalog/PricingUpdate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\PricingUpdate\\:\\:createBatchProcessorCallback\\(\\) has parameter \\$requests with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Catalog/PricingUpdate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\PricingUpdate\\:\\:createSuccessCallback\\(\\) has parameter \\$resources with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Catalog/PricingUpdate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\PricingUpdate\\:\\:execute\\(\\) return type has no value type specified in iterable type ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\PricingCollection\\.$#"
+			count: 1
+			path: src/Api/Catalog/PricingUpdate.php
+
+		-
+			message: "#^Cannot call method getHref\\(\\) on ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\|null\\.$#"
+			count: 1
+			path: src/Api/Channel/ChannelResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Channel\\\\ChannelResource\\:\\:getCountryCodes\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Channel/ChannelResource.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\Identifier\\\\Id\\:\\:\\$id has no type specified\\.$#"
+			count: 1
+			path: src/Api/Order/Identifier/Id.php
+
+		-
+			message: "#^Cannot call method format\\(\\) on DateTime\\|false\\.$#"
+			count: 1
+			path: src/Api/Order/Operation.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\Operation\\:\\:addOperation\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/Operation.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\Operation\\:\\:populateRequests\\(\\) has parameter \\$requests with generic interface ArrayAccess but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Api/Order/Operation.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\Operation\\:\\:refund\\(\\) has parameter \\$products with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/Operation.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\Operation\\:\\:ship\\(\\) has parameter \\$items with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/Operation.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderDomain\\:\\:getShipmentsByOrder\\(\\) should return iterable\\<ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\Shipment\\\\ShipmentResource\\>&ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginatedResourceIterator but returns iterable\\<ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractResource\\>&Traversable\\.$#"
+			count: 1
+			path: src/Api/Order/OrderDomain.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderItem\\:\\:__construct\\(\\) has parameter \\$additionalFields with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderItem.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderItem\\:\\:getAdditionalFields\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderItem.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderItem\\:\\:getAdditionalFields\\(\\) should return array but returns array\\|null\\.$#"
+			count: 1
+			path: src/Api/Order/OrderItem.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderItem\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderItem.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderItem\\:\\:\\$additionalFields type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderItem.php
+
+		-
+			message: "#^Class ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderItemCollection implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Api/Order/OrderItemCollection.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderItemCollection\\:\\:add\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/Api/Order/OrderItemCollection.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderItemCollection\\:\\:fromProperties\\(\\) has parameter \\$items with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderItemCollection.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderItemCollection\\:\\:getIterator\\(\\) return type with generic class ArrayIterator does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Api/Order/OrderItemCollection.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderItemCollection\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderItemCollection.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderItemCollection\\:\\:\\$items type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderItemCollection.php
+
+		-
+			message: "#^Class class@anonymous/Api/Order/OrderOperation\\.php\\:237 constructor invoked with 0 parameters, 2 required\\.$#"
+			count: 1
+			path: src/Api/Order/OrderOperation.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderOperation\\:\\:refund\\(\\) has parameter \\$products with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderOperation.php
+
+		-
+			message: "#^Call to an undefined method iterable\\<ShoppingFeed\\\\Sdk\\\\Api\\\\Task\\\\TicketResource\\>&Traversable\\:\\:wait\\(\\)\\.$#"
+			count: 1
+			path: src/Api/Order/OrderOperationResult.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderOperationResult\\:\\:__construct\\(\\) has parameter \\$resources with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderOperationResult.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderOperationResult\\:\\:setBatches\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/Api/Order/OrderOperationResult.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderOperationResult\\:\\:setBatches\\(\\) has parameter \\$resources with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderOperationResult.php
+
+		-
+			message: "#^PHPDoc tag @var above a method has no effect\\.$#"
+			count: 1
+			path: src/Api/Order/OrderOperationResult.php
+
+		-
+			message: "#^Cannot call method withAddedHref\\(\\) on ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\|null\\.$#"
+			count: 1
+			path: src/Api/Order/OrderResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderResource\\:\\:getBillingAddress\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderResource\\:\\:getCreatedAt\\(\\) should return DateTimeImmutable but returns DateTimeImmutable\\|null\\.$#"
+			count: 1
+			path: src/Api/Order/OrderResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderResource\\:\\:getItemsReferencesAliases\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderResource\\:\\:getLatestShipDate\\(\\) should return DateTimeImmutable but returns DateTimeImmutable\\|null\\.$#"
+			count: 1
+			path: src/Api/Order/OrderResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderResource\\:\\:getPaymentInformation\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderResource\\:\\:getShipment\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderResource\\:\\:getShipments\\(\\) should return iterable\\<ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\Shipment\\\\ShipmentResource\\>&ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginatedResourceIterator but returns iterable\\<ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractResource\\>&Traversable\\.$#"
+			count: 1
+			path: src/Api/Order/OrderResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderResource\\:\\:getShippingAddress\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/OrderResource.php
+
+		-
+			message: "#^Parameter \\#1 \\$resource of class ShoppingFeed\\\\Sdk\\\\Api\\\\Channel\\\\ChannelResource constructor expects ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource, ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\|null given\\.$#"
+			count: 1
+			path: src/Api/Order/OrderResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\Shipment\\\\ShipmentResource\\:\\:getCreatedAt\\(\\) should return DateTimeImmutable but returns DateTimeImmutable\\|null\\.$#"
+			count: 1
+			path: src/Api/Order/Shipment/ShipmentResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\Shipment\\\\ShipmentResource\\:\\:getItems\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/Shipment/ShipmentResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\Shipment\\\\ShipmentResource\\:\\:getReturnInfo\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Order/Shipment/ShipmentResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Session\\\\SessionResource\\:\\:getRoles\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Session/SessionResource.php
+
+		-
+			message: "#^Parameter \\#1 \\$id of method ShoppingFeed\\\\Sdk\\\\Api\\\\Store\\\\StoreCollection\\:\\:getById\\(\\) expects int, int\\|string given\\.$#"
+			count: 1
+			path: src/Api/Session/SessionResource.php
+
+		-
+			message: "#^Parameter \\#1 \\$resource of class ShoppingFeed\\\\Sdk\\\\Api\\\\Channel\\\\ChannelResource constructor expects ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource, ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\|null given\\.$#"
+			count: 1
+			path: src/Api/Store/StoreChannelResource.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Api\\\\Store\\\\StoreChannelResource\\:\\:\\$channel has no type specified\\.$#"
+			count: 1
+			path: src/Api/Store/StoreChannelResource.php
+
+		-
+			message: "#^Parameter \\#1 \\$id of method ShoppingFeed\\\\Sdk\\\\Api\\\\Store\\\\StoreCollection\\:\\:getById\\(\\) expects int, int\\|string given\\.$#"
+			count: 1
+			path: src/Api/Store/StoreCollection.php
+
+		-
+			message: "#^Parameter \\#1 \\$link of class ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\InventoryDomain constructor expects ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink, ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\|null given\\.$#"
+			count: 1
+			path: src/Api/Store/StoreResource.php
+
+		-
+			message: "#^Parameter \\#1 \\$link of class ShoppingFeed\\\\Sdk\\\\Api\\\\Catalog\\\\PricingDomain constructor expects ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink, ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\|null given\\.$#"
+			count: 1
+			path: src/Api/Store/StoreResource.php
+
+		-
+			message: "#^Parameter \\#1 \\$link of class ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderDomain constructor expects ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink, ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\|null given\\.$#"
+			count: 1
+			path: src/Api/Store/StoreResource.php
+
+		-
+			message: "#^Parameter \\#1 \\$link of class ShoppingFeed\\\\Sdk\\\\Api\\\\Store\\\\StoreChannelDomain constructor expects ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink, ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\|null given\\.$#"
+			count: 1
+			path: src/Api/Store/StoreResource.php
+
+		-
+			message: "#^Parameter \\#1 \\$link of class ShoppingFeed\\\\Sdk\\\\Api\\\\Task\\\\TicketDomain constructor expects ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink, ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\|null given\\.$#"
+			count: 1
+			path: src/Api/Store/StoreResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Task\\\\TicketDomain\\:\\:getByBatch\\(\\) has parameter \\$filters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Api/Task/TicketDomain.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Task\\\\TicketDomain\\:\\:getByBatch\\(\\) should return iterable\\<ShoppingFeed\\\\Sdk\\\\Api\\\\Task\\\\TicketResource\\>&Traversable but returns ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginatedResourceIterator\\|null\\.$#"
+			count: 1
+			path: src/Api/Task/TicketDomain.php
+
+		-
+			message: "#^Cannot call method getProperty\\(\\) on ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\|null\\.$#"
+			count: 1
+			path: src/Client/Client.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between null and ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\AdapterInterface will always evaluate to false\\.$#"
+			count: 1
+			path: src/Client/Client.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Client\\\\ClientOptions\\:\\:addHeaders\\(\\) has parameter \\$headers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Client/ClientOptions.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Client\\\\ClientOptions\\:\\:getBaseUri\\(\\) should return string but returns bool\\.$#"
+			count: 1
+			path: src/Client/ClientOptions.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Client\\\\ClientOptions\\:\\:getHeaders\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Client/ClientOptions.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Client\\\\ClientOptions\\:\\:\\$baseUri \\(bool\\) does not accept default value of type string\\.$#"
+			count: 1
+			path: src/Client/ClientOptions.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Client\\\\ClientOptions\\:\\:\\$baseUri \\(bool\\) does not accept string\\.$#"
+			count: 1
+			path: src/Client/ClientOptions.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Client\\\\ClientOptions\\:\\:\\$headers type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Client/ClientOptions.php
+
+		-
+			message: "#^Parameter \\#1 \\$response of method ShoppingFeed\\\\Sdk\\\\Credential\\\\Password\\:\\:tokenizeResponse\\(\\) expects ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource, ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\|null given\\.$#"
+			count: 1
+			path: src/Credential/Password.php
+
+		-
+			message: "#^Parameter \\#1 \\$resource of class ShoppingFeed\\\\Sdk\\\\Api\\\\Session\\\\SessionResource constructor expects ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource, ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\|null given\\.$#"
+			count: 1
+			path: src/Credential/Token.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalClient\\:\\:__construct\\(\\) has parameter \\$baseUri with no type specified\\.$#"
+			count: 1
+			path: src/Hal/HalClient.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalClient\\:\\:batchSend\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalClient.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalClient\\:\\:batchSend\\(\\) has parameter \\$requests with no type specified\\.$#"
+			count: 1
+			path: src/Hal/HalClient.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalClient\\:\\:createRequest\\(\\) has parameter \\$headers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalClient.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalClient\\:\\:request\\(\\) has parameter \\$method with no type specified\\.$#"
+			count: 1
+			path: src/Hal/HalClient.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalClient\\:\\:request\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalClient.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalClient\\:\\:request\\(\\) has parameter \\$uri with no type specified\\.$#"
+			count: 1
+			path: src/Hal/HalClient.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalClient\\:\\:send\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalClient.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$method\\)\\: Unexpected token \"\\$method\", expected type at offset 18$#"
+			count: 1
+			path: src/Hal/HalClient.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$options\\)\\: Unexpected token \"\\$options\", expected type at offset 59$#"
+			count: 1
+			path: src/Hal/HalClient.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$requests\\)\\: Unexpected token \"\\$requests\", expected type at offset 24$#"
+			count: 1
+			path: src/Hal/HalClient.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$uri\\)\\: Unexpected token \"\\$uri\", expected type at offset 40$#"
+			count: 1
+			path: src/Hal/HalClient.php
+
+		-
+			message: "#^Parameter \\#4 \\$body of method ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\AdapterInterface\\:\\:createRequest\\(\\) expects null, string\\|null given\\.$#"
+			count: 1
+			path: src/Hal/HalClient.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: src/Hal/HalClient.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:__construct\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:__construct\\(\\) has parameter \\$href with no type specified\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:batchSend\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:batchSend\\(\\) has parameter \\$requests with no type specified\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:createRequest\\(\\) has parameter \\$headers with no type specified\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:createRequest\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:delete\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:delete\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:get\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:get\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:getUri\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:patch\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:patch\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:post\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:post\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:put\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:put\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:send\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:withAddedHref\\(\\) has parameter \\$path with no type specified\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:withAddedHref\\(\\) has parameter \\$variables with no type specified\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$href\\)\\: Unexpected token \"\\$href\", expected type at offset 60$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$path\\)\\: Unexpected token \"\\$path\", expected type at offset 18$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$requests\\)\\: Unexpected token \"\\$requests\", expected type at offset 27$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$variables\\)\\: Unexpected token \"\\$variables\", expected type at offset 38$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Parameter \\#1 \\$function of function call_user_func expects callable\\(\\)\\: mixed, \\(callable\\(\\)\\: mixed\\)\\|null given\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Parameter \\#1 \\$request of method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalClient\\:\\:send\\(\\) expects Psr\\\\Http\\\\Message\\\\RequestInterface, array\\<Psr\\\\Http\\\\Message\\\\RequestInterface\\>\\|Psr\\\\Http\\\\Message\\\\RequestInterface given\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Parameter \\#1 \\$str of function rtrim expects string, array\\<string\\>\\|string\\|null given\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Parameter \\#2 \\$uri of method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalClient\\:\\:createRequest\\(\\) expects string, array\\<string\\>\\|string\\|null given\\.$#"
+			count: 1
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Unsafe access to private property ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\:\\:\\$uriTemplate through static\\:\\:\\.$#"
+			count: 3
+			path: src/Hal/HalLink.php
+
+		-
+			message: "#^Cannot call method get\\(\\) on ShoppingFeed\\\\Sdk\\\\Hal\\\\HalLink\\|null\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\:\\:__construct\\(\\) has parameter \\$embedded with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\:\\:__construct\\(\\) has parameter \\$links with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\:\\:__construct\\(\\) has parameter \\$properties with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\:\\:createEmbedded\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\:\\:createEmbedded\\(\\) has parameter \\$relations with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\:\\:createLinks\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\:\\:createLinks\\(\\) has parameter \\$links with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\:\\:fromArray\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\:\\:get\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\:\\:getProperties\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\:\\:getProperty\\(\\) has parameter \\$name with no type specified\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$name\\)\\: Unexpected token \"\\$name\", expected type at offset 23$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\:\\:\\$embedded type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\:\\:\\$links type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\:\\:\\$properties type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Hal/HalResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\AdapterInterface\\:\\:batchSend\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/Adapter/AdapterInterface.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\AdapterInterface\\:\\:batchSend\\(\\) has parameter \\$requests with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/Adapter/AdapterInterface.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\AdapterInterface\\:\\:createRequest\\(\\) has parameter \\$headers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/Adapter/AdapterInterface.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\AdapterInterface\\:\\:request\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/Adapter/AdapterInterface.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\AdapterInterface\\:\\:send\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/Adapter/AdapterInterface.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: src/Http/Adapter/GuzzleHTTPAdapter.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\GuzzleHTTPAdapter\\:\\:batchSend\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/Adapter/GuzzleHTTPAdapter.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\GuzzleHTTPAdapter\\:\\:batchSend\\(\\) has parameter \\$requests with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/Adapter/GuzzleHTTPAdapter.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\GuzzleHTTPAdapter\\:\\:createRequest\\(\\) has parameter \\$headers with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/Adapter/GuzzleHTTPAdapter.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\GuzzleHTTPAdapter\\:\\:initClient\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/Http/Adapter/GuzzleHTTPAdapter.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\GuzzleHTTPAdapter\\:\\:request\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/Adapter/GuzzleHTTPAdapter.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\GuzzleHTTPAdapter\\:\\:send\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/Adapter/GuzzleHTTPAdapter.php
+
+		-
+			message: "#^Parameter \\#1 \\$elements of class GuzzleHttp\\\\Psr7\\\\MultipartStream constructor expects array, null given\\.$#"
+			count: 1
+			path: src/Http/Adapter/GuzzleHTTPAdapter.php
+
+		-
+			message: "#^Parameter \\#1 \\$response of method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalClient\\:\\:createResource\\(\\) expects Psr\\\\Http\\\\Message\\\\ResponseInterface, Psr\\\\Http\\\\Message\\\\ResponseInterface\\|null given\\.$#"
+			count: 1
+			path: src/Http/Adapter/GuzzleHTTPAdapter.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Http\\\\Middleware\\\\RateLimitHandler\\:\\:\\$logger \\(Psr\\\\Log\\\\LoggerInterface\\) does not accept Psr\\\\Log\\\\LoggerInterface\\|null\\.$#"
+			count: 1
+			path: src/Http/Middleware/RateLimitHandler.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\Middleware\\\\ServerErrorHandler\\:\\:__construct\\(\\) has parameter \\$maxRetries with no type specified\\.$#"
+			count: 1
+			path: src/Http/Middleware/ServerErrorHandler.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\UriTemplate\\:\\:expand\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/Http/UriTemplate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\UriTemplate\\:\\:expand\\(\\) has parameter \\$template with no type specified\\.$#"
+			count: 1
+			path: src/Http/UriTemplate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\UriTemplate\\:\\:expand\\(\\) has parameter \\$variables with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/UriTemplate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\UriTemplate\\:\\:expandMatch\\(\\) has parameter \\$matches with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/UriTemplate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\UriTemplate\\:\\:isAssoc\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/UriTemplate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\UriTemplate\\:\\:parseExpression\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/UriTemplate.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Http\\\\UriTemplate\\:\\:\\$delims type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/UriTemplate.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Http\\\\UriTemplate\\:\\:\\$delimsPct type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/UriTemplate.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Http\\\\UriTemplate\\:\\:\\$operatorHash type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/UriTemplate.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Http\\\\UriTemplate\\:\\:\\$variables type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Http/UriTemplate.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Operation\\\\AbstractBulkOperation\\:\\:eachBatch\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/Operation/AbstractBulkOperation.php
+
+		-
+			message: "#^Parameter \\#2 \\$size of function array_chunk expects int\\<1, max\\>, int given\\.$#"
+			count: 1
+			path: src/Operation/AbstractBulkOperation.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Operation\\\\AbstractBulkOperation\\:\\:\\$operations type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Operation/AbstractBulkOperation.php
+
+		-
+			message: "#^Class ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractCollection implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Resource/AbstractCollection.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractCollection\\:\\:__construct\\(\\) has parameter \\$resources with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Resource/AbstractCollection.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractCollection\\:\\:addResources\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/Resource/AbstractCollection.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractCollection\\:\\:addResources\\(\\) has parameter \\$resources with no value type specified in iterable type iterable\\.$#"
+			count: 1
+			path: src/Resource/AbstractCollection.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractCollection\\:\\:getIterator\\(\\) return type has no value type specified in iterable type Traversable\\.$#"
+			count: 1
+			path: src/Resource/AbstractCollection.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractCollection\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Resource/AbstractCollection.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractCollection\\:\\:merge\\(\\) has parameter \\$collection with no value type specified in iterable type ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractCollection\\.$#"
+			count: 1
+			path: src/Resource/AbstractCollection.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractCollection\\:\\:merge\\(\\) return type has no value type specified in iterable type static\\(ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractCollection\\)\\.$#"
+			count: 1
+			path: src/Resource/AbstractCollection.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractCollection\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Resource/AbstractCollection.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractDomainResource\\:\\:createIterator\\(\\) should return ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginatedResourceIterator\\|null but returns object\\.$#"
+			count: 1
+			path: src/Resource/AbstractDomainResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractDomainResource\\:\\:createPaginator\\(\\) should return ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginatedResourceCollection\\|null but returns object\\.$#"
+			count: 1
+			path: src/Resource/AbstractDomainResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractDomainResource\\:\\:getAll\\(\\) has parameter \\$filters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Resource/AbstractDomainResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractDomainResource\\:\\:getAll\\(\\) should return iterable\\<ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractResource\\>&Traversable but returns ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginatedResourceIterator\\|null\\.$#"
+			count: 1
+			path: src/Resource/AbstractDomainResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractDomainResource\\:\\:getOne\\(\\) should return ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractResource but returns object\\.$#"
+			count: 1
+			path: src/Resource/AbstractDomainResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractDomainResource\\:\\:getPage\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Resource/AbstractDomainResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractDomainResource\\:\\:getPage\\(\\) should return ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginatedResourceCollection but returns ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginatedResourceCollection\\|null\\.$#"
+			count: 1
+			path: src/Resource/AbstractDomainResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractDomainResource\\:\\:getPages\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Resource/AbstractDomainResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractResource\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Resource/AbstractResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractResource\\:\\:propertyMatch\\(\\) has parameter \\$value with no type specified\\.$#"
+			count: 1
+			path: src/Resource/AbstractResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractResource\\:\\:toArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Resource/AbstractResource.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$value\\)\\: Unexpected token \"\\$value\", expected type at offset 56$#"
+			count: 1
+			path: src/Resource/AbstractResource.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Resource\\\\AbstractResource\\:\\:\\$resource \\(ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\) does not accept ShoppingFeed\\\\Sdk\\\\Hal\\\\HalResource\\|null\\.$#"
+			count: 1
+			path: src/Resource/AbstractResource.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\Json\\:\\:decode\\(\\) has parameter \\$assoc with no type specified\\.$#"
+			count: 1
+			path: src/Resource/Json.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\Json\\:\\:encode\\(\\) has parameter \\$content with no type specified\\.$#"
+			count: 1
+			path: src/Resource/Json.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\Json\\:\\:encode\\(\\) should return string but returns string\\|false\\.$#"
+			count: 1
+			path: src/Resource/Json.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$content\\)\\: Unexpected token \"\\$content\", expected type at offset 96$#"
+			count: 1
+			path: src/Resource/Json.php
+
+		-
+			message: "#^Class ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginatedResourceCollection implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Resource/PaginatedResourceCollection.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: src/Resource/PaginatedResourceCollection.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: src/Resource/PaginatedResourceCollection.php
+
+		-
+			message: "#^Class ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginatedResourceIterator implements generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Resource/PaginatedResourceIterator.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginatedResourceIterator\\:\\:getMeta\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/Resource/PaginatedResourceIterator.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginatedResourceIterator\\:\\:getMeta\\(\\) has parameter \\$name with no type specified\\.$#"
+			count: 1
+			path: src/Resource/PaginatedResourceIterator.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginatedResourceIterator\\:\\:refresh\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/Resource/PaginatedResourceIterator.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginationCriteria\\:\\:__construct\\(\\) has parameter \\$criteria with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Resource/PaginationCriteria.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginationCriteria\\:\\:getFilters\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Resource/PaginationCriteria.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginationCriteria\\:\\:getQueryParams\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Resource/PaginationCriteria.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Resource\\\\PaginationCriteria\\:\\:\\$filters type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Resource/PaginationCriteria.php
+
+		-
+			message: "#^Class ShoppingFeed\\\\Sdk\\\\Resource\\\\ResourceProperties implements generic interface ArrayAccess but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Resource/ResourceProperties.php
+
+		-
+			message: "#^Method ShoppingFeed\\\\Sdk\\\\Resource\\\\ResourceProperties\\:\\:__construct\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Resource/ResourceProperties.php
+
+		-
+			message: "#^Property ShoppingFeed\\\\Sdk\\\\Resource\\\\ResourceProperties\\:\\:\\$data has no type specified\\.$#"
+			count: 1
+			path: src/Resource/ResourceProperties.php
+
