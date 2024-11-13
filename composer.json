@@ -36,7 +36,7 @@
     "tests-unit": "vendor/bin/phpunit",
     "phpcs": "vendor/bin/sfcs src --progress -vvv",
     "phpcsfix": "vendor/bin/sfcs src --progress -vvv --autofix",
-    "phpstan": "vendor/bin/phpstan analyse"
+    "phpstan": "vendor/bin/phpstan analyse --no-progress"
   },
   "scripts-descriptions": {
     "test" : "Run PHPUnit tests suites and Coding standards validator"
