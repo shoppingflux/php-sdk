@@ -731,11 +731,6 @@ parameters:
 			path: src/Http/Adapter/GuzzleHTTPAdapter.php
 
 		-
-			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\GuzzleHTTPAdapter\\:\\:checkDependency\\(\\) has no return type specified\\.$#"
-			count: 1
-			path: src/Http/Adapter/GuzzleHTTPAdapter.php
-
-		-
 			message: "#^Method ShoppingFeed\\\\Sdk\\\\Http\\\\Adapter\\\\GuzzleHTTPAdapter\\:\\:createRequest\\(\\) has parameter \\$headers with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Http/Adapter/GuzzleHTTPAdapter.php
@@ -762,11 +757,6 @@ parameters:
 
 		-
 			message: "#^Parameter \\#1 \\$response of method ShoppingFeed\\\\Sdk\\\\Hal\\\\HalClient\\:\\:createResource\\(\\) expects Psr\\\\Http\\\\Message\\\\ResponseInterface, Psr\\\\Http\\\\Message\\\\ResponseInterface\\|null given\\.$#"
-			count: 1
-			path: src/Http/Adapter/GuzzleHTTPAdapter.php
-
-		-
-			message: "#^Right side of && is always false\\.$#"
 			count: 1
 			path: src/Http/Adapter/GuzzleHTTPAdapter.php
 

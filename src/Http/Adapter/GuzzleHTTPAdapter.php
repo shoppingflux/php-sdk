@@ -38,8 +38,6 @@ class GuzzleHTTPAdapter implements Http\Adapter\AdapterInterface
         GuzzleHttp\HandlerStack $stack = null
     )
     {
-        $this->checkDependency();
-
         $this->options = $options ?: new Client\ClientOptions();
         $this->stack   = $stack ?: $this->createHandlerStack();
 
@@ -130,23 +128,6 @@ class GuzzleHTTPAdapter implements Http\Adapter\AdapterInterface
                 $callback($resource);
             }
         };
-    }
-
-    /**
-     * Check for Guzzle 6 accessibility and version
-     *
-     * @throws Http\Exception\MissingDependencyException
-     */
-    private function checkDependency()
-    {
-        if (! interface_exists(GuzzleHttp\ClientInterface::class)
-            || (defined('\GuzzleHttp\ClientInterface::VERSION')
-            && version_compare(GuzzleHttp\ClientInterface::VERSION, '7', '>='))
-        ) {
-            throw new Http\Exception\MissingDependencyException(
-                'No GuzzleHttp client v6 found, please install the dependency or add your own http adapter'
-            );
-        }
     }
 
     /**
