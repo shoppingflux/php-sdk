@@ -181,11 +181,6 @@ parameters:
 			path: src/Api/Order/OrderItemCollection.php
 
 		-
-			message: "#^Class class@anonymous/Api/Order/OrderOperation\\.php\\:237 constructor invoked with 0 parameters, 2 required\\.$#"
-			count: 1
-			path: src/Api/Order/OrderOperation.php
-
-		-
 			message: "#^Method ShoppingFeed\\\\Sdk\\\\Api\\\\Order\\\\OrderOperation\\:\\:refund\\(\\) has parameter \\$products with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Api/Order/OrderOperation.php

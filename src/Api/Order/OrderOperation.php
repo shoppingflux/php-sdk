@@ -234,7 +234,7 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
 
     private function createReference(string $reference, string $channelName): Api\Order\Identifier\OrderIdentifier
     {
-        return new class implements Api\Order\Identifier\OrderIdentifier {
+        return new class($reference, $channelName) implements Api\Order\Identifier\OrderIdentifier {
             /**
              * @var string
              */
@@ -252,13 +252,13 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
             }
 
             /**
-             * @return array{reference: string, channel_name: string}
+             * @return array{reference: string, channelName: string}
              */
             public function toArray(): array
             {
                 return [
-                    'reference'    => $this->reference,
-                    'channel_name' => $this->channelName,
+                    'reference'   => $this->reference,
+                    'channelName' => $this->channelName,
                 ];
             }
         };
