@@ -6,17 +6,22 @@ use ShoppingFeed\Sdk\Hal;
 class PaginatedResourceCollection extends AbstractResource implements \IteratorAggregate, \Countable
 {
     /**
-     * @var string
+     * @var ?string
      */
     private $resourceClass;
 
     /**
+     * Provide your resource class name if you want that collection return
+     * those specific resource class rather than an HalResource
+     *
      * @param Hal\HalResource $resource
-     * @param string          $resourceClass
+     * @param ?string         $resourceClass
      */
-    public function __construct(Hal\HalResource $resource, $resourceClass)
+    public function __construct(Hal\HalResource $resource, $resourceClass = null)
     {
-        $this->resourceClass = (string) $resourceClass;
+        if (null !== $resourceClass) {
+            $this->resourceClass = (string) $resourceClass;
+        }
 
         parent::__construct($resource, false);
     }
@@ -90,21 +95,20 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
         return new static($resource, $this->resourceClass);
     }
 
-    /**
-     * @inheritdoc
-     */
     #[\ReturnTypeWillChange]
     public function getIterator()
     {
         $data = current($this->resource->getAllResources()) ?: [];
+
         foreach ($data as $item) {
-            yield new $this->resourceClass($item);
+            if (null !== $this->resourceClass) {
+                $item = new $this->resourceClass($item);
+            }
+
+            yield $item;
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     #[\ReturnTypeWillChange]
     public function count()
     {
