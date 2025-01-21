@@ -234,13 +234,17 @@ $orderApi->execute($operation);
 
 ### Ship
 
-The ship operation accepts 5 parameters :
+The ship operation accepts 7 parameters :
 
 1. [mandatory] `$orderId` : Order ID (eg: 1234)
 2. [optional] `$carrier` : The carrier name used for the shipment (eq: 'ups') 
 3. [optional] `$trackingNumber` : Tracking number (eq: '01234598abcdef') 
 4. [optional] `$trackingLink` : Tracking link (eq: 'http://tracking.url/') 
-5. [optional] `$items` : Array of order item id and quantity to be shipped (eq: [['id' => 1234, 'quantity' => 1]]) 
+5. [optional] `$items` : Array of order item id and quantity to be shipped (eq: [['id' => 1234, 'quantity' => 1]])
+6. [optional] `$returnInfo` : Shipping return data, an object contains `carrier` and `trackingNumber` properties
+   (eq: {'carrier' => 'dhl', 'trackingNumber' => '01239abcxyz'})
+7. [optional] `$warehouseId` : The warehouse ID. If null or not defined, 
+the default warehouse will be selected if it exists (eq: 4567)
 
 Example :
 
@@ -251,6 +255,8 @@ $operation = new \ShoppingFeed\Sdk\Api\Order\OrderOperation();
 $operation
     ->ship(new Id(1234))
     ->ship(new Id(5678), 'ups', '123456789abcdefg', 'http://tracking.url/');
+    ->ship(new Id(9012), 'ups', '123456789abcdefg', 'http://tracking.url/', [['id' => 1234, 'quantity' => 1]]);
+    ->ship(new Id(3456), 'ups', '123456789abcdefg', 'http://tracking.url/', [], new OrderOperationReturnInfo('carrier' => 'dhl', 'trackingNumber' => '01234598abcdef'), 4567);
 
 $orderApi->execute($operation);
 ```
