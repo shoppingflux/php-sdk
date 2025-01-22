@@ -76,18 +76,19 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
         ?string $warehouseId = null
     ): self
     {
-        return $this->addOperation(
-            $identifier,
-            self::TYPE_SHIP,
-            compact(
-                'carrier',
-                'trackingNumber',
-                'trackingLink',
-                'items',
-                'returnInfo',
-                'warehouseId'
-            )
+        $data = compact(
+            'carrier',
+            'trackingNumber',
+            'trackingLink',
+            'items',
+            'warehouseId'
         );
+
+        if ($returnInfo) {
+            $data = array_merge($data, $returnInfo->toArray());
+        }
+
+        return $this->addOperation($identifier, self::TYPE_SHIP, $data);
     }
 
     /**

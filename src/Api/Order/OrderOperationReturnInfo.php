@@ -21,18 +21,15 @@ class OrderOperationReturnInfo
     }
 
     /**
-     * @return ?string
+     * @return array{returnInfo: array{carrier: string|null,trackingNumber: string|null}}
      */
-    public function getCarrier(): ?string
+    public function toArray(): array
     {
-        return $this->carrier;
-    }
-
-    /**
-     * @return ?string
-     */
-    public function getTrackingNumber(): ?string
-    {
-        return $this->trackingNumber;
+        return [
+            'returnInfo' => [
+                'carrier'        => $this->carrier,
+                'trackingNumber' => $this->trackingNumber,
+            ],
+        ];
     }
 }
