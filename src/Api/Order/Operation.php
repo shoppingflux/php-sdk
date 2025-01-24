@@ -72,7 +72,7 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
         string $trackingNumber = '',
         string $trackingLink = '',
         array $items = [],
-        ?OrderOperationReturnInfo $returnInfo = null,
+        ?ShipReturnInfo $returnInfo = null,
         ?string $warehouseId = null
     ): self
     {

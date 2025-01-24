@@ -2,7 +2,7 @@
 
 namespace ShoppingFeed\Sdk\Api\Order;
 
-class OrderOperationReturnInfo
+class ShipReturnInfo
 {
     /**
      * @var ?string
