@@ -239,7 +239,7 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
      *
      * @param ArrayAccess<int, RequestInterface> $requests
      */
-    private function populateRequestsForUploadDocuments(Hal\HalLink $link, \ArrayAccess $requests): void
+    private function populateRequestsForUploadDocuments(Hal\HalLink $link, ArrayAccess $requests): void
     {
         $type = self::TYPE_UPLOAD_DOCUMENTS;
 
