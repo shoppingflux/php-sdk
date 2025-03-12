@@ -5,6 +5,7 @@ namespace ShoppingFeed\Sdk\Api\Order;
 use ArrayAccess;
 use ArrayObject;
 use Exception;
+use Psr\Http\Message\RequestInterface;
 use RuntimeException;
 use ShoppingFeed\Sdk\Api\Order\Document\AbstractDocument;
 use ShoppingFeed\Sdk\Api\Order\Identifier\OrderIdentifier;
@@ -235,6 +236,8 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
     /**
      * Create requests for upload documents operation. We batch request by 20
      * to not send too many files at once.
+     *
+     * @param ArrayAccess<int, RequestInterface> $requests
      */
     private function populateRequestsForUploadDocuments(Hal\HalLink $link, \ArrayAccess $requests): void
     {
