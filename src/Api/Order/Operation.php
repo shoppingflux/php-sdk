@@ -253,15 +253,14 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
                 $resource = fopen($document->getPath(), 'rb');
 
                 if (false === $resource) {
-                    throw new RuntimeException(
-                        sprintf('Unable to read "%s"', $document->getPath())
-                    );
+                    throw new RuntimeException(sprintf('Unable to read "%s"', $document->getPath()));
                 }
 
                 $body[]   = ['name' => 'files[]', 'contents' => $resource];
                 $orders[] = [
-                    'reference'   => $operation['reference'],
-                    'channelName' => $operation['channelName'],
+                    'id'          => $operation['id'] ?? null,
+                    'reference'   => $operation['reference'] ?? null,
+                    'channelName' => $operation['channelName'] ?? null,
                     'documents'   => [['type' => $document->getType()]],
                 ];
             }
