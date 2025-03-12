@@ -5,6 +5,9 @@ namespace ShoppingFeed\Sdk\Api\Order;
 use ArrayAccess;
 use ArrayObject;
 use Exception;
+use Psr\Http\Message\RequestInterface;
+use RuntimeException;
+use ShoppingFeed\Sdk\Api\Order\Document\AbstractDocument;
 use ShoppingFeed\Sdk\Api\Order\Identifier\OrderIdentifier;
 use ShoppingFeed\Sdk\Exception\InvalidArgumentException;
 use ShoppingFeed\Sdk\Hal;
@@ -212,6 +215,12 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
 
     private function populateRequests(string $type, Hal\HalLink $link, ArrayAccess $requests): void
     {
+        // Upload documents require dedicated processing because of file upload specificities
+        if (self::TYPE_UPLOAD_DOCUMENTS === $type) {
+            $this->populateRequestsForUploadDocuments($link, $requests);
+            return;
+        }
+
         $this->eachBatch(
             function (array $chunk) use ($type, $link, &$requests) {
                 $requests[] = $link->createRequest(
@@ -222,5 +231,48 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
             },
             $type
         );
+    }
+
+    /**
+     * Create requests for upload documents operation. We batch request by 20
+     * to not send too many files at once.
+     *
+     * @param ArrayAccess<int, RequestInterface> $requests
+     */
+    private function populateRequestsForUploadDocuments(Hal\HalLink $link, ArrayAccess $requests): void
+    {
+        $type = self::TYPE_UPLOAD_DOCUMENTS;
+
+        foreach (array_chunk($this->getOperations($type), 20) as $batch) {
+            $body   = [];
+            $orders = [];
+
+            foreach ($batch as $operation) {
+                /** @var AbstractDocument $document */
+                $document = $operation['document'];
+                $resource = fopen($document->getPath(), 'rb');
+
+                if (false === $resource) {
+                    throw new RuntimeException(sprintf('Unable to read "%s"', $document->getPath()));
+                }
+
+                $body[]   = ['name' => 'files[]', 'contents' => $resource];
+                $orders[] = [
+                    'id'          => $operation['id'] ?? null,
+                    'reference'   => $operation['reference'] ?? null,
+                    'channelName' => $operation['channelName'] ?? null,
+                    'documents'   => [['type' => $document->getType()]],
+                ];
+            }
+
+            $body[] = ['name' => 'body', 'contents' => json_encode(['order' => $orders])];
+
+            $requests[] = $link->createRequest(
+                'POST',
+                ['operation' => $type],
+                $body,
+                ['Content-Type' => 'multipart/form-data']
+            );
+        }
     }
 }
