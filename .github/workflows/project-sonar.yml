@@ -1,0 +1,26 @@
+name: Sonarcloud reporting
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  sonarcloud:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/shoppingflux/php:8.2-unit
+      env:
+        COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+        XDEBUG_MODE: coverage
+      credentials:
+        username: ${{ secrets.CR_USER }}
+        password: ${{ secrets.CR_PAT }}
+
+    steps:
+      - name: Sonarcloud scan
+        uses: shoppingflux/github-actions/sonarcloud@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          sonar-token: ${{ secrets.SONARCLOUD_TOKEN }}

@@ -4,14 +4,14 @@
   "minimum-stability": "stable",
   "description": "Shopping Feed SDK to ease integration of our API",
   "require": {
-    "php": ">=7.1",
+    "php": ">=8.2",
     "ext-json": "*",
     "symfony/deprecation-contracts": "^2.5|^3.0"
   },
   "autoload": {
     "psr-4": {
       "ShoppingFeed\\Sdk\\": "src/",
-      "ShoppingFeed\\Sdk\\Test\\": "tests/unit"
+      "ShoppingFeed\\Sdk\\Test\\": "test/unit"
     }
   },
   "suggest": {
@@ -22,21 +22,23 @@
   "require-dev": {
     "monolog/monolog": "^1.23",
     "guzzlehttp/guzzle": "^6.0 | ^7.0",
-    "phpunit/phpunit": "^7.0 | ^9.0",
+    "phpunit/phpunit": "^11.0",
     "shoppingfeed/coding-style-php": "~2.1.0",
     "overtrue/phplint": "^1.1",
-    "phpstan/phpstan": "~1.4.0"
+    "phpstan/phpstan": "^2.1"
   },
   "scripts": {
+    "phpunit": "vendor/bin/phpunit",
+    "phpcs": "vendor/bin/sfcs --progress -vvv -- src test",
+    "phpcsfix": "vendor/bin/sfcs --progress -vvv --autofix -- src test",
+    "phplint": "vendor/bin/phplint src --cache=build/phplint.cache",
+    "phpstan": "vendor/bin/phpstan analyse --memory-limit=1G",
     "test": [
-      "@tests-unit",
+      "@phplint",
+      "@phpunit",
       "@phpstan",
       "@phpcs"
-    ],
-    "tests-unit": "vendor/bin/phpunit",
-    "phpcs": "vendor/bin/sfcs src --progress -vvv",
-    "phpcsfix": "vendor/bin/sfcs src --progress -vvv --autofix",
-    "phpstan": "vendor/bin/phpstan analyse"
+    ]
   },
   "scripts-descriptions": {
     "test" : "Run PHPUnit tests suites and Coding standards validator"

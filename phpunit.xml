@@ -1,13 +1,13 @@
-<phpunit bootstrap="./vendor/autoload.php" colors="true">
+<?xml version="1.0"?>
+<phpunit bootstrap="./vendor/autoload.php" colors="true" cacheDirectory=".phpunit.cache">
   <testsuites>
     <testsuite name="ShoppingFeed\\Sdk">
-      <directory>./tests/unit</directory>
+      <directory>./test/unit</directory>
     </testsuite>
   </testsuites>
-
-  <filter>
-    <whitelist processUncoveredFilesFromWhitelist="true">
+  <source>
+    <include>
       <directory suffix=".php">src</directory>
-    </whitelist>
-  </filter>
+    </include>
+  </source>
 </phpunit>
