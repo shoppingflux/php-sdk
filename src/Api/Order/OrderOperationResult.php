@@ -1,13 +1,12 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Order;
 
 use ShoppingFeed\Sdk\Api\Task;
 
 class OrderOperationResult
 {
-    /**
-     * @var Task\TicketDomain[]
-     */
+    /** @var Task\TicketDomain[] */
     private $batches;
 
     public function __construct(array $resources = [])
@@ -60,6 +59,7 @@ class OrderOperationResult
     private function setBatches(array $resources)
     {
         $this->batches = [];
+
         foreach ($resources as $resource) {
             // Stored element is the domain in order to avoid early api calls
             $batchId = $resource->getProperty('id');

@@ -1,12 +1,15 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Resource;
 
+use ArrayAccess;
+use ReturnTypeWillChange;
 use ShoppingFeed\Sdk\Exception;
 
 /**
  * Resilient array access for resources array property
  */
-class ResourceProperties implements \ArrayAccess
+class ResourceProperties implements ArrayAccess
 {
     private $data;
 
@@ -15,13 +18,13 @@ class ResourceProperties implements \ArrayAccess
         $this->data = $data;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->data[$offset]);
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if ($this->offsetExists($offset)) {
@@ -31,13 +34,13 @@ class ResourceProperties implements \ArrayAccess
         return null;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         throw new Exception\RuntimeException('Resource properties cannot be modified');
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         throw new Exception\RuntimeException('Resource properties cannot be modified');

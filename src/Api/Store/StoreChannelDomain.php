@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Store;
 
 use ShoppingFeed\Sdk\Resource;

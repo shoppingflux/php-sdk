@@ -1,22 +1,22 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Resource;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use ReturnTypeWillChange;
 use ShoppingFeed\Sdk\Hal;
 
-abstract class AbstractCollection extends AbstractResource implements \Countable, \IteratorAggregate
+abstract class AbstractCollection extends AbstractResource implements Countable, IteratorAggregate
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $resourceClass = '';
 
-    /**
-     * @var AbstractResource[]
-     */
+    /** @var AbstractResource[] */
     protected $resources;
 
     /**
-     * @param AbstractCollection $collection
      *
      * @return static A new instance with merged items
      */
@@ -27,9 +27,6 @@ abstract class AbstractCollection extends AbstractResource implements \Countable
         return $this;
     }
 
-    /**
-     * @param array $resources
-     */
     public function __construct(array $resources = [])
     {
         $this->resources = [];
@@ -39,7 +36,7 @@ abstract class AbstractCollection extends AbstractResource implements \Countable
     /**
      * @return int
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function count()
     {
         return count($this->resources);
@@ -66,10 +63,10 @@ abstract class AbstractCollection extends AbstractResource implements \Countable
     /**
      * @return \Traversable
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
-        return new \ArrayIterator($this->resources);
+        return new ArrayIterator($this->resources);
     }
 
     /**
@@ -78,6 +75,7 @@ abstract class AbstractCollection extends AbstractResource implements \Countable
     private function addResources($resources)
     {
         $className = $this->resourceClass;
+
         foreach ($resources as $resource) {
             if ($resource instanceof Hal\HalResource) {
                 $resource = new $className($resource, true);

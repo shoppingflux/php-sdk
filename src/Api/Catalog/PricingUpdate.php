@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Catalog;
 
 use ShoppingFeed\Sdk\Hal;
@@ -35,7 +36,6 @@ class PricingUpdate extends AbstractBulkOperation
     }
 
     /**
-     * @param Hal\HalLink $link
      *
      * @return PricingCollection
      */
@@ -44,7 +44,7 @@ class PricingUpdate extends AbstractBulkOperation
         // Create requests per batch
         $requests = [];
         $this->eachBatch(
-            $this->createBatchProcessorCallback($link, $requests)
+            $this->createBatchProcessorCallback($link, $requests),
         );
 
         // Send requests
@@ -54,7 +54,7 @@ class PricingUpdate extends AbstractBulkOperation
             $this->createSuccessCallback($resources),
             null,
             [],
-            $this->getPoolSize()
+            $this->getPoolSize(),
         );
 
         return new PricingCollection($resources);
@@ -63,8 +63,6 @@ class PricingUpdate extends AbstractBulkOperation
     /**
      * Create batch processor
      *
-     * @param Hal\HalLink $link
-     * @param array       $requests
      *
      * @return \Closure
      */
@@ -78,7 +76,6 @@ class PricingUpdate extends AbstractBulkOperation
     /**
      * Create success callback
      *
-     * @param array $resources
      *
      * @return \Closure
      */
@@ -86,6 +83,7 @@ class PricingUpdate extends AbstractBulkOperation
     {
         return function (Hal\HalResource $resource) use (&$resources) {
             $pricings = $resource->getResources('pricing');
+
             if (count($pricings) > 0) {
                 array_push($resources, ...$pricings);
             }

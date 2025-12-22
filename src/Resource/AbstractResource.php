@@ -1,22 +1,21 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Resource;
 
+use DateTimeImmutable;
+use JsonSerializable;
+use ReturnTypeWillChange;
 use ShoppingFeed\Sdk\Hal;
 
-abstract class AbstractResource implements \JsonSerializable
+abstract class AbstractResource implements JsonSerializable
 {
-    /**
-     * @var Hal\HalResource
-     */
+    /** @var Hal\HalResource */
     protected $resource;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $isPartial;
 
     /**
-     * @param Hal\HalResource $resource
      * @param bool        $isPartial
      */
     public function __construct(Hal\HalResource $resource, $isPartial = true)
@@ -41,7 +40,7 @@ abstract class AbstractResource implements \JsonSerializable
     /**
      * @return array
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->toArray();
@@ -95,7 +94,7 @@ abstract class AbstractResource implements \JsonSerializable
     protected function getPropertyDatetime($property)
     {
         if ($prop = $this->resource->getProperty($property)) {
-            return new \DateTimeImmutable($prop);
+            return new DateTimeImmutable($prop);
         }
 
         return null;

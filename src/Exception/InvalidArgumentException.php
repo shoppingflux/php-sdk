@@ -1,6 +1,9 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Exception;
 
-class InvalidArgumentException extends \Exception
+use Exception;
+
+class InvalidArgumentException extends Exception
 {
 }

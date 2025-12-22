@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Task;
 
 use ShoppingFeed\Sdk\Resource;
@@ -21,7 +22,7 @@ class TicketResource extends Resource\AbstractResource
     public function getPayload()
     {
         return new Resource\ResourceProperties(
-            $this->getProperty('payload') ?: []
+            $this->getProperty('payload') ?: [],
         );
     }
 
@@ -35,6 +36,7 @@ class TicketResource extends Resource\AbstractResource
     public function getPayloadProperty($name)
     {
         $payload = $this->getProperty('payload') ?: [];
+
         if ($payload && isset($payload[$name])) {
             return $payload[$name];
         }

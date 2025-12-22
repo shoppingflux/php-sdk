@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Channel;
 
 use ShoppingFeed\Sdk\Resource\AbstractResource;

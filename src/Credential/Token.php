@@ -1,14 +1,13 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Credential;
 
-use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Api\Session\SessionResource;
+use ShoppingFeed\Sdk\Hal;
 
 class Token implements CredentialInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $token;
 
     /**
@@ -28,7 +27,7 @@ class Token implements CredentialInterface
 
         return new SessionResource(
             $client->request('GET', 'v1/me'),
-            false
+            false,
         );
     }
 }

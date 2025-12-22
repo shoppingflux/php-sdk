@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Http\Adapter;
 
 use GuzzleHttp;
@@ -13,31 +14,22 @@ use ShoppingFeed\Sdk\Http;
  */
 class GuzzleHTTPAdapter implements Http\Adapter\AdapterInterface
 {
-    /**
-     * @var GuzzleHttp\HandlerStack
-     */
+    /** @var GuzzleHttp\HandlerStack */
     private $stack;
 
-    /**
-     * @var Client\ClientOptions
-     */
+    /** @var Client\ClientOptions */
     private $options;
 
-    /**
-     * @var GuzzleHttp\Client
-     */
+    /** @var GuzzleHttp\Client */
     private $client;
 
-    /**
-     * @var GuzzleHttp\Pool
-     */
+    /** @var GuzzleHttp\Pool */
     private $pool;
 
     public function __construct(
         Client\ClientOptions $options = null,
-        GuzzleHttp\HandlerStack $stack = null
-    )
-    {
+        GuzzleHttp\HandlerStack $stack = null,
+    ) {
         $this->options = $options ?: new Client\ClientOptions();
         $this->stack   = $stack ?: $this->createHandlerStack();
 
@@ -107,7 +99,7 @@ class GuzzleHTTPAdapter implements Http\Adapter\AdapterInterface
             GuzzleHttp\Middleware::mapRequest(function (RequestInterface $request) use ($token) {
                 return $request->withHeader('Authorization', 'Bearer ' . trim($token));
             }),
-            'token_auth'
+            'token_auth',
         );
 
         return $this->createClient($this->options->getBaseUri(), $stack);
@@ -176,6 +168,7 @@ class GuzzleHTTPAdapter implements Http\Adapter\AdapterInterface
         }
 
         $retryCount = $this->options->getRetryOnServerError();
+
         if ($retryCount) {
             $handler = new Http\Middleware\ServerErrorHandler($retryCount);
             $this->stack->push(GuzzleHttp\Middleware::retry([$handler, 'decide']), 'retry_count');

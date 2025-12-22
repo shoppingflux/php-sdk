@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Http\Middleware;
 
 use Psr\Http\Message\RequestInterface;
@@ -18,9 +19,7 @@ class RateLimitHandler
      */
     private $maxRetries;
 
-    /**
-     * @var LoggerInterface
-     */
+    /** @var LoggerInterface */
     private $logger;
 
     /**
@@ -35,7 +34,6 @@ class RateLimitHandler
 
     /**
      * @param int                    $count
-     * @param RequestInterface       $request
      * @param ResponseInterface|null $response
      *
      * @return bool
@@ -51,7 +49,6 @@ class RateLimitHandler
 
     /**
      * @param int               $count    Number of retries
-     * @param ResponseInterface $response
      *
      * @return int milliseconds to wait before next call
      */

@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Http;
 
 /**
@@ -52,7 +53,7 @@ class UriTemplate
         return preg_replace_callback(
             '/\{([^\}]+)\}/',
             [$this, 'expandMatch'],
-            $this->template
+            $this->template,
         );
     }
 
@@ -77,6 +78,7 @@ class UriTemplate
         foreach (explode(',', $expression) as $value) {
             $value   = trim($value);
             $varspec = [];
+
             if ($colonPos = strpos($value, ':')) {
                 $varspec['value']    = substr($value, 0, $colonPos);
                 $varspec['modifier'] = ':';
@@ -124,6 +126,7 @@ class UriTemplate
             if (is_array($variable)) {
                 $isAssoc = $this->isAssoc($variable);
                 $kvp     = [];
+
                 foreach ($variable as $key => $var) {
                     if ($isAssoc) {
                         $key           = rawurlencode($key);
@@ -134,7 +137,9 @@ class UriTemplate
 
                     if (! $isNestedArray) {
                         $var = rawurlencode($var);
-                        if ($parsed['operator'] === '+' ||
+
+                        if (
+                            $parsed['operator'] === '+' ||
                             $parsed['operator'] === '#'
                         ) {
                             $var = $this->decodeReserved($var);
@@ -148,7 +153,7 @@ class UriTemplate
                                 // structures.
                                 $var = strtr(
                                     http_build_query([$key => $var]),
-                                    $rfc1738to3986
+                                    $rfc1738to3986,
                                 );
                             } else {
                                 $var = $key . '=' . $var;
@@ -165,6 +170,7 @@ class UriTemplate
                     $actuallyUseQuery = false;
                 } elseif ($value['modifier'] === '*') {
                     $expanded = implode($joiner, $kvp);
+
                     if ($isAssoc) {
                         // Don't prepend the value name when using the explode
                         // modifier with an associative array.
@@ -189,6 +195,7 @@ class UriTemplate
                 }
 
                 $expanded = rawurlencode($variable);
+
                 if ($parsed['operator'] === '+' || $parsed['operator'] === '#') {
                     $expanded = $this->decodeReserved($expanded);
                 }
@@ -206,6 +213,7 @@ class UriTemplate
         }
 
         $ret = implode($joiner, $replacements);
+
         if ($ret && $prefix) {
             return $prefix . $ret;
         }

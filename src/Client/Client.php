@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Client;
 
 use ShoppingFeed\Sdk\Credential\CredentialInterface;
@@ -7,15 +8,12 @@ use ShoppingFeed\Sdk\Http;
 
 class Client
 {
-    const VERSION = '0.2.4';
+    public const VERSION = '0.2.4';
 
-    /**
-     * @var Hal\HalClient
-     */
+    /** @var Hal\HalClient */
     private $client;
 
     /**
-     * @param CredentialInterface $credential
      * @param ClientOptions|null  $options
      *
      * @return \ShoppingFeed\Sdk\Api\Session\SessionResource
@@ -40,7 +38,7 @@ class Client
 
         $this->client = new Hal\HalClient(
             $options->getBaseUri(),
-            $options->getHttpAdapter()
+            $options->getHttpAdapter(),
         );
     }
 
@@ -66,7 +64,6 @@ class Client
     }
 
     /**
-     * @param CredentialInterface $credential
      *
      * @return \ShoppingFeed\Sdk\Api\Session\SessionResource
      */

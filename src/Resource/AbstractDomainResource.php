@@ -1,11 +1,12 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Resource;
 
 use ShoppingFeed\Sdk\Hal;
 
 abstract class AbstractDomainResource
 {
-    const PER_PAGE = 200;
+    public const PER_PAGE = 200;
 
     /**
      * Paginated collection class to use
@@ -21,19 +22,12 @@ abstract class AbstractDomainResource
      */
     protected $iteratorClass = PaginatedResourceIterator::class;
 
-    /**
-     * @var Hal\HalLink
-     */
+    /** @var Hal\HalLink */
     protected $link;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $resourceClass = '';
 
-    /**
-     * @param Hal\HalLink $link
-     */
     public function __construct(Hal\HalLink $link)
     {
         $this->link = $link;
@@ -55,19 +49,17 @@ abstract class AbstractDomainResource
     }
 
     /**
-     * @param array $criteria
      *
      * @return PaginatedResourceCollection
      */
     public function getPage(array $criteria = [])
     {
         return $this->createPaginator(
-            new PaginationCriteria($criteria)
+            new PaginationCriteria($criteria),
         );
     }
 
     /**
-     * @param array $filters
      *
      * @return AbstractResource[]|\Traversable
      */
@@ -86,38 +78,40 @@ abstract class AbstractDomainResource
     public function getPages(array $criteria = [])
     {
         $resource = $this->createPaginator(new PaginationCriteria($criteria));
+
         while ($resource) {
             yield $resource;
+
             $resource = $resource->next();
         }
     }
 
     /**
-     * @param PaginationCriteria $criteria
      *
      * @return null|PaginatedResourceCollection
      */
     protected function createPaginator(PaginationCriteria $criteria)
     {
         $resource = $this->link->get([], ['query' => $criteria->getQueryParams()]);
+
         if (! $resource) {
             return null;
         }
 
         return new $this->paginatorClass(
             $resource,
-            $this->resourceClass
+            $this->resourceClass,
         );
     }
 
     /**
-     * @param PaginationCriteria $criteria
      *
      * @return null|PaginatedResourceIterator
      */
     protected function createIterator(PaginationCriteria $criteria)
     {
         $paginator = $this->createPaginator($criteria);
+
         if ($paginator) {
             return new $this->iteratorClass($paginator);
         }

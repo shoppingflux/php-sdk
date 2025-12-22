@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Task;
 
 use ShoppingFeed\Sdk\Resource;
@@ -16,7 +17,6 @@ class TicketDomain extends Resource\AbstractDomainResource
 
     /**
      * @param string $batchId Filter tickets by related batch
-     * @param array  $filters
      *
      * @return TicketResource[]|TicketIterator|\Traversable
      */
@@ -25,7 +25,7 @@ class TicketDomain extends Resource\AbstractDomainResource
         $filters['batchId'] = (string) $batchId;
 
         return $this->createIterator(
-            new Resource\PaginationCriteria(compact('filters'))
+            new Resource\PaginationCriteria(compact('filters')),
         );
     }
 }

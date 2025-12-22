@@ -1,5 +1,8 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Resource;
+
+use InvalidArgumentException;
 
 class Json
 {
@@ -13,9 +16,10 @@ class Json
     public static function encode($content)
     {
         $json = json_encode($content);
+
         if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new \InvalidArgumentException(
-                'json_encode error: ' . json_last_error_msg()
+            throw new InvalidArgumentException(
+                'json_encode error: ' . json_last_error_msg(),
             );
         }
 
@@ -32,9 +36,10 @@ class Json
     public static function decode($json, $assoc = false)
     {
         $content = json_decode($json, $assoc);
+
         if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new \InvalidArgumentException(
-                'json_decode error: ' . json_last_error_msg()
+            throw new InvalidArgumentException(
+                'json_decode error: ' . json_last_error_msg(),
             );
         }
 
