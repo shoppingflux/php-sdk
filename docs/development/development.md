@@ -16,23 +16,23 @@ Once the installation is done, in your project root, where you have cloned the r
 
 1. Build the image
 ```bash
-docker-compose build
+docker compose build
 ```
 2. Install project dependencies
 ```bash
-docker-compose run sf-php-sdk-dev composer install --dev
+docker compose run sf-php-sdk-dev composer install --dev
 ```
 
 3. Connect to container
 ```bash
-docker-compose run sf-php-sdk-dev /bin/sh
+docker compose run sf-php-sdk-dev bash
 ```
 
 ## Code checks
 
 To help you test your code against our requirements, there is a composer test script configured :
 ```bash
-docker-compose run sf-php-sdk-dev composer test 
+docker compose run sf-php-sdk-dev composer test 
 ```
 
 The script will run `phpunit` and `phpcs`.

@@ -6,4 +6,4 @@ parameters:
 	level: 8
 	phpVersion: 70100
 	excludePaths:
-		- project/tests
+		- tests
