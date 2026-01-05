@@ -1,18 +1,15 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Credential;
 
 use ShoppingFeed\Sdk\Hal;
 
 class Password implements CredentialInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $username;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $password;
 
     /**
@@ -42,7 +39,6 @@ class Password implements CredentialInterface
     }
 
     /**
-     * @param Hal\HalResource $response
      *
      * @return Token
      */

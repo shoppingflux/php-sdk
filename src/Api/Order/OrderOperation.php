@@ -1,14 +1,14 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Order;
 
-use ShoppingFeed\Sdk\Api;
-use ShoppingFeed\Sdk\Exception;
+use ShoppingFeed\Sdk;
 use ShoppingFeed\Sdk\Hal;
 use ShoppingFeed\Sdk\Operation\AbstractBulkOperation;
 use ShoppingFeed\Sdk\Operation\OperationInterface;
 
 /**
- * @deprecated Use ShoppingFeed\Sdk\Api\Order\Operation instead
+ * @deprecated Use Sdk\Api\Order\Operation instead
  */
 class OrderOperation extends AbstractBulkOperation implements OperationInterface
 {
@@ -25,9 +25,7 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
     public const TYPE_UPLOAD_DOCUMENTS = 'upload-documents';
     public const TYPE_DELIVER          = 'deliver';
 
-    /**
-     * @var Operation $operation
-     */
+    /** @var Operation $operation */
     private $operation;
 
     /**
@@ -39,7 +37,7 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
             'shopping-feed/sdk',
             '0.9.0',
             'The OrderOperation::__construct() method is deprecated and will '
-            . 'be removed in 1.0. Use Operation::__construct() instead'
+            . 'be removed in 1.0. Use Operation::__construct() instead',
         );
 
         $this->operation = new Operation();
@@ -54,13 +52,13 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      *
      * @return OrderOperation
      *
-     * @throws Exception\InvalidArgumentException
+     * @throws Sdk\Exception\InvalidArgumentException
      */
     public function accept($reference, $channelName, $reason = '')
     {
         $this->operation->accept(
             $this->createReference((string) $reference, (string) $channelName),
-            (string) $reason
+            (string) $reason,
         );
 
         return $this;
@@ -75,13 +73,13 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      *
      * @return OrderOperation
      *
-     * @throws Exception\InvalidArgumentException
+     * @throws Sdk\Exception\InvalidArgumentException
      */
     public function cancel($reference, $channelName, $reason = '')
     {
         $this->operation->cancel(
             $this->createReference((string) $reference, (string) $channelName),
-            (string) $reason
+            (string) $reason,
         );
 
         return $this;
@@ -99,7 +97,7 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      *
      * @return OrderOperation
      *
-     * @throws Exception\InvalidArgumentException
+     * @throws Sdk\Exception\InvalidArgumentException
      */
     public function ship(
         $reference,
@@ -107,15 +105,14 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
         $carrier = '',
         $trackingNumber = '',
         $trackingLink = '',
-        $items = []
-    )
-    {
+        $items = [],
+    ) {
         $this->operation->ship(
             $this->createReference((string) $reference, (string) $channelName),
             (string) $carrier,
             (string) $trackingNumber,
             (string) $trackingLink,
-            (array) $items
+            (array) $items,
         );
 
         return $this;
@@ -129,7 +126,7 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      *
      * @return OrderOperation
      *
-     * @throws Exception\InvalidArgumentException
+     * @throws Sdk\Exception\InvalidArgumentException
      */
     public function refuse($reference, $channelName)
     {
@@ -149,7 +146,7 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      *
      * @return OrderOperation
      *
-     * @throws Exception\InvalidArgumentException
+     * @throws Sdk\Exception\InvalidArgumentException
      * @throws \Exception
      */
     public function acknowledge($reference, $channelName, $storeReference = '', $status = 'success', $message = '')
@@ -158,7 +155,7 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
             $this->createReference((string) $reference, (string) $channelName),
             (string) $storeReference,
             (string) $status,
-            (string) $message
+            (string) $message,
         );
 
         return $this;
@@ -172,7 +169,7 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      *
      * @return OrderOperation
      *
-     * @throws Exception\InvalidArgumentException
+     * @throws Sdk\Exception\InvalidArgumentException
      * @throws \Exception
      */
     public function unacknowledge($reference, $channelName)
@@ -185,17 +182,16 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
     /**
      * @param string                    $reference The channel's order reference
      * @param string                    $channelName The channel's name
-     * @param Document\AbstractDocument $document
      *
      * @return OrderOperation
      *
-     * @throws Exception\InvalidArgumentException
+     * @throws Sdk\Exception\InvalidArgumentException
      */
     public function uploadDocument($reference, $channelName, Document\AbstractDocument $document): self
     {
         $this->operation->uploadDocument(
             $this->createReference((string) $reference, (string) $channelName),
-            $document
+            $document,
         );
 
         return $this;
@@ -211,14 +207,14 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
      *
      * @return OrderOperation
      *
-     * @throws Exception\InvalidArgumentException
+     * @throws Sdk\Exception\InvalidArgumentException
      */
     public function refund($reference, $channelName, $shipping = true, $products = [])
     {
         $this->operation->refund(
             $this->createReference((string) $reference, (string) $channelName),
             (bool) $shipping,
-            (array) $products
+            (array) $products,
         );
 
         return $this;
@@ -232,17 +228,13 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
         return $this->operation->execute($link);
     }
 
-    private function createReference(string $reference, string $channelName): Api\Order\Identifier\OrderIdentifier
+    private function createReference(string $reference, string $channelName): Sdk\Api\Order\Identifier\OrderIdentifier
     {
-        return new class($reference, $channelName) implements Api\Order\Identifier\OrderIdentifier {
-            /**
-             * @var string
-             */
+        return new class ($reference, $channelName) implements Sdk\Api\Order\Identifier\OrderIdentifier {
+            /** @var string */
             private $reference;
 
-            /**
-             * @var string
-             */
+            /** @var string */
             private $channelName;
 
             public function __construct(string $reference, string $channelName)

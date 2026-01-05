@@ -1,8 +1,9 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Session;
 
-use ShoppingFeed\Sdk\Resource\AbstractResource;
 use ShoppingFeed\Sdk\Api\Store;
+use ShoppingFeed\Sdk\Resource\AbstractResource;
 
 class SessionResource extends AbstractResource
 {
@@ -56,7 +57,7 @@ class SessionResource extends AbstractResource
     public function getStores()
     {
         return new Store\StoreCollection(
-            $this->resource->getResources('store')
+            $this->resource->getResources('store'),
         );
     }
 
@@ -102,7 +103,7 @@ class SessionResource extends AbstractResource
             'shopping-feed/sdk',
             '0.8.0',
             'The SessionResource::getMainStore() method is deprecated and will '
-            . 'be removed in 1.0. Use selectStore instead'
+            . 'be removed in 1.0. Use selectStore instead',
         );
 
         $resource = $this->resource->getFirstResource('store');

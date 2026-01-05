@@ -2,6 +2,7 @@
 
 namespace ShoppingFeed\Sdk\Api\Order\Shipment;
 
+use DateTimeImmutable;
 use ShoppingFeed\Sdk\Resource\AbstractResource;
 
 class ShipmentResource extends AbstractResource
@@ -26,7 +27,7 @@ class ShipmentResource extends AbstractResource
         return (array) $this->getProperty('returnInfo');
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->getPropertyDatetime('createdAt');
     }

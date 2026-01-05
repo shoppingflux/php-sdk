@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Operation;
 
 abstract class AbstractBulkOperation extends AbstractOperation
@@ -17,9 +18,7 @@ abstract class AbstractBulkOperation extends AbstractOperation
      */
     private $poolSize = 10;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $operations = [];
 
     /**
@@ -72,11 +71,9 @@ abstract class AbstractBulkOperation extends AbstractOperation
     public function count($filter = null)
     {
         return count($this->getOperations($filter));
-
     }
 
     /**
-     * @param callable $callback
      * @param string   $filter Allow to filter operations
      */
     protected function eachBatch(callable $callback, $filter = null)

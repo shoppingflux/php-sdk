@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Client;
 
 use Psr\Log\LoggerInterface;
@@ -6,29 +7,19 @@ use ShoppingFeed\Sdk\Http\Adapter\AdapterInterface;
 
 class ClientOptions
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $baseUri = 'https://api.shopping-feed.com';
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $handleRateLimit = true;
 
-    /**
-     * @var int The number of retries before abandon 5xx requests
-     */
+    /** @var int The number of retries before abandon 5xx requests */
     private $retryOnServerError = 0;
 
-    /**
-     * @var LoggerInterface
-     */
+    /** @var LoggerInterface */
     private $logger;
 
-    /**
-     * @var AdapterInterface
-     */
+    /** @var AdapterInterface */
     private $httpAdapter;
 
     /**
@@ -45,9 +36,7 @@ class ClientOptions
      */
     private $platformVersion;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $headers = [
         'Accept'          => 'application/json',
         'Accept-Encoding' => 'gzip',
@@ -62,7 +51,6 @@ class ClientOptions
     }
 
     /**
-     * @param LoggerInterface $logger
      *
      * @return ClientOptions
      */
@@ -142,7 +130,6 @@ class ClientOptions
     }
 
     /**
-     * @param AdapterInterface $httpAdapter
      *
      * @return ClientOptions
      */
@@ -163,14 +150,13 @@ class ClientOptions
             'SF-SDK-PHP/%s (%s; %s)',
             Client::VERSION,
             $this->platform ?: gethostname(),
-            $this->platformVersion ?: 'Unknown'
+            $this->platformVersion ?: 'Unknown',
         );
 
         return $headers;
     }
 
     /**
-     * @param array $headers
      *
      * @return ClientOptions
      */

@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Hal;
 
 use Psr\Http\Message\RequestInterface;
@@ -8,19 +9,12 @@ use ShoppingFeed\Sdk\Resource\Json;
 
 class HalClient
 {
-    /**
-     * @var AdapterInterface
-     */
+    /** @var AdapterInterface */
     private $client;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $baseUri;
 
-    /**
-     * @param AdapterInterface $httpClient
-     */
     public function __construct($baseUri, AdapterInterface $httpClient)
     {
         $this->baseUri = $baseUri;
@@ -36,14 +30,13 @@ class HalClient
     {
         return new self(
             $this->baseUri,
-            $this->client->withToken($token)
+            $this->client->withToken($token),
         );
     }
 
     /**
      * @param string      $method
      * @param string      $uri
-     * @param array       $headers
      * @param null|string $body
      *
      * @return RequestInterface
@@ -64,13 +57,12 @@ class HalClient
     {
         return $this->send(
             $this->client->createRequest($method, $uri),
-            $options
+            $options,
         );
     }
 
     /**
      * @param       $requests
-     * @param array $config
      *
      * @return void
      */
@@ -80,14 +72,13 @@ class HalClient
     }
 
     /**
-     * @param RequestInterface $request
-     * @param array            $options
      *
      * @return null|HalResource
      */
     public function send(RequestInterface $request, array $options = [])
     {
         $response = $this->client->send($request, $options);
+
         if ($response instanceof ResponseInterface) {
             return $this->createResource($response);
         }
@@ -96,7 +87,6 @@ class HalClient
     }
 
     /**
-     * @param ResponseInterface $response
      *
      * @return HalResource
      */

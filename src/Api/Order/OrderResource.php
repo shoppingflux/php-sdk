@@ -1,9 +1,9 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Order;
 
 use ShoppingFeed\Sdk\Api\Channel\ChannelResource;
 use ShoppingFeed\Sdk\Api\Order\Shipment\ShipmentDomain;
-use ShoppingFeed\Sdk\Api\Order\Shipment\ShipmentResource;
 use ShoppingFeed\Sdk\Resource;
 
 class OrderResource extends Resource\AbstractResource
@@ -113,7 +113,7 @@ class OrderResource extends Resource\AbstractResource
     public function getItems()
     {
         return OrderItemCollection::fromProperties(
-            $this->getProperty('items', true) ?: []
+            $this->getProperty('items', true) ?: [],
         );
     }
 
@@ -131,12 +131,12 @@ class OrderResource extends Resource\AbstractResource
     public function getChannel()
     {
         return new ChannelResource(
-            $this->resource->getFirstResource('channel')
+            $this->resource->getFirstResource('channel'),
         );
     }
 
     /**
-     * @return Resource\PaginatedResourceIterator<ShipmentResource>
+     * @return Resource\PaginatedResourceIterator<Shipment\ShipmentResource>
      */
     public function getShipments()
     {

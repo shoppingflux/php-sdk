@@ -1,8 +1,8 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Order;
 
 use ShoppingFeed\Sdk\Api\Order\Shipment\ShipmentDomain;
-use ShoppingFeed\Sdk\Api\Order\Shipment\ShipmentResource;
 use ShoppingFeed\Sdk\Operation\OperationInterface;
 use ShoppingFeed\Sdk\Resource;
 
@@ -15,12 +15,10 @@ use ShoppingFeed\Sdk\Resource;
  */
 class OrderDomain extends Resource\AbstractDomainResource
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $resourceClass = OrderResource::class;
 
-    /** @return Resource\PaginatedResourceIterator<ShipmentResource> */
+    /** @return Resource\PaginatedResourceIterator<Shipment\ShipmentResource> */
     public function getShipmentsByOrder(int $orderId)
     {
         return (new ShipmentDomain($this->link->withAddedHref($orderId . '/shipment')))->getAll();

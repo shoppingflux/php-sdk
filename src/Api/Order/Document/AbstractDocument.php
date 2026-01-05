@@ -4,21 +4,16 @@ namespace ShoppingFeed\Sdk\Api\Order\Document;
 
 abstract class AbstractDocument
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $path;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $type;
 
     public function __construct(
         string $path,
-        string $type
-    )
-    {
+        string $type,
+    ) {
         $this->path = $path;
         $this->type = $type;
     }

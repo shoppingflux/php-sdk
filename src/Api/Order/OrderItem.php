@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Order;
 
 /**
@@ -6,64 +7,40 @@ namespace ShoppingFeed\Sdk\Api\Order;
  */
 class OrderItem
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private $id;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $reference;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $status;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $quantity;
 
-    /**
-     * @var float
-     */
+    /** @var float */
     private $unitPrice;
 
-    /**
-     * @var null|float
-     */
+    /** @var null|float */
     private $commission;
 
-    /**
-     * @var float
-     */
+    /** @var float */
     private $taxAmount;
 
-    /**
-     * @var float
-     */
+    /** @var float */
     private $ecotaxAmount;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $channelReference;
 
-    /**
-     * @var null|array
-     */
+    /** @var null|array */
     private $additionalFields;
 
-    /**
-     * @var null|string
-     */
+    /** @var null|string */
     private $name;
 
-    /**
-     * @var null|string
-     */
+    /** @var null|string */
     private $image;
 
     /**
@@ -92,9 +69,8 @@ class OrderItem
         $channelReference,
         $additionalFields,
         $name,
-        $image
-    )
-    {
+        $image,
+    ) {
         $this->id               = $id;
         $this->reference        = $reference;
         $this->status           = $status;
