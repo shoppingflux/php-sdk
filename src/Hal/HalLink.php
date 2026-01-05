@@ -1,51 +1,37 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Hal;
 
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use ShoppingFeed\Sdk\Http\UriTemplate;
 use ShoppingFeed\Sdk\Resource\Json;
 
 class HalLink
 {
-    /**
-     * @var UriTemplate
-     */
+    /** @var UriTemplate */
     private static $uriTemplate;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $href;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $templated;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $type;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $name;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $title;
 
-    /**
-     * @var HalClient
-     */
+    /** @var HalClient */
     private $client;
 
     /**
-     * @param HalClient $client
      * @param           $href
-     * @param array     $config
      */
     public function __construct(HalClient $client, $href, array $config = [])
     {
@@ -125,7 +111,6 @@ class HalLink
     }
 
     /**
-     * @param array $variables
      *
      * @return null|string|string[]
      */
@@ -143,8 +128,6 @@ class HalLink
     }
 
     /**
-     * @param array $variables
-     * @param array $options
      *
      * @return null|HalResource
      */
@@ -152,14 +135,12 @@ class HalLink
     {
         return $this->client->send(
             $this->createRequest('GET', $variables),
-            $options
+            $options,
         );
     }
 
     /**
      * @param mixed $data
-     * @param array $variables
-     * @param array $options
      *
      * @return null|HalResource
      */
@@ -167,14 +148,12 @@ class HalLink
     {
         return $this->client->send(
             $this->createRequest('PUT', $variables, $data),
-            $options
+            $options,
         );
     }
 
     /**
      * @param mixed $data
-     * @param array $variables
-     * @param array $options
      *
      * @return null|HalResource
      */
@@ -182,14 +161,12 @@ class HalLink
     {
         return $this->client->send(
             $this->createRequest('PATCH', $variables, $data),
-            $options
+            $options,
         );
     }
 
     /**
      * @param mixed $data
-     * @param array $variables
-     * @param array $options
      *
      * @return null|HalResource
      */
@@ -197,14 +174,12 @@ class HalLink
     {
         return $this->client->send(
             $this->createRequest('POST', $variables, $data),
-            $options
+            $options,
         );
     }
 
     /**
      * @param mixed $data
-     * @param array $variables
-     * @param array $options
      *
      * @return null|HalResource
      */
@@ -212,15 +187,12 @@ class HalLink
     {
         return $this->client->send(
             $this->createRequest('DELETE', $variables, $data),
-            $options
+            $options,
         );
     }
 
     /**
      * @param          $requests
-     * @param callable $success
-     * @param callable $error
-     * @param array    $options
      * @param int      $concurrency
      *
      * @return void
@@ -230,9 +202,8 @@ class HalLink
         ?callable $success = null,
         ?callable $error = null,
         array $options = [],
-        $concurrency = 10
-    )
-    {
+        $concurrency = 10,
+    ) {
         $config['concurrency'] = (int) $concurrency;
         $config['fulfilled']   = $this->createResponseCallback($success);
         $config['rejected']    = $this->createExceptionCallback($error);
@@ -246,7 +217,6 @@ class HalLink
 
     /**
      * @param \Psr\Http\Message\RequestInterface|\Psr\Http\Message\RequestInterface[] $request
-     * @param array                               $config
      *
      * @return null|HalResource
      */
@@ -257,7 +227,6 @@ class HalLink
 
     /**
      * @param string $method
-     * @param array  $variables
      * @param mixed  $body
      *
      * @return \Psr\Http\Message\RequestInterface
@@ -277,6 +246,7 @@ class HalLink
             switch ($headers['Content-Type']) {
                 case 'application/json':
                     $body = Json::encode($body);
+
                     break;
             }
         }
@@ -306,7 +276,7 @@ class HalLink
      */
     private function createExceptionCallback(?callable $callback = null)
     {
-        return function (\Exception $exception) use ($callback) {
+        return function (Exception $exception) use ($callback) {
             call_user_func($callback, $exception);
         };
     }

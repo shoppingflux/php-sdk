@@ -1,6 +1,9 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Http\Exception;
 
-class MissingDependencyException extends \Exception
+use Exception;
+
+class MissingDependencyException extends Exception
 {
 }

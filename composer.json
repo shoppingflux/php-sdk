@@ -4,14 +4,13 @@
   "minimum-stability": "stable",
   "description": "Shopping Feed SDK to ease integration of our API",
   "require": {
-    "php": ">=7.1",
+    "php": ">=8.0",
     "ext-json": "*",
-    "symfony/deprecation-contracts": "^2.5|^3.0"
+    "symfony/deprecation-contracts": "^3.0"
   },
   "autoload": {
     "psr-4": {
-      "ShoppingFeed\\Sdk\\": "src/",
-      "ShoppingFeed\\Sdk\\Test\\": "tests/unit"
+      "ShoppingFeed\\Sdk\\": "src/"
     }
   },
   "suggest": {
@@ -20,12 +19,17 @@
     "shoppingfeed/php-feed-generator": "Generates compliant Shopping-Feed XML feed with ease"
   },
   "require-dev": {
-    "monolog/monolog": "^1.23",
-    "guzzlehttp/guzzle": "^6.0 | ^7.0",
-    "phpunit/phpunit": "^7.0 | ^9.0",
-    "shoppingfeed/coding-style-php": "~2.1.0",
-    "overtrue/phplint": "^1.1",
-    "phpstan/phpstan": "~1.4.0"
+    "guzzlehttp/guzzle": "^7.5",
+    "psr/log": "^3.0",
+    "phpunit/phpunit": "^9.0",
+    "shoppingfeed/coding-style-php": "^2.4",
+    "overtrue/phplint": "^9.0",
+    "phpstan/phpstan": "^2.0"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ShoppingFeed\\Sdk\\Test\\": "tests/unit"
+    }
   },
   "scripts": {
     "test": [
@@ -36,9 +40,14 @@
     "tests-unit": "vendor/bin/phpunit",
     "phpcs": "vendor/bin/sfcs src --progress -vvv",
     "phpcsfix": "vendor/bin/sfcs src --progress -vvv --autofix",
-    "phpstan": "vendor/bin/phpstan analyse"
+    "phpstan": "vendor/bin/phpstan analyse --memory-limit=512M"
   },
   "scripts-descriptions": {
     "test" : "Run PHPUnit tests suites and Coding standards validator"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }

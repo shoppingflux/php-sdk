@@ -4,10 +4,7 @@ namespace ShoppingFeed\Sdk\Api\Order;
 
 use ArrayAccess;
 use ArrayObject;
-use Exception;
-use Psr\Http\Message\RequestInterface;
 use RuntimeException;
-use ShoppingFeed\Sdk\Api\Order\Document\AbstractDocument;
 use ShoppingFeed\Sdk\Api\Order\Identifier\OrderIdentifier;
 use ShoppingFeed\Sdk\Exception\InvalidArgumentException;
 use ShoppingFeed\Sdk\Hal;
@@ -29,9 +26,7 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
     private const TYPE_UPLOAD_DOCUMENTS = 'upload-documents';
     private const TYPE_DELIVER          = 'deliver';
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private $allowedOperationTypes = [
         self::TYPE_ACCEPT,
         self::TYPE_CANCEL,
@@ -76,9 +71,8 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
         string $trackingLink = '',
         array $items = [],
         ?ShipReturnInfo $returnInfo = null,
-        ?string $warehouseId = null
-    ): self
-    {
+        ?string $warehouseId = null,
+    ): self {
         $data = [
             'carrier'        => $carrier,
             'trackingNumber' => $trackingNumber,
@@ -114,7 +108,7 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
         return $this->addOperation(
             $identifier,
             self::TYPE_REFUND,
-            ['refund' => compact('shipping', 'products')]
+            ['refund' => compact('shipping', 'products')],
         );
     }
 
@@ -122,21 +116,20 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
      * Acknowledge order reception
      *
      * @throws InvalidArgumentException
-     * @throws Exception
+     * @throws \Exception
      */
     public function acknowledge(
         OrderIdentifier $identifier,
         string $storeReference = '',
         string $status = 'success',
-        string $message = ''
-    ): self
-    {
+        string $message = '',
+    ): self {
         $acknowledgedAt = date_create()->format('c');
 
         return $this->addOperation(
             $identifier,
             self::TYPE_ACKNOWLEDGE,
-            compact('status', 'storeReference', 'acknowledgedAt', 'message')
+            compact('status', 'storeReference', 'acknowledgedAt', 'message'),
         );
     }
 
@@ -144,7 +137,7 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
      * Unacknowledge order reception
      *
      * @throws InvalidArgumentException
-     * @throws Exception
+     * @throws \Exception
      */
     public function unacknowledge(OrderIdentifier $identifier): self
     {
@@ -176,7 +169,7 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
         if (! in_array($type, $this->allowedOperationTypes)) {
             throw new InvalidArgumentException(sprintf(
                 'Only %s operations are accepted',
-                implode(', ', $this->allowedOperationTypes)
+                implode(', ', $this->allowedOperationTypes),
             ));
         }
 
@@ -205,11 +198,11 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
             },
             null,
             [],
-            $this->getPoolSize()
+            $this->getPoolSize(),
         );
 
         return new OrderOperationResult(
-            $resources->getArrayCopy()
+            $resources->getArrayCopy(),
         );
     }
 
@@ -218,6 +211,7 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
         // Upload documents require dedicated processing because of file upload specificities
         if (self::TYPE_UPLOAD_DOCUMENTS === $type) {
             $this->populateRequestsForUploadDocuments($link, $requests);
+
             return;
         }
 
@@ -226,10 +220,10 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
                 $requests[] = $link->createRequest(
                     'POST',
                     ['operation' => $type],
-                    ['order' => $chunk]
+                    ['order' => $chunk],
                 );
             },
-            $type
+            $type,
         );
     }
 
@@ -237,7 +231,7 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
      * Create requests for upload documents operation. We batch request by 20
      * to not send too many files at once.
      *
-     * @param ArrayAccess<int, RequestInterface> $requests
+     * @param ArrayAccess<int, \Psr\Http\Message\RequestInterface> $requests
      */
     private function populateRequestsForUploadDocuments(Hal\HalLink $link, ArrayAccess $requests): void
     {
@@ -248,7 +242,7 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
             $orders = [];
 
             foreach ($batch as $operation) {
-                /** @var AbstractDocument $document */
+                /** @var Document\AbstractDocument $document */
                 $document = $operation['document'];
                 $resource = fopen($document->getPath(), 'rb');
 
@@ -271,7 +265,7 @@ final class Operation extends AbstractBulkOperation implements OperationInterfac
                 'POST',
                 ['operation' => $type],
                 $body,
-                ['Content-Type' => 'multipart/form-data']
+                ['Content-Type' => 'multipart/form-data'],
             );
         }
     }

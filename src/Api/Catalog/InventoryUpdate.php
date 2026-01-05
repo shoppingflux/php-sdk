@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Catalog;
 
 use ShoppingFeed\Sdk\Hal;
@@ -35,7 +36,6 @@ class InventoryUpdate extends AbstractBulkOperation
     }
 
     /**
-     * @param Hal\HalLink $link
      *
      * @return InventoryCollection
      */
@@ -44,7 +44,7 @@ class InventoryUpdate extends AbstractBulkOperation
         // Create requests per batch
         $requests = [];
         $this->eachBatch(
-            $this->createBatchProcessorCallback($link, $requests)
+            $this->createBatchProcessorCallback($link, $requests),
         );
 
         // Send requests
@@ -54,7 +54,7 @@ class InventoryUpdate extends AbstractBulkOperation
             $this->createSuccessCallback($resources),
             null,
             [],
-            $this->getPoolSize()
+            $this->getPoolSize(),
         );
 
         return new InventoryCollection($resources);
@@ -63,8 +63,6 @@ class InventoryUpdate extends AbstractBulkOperation
     /**
      * Create batch processor
      *
-     * @param Hal\HalLink $link
-     * @param array       $requests
      *
      * @return \Closure
      */
@@ -78,7 +76,6 @@ class InventoryUpdate extends AbstractBulkOperation
     /**
      * Create success callback
      *
-     * @param array $resources
      *
      * @return \Closure
      */
@@ -86,6 +83,7 @@ class InventoryUpdate extends AbstractBulkOperation
     {
         return function (Hal\HalResource $resource) use (&$resources) {
             $inventory = $resource->getResources('inventory');
+
             if (count($inventory) > 0) {
                 array_push($resources, ...$inventory);
             }

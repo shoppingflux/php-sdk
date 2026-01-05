@@ -2,11 +2,14 @@
 
 namespace ShoppingFeed\Sdk\Api\Order;
 
-class OrderItemCollection implements \Countable, \IteratorAggregate
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use ReturnTypeWillChange;
+
+class OrderItemCollection implements Countable, IteratorAggregate
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private $items = [];
 
     /**
@@ -16,7 +19,8 @@ class OrderItemCollection implements \Countable, \IteratorAggregate
      */
     public static function fromProperties(array $items)
     {
-        $instance = new self;
+        $instance = new self();
+
         foreach ($items as $item) {
             $instance->add(
                 new OrderItem(
@@ -31,15 +35,15 @@ class OrderItemCollection implements \Countable, \IteratorAggregate
                     $item['channelReference'],
                     $item['additionalFields'],
                     $item['name'],
-                    $item['image']
-                )
+                    $item['image'],
+                ),
             );
         }
 
         return $instance;
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function count()
     {
         return count($this->items);
@@ -48,10 +52,10 @@ class OrderItemCollection implements \Countable, \IteratorAggregate
     /**
      * @return \ArrayIterator|OrderItem[]
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
-        return new \ArrayIterator($this->items);
+        return new ArrayIterator($this->items);
     }
 
     /**
@@ -59,14 +63,11 @@ class OrderItemCollection implements \Countable, \IteratorAggregate
      */
     public function toArray()
     {
-        return array_map(function(OrderItem $item) {
+        return array_map(function (OrderItem $item) {
             return $item->toArray();
         }, $this->items);
     }
 
-    /**
-     * @param OrderItem $item
-     */
     private function add(OrderItem $item)
     {
         $this->items[] = $item;

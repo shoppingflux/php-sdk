@@ -1,20 +1,21 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Resource;
 
+use Countable;
+use IteratorAggregate;
+use ReturnTypeWillChange;
 use ShoppingFeed\Sdk\Hal;
 
-class PaginatedResourceCollection extends AbstractResource implements \IteratorAggregate, \Countable
+class PaginatedResourceCollection extends AbstractResource implements IteratorAggregate, Countable
 {
-    /**
-     * @var ?string
-     */
+    /** @var ?string */
     private $resourceClass;
 
     /**
      * Provide your resource class name if you want that collection return
      * those specific resource class rather than an HalResource
      *
-     * @param Hal\HalResource $resource
      * @param ?string         $resourceClass
      */
     public function __construct(Hal\HalResource $resource, $resourceClass = null)
@@ -66,6 +67,7 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
     public function getMeta($key = null)
     {
         $all = $this->getProperty('meta');
+
         if (null === $key) {
             return $all;
         }
@@ -83,11 +85,13 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
     public function next()
     {
         $link = $this->resource->getLink('next');
+
         if (! $link) {
             return null;
         }
 
         $resource = $link->get();
+
         if (! $resource) {
             return null;
         }
@@ -95,7 +99,7 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
         return new static($resource, $this->resourceClass);
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
         $data = current($this->resource->getAllResources()) ?: [];
@@ -109,7 +113,7 @@ class PaginatedResourceCollection extends AbstractResource implements \IteratorA
         }
     }
 
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function count()
     {
         return $this->getCurrentCount();

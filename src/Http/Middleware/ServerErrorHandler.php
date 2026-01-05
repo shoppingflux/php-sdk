@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Http\Middleware;
 
 use Psr\Http\Message\RequestInterface;
@@ -6,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class ServerErrorHandler
 {
-    const STATUS = [
+    public const STATUS = [
         500 => true,
         502 => true,
         503 => true,
@@ -27,7 +28,6 @@ class ServerErrorHandler
 
     /**
      * @param int                    $count
-     * @param RequestInterface       $request
      * @param ResponseInterface|null $response
      *
      * @return bool

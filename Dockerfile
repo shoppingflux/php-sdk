@@ -1,20 +1,29 @@
-FROM php:7.1-cli-alpine
+FROM php:8.0-fpm
 
-ARG MOUNTPOINT=/var/www
-ARG COMPOSER_BIN_DIR=/usr/local/bin
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y \
+    libcurl4-openssl-dev \
+    libxml2-dev \
+    libzip-dev \
+    curl \
+    git \
+    zip
 
-RUN apk add --update \
-    autoconf g++ make git zip libxml2-dev \
+RUN pecl install xdebug && \
+    docker-php-ext-enable xdebug
+
+RUN docker-php-ext-install curl \
+    && docker-php-ext-install opcache \
     && docker-php-ext-install zip \
-    && docker-php-ext-install xml \
-    && pecl install xdebug-2.5.0 \
-    && docker-php-ext-enable xdebug \
-    && docker-php-source delete \
-    && rm -rf /tmp/*
+    && docker-php-ext-install xml
 
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php --install-dir=$COMPOSER_BIN_DIR --filename=composer \
-    && php -r "unlink('composer-setup.php');"
+RUN rm -R /usr/src && rm -R /usr/local/src
 
-ADD . $MOUNTPOINT
-WORKDIR $MOUNTPOINT
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN usermod -u 1000 www-data
+
+RUN apt-get autoremove && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /var/www

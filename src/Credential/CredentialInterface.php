@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Credential;
 
 use ShoppingFeed\Sdk\Hal;
@@ -6,7 +7,6 @@ use ShoppingFeed\Sdk\Hal;
 interface CredentialInterface
 {
     /**
-     * @param Hal\HalClient $client
      *
      * @return \ShoppingFeed\Sdk\Api\Session\SessionResource
      */

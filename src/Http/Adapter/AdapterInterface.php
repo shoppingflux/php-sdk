@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Http\Adapter;
 
 use Psr\Http\Message;
@@ -17,7 +18,6 @@ interface AdapterInterface
     /**
      * Configure current adapter with given options
      *
-     * @param ClientOptions $options
      *
      * @return AdapterInterface
      */

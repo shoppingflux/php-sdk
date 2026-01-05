@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Task;
 
 use ShoppingFeed\Sdk\Exception;
@@ -29,7 +30,7 @@ class TicketIterator extends PaginatedResourceIterator
         while ($instance->isBeingProcessed()) {
             if (null !== $until && time() >= $until) {
                 throw new Exception\RuntimeException(
-                    sprintf('Process timed out after %d seconds', $timeout)
+                    sprintf('Process timed out after %d seconds', $timeout),
                 );
             }
 

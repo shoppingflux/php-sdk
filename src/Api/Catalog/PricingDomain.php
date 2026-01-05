@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Catalog;
 
 use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
@@ -10,9 +11,7 @@ use ShoppingFeed\Sdk\Resource\AbstractDomainResource;
  */
 class PricingDomain extends AbstractDomainResource
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $resourceClass = PricingResource::class;
 
     /**
@@ -23,10 +22,11 @@ class PricingDomain extends AbstractDomainResource
     public function getByReference($reference)
     {
         $resource = $this->link->get([], ['query' => ['reference' => $reference]]);
+
         if ($resource && $resource->getProperty('count') > 0) {
             return new PricingResource(
                 $resource->getFirstResource('pricing'),
-                false
+                false,
             );
         }
 
@@ -36,7 +36,6 @@ class PricingDomain extends AbstractDomainResource
     /**
      * Execute requested update
      *
-     * @param PricingUpdate $operation
      *
      * @return PricingCollection
      */

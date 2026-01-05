@@ -1,9 +1,10 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Store;
 
 use ShoppingFeed\Sdk\Api\Catalog;
-use ShoppingFeed\Sdk\Api\Task;
 use ShoppingFeed\Sdk\Api\Order\OrderDomain;
+use ShoppingFeed\Sdk\Api\Task;
 use ShoppingFeed\Sdk\Resource\AbstractResource;
 
 class StoreResource extends AbstractResource
@@ -58,7 +59,7 @@ class StoreResource extends AbstractResource
     public function getChannelApi()
     {
         return new StoreChannelDomain(
-            $this->resource->getLink('channel')
+            $this->resource->getLink('channel'),
         );
     }
 
@@ -68,7 +69,7 @@ class StoreResource extends AbstractResource
     public function getInventoryApi()
     {
         return new Catalog\InventoryDomain(
-            $this->resource->getLink('inventory')
+            $this->resource->getLink('inventory'),
         );
     }
 
@@ -78,7 +79,7 @@ class StoreResource extends AbstractResource
     public function getOrderApi()
     {
         return new OrderDomain(
-            $this->resource->getLink('order')
+            $this->resource->getLink('order'),
         );
     }
 
@@ -88,7 +89,7 @@ class StoreResource extends AbstractResource
     public function getPricingApi()
     {
         return new Catalog\PricingDomain(
-            $this->resource->getLink('pricing')
+            $this->resource->getLink('pricing'),
         );
     }
 
@@ -98,7 +99,7 @@ class StoreResource extends AbstractResource
     public function getTicketApi()
     {
         return new Task\TicketDomain(
-            $this->resource->getLink('ticket')
+            $this->resource->getLink('ticket'),
         );
     }
 

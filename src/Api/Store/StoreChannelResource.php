@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Api\Store;
 
 use ShoppingFeed\Sdk\Api\Channel;
@@ -67,7 +68,7 @@ class StoreChannelResource extends Resource\AbstractResource
     {
         if (null === $this->channel) {
             $this->channel = new Channel\ChannelResource(
-                $this->resource->getFirstResource('channel')
+                $this->resource->getFirstResource('channel'),
             );
         }
 

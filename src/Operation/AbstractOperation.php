@@ -1,4 +1,5 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Operation;
 
 use ShoppingFeed\Sdk\Hal;
@@ -6,7 +7,6 @@ use ShoppingFeed\Sdk\Hal;
 abstract class AbstractOperation
 {
     /**
-     * @param Hal\HalLink $link
      *
      * @return mixed
      */

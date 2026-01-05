@@ -1,6 +1,9 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Exception;
 
-class RuntimeException extends \RuntimeException
+use RuntimeException as SplRuntimeException;
+
+class RuntimeException extends SplRuntimeException
 {
 }

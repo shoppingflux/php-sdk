@@ -1,21 +1,18 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Resource;
+
+use DateTimeInterface;
 
 class PaginationCriteria
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private $page;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $limit;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $filters;
 
     /**
@@ -75,12 +72,14 @@ class PaginationCriteria
                 // The norm in the API for multiple values is to pass them comma separated
                 if (is_array($values)) {
                     $query[$field] = implode(',', $values);
+
                     continue;
                 }
 
                 // Format date in ISO 8601
-                if ($values instanceof \DateTimeInterface) {
+                if ($values instanceof DateTimeInterface) {
                     $query[$field] = $values->format('c');
+
                     continue;
                 }
 

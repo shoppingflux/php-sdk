@@ -1,31 +1,22 @@
 <?php
+
 namespace ShoppingFeed\Sdk\Hal;
 
 class HalResource
 {
-    /**
-     * @var HalClient
-     */
+    /** @var HalClient */
     private $client;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $properties = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $links = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $embedded = [];
 
     /**
-     * @param HalClient $client
-     * @param array     $data
      *
      * @return static
      */
@@ -47,12 +38,6 @@ class HalResource
         return new static($client, $data, $links, $embedded);
     }
 
-    /**
-     * @param HalClient $client
-     * @param array     $properties
-     * @param array     $links
-     * @param array     $embedded
-     */
     public function __construct(HalClient $client, array $properties = [], array $links = [], array $embedded = [])
     {
         $this->properties = $properties;
@@ -125,6 +110,7 @@ class HalResource
     public function getFirstResource($rel)
     {
         $resources = $this->getResources($rel);
+
         if ($resources) {
             return $resources[0];
         }
@@ -147,7 +133,6 @@ class HalResource
     }
 
     /**
-     * @param array $options
      *
      * @return null|HalResource
      */
@@ -164,14 +149,12 @@ class HalResource
         return $this->client;
     }
 
-    /**
-     * @param array $links
-     */
     private function createLinks(array $links)
     {
         foreach ($links as $rel => $link) {
             if ($link instanceof HalLink) {
                 $this->links[$rel] = $link;
+
                 continue;
             }
 
@@ -179,9 +162,6 @@ class HalResource
         }
     }
 
-    /**
-     * @param array $relations
-     */
     private function createEmbedded(array $relations)
     {
         foreach ($relations as $name => $resources) {

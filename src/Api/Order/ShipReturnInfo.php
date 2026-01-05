@@ -4,14 +4,10 @@ namespace ShoppingFeed\Sdk\Api\Order;
 
 class ShipReturnInfo
 {
-    /**
-     * @var ?string
-     */
+    /** @var ?string */
     private $carrier;
 
-    /**
-     * @var ?string
-     */
+    /** @var ?string */
     private $trackingNumber;
 
     public function __construct(?string $carrier, ?string $trackingNumber)
