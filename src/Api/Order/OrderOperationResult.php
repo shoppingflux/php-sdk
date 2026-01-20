@@ -9,9 +9,13 @@ class OrderOperationResult
     /** @var Task\TicketDomain[] */
     private $batches;
 
+    /** @var OrderOperationResponse[]  */
+    private array $responses;
+
     public function __construct(array $resources = [])
     {
         $this->setBatches($resources);
+        $this->setResponses($resources);
     }
 
     /**
@@ -39,7 +43,7 @@ class OrderOperationResult
     /**
      * Wait for all tickets to be processed.
      *
-     * @param int $timeout   Seconds to wait for each batch until stop
+     * @param int $timeout Seconds to wait for each batch until stop
      * @param int $sleepSecs Seconds to wait between to calls
      *
      * @return $this                      The current instance
@@ -54,7 +58,7 @@ class OrderOperationResult
     }
 
     /**
-     * @var \ShoppingFeed\Sdk\Hal\HalResource[] $resources
+     * @param \ShoppingFeed\Sdk\Hal\HalResource[] $resources
      */
     private function setBatches(array $resources)
     {
@@ -67,5 +71,25 @@ class OrderOperationResult
 
             $this->batches[$batchId] = $domain;
         }
+    }
+
+    /**
+     * @param \ShoppingFeed\Sdk\Hal\HalResource[] $resources
+     */
+    private function setResponses(array $resources): void
+    {
+        $this->batches = [];
+
+        foreach ($resources as $resource) {
+            $this->responses[] = new OrderOperationResponse($resource);
+        }
+    }
+
+    /**
+     * @return OrderOperationResponse[]
+     */
+    public function getResponses(): array
+    {
+        return $this->responses;
     }
 }

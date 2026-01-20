@@ -175,6 +175,39 @@ foreach ($result->wait(60)->getTickets() as $ticket) {
     $ticket->getId();
     $ticket->getStatus();
 }
+
+// Fetch all Responses objects generated for the operation
+foreach ($result->getResponses() as $response) {    
+    $batch   = $response->getBatch();
+    $batchId = $batch->getId();
+    
+    // Fetch all tickets generated for the operation
+    foreach ($batch->getTicket() as $ticketItem) {
+        $ticketItem->getId();
+        $ticketItem->getStatus();
+    }
+    
+    // Alternatively, you can wait until all ticket are processed
+    // do not forget to define a timeout to prevent script to be blocked
+    
+    // Ca va pas la : Normalement on boucle sur tous les tickets de tous les batchs
+    // => mettre une ResponseCollection au niveau de result et le wait au niveau de la collection ???
+    foreach ($response->wait(60)->getBatch()->getTicket() as $ticketItem) {
+        $ticketItem->getId();
+        $ticketItem->getStatus();
+    }
+    
+    // Fetch all reports generated for the operation
+    $report = $response->getReport();
+    
+    foreach ($report as $reportItem) {
+        $reportItem->getId();
+        $reportItem->getChannelName();
+        $reportItem->getReference();
+        $reportItem->getState();
+        $reportItem->getMessage(); 
+    }
+}
 ```
 
 ### Accept

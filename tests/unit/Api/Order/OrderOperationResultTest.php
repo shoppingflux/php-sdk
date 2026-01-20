@@ -33,10 +33,31 @@ class OrderOperationResultTest extends TestCase
             ->willReturn($this->link);
 
         $resource
-            ->expects($this->exactly(2))
+            ->expects($this->exactly(4))
             ->method('getProperty')
             ->with('id')
-            ->willReturnOnConsecutiveCalls('a', 'b');
+            ->willReturnOnConsecutiveCalls('a', 'a', 'b', 'b');
+
+        $resource
+            ->expects($this->exactly(2))
+            ->method('getProperty')
+            ->with('report')
+            ->willReturnOnConsecutiveCalls(
+                [0 => [
+                    'id' => 1,
+                    'channelName' => 'Channel A',
+                    'reference' => 'REF123',
+                    'state' => 'success',
+                    'message' => 'Order processed successfully.'
+                ]],
+                [0 => [
+                    'id' => 2,
+                    'channelName' => 'Channel A',
+                    'reference' => 'REF456',
+                    'state' => 'success',
+                    'message' => 'Order processed successfully.'
+                ]]
+            );
 
         $this->resources['a'] = $resource;
         $this->resources['b'] = $resource;
