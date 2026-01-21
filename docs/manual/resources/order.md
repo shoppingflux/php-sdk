@@ -199,7 +199,7 @@ foreach ($result->getBatches() as $batch) {
 
 // Both writing will work
 $tickets = $result->wait(60)->getTickets();
-$batchs  = $result->wait(60)->getBatchs();
+$batchs  = $result->wait(60)->getBatches();
 
 // But if you want to check what append for each operation :
 $ignoredOperations         = [];
