@@ -176,38 +176,59 @@ foreach ($result->wait(60)->getTickets() as $ticket) {
     $ticket->getStatus();
 }
 
-// Fetch all Responses objects generated for the operation
-foreach ($result->getResponses() as $response) {    
-    $batch   = $response->getBatch();
-    $batchId = $batch->getId();
+// Fetch all Batches objects generated for the operation
+foreach ($result->getBatches() as $batch) {    
+    $response = $batch->getResponse();
+    $batchId  = $response->getBatchId();
     
     // Fetch all tickets generated for the operation
-    foreach ($batch->getTicket() as $ticketItem) {
-        $ticketItem->getId();
-        $ticketItem->getStatus();
-    }
-    
-    // Alternatively, you can wait until all ticket are processed
-    // do not forget to define a timeout to prevent script to be blocked
-    
-    // Ca va pas la : Normalement on boucle sur tous les tickets de tous les batchs
-    // => mettre une ResponseCollection au niveau de result et le wait au niveau de la collection ???
-    foreach ($response->wait(60)->getBatch()->getTicket() as $ticketItem) {
-        $ticketItem->getId();
-        $ticketItem->getStatus();
+    foreach ($response->getTickets() as $ticket) {
+        $ticket->getId();
+        $ticket->getStatus();
     }
     
     // Fetch all reports generated for the operation
-    $report = $response->getReport();
-    
-    foreach ($report as $reportItem) {
-        $reportItem->getId();
-        $reportItem->getChannelName();
-        $reportItem->getReference();
-        $reportItem->getState();
-        $reportItem->getMessage(); 
+    foreach ($response->getReport() as $operationReport) {
+        $operationReport['id]'];
+        $operationReport['channelName'];
+        $operationReport['reference'];
+        $operationReport['state'];
+        $operationReport['message']; 
     }
 }
+
+// Both writing will work
+$tickets = $result->wait(60)->getTickets();
+$batchs  = $result->wait(60)->getBatchs();
+
+// But if you want to check what append for each operation :
+$ignoredOperations         = [];
+$failedOperations          = []:
+$succeedOperations         = [];
+$stillProcessingOperations = [];
+
+foreach ($result->wait(60)->getBatches() as $batch) {
+  $response = $batch->getResponse();
+  
+  foreach ($response->getTickets() as $ticket) {
+    if (null !== $ticket->getFinishedAt()) {
+      if ('succeed' === $ticket->getStatus()) {
+        $succeedOperations[] = $ticket->getPayload()['id'];
+      } else {
+        $failedOperations[] = $ticket->getPayload()['id'];
+      }
+    } else {
+      $stillProcessingOperations = $ticket->getPayload()['id'];
+    }
+  }
+
+  foreach ($response->getReport() as $operationReport) {
+    if ('ignored' === $operationReport['state']) {
+        $ignoredOperations[] = $operationReport['id'];
+    }
+  }
+}
+
 ```
 
 ### Accept
