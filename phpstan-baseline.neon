@@ -262,7 +262,7 @@ parameters:
 			message: '#^Call to an undefined method iterable\<ShoppingFeed\\Sdk\\Api\\Task\\TicketResource\>&Traversable\:\:wait\(\)\.$#'
 			identifier: method.notFound
 			count: 1
-			path: src/Api/Order/OrderOperationResult.php
+			path: src/Api/Order/OrderOperationResponse.php
 
 		-
 			message: '#^Method ShoppingFeed\\Sdk\\Api\\Order\\OrderOperationResult\:\:__construct\(\) has parameter \$resources with no value type specified in iterable type array\.$#'

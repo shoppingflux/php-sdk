@@ -43,16 +43,15 @@ class OrderOperationResult
     /**
      * Wait for all tickets to be processed.
      *
-     * @param int $timeout Seconds to wait for each batch until stop
+     * @param ?int $timeout Seconds to wait for each batch until stop
      * @param int $sleepSecs Seconds to wait between to calls
      *
      * @return $this                      The current instance
      */
-    public function wait($timeout = null, $sleepSecs = 1)
+    public function wait(?int $timeout = null, int $sleepSecs = 1)
     {
         foreach ($this->batches as $batch) {
-            $response = $batch->getResponse();
-            $response->getTicketDomain()->getByBatch($response->getBatchId())->wait($timeout, $sleepSecs);
+            $batch->getResponse()->wait($timeout, $sleepSecs);
         }
 
         return $this;

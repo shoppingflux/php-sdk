@@ -1,106 +1,52 @@
 <?php
 
-namespace ShoppingFeed\Sdk\Api\Order;
+namespace ShoppingFeed\Sdk\Test\Api\Order;
 
-use PHPUnit\Framework\TestCase;
-use ShoppingFeed\Sdk\Api\Task\TicketResource;
-use ShoppingFeed\Sdk\Hal\HalLink;
+use ShoppingFeed\Sdk\Api\Order\OrderOperationBatch;
+use ShoppingFeed\Sdk\Api\Order\OrderOperationResponse;
+use ShoppingFeed\Sdk\Api\Order\OrderOperationResult;
 use ShoppingFeed\Sdk\Hal\HalResource;
 
-class OrderOperationResultTest extends TestCase
+class OrderOperationResultTest extends OrderOperationTestCase
 {
-    /**
-     * @var HalResource[]
-     */
-    private $resources;
+    private array $resources = [];
+    private OrderOperationResult $instance;
 
-    /**
-     * @var OrderOperationResult
-     */
-    private $instance;
-
-    private $link;
-
-    public function setUp(): void
+    protected function setUp(): void
     {
-        $this->link = $this->createMock(HalLink::class);
+        parent::setUp();
 
-        $resource = $this->createMock(HalResource::class);
-        $resource
-            ->expects($this->any())
-            ->method('getLink')
-            ->with('ticket')
-            ->willReturn($this->link);
-
-        $resource
-            ->expects($this->exactly(4))
-            ->method('getProperty')
-            ->withConsecutive(
-                ['id', null],
-                ['report', null],
-                ['id', null],
-                ['report', null]
-            )
-            ->willReturnOnConsecutiveCalls(
-                'a',
-                [0 => [
-                    'id' => 1,
-                    'channelName' => 'Channel A',
-                    'reference' => 'REF123',
-                    'state' => 'success',
-                    'message' => 'Order processed successfully.'
-                ]],
-                'b',
-                [1 => [
-                    'id' => 2,
-                    'channelName' => 'Channel A',
-                    'reference' => 'REF456',
-                    'state' => 'success',
-                    'message' => 'Order processed successfully.'
-                ]],
-            );
-
-        $this->resources['a'] = $resource;
-        $this->resources['b'] = $resource;
+        $this->resources = [
+            'a' => $this->createResourceMock('a', 1, 'REF123', $this->link),
+            'b' => $this->createResourceMock('b', 2, 'REF456', $this->link),
+        ];
 
         $this->instance = new OrderOperationResult($this->resources);
     }
 
-    public function testBatchIds()
+    protected function getInstance(): OrderOperationResponse|OrderOperationResult
+    {
+        return $this->instance;
+    }
+
+    protected function getWaitCallCount(): int
+    {
+        return 2;
+    }
+
+    public function testBatchIds(): void
     {
         $this->assertSame(['a', 'b'], $this->instance->getBatchIds());
     }
 
-    public function testWait()
+    public function testGetBatches(): void
     {
-        $this->link
-            ->expects($this->exactly(2))
-            ->method('get')
-            ->willReturn($this->createMock(HalResource::class));
+        $batches = $this->instance->getBatches();
 
-        $this->assertSame(
-            $this->instance,
-            $this->instance->wait(1, 0.1)
-        );
-    }
+        $this->assertCount(2, $batches);
 
-    public function testGetTickets()
-    {
-        $resource = $this->createMock(HalResource::class);
-        $this->link
-            ->expects($this->exactly(2))
-            ->method('get')
-            ->willReturn($resource);
-
-        $resource
-            ->expects($this->any())
-            ->method('getAllResources')
-            ->willReturn([$resource]);
-
-        $this->assertContainsOnly(
-            TicketResource::class,
-            $this->instance->getTickets()
-        );
+        foreach ($batches as $batch) {
+            $this->assertInstanceOf(OrderOperationBatch::class, $batch);
+        }
     }
 }
-

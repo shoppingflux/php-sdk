@@ -55,11 +55,18 @@ class OrderOperationResponse
     }
 
     /**
-     * Use for waiting for ticket processing in OrderOperationResponse::wait()
+     * Wait for all tickets to be processed.
+     *
+     * $timeout Seconds to wait for each batch until stop
+     * $sleepSecs Seconds to wait between to calls
+     *
+     * @return $this The current instance
      */
-    public function getTicketDomain(): Task\TicketDomain
+    public function wait(?int $timeout = null, int $sleepSecs = 1): self
     {
-        return $this->ticketDomain;
+        $this->ticketDomain->getByBatch($this->batchId)->wait($timeout, $sleepSecs);
+
+        return $this;
     }
 
     /**
