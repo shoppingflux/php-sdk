@@ -30,11 +30,11 @@ class OrderOperationResponse
         $this->report  = $resource->getProperty('report');
         $link          = $resource->getLink('ticket');
 
-        if ($link instanceof HalLink) {
-            $this->ticketDomain = new Task\TicketDomain($link);
-        } else {
+        if (! $link instanceof HalLink) {
             throw new RuntimeException('Ticket link is missing from the OrderOperationResponse resource.');
         }
+
+        $this->ticketDomain = new Task\TicketDomain($link);
     }
 
     public function getBatchId(): string

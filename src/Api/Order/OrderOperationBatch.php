@@ -4,6 +4,9 @@ namespace ShoppingFeed\Sdk\Api\Order;
 
 use ShoppingFeed\Sdk\Hal\HalResource;
 
+/**
+ * This class was designed this way to make possible to add the request associate to the batch in future version.
+ */
 class OrderOperationBatch
 {
     private OrderOperationResponse $response;

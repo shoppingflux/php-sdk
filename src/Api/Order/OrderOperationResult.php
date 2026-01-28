@@ -48,7 +48,7 @@ class OrderOperationResult
      *
      * @return $this                      The current instance
      */
-    public function wait(?int $timeout = null, int $sleepSecs = 1)
+    public function wait($timeout = null, $sleepSecs = 1)
     {
         foreach ($this->batches as $batch) {
             $batch->getResponse()->wait($timeout, $sleepSecs);
