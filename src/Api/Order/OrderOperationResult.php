@@ -20,9 +20,7 @@ class OrderOperationResult
     public function getTickets()
     {
         foreach ($this->batches as $batch) {
-            foreach ($batch->getResponse()->getTickets() as $ticket) {
-                yield $ticket;
-            }
+            yield from $batch->getResponse()->getTickets();
         }
     }
 
@@ -51,7 +49,7 @@ class OrderOperationResult
     public function wait($timeout = null, $sleepSecs = 1)
     {
         foreach ($this->batches as $batch) {
-            $batch->getResponse()->wait($timeout, $sleepSecs);
+            $batch->getResponse()->wait((int) $timeout, (int) $sleepSecs);
         }
 
         return $this;

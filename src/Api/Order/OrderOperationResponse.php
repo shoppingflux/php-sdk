@@ -49,9 +49,7 @@ class OrderOperationResponse
      */
     public function getTickets(): iterable
     {
-        foreach ($this->ticketDomain->getByBatch($this->batchId) as $ticket) {
-            yield $ticket;
-        }
+        yield from $this->ticketDomain->getByBatch($this->batchId);
     }
 
     /**
