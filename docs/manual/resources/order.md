@@ -175,6 +175,60 @@ foreach ($result->wait(60)->getTickets() as $ticket) {
     $ticket->getId();
     $ticket->getStatus();
 }
+
+// Fetch all Batches objects generated for the operation
+foreach ($result->getBatches() as $batch) {    
+    $response = $batch->getResponse();
+    $batchId  = $response->getBatchId();
+    
+    // Fetch all tickets generated for the operation
+    foreach ($response->getTickets() as $ticket) {
+        $ticket->getId();
+        $ticket->getStatus();
+    }
+    
+    // Fetch all reports generated for the operation
+    foreach ($response->getReport() as $operationReport) {
+        $operationReport['id]'];
+        $operationReport['channelName'];
+        $operationReport['reference'];
+        $operationReport['state'];
+        $operationReport['message']; 
+    }
+}
+
+// Both writing will work
+$tickets = $result->wait(60)->getTickets();
+$batchs  = $result->wait(60)->getBatches();
+
+// But if you want to check what append for each operation :
+$ignoredOperations         = [];
+$failedOperations          = []:
+$succeedOperations         = [];
+$stillProcessingOperations = [];
+
+foreach ($result->wait(60)->getBatches() as $batch) {
+  $response = $batch->getResponse();
+  
+  foreach ($response->getTickets() as $ticket) {
+    if (null !== $ticket->getFinishedAt()) {
+      if ('succeed' === $ticket->getStatus()) {
+        $succeedOperations[] = $ticket->getPayload()['id'];
+      } else {
+        $failedOperations[] = $ticket->getPayload()['id'];
+      }
+    } else {
+      $stillProcessingOperations = $ticket->getPayload()['id'];
+    }
+  }
+
+  foreach ($response->getReport() as $operationReport) {
+    if ('ignored' === $operationReport['state']) {
+        $ignoredOperations[] = $operationReport['id'];
+    }
+  }
+}
+
 ```
 
 ### Accept
