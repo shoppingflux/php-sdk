@@ -27,8 +27,7 @@ class ServerErrorHandler
     }
 
     /**
-     * @param int                    $count
-     * @param ResponseInterface|null $response
+     * @param int $count
      *
      * @return bool
      */

@@ -28,7 +28,7 @@ class GuzzleHTTPAdapter implements Http\Adapter\AdapterInterface
 
     public function __construct(
         ?Client\ClientOptions $options = null,
-        ?GuzzleHttp\HandlerStack $stack = null
+        ?GuzzleHttp\HandlerStack $stack = null,
     ) {
         $this->options = $options ?: new Client\ClientOptions();
         $this->stack   = $stack ?: $this->createHandlerStack();
@@ -106,8 +106,6 @@ class GuzzleHTTPAdapter implements Http\Adapter\AdapterInterface
     }
 
     /**
-     * @param callable|null $callback
-     *
      * @return \Closure
      */
     private function createExceptionCallback(?callable $callback = null)

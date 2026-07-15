@@ -255,8 +255,6 @@ class HalLink
     }
 
     /**
-     * @param callable|null $callback
-     *
      * @return \Closure
      */
     private function createResponseCallback(?callable $callback = null)
@@ -270,8 +268,6 @@ class HalLink
     }
 
     /**
-     * @param callable|null $callback
-     *
      * @return \Closure
      */
     private function createExceptionCallback(?callable $callback = null)

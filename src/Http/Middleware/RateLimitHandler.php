@@ -23,8 +23,7 @@ class RateLimitHandler
     private $logger;
 
     /**
-     * @param int                  $maxRetries
-     * @param LoggerInterface|null $logger
+     * @param int $maxRetries
      */
     public function __construct($maxRetries = 3, ?LoggerInterface $logger = null)
     {
@@ -33,8 +32,7 @@ class RateLimitHandler
     }
 
     /**
-     * @param int                    $count
-     * @param ResponseInterface|null $response
+     * @param int $count
      *
      * @return bool
      */
