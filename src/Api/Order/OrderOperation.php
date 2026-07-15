@@ -221,6 +221,16 @@ class OrderOperation extends AbstractBulkOperation implements OperationInterface
     }
 
     /**
+     * Count operations
+     *
+     * @param string $filter
+     */
+    public function count($filter = null): int
+    {
+        return $this->operation->count($filter);
+    }
+
+    /**
      * Execute all declared operations
      */
     public function execute(Hal\HalLink $link): OrderOperationResult
