@@ -27,12 +27,11 @@ class ServerErrorHandler
     }
 
     /**
-     * @param int                    $count
-     * @param ResponseInterface|null $response
+     * @param int $count
      *
      * @return bool
      */
-    public function decide($count, RequestInterface $request, ResponseInterface $response = null)
+    public function decide($count, RequestInterface $request, ?ResponseInterface $response = null)
     {
         if ($count >= $this->maxRetries) {
             return false;
