@@ -14,6 +14,13 @@ class PasswordTest extends TestCase
         $client
             ->expects($this->once())
             ->method('request')
+            ->with('POST', 'v1/account/login', [
+                'json' => [
+                    'grant_type' => 'password',
+                    'username'   => 'username',
+                    'password'   => 'password',
+                ],
+            ])
             ->willReturn($response);
 
         $instance = $this

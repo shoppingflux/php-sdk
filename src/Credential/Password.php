@@ -27,7 +27,7 @@ class Password implements CredentialInterface
      */
     public function authenticate(Hal\HalClient $client)
     {
-        $response = $client->request('POST', 'v1/auth', [
+        $response = $client->request('POST', 'v1/account/login', [
             'json' => [
                 'grant_type' => 'password',
                 'username'   => $this->username,
