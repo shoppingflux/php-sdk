@@ -45,9 +45,9 @@ abstract class AbstractResourceTest extends TestCase
             ->expects($this->any())
             ->method('getProperty')
             ->with($this->logicalOr(...array_keys($props)))
-            ->will($this->returnCallback(function($prop) use($props) {
+            ->willReturnCallback(function($prop) use($props) {
                 return $props[$prop];
-            }));
+            });
 
         return $resource;
     }
