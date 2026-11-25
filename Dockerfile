@@ -19,10 +19,14 @@ RUN docker-php-ext-install curl \
 
 RUN rm -R /usr/src && rm -R /usr/local/src
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN usermod -u 1000 www-data
-
-RUN apt-get autoremove && \
+# Installer updates require a reviewed checksum update.
+COPY composer-setup.php.sha512 /tmp/composer-setup.php.sha512
+RUN curl -fsSL --proto '=https' --proto-redir '=https' https://getcomposer.org/installer -o /tmp/composer-setup.php && \
+    sha512sum --check --strict /tmp/composer-setup.php.sha512 && \
+    php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
+    rm /tmp/composer-setup.php /tmp/composer-setup.php.sha512 && \
+    usermod -u 1000 www-data && \
+    apt-get autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
